@@ -11,8 +11,7 @@
 
         <name>BungeePing</name>
 
-        <description>A Bungeecord plugin for the 6b6t.org status.</description>
-        <url>http://6b6t.org</url>
+        <description>A plugin for editing the server list player hover message.</description>
 
         <build>
             <plugins>
