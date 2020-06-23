@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="BungeePing" />
+        <module name="BungeeStatus" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="BungeePing" target="8" />
+      <module name="BungeeStatus" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
