@@ -1,2 +1,2 @@
 # BungeePing
-A plugin for editing the server list player hover message.
+A plugin for editing the server list playercount tooltip.
