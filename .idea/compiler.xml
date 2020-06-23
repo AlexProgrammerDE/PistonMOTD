@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="6b6t MOTD" />
+        <module name="BungeePing" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="6b6t MOTD" target="7" />
+      <module name="BungeePing" target="7" />
     </bytecodeTargetLevel>
   </component>
 </project>

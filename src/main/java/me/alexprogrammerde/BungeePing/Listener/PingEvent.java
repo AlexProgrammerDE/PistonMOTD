@@ -1,4 +1,4 @@
-package me.alexprogrammerde.BungeeStatus.Listener;
+package me.alexprogrammerde.BungeePing.Listener;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ServerPing;

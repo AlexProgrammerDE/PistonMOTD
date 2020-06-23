@@ -1,12 +1,12 @@
-package me.alexprogrammerde.BungeeStatus;
+package me.alexprogrammerde.BungeePing;
 
-import me.alexprogrammerde.BungeeStatus.Listener.PingEvent;
+import me.alexprogrammerde.BungeePing.Listener.PingEvent;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class Main extends Plugin {
     public void onEnable() {
-        String prefix = ChatColor.AQUA + "[BungeeStatus] " + ChatColor.WHITE;
+        String prefix = ChatColor.AQUA + "[BungeePing] " + ChatColor.WHITE;
         this.getProxy().getPluginManager().registerListener(this, new PingEvent());
     }
 }

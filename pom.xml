@@ -5,11 +5,11 @@
         <modelVersion>4.0.0</modelVersion>
 
         <groupId>me.alexprogrammerde</groupId>
-        <artifactId>BungeeStatus</artifactId>
+        <artifactId>BungeePing</artifactId>
         <version>1.0.0</version>
         <packaging>jar</packaging>
 
-        <name>BungeeStatus</name>
+        <name>BungeePing</name>
 
         <description>A Bungeecord plugin for the 6b6t.org status.</description>
         <url>http://6b6t.org</url>

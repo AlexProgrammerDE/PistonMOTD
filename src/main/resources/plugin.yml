@@ -1,6 +1,6 @@
-name: BungeeStatus
+name: BungeePing
 version: 1.0.0
-main: me.alexprogrammerde.BungeeStatus.Main
+main: me.alexprogrammerde.BungeePing.Main
 author: AlexProgrammerDE
 description: A Bungeecord plugin for the 6b6t.org status.
 website: https://www.6b6t.org
