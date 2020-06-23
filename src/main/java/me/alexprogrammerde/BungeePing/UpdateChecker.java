@@ -19,7 +19,7 @@ public class UpdateChecker {
     }
 
     public void getVersion(final Consumer<String> consumer) {
-        try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream(); Scanner scanner = new Scanner(inputStream)) {
+        try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId + "/").openStream(); Scanner scanner = new Scanner(inputStream)) {
             if (scanner.hasNext()) {
                 consumer.accept(scanner.next());
             }
