@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="BungeePing" target="7" />
+      <module name="BungeePing" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

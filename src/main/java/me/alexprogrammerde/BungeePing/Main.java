@@ -9,12 +9,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.logging.Logger;
 
 public class Main extends Plugin {
     Configuration configuration;
 
     public void onEnable() {
-        getLogger().info("Loading config");
+        getLogger().info("§bLoading config.");
         if (!getDataFolder().exists())
             getDataFolder().mkdir();
         File file = new File(getDataFolder(), "config.yml");
@@ -35,10 +36,20 @@ public class Main extends Plugin {
 
         String text = configuration.getString("text");
 
-        getLogger().info("Registering listeners");
+        getLogger().info("§bRegistering listeners.");
         getProxy().getPluginManager().registerListener(this, new PingEvent(text));
 
-        getLogger().info("Enabled the plugin. :)");
+        Logger logger = this.getLogger();
+        logger.info("§bChecking for a newer version.");
+        new UpdateChecker(this, 80567).getVersion(version -> {
+            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
+                logger.info("§bYour up to date!");
+            } else {
+                logger.info("§bThere is a new update available. Download it at: https://www.spigotmc.org/resources/bungeeping.80567/history");
+            }
+        });
+
+        getLogger().info("§bEnabled the plugin. :)");
     }
 
 
