@@ -5,11 +5,11 @@
         <modelVersion>4.0.0</modelVersion>
 
         <groupId>me.alexprogrammerde</groupId>
-        <artifactId>BungeePing</artifactId>
+        <artifactId>BungeeStatus</artifactId>
         <version>1.1.0</version>
         <packaging>jar</packaging>
 
-        <name>BungeePing</name>
+        <name>BungeeStatus</name>
 
         <description>A plugin for editing the playercount tooltip.</description>
 

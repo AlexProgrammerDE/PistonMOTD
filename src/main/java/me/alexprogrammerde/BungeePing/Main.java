@@ -37,7 +37,7 @@ public class Main extends Plugin {
         String text = configuration.getString("text");
 
         getLogger().info("§bRegistering listeners.");
-        getProxy().getPluginManager().registerListener(this, new PingEvent(configuration));
+        getProxy().getPluginManager().registerListener(this, new PingEvent(configuration, this));
 
         Logger logger = this.getLogger();
         logger.info("§bChecking for a newer version.");
@@ -48,9 +48,5 @@ public class Main extends Plugin {
                 logger.info("§bThere is a new update available. Download it at: https://www.spigotmc.org/resources/bungeeping.80567/history (You may need to remove the old config to get a never one.)");
             }
         });
-
-        getLogger().info("§bEnabled the plugin. :)");
     }
-
-
 }
