@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        <modelVersion>4.0.0</modelVersion>
+
+        <groupId>me.alexprogrammerde</groupId>
+        <artifactId>BungeeStatus</artifactId>
+        <version>1.0.0</version>
+        <packaging>jar</packaging>
+
+        <name>BungeeStatus</name>
+
+        <description>A Bungeecord plugin for the 6b6t.org status.</description>
+        <url>http://6b6t.org</url>
+
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>7</source>
+                        <target>7</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+
+        <repositories>
+            <!-- This adds the Spigot Maven repository to the build -->
+            <repository>
+                <id>bungeecord-repo</id>
+                <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            </repository>
+            <repository>
+                <id>exceptionflug</id>
+                <url>https://mvn.exceptionflug.de/repository/exceptionflug-public/</url>
+            </repository>
+        </repositories>
+
+        <dependencies>
+            <!--This adds the Spigot API artifact to the build -->
+            <dependency>
+                <groupId>de.exceptionflug</groupId>
+                <artifactId>protocolize-api</artifactId>
+                <version>1.5.5-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.exceptionflug</groupId>
+                <artifactId>protocolize-items</artifactId>
+                <version>1.5.5-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.exceptionflug</groupId>
+                <artifactId>protocolize-inventory</artifactId>
+                <version>1.5.5-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.exceptionflug</groupId>
+                <artifactId>protocolize-world</artifactId>
+                <version>1.5.5-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.md-5</groupId>
+                <artifactId>bungeecord-api</artifactId>
+                <version>1.15-SNAPSHOT</version>
+                <type>jar</type>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.md-5</groupId>
+                <artifactId>bungeecord-api</artifactId>
+                <version>1.15-SNAPSHOT</version>
+                <type>javadoc</type>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations-java5</artifactId>
+                <version>18.0.0</version>
+                <scope>compile</scope>
+            </dependency>
+        </dependencies>
+</project>

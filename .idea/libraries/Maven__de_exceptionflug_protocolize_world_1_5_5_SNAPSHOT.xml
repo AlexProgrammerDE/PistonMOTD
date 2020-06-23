@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: de.exceptionflug:protocolize-world:1.5.5-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/exceptionflug/protocolize-world/1.5.5-SNAPSHOT/protocolize-world-1.5.5-20200622.224829-51.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/de/exceptionflug/protocolize-world/1.5.5-SNAPSHOT/protocolize-world-1.5.5-20200622.224829-51-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/exceptionflug/protocolize-world/1.5.5-SNAPSHOT/protocolize-world-1.5.5-20200622.224829-51-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

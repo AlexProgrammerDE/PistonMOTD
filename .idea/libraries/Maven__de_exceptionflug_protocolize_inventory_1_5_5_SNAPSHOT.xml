@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: de.exceptionflug:protocolize-inventory:1.5.5-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/exceptionflug/protocolize-inventory/1.5.5-SNAPSHOT/protocolize-inventory-1.5.5-20200622.224830-51.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/de/exceptionflug/protocolize-inventory/1.5.5-SNAPSHOT/protocolize-inventory-1.5.5-20200622.224830-51-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/exceptionflug/protocolize-inventory/1.5.5-SNAPSHOT/protocolize-inventory-1.5.5-20200622.224830-51-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
