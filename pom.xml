@@ -6,12 +6,12 @@
 
         <groupId>me.alexprogrammerde</groupId>
         <artifactId>BungeePing</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <packaging>jar</packaging>
 
         <name>BungeePing</name>
 
-        <description>A plugin for editing the server list player hover message.</description>
+        <description>A plugin for editing the playercount tooltip.</description>
 
         <build>
             <plugins>
