@@ -1,2 +1,2 @@
 # BungeePing
-A plugin for editing the server list playercount tooltip.
+A plugin for editing the playercount tooltip.
