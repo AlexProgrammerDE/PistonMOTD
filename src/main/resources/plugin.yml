@@ -1,5 +1,5 @@
 name: BungeePing
-version: 1.0.1
+version: 1.1.0
 main: me.alexprogrammerde.BungeePing.Main
 author: AlexProgrammerDE
 description: A plugin for editing the playercount tooltip.
