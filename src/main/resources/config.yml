@@ -2,5 +2,14 @@
 # Do newlines with: \n
 # Formatting comes after the color! §d§l will work, but not §l§d.
 
-text:
-  "§3Hello world! \n§eNewline!\n§6    spaces!\n§d§lCombinded"
+text: "§3Hello world! \n§eNewline!\n§6    spaces!\n§d§lCombinded"
+
+# Override online players (This only overrides the shown playercount. Its not the real one.)
+overrideonline: false
+# Online players (Requires override)
+online: 0
+
+# Override the max players (This only overrides the shown max limit. Its not the real one.)
+overridemax: false
+# Max players (Requires override)
+max: 10
