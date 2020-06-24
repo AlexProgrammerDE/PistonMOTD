@@ -2,7 +2,9 @@
 # Do newlines with: \n
 # Formatting comes after the color! §d§l will work, but not §l§d.
 
-text: "§3Hello world! \n§eNewline!\n§6    spaces!\n§d§lCombinded"
+playercounter:
+  activated: true
+  text: "§3Hello world! \n§eNewline!\n§6    spaces!\n§d§lCombinded"
 
 # Override online players (This only overrides the shown playercount. Its not the real one.)
 overrideonline: false
@@ -13,3 +15,13 @@ online: 0
 overridemax: false
 # Max players (Requires override)
 max: 10
+
+motd:
+  activated: false
+  # You can use only one or over 9999.
+  # Same rules as above.
+  # Use some multiple times to make a higher chance of getting them
+  text:
+    - "Hello! \n World!"
+    - "Use §4color codes!"
+    - "§ka §rFormatting §rworks §rtoo! §ka"

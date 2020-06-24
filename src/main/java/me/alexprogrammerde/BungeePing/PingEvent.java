@@ -2,6 +2,8 @@ package me.alexprogrammerde.BungeePing;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -13,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class PingEvent implements Listener {
 
@@ -21,6 +24,8 @@ public class PingEvent implements Listener {
     int max;
     Plugin plugin;
     BufferedImage img;
+    ServerPing.Players players;
+    BaseComponent motd;
 
     public PingEvent(Configuration config, Plugin plugin) {
         this.config = config;
@@ -41,11 +46,22 @@ public class PingEvent implements Listener {
             max = event.getResponse().getPlayers().getMax();
         }
 
-        ServerPing.PlayerInfo one = new ServerPing.PlayerInfo(config.getString("text"), "1");
-        ServerPing.PlayerInfo[] info = {one};
-        ServerPing.Players players = new ServerPing.Players(max, online, info);
+        if (config.getBoolean("playercounter.activated")) {
+            ServerPing.PlayerInfo one = new ServerPing.PlayerInfo(config.getString("playercounter.text"), "1");
+            ServerPing.PlayerInfo[] info = {one};
+            players = new ServerPing.Players(max, online, info);
+        } else {
+            players = new ServerPing.Players(max, online, event.getResponse().getPlayers().getSample());
+        }
 
-        ServerPing ping = new ServerPing(event.getResponse().getVersion(), players, event.getResponse().getDescriptionComponent(), event.getResponse().getFaviconObject());
+        if (config.getBoolean("motd.activated")) {
+            List list = config.getList("motd.text");
+            motd = new TextComponent(list.get((int) Math.round(Math.random() * (list.size() - 1))).toString());
+        } else {
+            motd = event.getResponse().getDescriptionComponent();
+        }
+
+        ServerPing ping = new ServerPing(event.getResponse().getVersion(), players, motd, event.getResponse().getFaviconObject());
         event.setResponse(ping);
 
         event.getConnection().getUniqueId();
