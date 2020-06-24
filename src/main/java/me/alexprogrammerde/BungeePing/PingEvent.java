@@ -47,5 +47,7 @@ public class PingEvent implements Listener {
 
         ServerPing ping = new ServerPing(event.getResponse().getVersion(), players, event.getResponse().getDescriptionComponent(), event.getResponse().getFaviconObject());
         event.setResponse(ping);
+
+        event.getConnection().getUniqueId();
     }
 }
