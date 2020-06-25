@@ -14,7 +14,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
 
 public class PingEvent implements Listener {
@@ -26,6 +28,10 @@ public class PingEvent implements Listener {
     BufferedImage img;
     ServerPing.Players players;
     BaseComponent motd;
+    int i = 0;
+
+    Array array;
+    ServerPing.PlayerInfo[] info = {};
 
     public PingEvent(Configuration config, Plugin plugin) {
         this.config = config;
@@ -47,8 +53,14 @@ public class PingEvent implements Listener {
         }
 
         if (config.getBoolean("playercounter.activated")) {
-            ServerPing.PlayerInfo one = new ServerPing.PlayerInfo(config.getString("playercounter.text"), "1");
-            ServerPing.PlayerInfo[] info = {one};
+            int i = 0;
+
+            for (String str : config.getStringList("playercounter.text")) {
+
+                info = addInfo(info, new ServerPing.PlayerInfo(str, String.valueOf(i)));
+                i++;
+            }
+
             players = new ServerPing.Players(max, online, info);
         } else {
             players = new ServerPing.Players(max, online, event.getResponse().getPlayers().getSample());
@@ -65,5 +77,24 @@ public class PingEvent implements Listener {
         event.setResponse(ping);
 
         event.getConnection().getUniqueId();
+    }
+
+    public static ServerPing.PlayerInfo[] addInfo(ServerPing.PlayerInfo[] arr, ServerPing.PlayerInfo info)
+    {
+        int i;
+
+        // create a new array of size n+1
+        ServerPing.PlayerInfo[] newarr = new ServerPing.PlayerInfo[arr.length + 1];
+
+        // insert the elements from
+        // the old array into the new array
+        // insert all elements till n
+        // then insert x at n+1
+        for (i = 0; i < arr.length; i++)
+            newarr[i] = arr[i];
+
+        newarr[arr.length] = info;
+
+        return newarr;
     }
 }

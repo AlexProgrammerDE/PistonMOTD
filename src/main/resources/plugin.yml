@@ -1,5 +1,5 @@
 name: BungeeStatus
-version: 1.2.0
+version: 1.2.1
 main: me.alexprogrammerde.BungeePing.Main
 author: AlexProgrammerDE
 description: A plugin for editing the playercount tooltip.
