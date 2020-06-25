@@ -17,6 +17,29 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <!-- Do not include the <configuration>...</configuration> part if you are using Sponge! -->
+                    <configuration>
+                        <relocations>
+                            <relocation>
+                                <pattern>org.bstats</pattern>
+                                <!-- Replace this with your package! -->
+                                <shadedPattern>your.package</shadedPattern>
+                            </relocation>
+                        </relocations>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
                         <source>8</source>
@@ -31,6 +54,10 @@
             <repository>
                 <id>bungeecord-repo</id>
                 <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            </repository>
+            <repository>
+                <id>CodeMC</id>
+                <url>https://repo.codemc.org/repository/maven-public</url>
             </repository>
         </repositories>
 
@@ -48,6 +75,12 @@
                 <version>1.16-R0.2-SNAPSHOT</version>
                 <type>javadoc</type>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bstats</groupId>
+                <artifactId>bstats-bungeecord</artifactId>
+                <version>1.7</version>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
 </project>
