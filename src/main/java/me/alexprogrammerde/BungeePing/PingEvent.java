@@ -24,16 +24,13 @@ public class PingEvent implements Listener {
     Configuration config;
     int online;
     int max;
-    Plugin plugin;
+    Main plugin;
     BufferedImage img;
     ServerPing.Players players;
     BaseComponent motd;
     int i = 0;
 
-    Array array;
-    ServerPing.PlayerInfo[] info = {};
-
-    public PingEvent(Configuration config, Plugin plugin) {
+    public PingEvent(Configuration config, Main plugin) {
         this.config = config;
         this.plugin = plugin;
     }
@@ -53,6 +50,7 @@ public class PingEvent implements Listener {
         }
 
         if (config.getBoolean("playercounter.activated")) {
+            ServerPing.PlayerInfo[] info = {};
             int i = 0;
 
             for (String str : config.getStringList("playercounter.text")) {

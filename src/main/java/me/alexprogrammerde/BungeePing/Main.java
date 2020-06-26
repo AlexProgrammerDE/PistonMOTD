@@ -16,7 +16,9 @@ public class Main extends Plugin {
     Configuration configuration;
 
     public void onEnable() {
-        getLogger().info("§bLoading config.");
+        Logger logger = this.getLogger();
+
+        logger.info("§bLoading config.");
         if (!getDataFolder().exists())
             getDataFolder().mkdir();
         File file = new File(getDataFolder(), "config.yml");
@@ -37,10 +39,12 @@ public class Main extends Plugin {
 
         String text = configuration.getString("text");
 
-        getLogger().info("§bRegistering listeners.");
+        logger.info("§bRegistering listeners.");
         getProxy().getPluginManager().registerListener(this, new PingEvent(configuration, this));
 
-        Logger logger = this.getLogger();
+        logger.info("§bRegistering commands");
+        getProxy().getPluginManager().registerCommand(this, new StatusCommand("status", this));
+
         logger.info("§bChecking for a newer version.");
         new UpdateChecker(this, 80567).getVersion(version -> {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
@@ -53,5 +57,13 @@ public class Main extends Plugin {
         logger.info("§bLoading metrics");
         int pluginId = 7939;
         Metrics metrics = new Metrics(this, pluginId);
+    }
+
+    public void reloadConfiguration() {
+        try {
+            configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
