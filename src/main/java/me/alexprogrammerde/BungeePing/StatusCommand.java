@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class StatusCommand extends Command implements TabExecutor {
+public class StatusCommand extends Command {
     private static final String[] COMMANDS = { "reload" };
     private Main plugin;
 
@@ -26,16 +26,20 @@ public class StatusCommand extends Command implements TabExecutor {
         }
     }
 
-    @Override
+    /*@Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] args) {
         if (commandSender.hasPermission("bungeestatus.reload")) {
             final List<String> completions = new ArrayList<>();
 
-            StringUtil.copyPartialMatches(args[0], Arrays.asList(COMMANDS), completions);
+            try {
+                StringUtil.copyPartialMatches(args[0], Arrays.asList(COMMANDS), completions);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             return completions;
         }
 
         return null;
-    }
+    }*/
 }
