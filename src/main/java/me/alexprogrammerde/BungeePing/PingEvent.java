@@ -8,7 +8,6 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class PingEvent implements Listener {
@@ -50,7 +49,7 @@ public class PingEvent implements Listener {
 
             for (String str : config.getStringList("playercounter.text")) {
 
-                info = addInfo(info, new ServerPing.PlayerInfo(str.replaceAll("%playername%", playername), String.valueOf(i)));
+                info = addInfo(info, new ServerPing.PlayerInfo(str, String.valueOf(i)));
                 i++;
             }
 
@@ -61,7 +60,7 @@ public class PingEvent implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List list = config.getList("motd.text");
-            motd = new TextComponent(list.get((int) Math.round(Math.random() * (list.size() - 1))).toString().replaceAll("%playername%", playername));
+            motd = new TextComponent(list.get((int) Math.round(Math.random() * (list.size() - 1))).toString());
         } else {
             motd = event.getResponse().getDescriptionComponent();
         }
@@ -78,11 +77,9 @@ public class PingEvent implements Listener {
         event.getConnection().getUniqueId();
     }
 
-    public static ServerPing.PlayerInfo[] addInfo(ServerPing.PlayerInfo[] arr, ServerPing.PlayerInfo info)
-    {
+    public static ServerPing.PlayerInfo[] addInfo(ServerPing.PlayerInfo[] arr, ServerPing.PlayerInfo info) {
         int i;
 
-        // create a new array of size n+1
         ServerPing.PlayerInfo[] newarr = new ServerPing.PlayerInfo[arr.length + 1];
 
         // insert the elements from
