@@ -1,33 +1,19 @@
 package me.alexprogrammerde.BungeePing;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
 
 public class PingEvent implements Listener {
-
     Configuration config;
-    int online;
-    int max;
     Main plugin;
-    BufferedImage img;
-    ServerPing.Players players;
-    BaseComponent motd;
     int i = 0;
 
     public PingEvent(Configuration config, Main plugin) {
@@ -37,6 +23,14 @@ public class PingEvent implements Listener {
 
     @EventHandler
     public void onPing(ProxyPingEvent event) {
+        int online;
+        int max;
+        ServerPing.Players players;
+        BaseComponent motd;
+        ServerPing.Protocol protocol;
+        String playername = event.getConnection().getName();
+        String aftericon = "                                                                                 ";
+
         if (config.getBoolean("overrideonline")) {
             online = config.getInt("online");
         } else {
@@ -55,7 +49,7 @@ public class PingEvent implements Listener {
 
             for (String str : config.getStringList("playercounter.text")) {
 
-                info = addInfo(info, new ServerPing.PlayerInfo(str, String.valueOf(i)));
+                info = addInfo(info, new ServerPing.PlayerInfo(str.replaceAll("%playername%", playername), String.valueOf(i)));
                 i++;
             }
 
@@ -66,12 +60,18 @@ public class PingEvent implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List list = config.getList("motd.text");
-            motd = new TextComponent(list.get((int) Math.round(Math.random() * (list.size() - 1))).toString());
+            motd = new TextComponent(list.get((int) Math.round(Math.random() * (list.size() - 1))).toString().replaceAll("%playername%", playername));
         } else {
             motd = event.getResponse().getDescriptionComponent();
         }
 
-        ServerPing ping = new ServerPing(event.getResponse().getVersion(), players, motd, event.getResponse().getFaviconObject());
+        if (config.getBoolean("protocol.activated")) {
+            protocol = new ServerPing.Protocol(config.getString("protocol.text").replaceAll("%aftericon%", aftericon), config.getInt("protocol.versionnumber"));
+        } else {
+            protocol = event.getResponse().getVersion();
+        }
+
+        ServerPing ping = new ServerPing(protocol, players, motd, event.getResponse().getFaviconObject());
         event.setResponse(ping);
 
         event.getConnection().getUniqueId();

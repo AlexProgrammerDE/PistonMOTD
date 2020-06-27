@@ -2,12 +2,6 @@ package me.alexprogrammerde.BungeePing;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.plugin.TabExecutor;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class StatusCommand extends Command {
     private static final String[] COMMANDS = { "reload" };
