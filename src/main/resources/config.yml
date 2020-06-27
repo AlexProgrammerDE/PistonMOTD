@@ -1,7 +1,5 @@
 # You can find color codes here: https://minecraft.tools/en/color-code.php
 # Formatting comes after the color! §d§l will work, but not §l§d.
-# Placeholders: %playername%
-
 playercounter:
   activated: true
   text:

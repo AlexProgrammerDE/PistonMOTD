@@ -28,8 +28,9 @@ public class PingEvent implements Listener {
         ServerPing.Players players;
         BaseComponent motd;
         ServerPing.Protocol protocol;
-        String playername = event.getConnection().getName();
-        String aftericon = "                                                                                 ";
+        String playername = event.getConnection().toString();
+        plugin.getLogger().info(playername);
+        String aftericon = "                                                                            ";
 
         if (config.getBoolean("overrideonline")) {
             online = config.getInt("online");
