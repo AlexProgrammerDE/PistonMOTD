@@ -1,6 +1,6 @@
 # You can find color codes here: https://minecraft.tools/en/color-code.php
-# Do newlines with: \n
 # Formatting comes after the color! §d§l will work, but not §l§d.
+# Placeholders: %playername%
 
 playercounter:
   activated: true
@@ -19,6 +19,16 @@ online: 0
 overridemax: false
 # Max players (Requires override)
 max: 10
+
+# Here is a list with all version numbers: https://wiki.vg/Protocol_version_numbers
+# You can use a protocol version which doesnt exist to always get a client out of date message in the server list. (Example: 9999)
+# This number only means the minimum version required. If the client isn't high enough this custom message gets showed.
+# ONLY if the protocol version of the player is at the moment lower than the minimum protocol version the text gets showed.
+# You can use %aftericon% to push the text after the favicon. (It just adds many spaces and only works in the protocol text.)
+protocol:
+  activated: false
+  versionnumber: 736
+  text: "My custom protocol message!"
 
 motd:
   activated: false
