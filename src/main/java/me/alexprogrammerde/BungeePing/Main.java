@@ -4,7 +4,6 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
-import org.bstats.bungeecord.Metrics;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +49,7 @@ public class Main extends Plugin {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
                 logger.info("§bYour up to date!");
             } else {
-                logger.info("§bThere is a new update available. Download it at: https://www.spigotmc.org/resources/bungeeping.80567/history (You may need to remove the old config to get a newer one.)");
+                logger.info("§cThere is a new update available. Download it at: https://www.spigotmc.org/resources/80567 (You may need to remove the old config to get a newer one.)");
             }
         });
 
