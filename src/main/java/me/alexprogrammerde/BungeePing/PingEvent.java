@@ -1,5 +1,7 @@
 package me.alexprogrammerde.BungeePing;
 
+import com.google.common.io.Files;
+import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -8,6 +10,10 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PingEvent implements Listener {
@@ -21,7 +27,7 @@ public class PingEvent implements Listener {
     }
 
     @EventHandler
-    public void onPing(ProxyPingEvent event) {
+    public void onPing(ProxyPingEvent event) throws IOException {
         int online;
         int max;
         ServerPing.Players players;
@@ -30,6 +36,7 @@ public class PingEvent implements Listener {
         String playername = event.getConnection().toString();
         plugin.getLogger().info(playername);
         String aftericon = "                                                                            ";
+        Favicon icon = null;
 
         if (config.getBoolean("overrideonline")) {
             online = config.getInt("online");
@@ -66,12 +73,38 @@ public class PingEvent implements Listener {
         }
 
         if (config.getBoolean("protocol.activated")) {
-            protocol = new ServerPing.Protocol(config.getString("protocol.text").replaceAll("%aftericon%", aftericon), config.getInt("protocol.versionnumber"));
+            ServerPing.Protocol provided = event.getResponse().getVersion();
+
+            Main.plugin.getLogger().info(String.valueOf(provided.getProtocol()));
+
+            provided.setName(config.getString("protocol.text").replaceAll("%aftericon%", aftericon));
+
+            protocol = provided;
         } else {
             protocol = event.getResponse().getVersion();
         }
 
-        ServerPing ping = new ServerPing(protocol, players, motd, event.getResponse().getFaviconObject());
+        if (config.getBoolean("icons.activated")) {
+            File[] icons = Main.icons.listFiles();
+
+            List<File> validfiles = new ArrayList<>();
+
+            if (icons != null && icons.length != 0) {
+                for (File image : icons) {
+                    if (Files.getFileExtension(image.getPath()).equals("png")) {
+                        validfiles.add(image);
+                    }
+                }
+
+                icon = Favicon.create(ImageIO.read(validfiles.get((int) Math.round(Math.random() * (validfiles.size() - 1)))));
+            } else {
+                icon = event.getResponse().getFaviconObject();
+            }
+        } else {
+            icon = event.getResponse().getFaviconObject();
+        }
+
+        ServerPing ping = new ServerPing(protocol, players, motd, icon);
         event.setResponse(ping);
 
         event.getConnection().getUniqueId();

@@ -25,8 +25,10 @@ max: 10
 # You can use %aftericon% to push the text after the favicon. (It just adds many spaces and only works in the protocol text.)
 protocol:
   activated: false
-  versionnumber: 736
   text: "My custom protocol message!"
+
+icons:
+  activated: false
 
 motd:
   activated: false

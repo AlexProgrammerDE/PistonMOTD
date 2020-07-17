@@ -2,8 +2,13 @@ package me.alexprogrammerde.BungeePing;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-public class StatusCommand extends Command {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class StatusCommand extends Command implements TabExecutor {
     private static final String[] COMMANDS = { "reload" };
     private Main plugin;
 
@@ -19,20 +24,21 @@ public class StatusCommand extends Command {
         }
     }
 
-    /*@Override
+    @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] args) {
         if (commandSender.hasPermission("bungeestatus.reload")) {
             final List<String> completions = new ArrayList<>();
 
-            try {
-                StringUtil.copyPartialMatches(args[0], Arrays.asList(COMMANDS), completions);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (args.length == 1) {
+                for (String string : COMMANDS)
+                    if (string.toLowerCase().startsWith(args[0].toLowerCase())) completions.add(string);
             }
+
+            Collections.sort(completions);
 
             return completions;
         }
 
         return null;
-    }*/
+    }
 }

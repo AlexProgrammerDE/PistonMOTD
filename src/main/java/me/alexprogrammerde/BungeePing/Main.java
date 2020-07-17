@@ -13,14 +13,23 @@ import java.util.logging.Logger;
 
 public class Main extends Plugin {
     Configuration configuration;
+    public static File icons;
+    public static Plugin plugin;
 
     public void onEnable() {
+        plugin = this;
         Logger logger = this.getLogger();
 
         logger.info("§bLoading config.");
         if (!getDataFolder().exists())
             getDataFolder().mkdir();
         File file = new File(getDataFolder(), "config.yml");
+
+        File iconFolder = new File(getDataFolder(), "icons");
+
+        if (!iconFolder.exists())
+            iconFolder.mkdir();
+        icons = iconFolder;
 
         if (!file.exists()) {
             try (InputStream in = getResourceAsStream("config.yml")) {
