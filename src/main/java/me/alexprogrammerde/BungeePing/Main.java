@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class Main extends Plugin {
     Configuration configuration;
     public static File icons;
-    public static Plugin plugin;
+    public static Main plugin;
 
     public void onEnable() {
         plugin = this;
@@ -51,7 +51,7 @@ public class Main extends Plugin {
         getProxy().getPluginManager().registerListener(this, new PingEvent(configuration, this));
 
         logger.info("§bRegistering commands");
-        getProxy().getPluginManager().registerCommand(this, new StatusCommand("status", this));
+        getProxy().getPluginManager().registerCommand(this, new StatusCommand("status", "bungeestatus.reload"));
 
         logger.info("§bChecking for a newer version.");
         new UpdateChecker(this, 80567).getVersion(version -> {

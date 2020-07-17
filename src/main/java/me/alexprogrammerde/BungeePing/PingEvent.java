@@ -55,7 +55,6 @@ public class PingEvent implements Listener {
             int i = 0;
 
             for (String str : config.getStringList("playercounter.text")) {
-
                 info = addInfo(info, new ServerPing.PlayerInfo(str, String.valueOf(i)));
                 i++;
             }
@@ -74,8 +73,6 @@ public class PingEvent implements Listener {
 
         if (config.getBoolean("protocol.activated")) {
             ServerPing.Protocol provided = event.getResponse().getVersion();
-
-            Main.plugin.getLogger().info(String.valueOf(provided.getProtocol()));
 
             provided.setName(config.getString("protocol.text").replaceAll("%aftericon%", aftericon));
 

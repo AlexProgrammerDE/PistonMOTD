@@ -10,16 +10,16 @@ import java.util.List;
 
 public class StatusCommand extends Command implements TabExecutor {
     private static final String[] COMMANDS = { "reload" };
-    private Main plugin;
+    private final Main plugin;
 
-    public StatusCommand(String name, Main plugin) {
-        super(name);
-        this.plugin = plugin;
+    public StatusCommand(String name, String permission, String... aliases) {
+        super(name, permission, aliases);
+        plugin = Main.plugin;
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] args) {
-        if (args.length >= 1 && args[0] == "reload" && commandSender.hasPermission("bungeestatus.reload")) {
+        if (args.length > 0 && args[0].equals("reload") && commandSender.hasPermission("bungeestatus.reload")) {
             plugin.reloadConfiguration();
         }
     }
@@ -29,12 +29,15 @@ public class StatusCommand extends Command implements TabExecutor {
         if (commandSender.hasPermission("bungeestatus.reload")) {
             final List<String> completions = new ArrayList<>();
 
-            if (args.length == 1) {
-                for (String string : COMMANDS)
-                    if (string.toLowerCase().startsWith(args[0].toLowerCase())) completions.add(string);
-            }
+            if (args.length == 1 && args[0] != null) {
+                for (String string : COMMANDS) {
+                    if (string.toLowerCase().startsWith(args[0].toLowerCase())) {
+                        completions.add(string);
 
-            Collections.sort(completions);
+                        Collections.sort(completions);
+                    }
+                }
+            }
 
             return completions;
         }
