@@ -6,12 +6,12 @@
 
         <groupId>me.alexprogrammerde</groupId>
         <artifactId>BungeeStatus</artifactId>
-        <version>1.4.2</version>
+        <version>1.5.0</version>
         <packaging>jar</packaging>
 
         <name>BungeeStatus</name>
 
-        <description>A plugin for editing the playercount tooltip.</description>
+        <description>A awesome plugin with advanced features like editing the playercount tooltip and protocol message.</description>
 
         <build>
             <plugins>

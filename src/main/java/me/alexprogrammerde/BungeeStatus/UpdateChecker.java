@@ -1,4 +1,4 @@
-package me.alexprogrammerde.BungeePing;
+package me.alexprogrammerde.BungeeStatus;
 
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -10,8 +10,8 @@ import java.util.function.Consumer;
 
 public class UpdateChecker {
 
-    private Plugin plugin;
-    private int resourceId;
+    private final Plugin plugin;
+    private final int resourceId;
 
     public UpdateChecker(Plugin plugin, int resourceId) {
         this.plugin = plugin;

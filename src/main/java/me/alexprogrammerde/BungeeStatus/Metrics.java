@@ -1,4 +1,4 @@
-package me.alexprogrammerde.BungeePing;
+package me.alexprogrammerde.BungeeStatus;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

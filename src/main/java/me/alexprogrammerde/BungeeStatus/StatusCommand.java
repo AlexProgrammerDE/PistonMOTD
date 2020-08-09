@@ -1,4 +1,4 @@
-package me.alexprogrammerde.BungeePing;
+package me.alexprogrammerde.BungeeStatus;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
@@ -10,11 +10,11 @@ import java.util.List;
 
 public class StatusCommand extends Command implements TabExecutor {
     private static final String[] COMMANDS = { "reload" };
-    private final Main plugin;
+    private final BungeeStatus plugin;
 
     public StatusCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
-        plugin = Main.plugin;
+        plugin = BungeeStatus.plugin;
     }
 
     @Override

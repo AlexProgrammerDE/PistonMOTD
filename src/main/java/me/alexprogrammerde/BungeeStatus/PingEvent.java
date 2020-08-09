@@ -1,4 +1,4 @@
-package me.alexprogrammerde.BungeePing;
+package me.alexprogrammerde.BungeeStatus;
 
 import com.google.common.io.Files;
 import net.md_5.bungee.api.Favicon;
@@ -18,12 +18,13 @@ import java.util.List;
 
 public class PingEvent implements Listener {
     Configuration config;
-    Main plugin;
-    int i = 0;
+    BungeeStatus plugin;
+    File iconfolder;
 
-    public PingEvent(Configuration config, Main plugin) {
+    public PingEvent(Configuration config, BungeeStatus plugin, File icons) {
         this.config = config;
         this.plugin = plugin;
+        this.iconfolder = icons;
     }
 
     @EventHandler
@@ -52,10 +53,11 @@ public class PingEvent implements Listener {
 
         if (config.getBoolean("playercounter.activated")) {
             ServerPing.PlayerInfo[] info = {};
+
             int i = 0;
 
             for (String str : config.getStringList("playercounter.text")) {
-                info = addInfo(info, new ServerPing.PlayerInfo(str, String.valueOf(i)));
+                info = addInfo(info, new ServerPing.PlayerInfo(parseText(str, online, event.getResponse().getPlayers().getMax(), max), String.valueOf(i)));
                 i++;
             }
 
@@ -66,7 +68,7 @@ public class PingEvent implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List list = config.getList("motd.text");
-            motd = new TextComponent(list.get((int) Math.round(Math.random() * (list.size() - 1))).toString());
+            motd = new TextComponent(parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))).toString(), online, event.getResponse().getPlayers().getMax(), max));
         } else {
             motd = event.getResponse().getDescriptionComponent();
         }
@@ -74,7 +76,7 @@ public class PingEvent implements Listener {
         if (config.getBoolean("protocol.activated")) {
             ServerPing.Protocol provided = event.getResponse().getVersion();
 
-            provided.setName(config.getString("protocol.text").replaceAll("%aftericon%", aftericon));
+            provided.setName(parseText(config.getString("protocol.text").replaceAll("%aftericon%", aftericon), online, event.getResponse().getPlayers().getMax(), max));
 
             protocol = provided;
         } else {
@@ -82,7 +84,7 @@ public class PingEvent implements Listener {
         }
 
         if (config.getBoolean("icons.activated")) {
-            File[] icons = Main.icons.listFiles();
+            File[] icons = iconfolder.listFiles();
 
             List<File> validfiles = new ArrayList<>();
 
@@ -122,5 +124,16 @@ public class PingEvent implements Listener {
         newarr[arr.length] = info;
 
         return newarr;
+    }
+
+    public String parseText(String text, int displayedplayers, int realmax, int displayedmax) {
+        String returnedstring = text;
+
+        returnedstring = returnedstring.replaceAll("%real_players%", String.valueOf(plugin.getProxy().getOnlineCount()));
+        returnedstring = returnedstring.replaceAll("%displayed_players%", String.valueOf(displayedplayers));
+        returnedstring = returnedstring.replaceAll("%real_max%", String.valueOf(realmax));
+        returnedstring = returnedstring.replaceAll("%displayed_max%", String.valueOf(displayedmax));
+
+        return returnedstring;
     }
 }
