@@ -1,6 +1,7 @@
 package me.alexprogrammerde.BungeeStatus;
 
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 
@@ -18,9 +19,10 @@ public class StatusCommand extends Command implements TabExecutor {
     }
 
     @Override
-    public void execute(CommandSender commandSender, String[] args) {
-        if (args.length > 0 && args[0].equals("reload") && commandSender.hasPermission("bungeestatus.reload")) {
+    public void execute(CommandSender sender, String[] args) {
+        if (args.length > 0 && args[0].equals("reload") && sender.hasPermission("bungeestatus.reload")) {
             plugin.reloadConfiguration();
+            sender.sendMessage(new ComponentBuilder("Reloaded the config!").create());
         }
     }
 

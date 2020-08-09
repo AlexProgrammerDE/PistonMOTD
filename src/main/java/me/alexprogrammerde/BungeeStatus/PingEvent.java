@@ -17,12 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PingEvent implements Listener {
-    Configuration config;
     BungeeStatus plugin;
     File iconfolder;
 
-    public PingEvent(Configuration config, BungeeStatus plugin, File icons) {
-        this.config = config;
+    public PingEvent(BungeeStatus plugin, File icons) {
         this.plugin = plugin;
         this.iconfolder = icons;
     }
@@ -37,7 +35,8 @@ public class PingEvent implements Listener {
         String playername = event.getConnection().toString();
         plugin.getLogger().info(playername);
         String aftericon = "                                                                            ";
-        Favicon icon = null;
+        Favicon icon;
+        Configuration config = plugin.config;
 
         if (config.getBoolean("overrideonline")) {
             online = config.getInt("online");

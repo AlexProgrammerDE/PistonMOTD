@@ -31,7 +31,7 @@ icons:
   activated: false
 
 motd:
-  activated: false
+  activated: true
   # You can use only one or over 9999.
   # Same rules as above.
   # Use some multiple times to make a higher chance of getting them.

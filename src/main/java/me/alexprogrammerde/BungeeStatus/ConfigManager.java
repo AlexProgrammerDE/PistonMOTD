@@ -73,22 +73,14 @@ public class ConfigManager {
 
         for (String key : templatekeys) {
             if (!config.contains(key)) {
-                log.info("Config doesn't contain " + key);
-                log.info("Setting it to default value.");
                 config.set(key, templateconfig.get(key));
             }
         }
 
         for (String key : configkeys) {
-            log.info(key);
-
             if (!templateconfig.contains(key)) {
-                log.info("The template config doesn't contain " + key);
-                log.info("Setting it to null");
                 config.set(key, null);
             } else if (!templateconfig.get(key).getClass().equals(config.get(key).getClass())) {
-                log.info("The config does contain " + key);
-                log.info("But its the wrong type");
                 config.set(key, templateconfig.get(key));
             }
 

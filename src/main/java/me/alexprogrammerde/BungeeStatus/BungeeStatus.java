@@ -22,7 +22,7 @@ public class BungeeStatus extends Plugin {
         icons = manager.getIcons();
 
         logger.info("§bRegistering listeners.");
-        getProxy().getPluginManager().registerListener(this, new PingEvent(config, this, icons));
+        getProxy().getPluginManager().registerListener(this, new PingEvent(this, icons));
 
         logger.info("§bRegistering commands");
         getProxy().getPluginManager().registerCommand(this, new StatusCommand("status", "bungeestatus.reload"));
