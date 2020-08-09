@@ -32,7 +32,9 @@ public class BungeeStatus extends Plugin {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
                 logger.info("§bYour up to date!");
             } else {
-                logger.info("§cThere is a new update available. Download it at: https://www.spigotmc.org/resources/80567 (You may need to remove the old config to get a newer one.)");
+                logger.info("§cThere is a update available.");
+                logger.info("§cCurrent version: " + this.getDescription().getVersion() + " New version: " + version);
+                logger.info("§cDownload it at: https://www.spigotmc.org/resources/80567");
             }
         });
 
