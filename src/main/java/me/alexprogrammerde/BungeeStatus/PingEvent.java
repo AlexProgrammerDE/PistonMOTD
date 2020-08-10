@@ -1,6 +1,7 @@
 package me.alexprogrammerde.BungeeStatus;
 
 import com.google.common.io.Files;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -38,14 +39,14 @@ public class PingEvent implements Listener {
         Favicon icon;
         Configuration config = plugin.config;
 
-        if (config.getBoolean("overrideonline")) {
-            online = config.getInt("online");
+        if (config.getBoolean("overrideonline.activated")) {
+            online = config.getInt("overrideonline.value");
         } else {
             online = event.getResponse().getPlayers().getOnline();
         }
 
-        if (config.getBoolean("overridemax")) {
-            max = config.getInt("max");
+        if (config.getBoolean("overridemax.activated")) {
+            max = config.getInt("overridemax.value");
         } else {
             max = event.getResponse().getPlayers().getMax();
         }
@@ -132,6 +133,8 @@ public class PingEvent implements Listener {
         returnedstring = returnedstring.replaceAll("%displayed_players%", String.valueOf(displayedplayers));
         returnedstring = returnedstring.replaceAll("%real_max%", String.valueOf(realmax));
         returnedstring = returnedstring.replaceAll("%displayed_max%", String.valueOf(displayedmax));
+
+        returnedstring = ChatColor.translateAlternateColorCodes('&', returnedstring);
 
         return returnedstring;
     }

@@ -1,43 +1,32 @@
-# You can find color codes here: https://minecraft.tools/en/color-code.php
-# Formatting comes after the color! §d§l will work, but not §l§d.
-# Placeholders: %real_players% (The real count of players), %displayed_players% (The displayed amount of players. Might get overwritten by overrideonline)
-# %real_max% (The real maximum of players), %displayed_max% (The displayed maximum of players. Might get overwritten by overridemax)
 playercounter:
   activated: true
   text:
-    - "§3Hello world!"
-    - "§eNewline!"
-    - "§6    spaces!"
-    - "§d§lCombined"
-    - "§1Players: %real_players%"
-    - "§2Max: %real_max%"
+    - "&3Hello world!"
+    - "&eNewline!"
+    - "&6    spaces!"
+    - "&d&lCombined"
+    - "&1Players: %real_players%"
+    - "&2Max: %real_max%"
 
-# Override online players (This only overrides the shown playercount. Its not the real one.)
-overrideonline: false
-# Online players (Requires override)
-online: 0
+overrideonline:
+  activated: false
+  value: 0
 
-# Override the max players (This only overrides the shown max limit. Its not the real one.)
-overridemax: false
-# Max players (Requires override)
-max: 10
+overridemax:
+  activated: false
+  value: 10
 
-# You can use %aftericon% to push the text after the favicon. (It just adds many spaces and only works in the protocol text.)
 protocol:
   activated: false
-  text: "§1My custom protocol message!"
+  text: "&1My custom protocol message!"
 
 icons:
   activated: false
 
 motd:
   activated: true
-  # You can use only one or over 9999.
-  # Same rules as above.
-  # Use some multiple times to make a higher chance of getting them.
-  # Only one \n allowed.
   text:
     - "Hello! \n World!"
-    - "Use §4color codes!"
-    - "§ka §rFormatting §rworks §rtoo! §ka"
-    - "§1Players: %real_players%"
+    - "Use &4color codes!"
+    - "&ka &rFormatting &rworks &rtoo! &ka"
+    - "&1Players: %real_players%"

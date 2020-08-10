@@ -5,9 +5,7 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,15 +20,19 @@ public class ConfigManager {
     File icons;
     Logger log;
     Plugin plugin;
+    List<String> headlist;
 
-    public ConfigManager(Plugin plugin) {
+    public ConfigManager(Plugin plugin, List<String> headlist) {
         this.plugin = plugin;
         log = plugin.getLogger();
+        this.headlist = headlist;
     }
 
     public Configuration getConfig(String filename) {
-        if (!plugin.getDataFolder().exists())
+        if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
+        }
+
         File file = new File(plugin.getDataFolder(), filename);
 
         if (!file.exists()) {
@@ -42,12 +44,43 @@ public class ConfigManager {
         }
 
         try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), filename));
+            BufferedReader in = new BufferedReader(new FileReader(file));
+            StringBuilder header = new StringBuilder();
+
+            for (String head : headlist) {
+                header.append(head).append('\n');
+            }
+
+            StringBuilder content = new StringBuilder();
+
+            while (in.ready()) {
+                content.append(in.readLine()).append('\n');
+            }
+
+            in.close();
+
+            String output = header + "\n" + content;
+
+            output = output.replaceAll("§", "&");
+
+            FileWriter fstream = new FileWriter(file);
+            BufferedWriter out = new BufferedWriter(fstream);
+
+            out.write(output);
+            out.close();
+
+        } catch (IOException e){
+            System.err.println("Error: " + e.getMessage());
+        }
+
+        try {
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Get all keys from the real file
+        templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(filename));
+
         for (String key : config.getKeys()) {
             configkeys.add(key);
 
@@ -56,10 +89,8 @@ public class ConfigManager {
             }
         }
 
-        // Get template config file
-        templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(filename));
+        log.info("a");
 
-        // Get all keys from the template
         for (String key : templateconfig.getKeys()) {
             templatekeys.add(key);
 
@@ -70,12 +101,6 @@ public class ConfigManager {
 
         Collections.reverse(configkeys);
         Collections.reverse(templatekeys);
-
-        for (String key : templatekeys) {
-            if (!config.contains(key)) {
-                config.set(key, templateconfig.get(key));
-            }
-        }
 
         for (String key : configkeys) {
             if (!templateconfig.contains(key)) {
@@ -99,11 +124,41 @@ public class ConfigManager {
 
             Collections.reverse(templatekeys);
         }
-
+        log.info("a");
         try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, new File(plugin.getDataFolder(), filename));
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(file));
+            StringBuilder header = new StringBuilder();
+
+            for (String head : headlist) {
+                header.append(head).append('\n');
+            }
+
+            StringBuilder content = new StringBuilder();
+
+            while (in.ready()) {
+                content.append(in.readLine()).append('\n');
+            }
+
+            in.close();
+
+            String output = header + "\n" + content;
+
+            output = output.replaceAll("§", "&");
+
+            FileWriter fstream = new FileWriter(file);
+            BufferedWriter out = new BufferedWriter(fstream);
+
+            out.write(output);
+            out.close();
+
+        } catch (IOException e){
+            System.err.println("Error: " + e.getMessage());
         }
 
         return config;
