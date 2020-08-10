@@ -89,8 +89,6 @@ public class ConfigManager {
             }
         }
 
-        log.info("a");
-
         for (String key : templateconfig.getKeys()) {
             templatekeys.add(key);
 
@@ -124,7 +122,7 @@ public class ConfigManager {
 
             Collections.reverse(templatekeys);
         }
-        log.info("a");
+
         try {
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
         } catch (IOException e) {
