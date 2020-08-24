@@ -100,8 +100,16 @@ public class ConfigManager {
         Collections.reverse(configkeys);
         Collections.reverse(templatekeys);
 
+        // Check if keys from template are in the config
+        for (String key : templatekeys) {
+            if (config.get(key) == null) {
+                config.set(key, templateconfig.get(key));
+            }
+        }
+
+        // Check if keys from config are in the template
         for (String key : configkeys) {
-            if (!templateconfig.contains(key)) {
+            if (!templatekeys.contains(key)) {
                 config.set(key, null);
             } else if (!templateconfig.get(key).getClass().equals(config.get(key).getClass())) {
                 config.set(key, templateconfig.get(key));
