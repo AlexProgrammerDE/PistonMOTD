@@ -18,11 +18,13 @@ public class BungeeStatus extends Plugin {
     public void onEnable() {
         plugin = this;
         Logger logger = this.getLogger();
+
         headlist.add("# You can find color codes here: https://minecraft.tools/en/color-code.php");
         headlist.add("# Formatting comes after the color! &d&l will work, but not &l&d.");
         headlist.add("# Placeholders: %real_players% (The real count of players), %displayed_players% (The displayed amount of players. Might get overwritten by overrideonline)");
         headlist.add("# %real_max% (The real maximum of players), %displayed_max% (The displayed maximum of players. Might get overwritten by overridemax)");
         headlist.add("# %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)");
+        headlist.add("# %newline% adds a newline to your motd.");
 
         logger.info("§bLoading config.");
         manager = new ConfigManager(this, headlist);
@@ -47,8 +49,7 @@ public class BungeeStatus extends Plugin {
         });
 
         logger.info("§bLoading metrics");
-        int pluginId = 7939;
-        Metrics metrics = new Metrics(this, pluginId);
+        new Metrics(this, 7939);
     }
 
     public void reloadConfiguration() {

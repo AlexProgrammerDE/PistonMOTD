@@ -33,8 +33,6 @@ public class PingEvent implements Listener {
         ServerPing.Players players;
         BaseComponent motd;
         ServerPing.Protocol protocol;
-        String playername = event.getConnection().toString();
-        plugin.getLogger().info(playername);
         String aftericon = "                                                                            ";
         Favicon icon;
         Configuration config = plugin.config;
@@ -67,8 +65,8 @@ public class PingEvent implements Listener {
         }
 
         if (config.getBoolean("motd.activated")) {
-            List list = config.getList("motd.text");
-            motd = new TextComponent(parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))).toString(), online, event.getResponse().getPlayers().getMax(), max));
+            List<String> list = config.getStringList("motd.text");
+            motd = new TextComponent(parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))), online, event.getResponse().getPlayers().getMax(), max));
         } else {
             motd = event.getResponse().getDescriptionComponent();
         }
@@ -133,6 +131,7 @@ public class PingEvent implements Listener {
         returnedstring = returnedstring.replaceAll("%displayed_players%", String.valueOf(displayedplayers));
         returnedstring = returnedstring.replaceAll("%real_max%", String.valueOf(realmax));
         returnedstring = returnedstring.replaceAll("%displayed_max%", String.valueOf(displayedmax));
+        returnedstring = returnedstring.replaceAll("%newline%", "\n");
 
         returnedstring = ChatColor.translateAlternateColorCodes('&', returnedstring);
 

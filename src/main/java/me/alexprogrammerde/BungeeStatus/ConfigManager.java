@@ -68,7 +68,6 @@ public class ConfigManager {
 
             out.write(output);
             out.close();
-
         } catch (IOException e){
             System.err.println("Error: " + e.getMessage());
         }
