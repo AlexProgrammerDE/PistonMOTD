@@ -13,14 +13,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class ConfigManager {
-    Configuration config;
-    Configuration templateconfig;
-    List<String> configkeys = new ArrayList<>();
-    List<String> templatekeys = new ArrayList<>();
-    File icons;
     Logger log;
     Plugin plugin;
     List<String> headlist;
+    File icons;
 
     public ConfigManager(Plugin plugin, List<String> headlist) {
         this.plugin = plugin;
@@ -29,6 +25,11 @@ public class ConfigManager {
     }
 
     public Configuration getConfig(String filename) {
+        Configuration config = null;
+        Configuration templateconfig;
+        List<String> configkeys = new ArrayList<>();
+        List<String> templatekeys = new ArrayList<>();
+        
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
         }
@@ -96,12 +97,9 @@ public class ConfigManager {
             }
         }
 
-        Collections.reverse(configkeys);
-        Collections.reverse(templatekeys);
-
         // Check if keys from template are in the config
         for (String key : templatekeys) {
-            if (config.get(key) == null) {
+            if (config.get(key) == null || !config.get(key).getClass().equals(templateconfig.get(key).getClass())) {
                 config.set(key, templateconfig.get(key));
             }
         }
