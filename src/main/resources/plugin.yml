@@ -1,7 +1,0 @@
-name: BungeeStatus
-version: 1.5.0
-main: me.alexprogrammerde.BungeeStatus.BungeeStatus
-author: AlexProgrammerDE
-description: A awesome plugin with advanced features like editing the playercount tooltip and protocol message.
-permissions:
-  bungeestatus.reload:
