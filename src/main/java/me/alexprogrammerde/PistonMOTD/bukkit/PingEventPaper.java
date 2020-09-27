@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
 import java.util.List;
 
 public class PingEventPaper implements Listener {
