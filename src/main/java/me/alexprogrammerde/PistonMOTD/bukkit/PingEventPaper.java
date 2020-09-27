@@ -1,6 +1,7 @@
 package me.alexprogrammerde.PistonMOTD.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import me.alexprogrammerde.PistonMOTD.api.PlaceholderUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -21,11 +22,11 @@ public class PingEventPaper implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List<String> list = config.getStringList("motd.text");
-            event.setMotd(PlaceholderUtilsBukkit.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))), event.getNumPlayers(), event.getMaxPlayers()));
+            event.setMotd(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1)))));
         }
 
         if (config.getBoolean("extended.protocol.activated")) {
-            event.setVersion(PlaceholderUtilsBukkit.parseText(config.getString("extended.protocol.activated"), event.getNumPlayers(), event.getMaxPlayers()));
+            event.setVersion(PlaceholderUtil.parseText(config.getString("extended.protocol.activated")));
         }
 
         if (config.getBoolean("extended.playercounter.activated")) {
@@ -34,7 +35,7 @@ public class PingEventPaper implements Listener {
             int i = 0;
 
             for (String str : config.getStringList("extended.playercounter.text")) {
-                event.getPlayerSample().add(i, Bukkit.createProfile(PlaceholderUtilsBukkit.parseText(str, event.getNumPlayers(), event.getMaxPlayers())));
+                event.getPlayerSample().add(i, Bukkit.createProfile(PlaceholderUtil.parseText(str)));
                 i++;
             }
         }

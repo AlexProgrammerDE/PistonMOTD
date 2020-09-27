@@ -1,5 +1,6 @@
 package me.alexprogrammerde.PistonMOTD.bukkit;
 
+import me.alexprogrammerde.PistonMOTD.api.PlaceholderUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -17,7 +18,7 @@ public class PingEventSpigot implements Listener {
     public void onPing(ServerListPingEvent event) {
         if (plugin.getConfig().getBoolean("motd.activated")) {
             List<String> list = plugin.getConfig().getStringList("motd.text");
-            event.setMotd(PlaceholderUtilsBukkit.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))), event.getNumPlayers(), event.getMaxPlayers()));
+            event.setMotd(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1)))));
         }
 
         if (plugin.getConfig().getBoolean("overridemax.activated")) {

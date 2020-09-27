@@ -1,6 +1,7 @@
 package me.alexprogrammerde.PistonMOTD.bungee;
 
 import com.google.common.io.Files;
+import me.alexprogrammerde.PistonMOTD.api.PlaceholderUtil;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -54,7 +55,7 @@ public class PingEvent implements Listener {
             int i = 0;
 
             for (String str : config.getStringList("playercounter.text")) {
-                info = addInfo(info, new ServerPing.PlayerInfo(PlaceholderUtilsBungee.parseText(str, event.getResponse().getPlayers().getOnline(), event.getResponse().getPlayers().getMax()), String.valueOf(i)));
+                info = addInfo(info, new ServerPing.PlayerInfo(PlaceholderUtil.parseText(str), String.valueOf(i)));
                 i++;
             }
 
@@ -65,7 +66,7 @@ public class PingEvent implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List<String> list = config.getStringList("motd.text");
-            motd = new TextComponent(PlaceholderUtilsBungee.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))), event.getResponse().getPlayers().getOnline(), event.getResponse().getPlayers().getMax()));
+            motd = new TextComponent(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1)))));
         } else {
             motd = event.getResponse().getDescriptionComponent();
         }
@@ -73,7 +74,7 @@ public class PingEvent implements Listener {
         if (config.getBoolean("protocol.activated")) {
             ServerPing.Protocol provided = event.getResponse().getVersion();
 
-            provided.setName(PlaceholderUtilsBungee.parseText(config.getString("protocol.text").replaceAll("%aftericon%", aftericon), event.getResponse().getPlayers().getOnline(), event.getResponse().getPlayers().getMax()));
+            provided.setName(PlaceholderUtil.parseText(config.getString("protocol.text").replaceAll("%aftericon%", aftericon)));
 
             protocol = provided;
         } else {

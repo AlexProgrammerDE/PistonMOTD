@@ -1,5 +1,9 @@
 package me.alexprogrammerde.PistonMOTD.bungee;
 
+import me.alexprogrammerde.PistonMOTD.api.PlaceholderUtil;
+import me.alexprogrammerde.PistonMOTD.utils.UpdateChecker;
+import me.alexprogrammerde.PistonMOTD.utils.UpdateParser;
+import me.alexprogrammerde.PistonMOTD.utils.UpdateType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -32,6 +36,13 @@ public class PistonMOTDBungee extends Plugin {
         config = manager.getConfig("bungeeconfig.yml", "config.yml");
         icons = manager.getIcons();
 
+        log.info(ChatColor.AQUA + "Registering placeholders");
+        for (String server : getProxy().getServers().keySet()) {
+            PlaceholderUtil.registerParser(new ServerPlaceholder(server));
+        }
+
+        PlaceholderUtil.registerParser(new CommonPlaceholder());
+
         log.info(ChatColor.AQUA + "Registering listeners");
         getProxy().getPluginManager().registerListener(this, new PingEvent(this, icons));
 
@@ -39,14 +50,23 @@ public class PistonMOTDBungee extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this, "pistonmotd"));
 
         log.info(ChatColor.AQUA + "Checking for a newer version");
-        new UpdateChecker(this, 80567).getVersion(version -> {
-            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-                log.info(ChatColor.AQUA + "Your up to date!");
-            } else {
-                log.info(ChatColor.RED + "There is a update available");
-                log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
-                log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
-            }
+        new UpdateChecker(getLogger(), 80567).getVersion(version -> {
+            new UpdateParser(getDescription().getVersion(), version).parseUpdate(updatetype -> {
+                if (updatetype == UpdateType.NONE) {
+                    log.info(ChatColor.AQUA + "Your up to date!");
+                } else {
+                    if (updatetype == UpdateType.MAJOR) {
+                        log.info(ChatColor.RED + "There is a MAJOR update available!");
+                    } else if (updatetype == UpdateType.MINOR) {
+                        log.info(ChatColor.RED + "There is a MINOR update available!");
+                    } else if (updatetype == UpdateType.PATCH) {
+                        log.info(ChatColor.RED + "There is a PATCH update available!");
+                    }
+
+                    log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
+                    log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
+                }
+            });
         });
 
         log.info(ChatColor.AQUA + "Loading metrics");

@@ -1,30 +1,31 @@
-package me.alexprogrammerde.PistonMOTD.bungee;
-
-import net.md_5.bungee.api.plugin.Plugin;
+package me.alexprogrammerde.PistonMOTD.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 public class UpdateChecker {
 
-    private final Plugin plugin;
+    private final Logger log;
     private final int resourceId;
 
-    public UpdateChecker(Plugin plugin, int resourceId) {
-        this.plugin = plugin;
+    public UpdateChecker(Logger log, int resourceId) {
+        this.log = log;
         this.resourceId = resourceId;
     }
 
     public void getVersion(final Consumer<String> consumer) {
         try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId + "/").openStream(); Scanner scanner = new Scanner(inputStream)) {
             if (scanner.hasNext()) {
-                consumer.accept(scanner.next());
+                String returnedstring = scanner.next();
+
+                consumer.accept(returnedstring);
             }
         } catch (IOException exception) {
-            this.plugin.getLogger().info("Cannot look for updates: " + exception.getMessage());
+            log.info("Cannot look for updates: " + exception.getMessage());
         }
     }
 }
