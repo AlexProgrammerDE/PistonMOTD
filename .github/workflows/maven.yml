@@ -22,6 +22,7 @@ jobs:
       run: mvn -B site --file pom.xml
     - name: Move files
       run: |
+        rm -rf docs/
         mkdir docs
         mv ./target/site/apidocs/* ./docs
     - name: Commit files
