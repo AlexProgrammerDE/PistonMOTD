@@ -24,7 +24,7 @@ public class ConfigManager {
         this.headlist = headlist;
     }
 
-    public Configuration getConfig(String filename) {
+    public Configuration getConfig(String resourcename, String filename) {
         Configuration config = null;
         Configuration templateconfig;
         final List<String> configkeys = new ArrayList<>();
@@ -37,7 +37,7 @@ public class ConfigManager {
         File file = new File(plugin.getDataFolder(), filename);
 
         if (!file.exists()) {
-            try (InputStream in = plugin.getResourceAsStream(filename)) {
+            try (InputStream in = plugin.getResourceAsStream(resourcename)) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -79,7 +79,7 @@ public class ConfigManager {
             e.printStackTrace();
         }
 
-        templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(filename));
+        templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
 
         for (String key : config.getKeys()) {
             configkeys.add(key);
@@ -115,7 +115,7 @@ public class ConfigManager {
             templatekeys.clear();
 
             // Get template config file
-            templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(filename));
+            templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
 
             for (String tkey : templateconfig.getKeys()) {
                 templatekeys.add(tkey);

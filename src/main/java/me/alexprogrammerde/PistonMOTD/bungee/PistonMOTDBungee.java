@@ -29,7 +29,7 @@ public class PistonMOTDBungee extends Plugin {
 
         log.info(ChatColor.AQUA + "Loading config");
         manager = new ConfigManager(this, headlist);
-        config = manager.getConfig("bungeeconfig.yml");
+        config = manager.getConfig("bungeeconfig.yml", "config.yml");
         icons = manager.getIcons();
 
         log.info(ChatColor.AQUA + "Registering listeners");
@@ -50,7 +50,7 @@ public class PistonMOTDBungee extends Plugin {
         });
 
         log.info(ChatColor.AQUA + "Loading metrics");
-        new Metrics(this, 7939);
+        new Metrics(this, 8968);
     }
 
     @Override
@@ -65,6 +65,6 @@ public class PistonMOTDBungee extends Plugin {
     }
 
     public void reloadConfiguration() {
-        config = manager.getConfig("bungeeconfig.yml");
+        config = manager.getConfig("bungeeconfig.yml", "config.yml");
     }
 }
