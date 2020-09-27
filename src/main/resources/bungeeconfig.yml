@@ -5,8 +5,8 @@ playercounter:
     - "&eNewline!"
     - "&6    spaces!"
     - "&d&lCombined"
-    - "&1Players: %real_players%"
-    - "&2Max: %real_max%"
+    - "&1Players: %online%"
+    - "&2Max: %max%"
 
 overrideonline:
   activated: false
@@ -29,4 +29,5 @@ motd:
     - "Hello! %newline%World!"
     - "Use &4color codes!"
     - "&ka &rFormatting &rworks &rtoo! &ka"
-    - "&1Players: %real_players%"
+    - "&1Players: %online%"
+    - "&2Max: %max%"

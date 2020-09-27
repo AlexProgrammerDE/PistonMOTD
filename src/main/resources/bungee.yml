@@ -2,4 +2,4 @@ name: PistonMOTD
 version: 2.0.0
 main: me.alexprogrammerde.PistonMOTD.bungee.PistonMOTDBungee
 author: AlexProgrammerDE
-description: The best motd plugin with support for bungeecord AND spigot
+description: Best MOTD plugin with bungee, spigot and paper support!

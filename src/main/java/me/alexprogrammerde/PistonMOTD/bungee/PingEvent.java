@@ -1,7 +1,6 @@
 package me.alexprogrammerde.PistonMOTD.bungee;
 
 import com.google.common.io.Files;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -55,7 +54,7 @@ public class PingEvent implements Listener {
             int i = 0;
 
             for (String str : config.getStringList("playercounter.text")) {
-                info = addInfo(info, new ServerPing.PlayerInfo(parseText(str, online, event.getResponse().getPlayers().getMax(), max), String.valueOf(i)));
+                info = addInfo(info, new ServerPing.PlayerInfo(PlaceholderUtilsBungee.parseText(str, event.getResponse().getPlayers().getOnline(), event.getResponse().getPlayers().getMax()), String.valueOf(i)));
                 i++;
             }
 
@@ -66,7 +65,7 @@ public class PingEvent implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List<String> list = config.getStringList("motd.text");
-            motd = new TextComponent(parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))), online, event.getResponse().getPlayers().getMax(), max));
+            motd = new TextComponent(PlaceholderUtilsBungee.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))), event.getResponse().getPlayers().getOnline(), event.getResponse().getPlayers().getMax()));
         } else {
             motd = event.getResponse().getDescriptionComponent();
         }
@@ -74,7 +73,7 @@ public class PingEvent implements Listener {
         if (config.getBoolean("protocol.activated")) {
             ServerPing.Protocol provided = event.getResponse().getVersion();
 
-            provided.setName(parseText(config.getString("protocol.text").replaceAll("%aftericon%", aftericon), online, event.getResponse().getPlayers().getMax(), max));
+            provided.setName(PlaceholderUtilsBungee.parseText(config.getString("protocol.text").replaceAll("%aftericon%", aftericon), event.getResponse().getPlayers().getOnline(), event.getResponse().getPlayers().getMax()));
 
             protocol = provided;
         } else {
@@ -103,8 +102,6 @@ public class PingEvent implements Listener {
 
         ServerPing ping = new ServerPing(protocol, players, motd, icon);
         event.setResponse(ping);
-
-        event.getConnection().getUniqueId();
     }
 
     public static ServerPing.PlayerInfo[] addInfo(ServerPing.PlayerInfo[] arr, ServerPing.PlayerInfo info) {
@@ -122,19 +119,5 @@ public class PingEvent implements Listener {
         newarr[arr.length] = info;
 
         return newarr;
-    }
-
-    public String parseText(String text, int displayedplayers, int realmax, int displayedmax) {
-        String returnedstring = text;
-
-        returnedstring = returnedstring.replaceAll("%real_players%", String.valueOf(plugin.getProxy().getOnlineCount()));
-        returnedstring = returnedstring.replaceAll("%displayed_players%", String.valueOf(displayedplayers));
-        returnedstring = returnedstring.replaceAll("%real_max%", String.valueOf(realmax));
-        returnedstring = returnedstring.replaceAll("%displayed_max%", String.valueOf(displayedmax));
-        returnedstring = returnedstring.replaceAll("%newline%", "\n");
-
-        returnedstring = ChatColor.translateAlternateColorCodes('&', returnedstring);
-
-        return returnedstring;
     }
 }

@@ -2,7 +2,6 @@ package me.alexprogrammerde.PistonMOTD.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,11 +20,11 @@ public class PingEventPaper implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List<String> list = config.getStringList("motd.text");
-            event.setMotd(parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))), event.getMaxPlayers(), event.getNumPlayers()));
+            event.setMotd(PlaceholderUtilsBukkit.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))), event.getNumPlayers(), event.getMaxPlayers()));
         }
 
         if (config.getBoolean("extended.protocol.activated")) {
-            event.setVersion(parseText(config.getString("extended.protocol.activated"), event.getMaxPlayers(), event.getNumPlayers()));
+            event.setVersion(PlaceholderUtilsBukkit.parseText(config.getString("extended.protocol.activated"), event.getNumPlayers(), event.getMaxPlayers()));
         }
 
         if (config.getBoolean("extended.playercounter.activated")) {
@@ -34,7 +33,7 @@ public class PingEventPaper implements Listener {
             int i = 0;
 
             for (String str : config.getStringList("extended.playercounter.text")) {
-                event.getPlayerSample().add(i, Bukkit.createProfile(parseText(str, event.getMaxPlayers(), event.getNumPlayers())));
+                event.getPlayerSample().add(i, Bukkit.createProfile(PlaceholderUtilsBukkit.parseText(str, event.getNumPlayers(), event.getMaxPlayers())));
                 i++;
             }
         }
@@ -50,17 +49,5 @@ public class PingEventPaper implements Listener {
         if (config.getBoolean("extended.hideplayers.activated")) {
             event.setHidePlayers(config.getBoolean("extended.hideplayers.value"));
         }
-    }
-
-    public String parseText(String text, int max, int online) {
-        String returnedstring = text;
-
-        returnedstring = returnedstring.replaceAll("%online%", String.valueOf(online));
-        returnedstring = returnedstring.replaceAll("%max%", String.valueOf(max));
-        returnedstring = returnedstring.replaceAll("%newline%", "\n");
-
-        returnedstring = ChatColor.translateAlternateColorCodes('&', returnedstring);
-
-        return returnedstring;
     }
 }

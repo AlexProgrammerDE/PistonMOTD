@@ -9,18 +9,22 @@ motd:
     - "Use &4color codes!"
     - "&ka &rFormatting &rworks &rtoo! &ka"
     - "&1Players: %online%"
+    - "&2Max: %max%"
 
 # Extended config only works on paper https://papermc.io/
 extended:
   protocol:
     activated: false
     text: "&1My custom protocol message!"
+
   overrideonline:
     activated: false
     value: 0
+
   hideplayers:
     activated: false
     value: true
+
   playercounter:
     activated: true
     text:
