@@ -17,7 +17,7 @@ overridemax:
   value: 10
 
 protocol:
-  activated: false
+  activated: true
   text: "&1My custom protocol message!"
 
 icons: false

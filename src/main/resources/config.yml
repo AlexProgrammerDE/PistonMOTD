@@ -19,7 +19,7 @@ extended:
   overrideonline:
     activated: false
     value: 0
-  hideplayers: true
+  hideplayers: false
   playercounter:
     activated: true
     text:
