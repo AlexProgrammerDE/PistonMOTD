@@ -23,7 +23,7 @@ jobs:
     - name: Move files
       run: |
         mkdir docs
-        mv -R ./target/site/apidocs/* ./docs
+        mv ./target/site/apidocs/* ./docs
     - name: Commit files
       run: |
         git add .
@@ -34,3 +34,4 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: 'gh-pages'
