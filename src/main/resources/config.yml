@@ -1,27 +1,6 @@
-playercounter:
-  activated: true
-  text:
-    - "&3Hello world!"
-    - "&eNewline!"
-    - "&6    spaces!"
-    - "&d&lCombined"
-    - "&1Players: %real_players%"
-    - "&2Max: %real_max%"
-
-overrideonline:
-  activated: false
-  value: 0
-
 overridemax:
   activated: false
   value: 10
-
-protocol:
-  activated: false
-  text: "&1My custom protocol message!"
-
-icons:
-  activated: false
 
 motd:
   activated: true
@@ -29,4 +8,25 @@ motd:
     - "Hello! %newline%World!"
     - "Use &4color codes!"
     - "&ka &rFormatting &rworks &rtoo! &ka"
-    - "&1Players: %real_players%"
+    - "&1Players: %online%"
+
+# Extended config only works on paper https://papermc.io/
+extended:
+  protocol:
+    activated: false
+    text: "&1My custom protocol message!"
+  overrideonline:
+    activated: false
+    value: 0
+  hideplayers:
+    activated: false
+    value: true
+  playercounter:
+    activated: true
+    text:
+      - "&3Hello world!"
+      - "&eNewline!"
+      - "&6    spaces!"
+      - "&d&lCombined"
+      - "&1Players: %online%"
+      - "&2Max: %max%"

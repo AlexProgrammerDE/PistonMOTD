@@ -1,0 +1,12 @@
+name: PistonMOTD
+version: 2.0.0
+main: me.alexprogrammerde.PistonMOTD.bukkit.PistonMOTDBukkit
+commands:
+  pistonmotdbukkit:
+    description: Allows you to execute some commands for pistonmotd.
+
+permissions:
+  pistonmotd.help:
+    default: op
+  pistonmotd.reload:
+    default: op

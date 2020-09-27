@@ -1,4 +1,4 @@
-package me.alexprogrammerde.BungeeStatus;
+package me.alexprogrammerde.PistonMOTD.bungee;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -268,7 +268,7 @@ public class Metrics {
     private void loadConfig() throws IOException {
         File bStatsFolder = new File(plugin.getDataFolder().getParentFile(), "bStats");
         bStatsFolder.mkdirs();
-        File configFile = new File(bStatsFolder, "config.yml");
+        File configFile = new File(bStatsFolder, "bungeeconfig.yml");
         if (!configFile.exists()) {
             writeFile(configFile,
                     "#bStats collects some data for plugin authors like how many servers are using their plugins.",

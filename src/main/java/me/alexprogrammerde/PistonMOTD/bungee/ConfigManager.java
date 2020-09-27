@@ -1,4 +1,4 @@
-package me.alexprogrammerde.BungeeStatus;
+package me.alexprogrammerde.PistonMOTD.bungee;
 
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;

@@ -1,4 +1,4 @@
-package me.alexprogrammerde.BungeeStatus;
+package me.alexprogrammerde.PistonMOTD.bungee;
 
 import com.google.common.io.Files;
 import net.md_5.bungee.api.ChatColor;
@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PingEvent implements Listener {
-    BungeeStatus plugin;
+    PistonMOTDBungee plugin;
     File iconfolder;
 
-    public PingEvent(BungeeStatus plugin, File icons) {
+    public PingEvent(PistonMOTDBungee plugin, File icons) {
         this.plugin = plugin;
         this.iconfolder = icons;
     }

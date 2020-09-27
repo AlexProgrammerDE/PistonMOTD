@@ -1,5 +1,6 @@
-package me.alexprogrammerde.BungeeStatus;
+package me.alexprogrammerde.PistonMOTD.bungee;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 
@@ -8,16 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class BungeeStatus extends Plugin {
-    public static BungeeStatus plugin;
+public class PistonMOTDBungee extends Plugin {
     Configuration config;
     File icons;
     ConfigManager manager;
     List<String> headlist = new ArrayList<>();
+    Logger log;
 
+    @Override
     public void onEnable() {
-        plugin = this;
-        Logger logger = this.getLogger();
+        log = getLogger();
 
         headlist.add("# You can find color codes here: https://minecraft.tools/en/color-code.php");
         headlist.add("# Formatting comes after the color! &d&l will work, but not &l&d.");
@@ -26,33 +27,44 @@ public class BungeeStatus extends Plugin {
         headlist.add("# %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)");
         headlist.add("# %newline% adds a newline to your motd.");
 
-        logger.info("§bLoading config.");
+        log.info(ChatColor.AQUA + "Loading config");
         manager = new ConfigManager(this, headlist);
-        config = manager.getConfig("config.yml");
+        config = manager.getConfig("bungeeconfig.yml");
         icons = manager.getIcons();
 
-        logger.info("§bRegistering listeners.");
+        log.info(ChatColor.AQUA + "Registering listeners");
         getProxy().getPluginManager().registerListener(this, new PingEvent(this, icons));
 
-        logger.info("§bRegistering commands");
-        getProxy().getPluginManager().registerCommand(this, new StatusCommand("status", "bungeestatus.reload"));
+        log.info(ChatColor.AQUA + "Registering commands");
+        getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this, "pistonmotd"));
 
-        logger.info("§bChecking for a newer version.");
+        log.info(ChatColor.AQUA + "Checking for a newer version");
         new UpdateChecker(this, 80567).getVersion(version -> {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-                logger.info("§bYour up to date!");
+                log.info(ChatColor.AQUA + "Your up to date!");
             } else {
-                logger.info("§cThere is a update available.");
-                logger.info("§cCurrent version: " + this.getDescription().getVersion() + " New version: " + version);
-                logger.info("§cDownload it at: https://www.spigotmc.org/resources/80567");
+                log.info(ChatColor.RED + "There is a update available");
+                log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
+                log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
             }
         });
 
-        logger.info("§bLoading metrics");
+        log.info(ChatColor.AQUA + "Loading metrics");
         new Metrics(this, 7939);
     }
 
+    @Override
+    public void onDisable() {
+        log.info(ChatColor.AQUA + "Unloading the listeners");
+        getProxy().getPluginManager().unregisterListeners(this);
+
+        log.info(ChatColor.AQUA + "Unloading the commands");
+        getProxy().getPluginManager().unregisterCommands(this);
+
+        log.info(ChatColor.AQUA + "Finished unloading!");
+    }
+
     public void reloadConfiguration() {
-        config = manager.getConfig("config.yml");
+        config = manager.getConfig("bungeeconfig.yml");
     }
 }
