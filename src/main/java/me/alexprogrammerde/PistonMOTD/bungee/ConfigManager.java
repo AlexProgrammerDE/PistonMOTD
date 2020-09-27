@@ -27,8 +27,8 @@ public class ConfigManager {
     public Configuration getConfig(String resourcename, String filename) {
         Configuration config = null;
         Configuration templateconfig;
-        final List<String> configkeys = new ArrayList<>();
-        final List<String> templatekeys = new ArrayList<>();
+        List<String> configkeys = new ArrayList<>();
+        List<String> templatekeys = new ArrayList<>();
 
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
@@ -73,13 +73,12 @@ public class ConfigManager {
             System.err.println("Error: " + e.getMessage());
         }
 
+        // Load config
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
 
         for (String key : config.getKeys()) {
             configkeys.add(key);
@@ -88,6 +87,9 @@ public class ConfigManager {
                 iterateKey(key, configkeys, config);
             }
         }
+
+        // Load template
+        templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
 
         for (String key : templateconfig.getKeys()) {
             templatekeys.add(key);
@@ -99,8 +101,19 @@ public class ConfigManager {
 
         // Check if keys from template are in the config
         for (String key : templatekeys) {
-            if (config.get(key) == null || !config.get(key).getClass().equals(templateconfig.get(key).getClass())) {
+            if (!configkeys.contains(key) || !config.get(key).getClass().equals(templateconfig.get(key).getClass())) {
                 config.set(key, templateconfig.get(key));
+            }
+        }
+
+        // Reload configkeys
+        configkeys.clear();
+
+        for (String key : config.getKeys()) {
+            configkeys.add(key);
+
+            if (config.get(key) instanceof Configuration) {
+                iterateKey(key, configkeys, config);
             }
         }
 
@@ -124,8 +137,6 @@ public class ConfigManager {
                     iterateKey(tkey, templatekeys, templateconfig);
                 }
             }
-
-            Collections.reverse(templatekeys);
         }
 
         try {

@@ -1,7 +1,7 @@
 name: PistonMOTD
 version: ${project.version}
 main: me.alexprogrammerde.PistonMOTD.bukkit.PistonMOTDBukkit
-description: Best MOTD plugin with bungee, spigot and paper support!
+description: ${project.description}
 commands:
   pistonmotdbukkit:
     description: Allows you to execute some commands for pistonmotd.
@@ -18,3 +18,4 @@ permissions:
       - pistonmotd.command
   pistonmotd.command:
     description: Permission to even access the cmd.
+    default: op

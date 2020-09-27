@@ -1,2 +1,2 @@
-# BungeeStatus
-A plugin for editing the playercount tooltip.
+# PistonMOTD
+Best MOTD plugin with bungee, spigot and paper support!

@@ -81,7 +81,7 @@ public class PingEvent implements Listener {
             protocol = event.getResponse().getVersion();
         }
 
-        if (config.getBoolean("icons.activated")) {
+        if (config.getBoolean("icons")) {
             File[] icons = iconfolder.listFiles();
 
             List<File> validfiles = new ArrayList<>();

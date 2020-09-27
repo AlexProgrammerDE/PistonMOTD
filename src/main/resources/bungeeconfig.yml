@@ -20,8 +20,7 @@ protocol:
   activated: false
   text: "&1My custom protocol message!"
 
-icons:
-  activated: false
+icons: false
 
 motd:
   activated: true

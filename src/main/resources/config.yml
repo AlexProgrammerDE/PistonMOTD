@@ -16,15 +16,10 @@ extended:
   protocol:
     activated: false
     text: "&1My custom protocol message!"
-
   overrideonline:
     activated: false
     value: 0
-
-  hideplayers:
-    activated: false
-    value: true
-
+  hideplayers: true
   playercounter:
     activated: true
     text:

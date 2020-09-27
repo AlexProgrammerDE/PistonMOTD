@@ -48,7 +48,7 @@ public class PingEventPaper implements Listener {
             event.setNumPlayers(config.getInt("extended.overrideonline.value"));
         }
 
-        if (config.getBoolean("extended.hideplayers.activated")) {
+        if (config.getBoolean("extended.hideplayers")) {
             event.setHidePlayers(config.getBoolean("extended.hideplayers.value"));
         }
     }
