@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PingEvent implements Listener {
-    PistonMOTDBungee plugin;
-    File iconfolder;
+    final PistonMOTDBungee plugin;
+    final File iconfolder;
 
     public PingEvent(PistonMOTDBungee plugin, File icons) {
         this.plugin = plugin;
@@ -32,9 +32,9 @@ public class PingEvent implements Listener {
         ServerPing.Players players;
         BaseComponent motd;
         ServerPing.Protocol protocol;
-        String aftericon = "                                                                            ";
+        final String aftericon = "                                                                            ";
         Favicon icon;
-        Configuration config = plugin.config;
+        final Configuration config = plugin.config;
 
         if (config.getBoolean("overrideonline.activated")) {
             online = config.getInt("overrideonline.value");

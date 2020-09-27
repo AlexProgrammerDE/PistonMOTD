@@ -3,6 +3,7 @@ package me.alexprogrammerde.PistonMOTD.bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.meta.MapMeta;
 
 import java.util.List;
 

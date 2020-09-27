@@ -27,9 +27,9 @@ public class ConfigManager {
     public Configuration getConfig(String filename) {
         Configuration config = null;
         Configuration templateconfig;
-        List<String> configkeys = new ArrayList<>();
-        List<String> templatekeys = new ArrayList<>();
-        
+        final List<String> configkeys = new ArrayList<>();
+        final List<String> templatekeys = new ArrayList<>();
+
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
         }
@@ -112,7 +112,7 @@ public class ConfigManager {
                 config.set(key, templateconfig.get(key));
             }
 
-            templatekeys = new ArrayList<>();
+            templatekeys.clear();
 
             // Get template config file
             templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(filename));
