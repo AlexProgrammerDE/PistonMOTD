@@ -7,14 +7,14 @@ import org.bukkit.ChatColor;
 public class CommonPlaceholder implements PlaceholderParser {
     @Override
     public String parseString(String text) {
-        String returnedstring = text;
+        String returnedString = text;
 
-        returnedstring = returnedstring.replaceAll("%online%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
-        returnedstring = returnedstring.replaceAll("%max%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
-        returnedstring = returnedstring.replaceAll("%newline%", "\n");
+        returnedString = returnedString.replaceAll("%online%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
+        returnedString = returnedString.replaceAll("%max%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
+        returnedString = returnedString.replaceAll("%newline%", "\n");
 
-        returnedstring = ChatColor.translateAlternateColorCodes('&', returnedstring);
+        returnedString = ChatColor.translateAlternateColorCodes('&', returnedString);
 
-        return returnedstring;
+        return returnedString;
     }
 }

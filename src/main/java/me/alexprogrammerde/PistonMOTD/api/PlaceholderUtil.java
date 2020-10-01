@@ -4,6 +4,9 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to use to manage parsers and parse text.
+ */
 public class PlaceholderUtil {
     private static final List<PlaceholderParser> placeholders = new ArrayList<>();
 
@@ -13,13 +16,13 @@ public class PlaceholderUtil {
      * @return A completely parsed string
      */
     public static String parseText(String text) {
-        String returnedstring = text;
+        String returnedString = text;
 
         for (PlaceholderParser parser : placeholders) {
-            returnedstring = parser.parseString(returnedstring);
+            returnedString = parser.parseString(returnedString);
         }
 
-        return returnedstring;
+        return returnedString;
     }
 
     /**

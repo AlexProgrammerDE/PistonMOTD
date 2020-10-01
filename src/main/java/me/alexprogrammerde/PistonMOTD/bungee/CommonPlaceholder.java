@@ -7,20 +7,20 @@ import net.md_5.bungee.api.ProxyServer;
 public class CommonPlaceholder implements PlaceholderParser {
     @Override
     public String parseString(String text) {
-        String returnedstring = text;
+        String returnedString = text;
 
         // TODO: Remove legacy placeholders
-        returnedstring = returnedstring.replaceAll("%real_players%", "%online%");
-        returnedstring = returnedstring.replaceAll("%displayed_players%", "%online%");
-        returnedstring = returnedstring.replaceAll("%real_max%", "%max%");
-        returnedstring = returnedstring.replaceAll("%displayed_max%", "%max%");
+        returnedString = returnedString.replaceAll("%real_players%", "%online%");
+        returnedString = returnedString.replaceAll("%displayed_players%", "%online%");
+        returnedString = returnedString.replaceAll("%real_max%", "%max%");
+        returnedString = returnedString.replaceAll("%displayed_max%", "%max%");
 
-        returnedstring = returnedstring.replaceAll("%online%", String.valueOf(ProxyServer.getInstance().getOnlineCount()));
-        returnedstring = returnedstring.replaceAll("%max%", String.valueOf(ProxyServer.getInstance().getConfig().getPlayerLimit()));
-        returnedstring = returnedstring.replaceAll("%newline%", "\n");
+        returnedString = returnedString.replaceAll("%online%", String.valueOf(ProxyServer.getInstance().getOnlineCount()));
+        returnedString = returnedString.replaceAll("%max%", String.valueOf(ProxyServer.getInstance().getConfig().getPlayerLimit()));
+        returnedString = returnedString.replaceAll("%newline%", "\n");
 
-        returnedstring = ChatColor.translateAlternateColorCodes('&', returnedstring);
+        returnedString = ChatColor.translateAlternateColorCodes('&', returnedString);
 
-        return returnedstring;
+        return returnedString;
     }
 }

@@ -12,10 +12,10 @@ public class ServerPlaceholder implements PlaceholderParser {
 
     @Override
     public String parseString(String text) {
-        String returnedstring = text;
+        String returnedString = text;
 
-        returnedstring = returnedstring.replaceAll("%online_" + server + "%", String.valueOf(ProxyServer.getInstance().getServerInfo(server).getPlayers().size()));
+        returnedString = returnedString.replaceAll("%online_" + server + "%", String.valueOf(ProxyServer.getInstance().getServerInfo(server).getPlayers().size()));
 
-        return returnedstring;
+        return returnedString;
     }
 }

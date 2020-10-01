@@ -30,6 +30,7 @@ public class BungeeCommand extends Command implements TabExecutor {
         }
     }
 
+
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
         if (sender.hasPermission("pistonmotd.reload") || sender.hasPermission("pistonmotd.help")) {

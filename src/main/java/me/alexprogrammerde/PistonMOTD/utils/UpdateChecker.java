@@ -20,9 +20,9 @@ public class UpdateChecker {
     public void getVersion(final Consumer<String> consumer) {
         try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId + "/").openStream(); Scanner scanner = new Scanner(inputStream)) {
             if (scanner.hasNext()) {
-                String returnedstring = scanner.next();
+                String returnedString = scanner.next();
 
-                consumer.accept(returnedstring);
+                consumer.accept(returnedString);
             }
         } catch (IOException exception) {
             log.info("Cannot look for updates: " + exception.getMessage());

@@ -8,27 +8,26 @@ import net.md_5.bungee.config.YamlConfiguration;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class ConfigManager {
     Logger log;
     Plugin plugin;
-    List<String> headlist;
+    List<String> headList;
     File icons;
 
-    public ConfigManager(Plugin plugin, List<String> headlist) {
+    public ConfigManager(Plugin plugin, List<String> headList) {
         this.plugin = plugin;
         log = plugin.getLogger();
-        this.headlist = headlist;
+        this.headList = headList;
     }
 
     public Configuration getConfig(String resourcename, String filename) {
         Configuration config = null;
-        Configuration templateconfig;
-        List<String> configkeys = new ArrayList<>();
-        List<String> templatekeys = new ArrayList<>();
+        Configuration templateConfig;
+        List<String> configKeys = new ArrayList<>();
+        List<String> templateKeys = new ArrayList<>();
 
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
@@ -48,7 +47,7 @@ public class ConfigManager {
             BufferedReader in = new BufferedReader(new FileReader(file));
             StringBuilder header = new StringBuilder();
 
-            for (String head : headlist) {
+            for (String head : headList) {
                 header.append(head).append('\n');
             }
 
@@ -80,61 +79,62 @@ public class ConfigManager {
             e.printStackTrace();
         }
 
+        assert config != null;
         for (String key : config.getKeys()) {
-            configkeys.add(key);
+            configKeys.add(key);
 
             if (config.get(key) instanceof Configuration) {
-                iterateKey(key, configkeys, config);
+                iterateKey(key, configKeys, config);
             }
         }
 
         // Load template
-        templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
+        templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
 
-        for (String key : templateconfig.getKeys()) {
-            templatekeys.add(key);
+        for (String key : templateConfig.getKeys()) {
+            templateKeys.add(key);
 
-            if (templateconfig.get(key) instanceof Configuration) {
-                iterateKey(key, templatekeys, templateconfig);
+            if (templateConfig.get(key) instanceof Configuration) {
+                iterateKey(key, templateKeys, templateConfig);
             }
         }
 
         // Check if keys from template are in the config
-        for (String key : templatekeys) {
-            if (!configkeys.contains(key) || !config.get(key).getClass().equals(templateconfig.get(key).getClass())) {
-                config.set(key, templateconfig.get(key));
+        for (String key : templateKeys) {
+            if (!configKeys.contains(key) || !config.get(key).getClass().equals(templateConfig.get(key).getClass())) {
+                config.set(key, templateConfig.get(key));
             }
         }
 
         // Reload configkeys
-        configkeys.clear();
+        configKeys.clear();
 
         for (String key : config.getKeys()) {
-            configkeys.add(key);
+            configKeys.add(key);
 
             if (config.get(key) instanceof Configuration) {
-                iterateKey(key, configkeys, config);
+                iterateKey(key, configKeys, config);
             }
         }
 
         // Check if keys from config are in the template
-        for (String key : configkeys) {
-            if (!templatekeys.contains(key)) {
+        for (String key : configKeys) {
+            if (!templateKeys.contains(key)) {
                 config.set(key, null);
-            } else if (!templateconfig.get(key).getClass().equals(config.get(key).getClass())) {
-                config.set(key, templateconfig.get(key));
+            } else if (!templateConfig.get(key).getClass().equals(config.get(key).getClass())) {
+                config.set(key, templateConfig.get(key));
             }
 
-            templatekeys.clear();
+            templateKeys.clear();
 
             // Get template config file
-            templateconfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
+            templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
 
-            for (String tkey : templateconfig.getKeys()) {
-                templatekeys.add(tkey);
+            for (String tkey : templateConfig.getKeys()) {
+                templateKeys.add(tkey);
 
-                if (templateconfig.get(tkey) instanceof Configuration) {
-                    iterateKey(tkey, templatekeys, templateconfig);
+                if (templateConfig.get(tkey) instanceof Configuration) {
+                    iterateKey(tkey, templateKeys, templateConfig);
                 }
             }
         }
@@ -149,7 +149,7 @@ public class ConfigManager {
             BufferedReader in = new BufferedReader(new FileReader(file));
             StringBuilder header = new StringBuilder();
 
-            for (String head : headlist) {
+            for (String head : headList) {
                 header.append(head).append('\n');
             }
 

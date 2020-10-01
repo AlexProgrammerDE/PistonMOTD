@@ -17,22 +17,23 @@ public class PistonMOTDBungee extends Plugin {
     Configuration config;
     File icons;
     ConfigManager manager;
-    List<String> headlist = new ArrayList<>();
+    List<String> headList = new ArrayList<>();
     Logger log;
 
     @Override
     public void onEnable() {
         log = getLogger();
 
-        headlist.add("# You can find color codes here: https://minecraft.tools/en/color-code.php");
-        headlist.add("# Formatting comes after the color! &d&l will work, but not &l&d.");
-        headlist.add("# Placeholders: %online% (Players online)");
-        headlist.add("# %max% (Server max slots)");
-        headlist.add("# %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)");
-        headlist.add("# %newline% adds a newline to your motd.");
+        headList.add("# You can find color codes here: https://minecraft.tools/en/color-code.php");
+        headList.add("# Formatting comes after the color! &d&l will work, but not &l&d.");
+        headList.add("# Placeholders: %online% (Players online)");
+        headList.add("# %max% (Server max slots)");
+        headList.add("# %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)");
+        headList.add("# %newline% adds a newline to your motd.");
+        headList.add("# %online_SERVERNAME% shows the current playercount of one of the servers.");
 
         log.info(ChatColor.AQUA + "Loading config");
-        manager = new ConfigManager(this, headlist);
+        manager = new ConfigManager(this, headList);
         config = manager.getConfig("bungeeconfig.yml", "config.yml");
         icons = manager.getIcons();
 
@@ -50,24 +51,22 @@ public class PistonMOTDBungee extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this, "pistonmotd"));
 
         log.info(ChatColor.AQUA + "Checking for a newer version");
-        new UpdateChecker(getLogger(), 80567).getVersion(version -> {
-            new UpdateParser(getDescription().getVersion(), version).parseUpdate(updatetype -> {
-                if (updatetype == UpdateType.NONE) {
-                    log.info(ChatColor.AQUA + "Your up to date!");
-                } else {
-                    if (updatetype == UpdateType.MAJOR) {
-                        log.info(ChatColor.RED + "There is a MAJOR update available!");
-                    } else if (updatetype == UpdateType.MINOR) {
-                        log.info(ChatColor.RED + "There is a MINOR update available!");
-                    } else if (updatetype == UpdateType.PATCH) {
-                        log.info(ChatColor.RED + "There is a PATCH update available!");
-                    }
-
-                    log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
-                    log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
+        new UpdateChecker(getLogger(), 80567).getVersion(version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
+            if (updateType == UpdateType.NONE) {
+                log.info(ChatColor.AQUA + "Your up to date!");
+            } else {
+                if (updateType == UpdateType.MAJOR) {
+                    log.info(ChatColor.RED + "There is a MAJOR update available!");
+                } else if (updateType == UpdateType.MINOR) {
+                    log.info(ChatColor.RED + "There is a MINOR update available!");
+                } else if (updateType == UpdateType.PATCH) {
+                    log.info(ChatColor.RED + "There is a PATCH update available!");
                 }
-            });
-        });
+
+                log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
+                log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
+            }
+        }));
 
         log.info(ChatColor.AQUA + "Loading metrics");
         new Metrics(this, 8968);
