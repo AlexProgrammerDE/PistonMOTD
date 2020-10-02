@@ -23,7 +23,7 @@ public class ConfigManager {
         this.headList = headList;
     }
 
-    public Configuration getConfig(String resourcename, String filename) {
+    public Configuration getConfig(String resourceName, String fileName) {
         Configuration config = null;
         Configuration templateConfig;
         List<String> configKeys = new ArrayList<>();
@@ -33,10 +33,10 @@ public class ConfigManager {
             plugin.getDataFolder().mkdir();
         }
 
-        File file = new File(plugin.getDataFolder(), filename);
+        File file = new File(plugin.getDataFolder(), fileName);
 
         if (!file.exists()) {
-            try (InputStream in = plugin.getResourceAsStream(resourcename)) {
+            try (InputStream in = plugin.getResourceAsStream(resourceName)) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -63,8 +63,8 @@ public class ConfigManager {
 
             output = output.replaceAll("§", "&");
 
-            FileWriter fstream = new FileWriter(file);
-            BufferedWriter out = new BufferedWriter(fstream);
+            FileWriter fStream = new FileWriter(file);
+            BufferedWriter out = new BufferedWriter(fStream);
 
             out.write(output);
             out.close();
@@ -89,7 +89,7 @@ public class ConfigManager {
         }
 
         // Load template
-        templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
+        templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourceName));
 
         for (String key : templateConfig.getKeys()) {
             templateKeys.add(key);
@@ -128,13 +128,13 @@ public class ConfigManager {
             templateKeys.clear();
 
             // Get template config file
-            templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourcename));
+            templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourceName));
 
-            for (String tkey : templateConfig.getKeys()) {
-                templateKeys.add(tkey);
+            for (String tKey : templateConfig.getKeys()) {
+                templateKeys.add(tKey);
 
-                if (templateConfig.get(tkey) instanceof Configuration) {
-                    iterateKey(tkey, templateKeys, templateConfig);
+                if (templateConfig.get(tKey) instanceof Configuration) {
+                    iterateKey(tKey, templateKeys, templateConfig);
                 }
             }
         }
@@ -165,8 +165,8 @@ public class ConfigManager {
 
             output = output.replaceAll("§", "&");
 
-            FileWriter fstream = new FileWriter(file);
-            BufferedWriter out = new BufferedWriter(fstream);
+            FileWriter fStream = new FileWriter(file);
+            BufferedWriter out = new BufferedWriter(fStream);
 
             out.write(output);
             out.close();
@@ -188,12 +188,12 @@ public class ConfigManager {
         return icons;
     }
 
-    void iterateKey(String gkey, List<String> keylist, Configuration config) {
-        for (String key : config.getSection(gkey).getKeys()) {
-            keylist.add(gkey + "." + key);
+    void iterateKey(String gKey, List<String> keyList, Configuration config) {
+        for (String key : config.getSection(gKey).getKeys()) {
+            keyList.add(gKey + "." + key);
 
-            if (config.get(gkey + "." + key) instanceof Configuration) {
-                iterateKey(gkey + "." + key, keylist, config);
+            if (config.get(gKey + "." + key) instanceof Configuration) {
+                iterateKey(gKey + "." + key, keyList, config);
             }
         }
     }

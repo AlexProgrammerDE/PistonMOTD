@@ -1,8 +1,6 @@
 package me.alexprogrammerde.PistonMOTD.api;
 
 import org.apiguardian.api.API;
-import org.bukkit.event.EventHandler;
-
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;

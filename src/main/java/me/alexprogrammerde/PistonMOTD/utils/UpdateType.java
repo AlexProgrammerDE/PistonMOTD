@@ -1,5 +1,5 @@
 package me.alexprogrammerde.PistonMOTD.utils;
 
 public enum UpdateType {
-    PATCH, MINOR, MAJOR, NONE;
+    PATCH, MINOR, MAJOR, NONE
 }

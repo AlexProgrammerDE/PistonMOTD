@@ -2,7 +2,6 @@ package me.alexprogrammerde.PistonMOTD.utils;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -10,9 +9,9 @@ public class UpdateParser {
     String currentV;
     String spigotV;
 
-    public UpdateParser(@Nonnull String currentv, @Nonnull String spigotv) {
-        this.currentV = currentv;
-        this.spigotV = spigotv;
+    public UpdateParser(@Nonnull String currentV, @Nonnull String spigotV) {
+        this.currentV = currentV;
+        this.spigotV = spigotV;
     }
 
     public void parseUpdate(Consumer<UpdateType> consumer) {
