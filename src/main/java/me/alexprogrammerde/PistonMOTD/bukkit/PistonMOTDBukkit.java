@@ -62,6 +62,9 @@ public class PistonMOTDBukkit extends JavaPlugin {
                 log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
                 log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
             }
+
+            log.info(ChatColor.AQUA + "Loading metrics");
+            new BukkitMetrics(this, 9100);
         }));
     }
 

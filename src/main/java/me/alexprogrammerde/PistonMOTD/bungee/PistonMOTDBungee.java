@@ -77,7 +77,7 @@ public class PistonMOTDBungee extends Plugin {
         }));
 
         log.info(ChatColor.AQUA + "Loading metrics");
-        new Metrics(this, 8968);
+        new BungeeMetrics(this, 8968);
     }
 
     @Override
