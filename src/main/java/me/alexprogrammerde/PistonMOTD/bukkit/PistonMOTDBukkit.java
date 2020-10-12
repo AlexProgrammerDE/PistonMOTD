@@ -1,6 +1,7 @@
 package me.alexprogrammerde.PistonMOTD.bukkit;
 
 import io.papermc.lib.PaperLib;
+import me.alexprogrammerde.PistonMOTD.api.PlaceholderParser;
 import me.alexprogrammerde.PistonMOTD.api.PlaceholderUtil;
 import me.alexprogrammerde.PistonMOTD.utils.UpdateChecker;
 import me.alexprogrammerde.PistonMOTD.utils.UpdateParser;
@@ -32,6 +33,9 @@ public class PistonMOTDBukkit extends JavaPlugin {
 
         log.info(ChatColor.AQUA + "Registering placeholders");
         PlaceholderUtil.registerParser(new CommonPlaceholder());
+        if (PaperLib.isPaper()) {
+            PlaceholderUtil.registerParser(new TPSPlaceholder());
+        }
 
         log.info(ChatColor.AQUA + "Registering listeners");
         if (PaperLib.isPaper()) {

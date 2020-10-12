@@ -3,6 +3,7 @@
 # Placeholders: %online% (Players online)
 # %max% (Server max slots)
 # %newline% adds a newline to your motd.
+# %tps% show the tps
 motd:
   activated: true
   text:
@@ -17,6 +18,7 @@ overridemax:
   value: 10
 
 # Extended config only works on paper https://papermc.io/
+# On paper you also get the %tps% placeholder
 extended:
   # A protocol message is shown if the version of the client doesn't match the version of the server.
   # %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)
