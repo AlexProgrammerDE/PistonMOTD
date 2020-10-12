@@ -1,7 +1,8 @@
-overridemax:
-  activated: false
-  value: 10
-
+# You can find color codes here: https://minecraft.tools/en/color-code.php
+# Formatting comes after the color! &d&l will work, but not &l&d.
+# Placeholders: %online% (Players online)
+# %max% (Server max slots)
+# %newline% adds a newline to your motd.
 motd:
   activated: true
   text:
@@ -11,15 +12,23 @@ motd:
     - "&1Players: %online%"
     - "&2Max: %max%"
 
+overridemax:
+  activated: false
+  value: 10
+
 # Extended config only works on paper https://papermc.io/
 extended:
+  # A protocol message is shown if the version of the client doesn't match the version of the server.
+  # %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)
   protocol:
     activated: false
     text: "&1My custom protocol message!"
   overrideonline:
     activated: false
     value: 0
+  # Instead of showing the playerstats the client will just display "???"
   hideplayers: false
+  # This is shown when you hover over the playercount
   playercounter:
     activated: true
     text:

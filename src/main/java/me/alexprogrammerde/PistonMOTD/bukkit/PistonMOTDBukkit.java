@@ -19,6 +19,14 @@ public class PistonMOTDBukkit extends JavaPlugin {
     public void onEnable() {
         log = getLogger();
 
+        log.info("  _____  _       _                 __  __   ____  _______  _____  ");
+        log.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
+        log.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
+        log.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
+        log.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
+        log.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
+        log.info("                                                                  ");
+
         log.info(ChatColor.AQUA + "Loading config");
         saveDefaultConfig();
 
