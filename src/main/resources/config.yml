@@ -3,7 +3,7 @@
 # Placeholders: %online% (Players online)
 # %max% (Server max slots)
 # %newline% adds a newline to your motd.
-# %tps% show the tps
+# %tps% shows the tps (Paper only)
 motd:
   activated: true
   text:
