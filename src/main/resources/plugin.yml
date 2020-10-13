@@ -10,10 +10,12 @@ commands:
 
 permissions:
   pistonmotd.help:
+    description: Permission to have the help menu shown.
     default: op
     children:
       - pistonmotd.command
   pistonmotd.reload:
+    description: Permission to reload the motd config.
     default: op
     children:
       - pistonmotd.command
