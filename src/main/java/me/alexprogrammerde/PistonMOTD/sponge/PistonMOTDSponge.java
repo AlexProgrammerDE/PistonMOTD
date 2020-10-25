@@ -24,7 +24,7 @@ import java.nio.file.Path;
 
 @Plugin(id = "pistonmotd", name = "PistonMOTD", version = "3.0.0", description = "Best MOTD plugin multi platform support!")
 public class PistonMOTDSponge {
-    private ConfigurationNode rootNode;
+    protected ConfigurationNode rootNode;
     private final Metrics2.Factory metricsFactory;
 
     @Inject
@@ -86,7 +86,7 @@ public class PistonMOTDSponge {
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
 
         logger.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
-        game.getEventManager().registerListeners(this, new PingEvent(rootNode, this));
+        game.getEventManager().registerListeners(this, new PingEvent(this));
         game.getEventManager().registerListeners(this, new JoinEvent(this));
 
         if (hasConsent()) {

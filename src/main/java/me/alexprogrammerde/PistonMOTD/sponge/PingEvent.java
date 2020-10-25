@@ -14,16 +14,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PingEvent {
-    ConfigurationNode node;
     PistonMOTDSponge plugin;
 
-    public PingEvent(ConfigurationNode node, PistonMOTDSponge plugin) {
-        this.node = node;
+    public PingEvent(PistonMOTDSponge plugin) {
         this.plugin = plugin;
     }
 
     @Listener
     public void onPing(ClientPingServerEvent event) {
+        ConfigurationNode node = plugin.rootNode;
+
         try {
             if (node.getNode("motd", "activated").getBoolean()) {
                 List<String> motd = node.getNode("motd", "text").getList(new TypeToken<String>() {});
