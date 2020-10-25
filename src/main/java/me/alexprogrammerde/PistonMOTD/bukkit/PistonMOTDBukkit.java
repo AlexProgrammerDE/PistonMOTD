@@ -1,11 +1,11 @@
 package me.alexprogrammerde.PistonMOTD.bukkit;
 
 import io.papermc.lib.PaperLib;
-import me.alexprogrammerde.PistonMOTD.api.PlaceholderParser;
 import me.alexprogrammerde.PistonMOTD.api.PlaceholderUtil;
 import me.alexprogrammerde.PistonMOTD.utils.UpdateChecker;
 import me.alexprogrammerde.PistonMOTD.utils.UpdateParser;
 import me.alexprogrammerde.PistonMOTD.utils.UpdateType;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -66,10 +66,10 @@ public class PistonMOTDBukkit extends JavaPlugin {
                 log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
                 log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
             }
-
-            log.info(ChatColor.AQUA + "Loading metrics");
-            new BukkitMetrics(this, 9100);
         }));
+
+        log.info(ChatColor.AQUA + "Loading metrics");
+        new Metrics(this, 9100);
     }
 
     @Override

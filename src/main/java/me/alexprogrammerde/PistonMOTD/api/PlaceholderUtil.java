@@ -1,6 +1,7 @@
 package me.alexprogrammerde.PistonMOTD.api;
 
 import org.apiguardian.api.API;
+
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Class to use to manage parsers and parse text.
  */
+@SuppressWarnings({"unused"})
 public class PlaceholderUtil {
     private static final List<PlaceholderParser> placeholders = new ArrayList<>();
 
