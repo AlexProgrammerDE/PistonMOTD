@@ -1,9 +1,10 @@
-motd:
+playercounter:
   activated: true
   text:
-    - "Hello! %newline%World!"
-    - "Use &4color codes!"
-    - "&ka &rFormatting &rworks &rtoo! &ka"
+    - "&3Hello world!"
+    - "&eNewline!"
+    - "&6    spaces!"
+    - "&d&lCombined"
     - "&1Players: %online%"
     - "&2Max: %max%"
 
@@ -15,14 +16,15 @@ overridemax:
   activated: false
   value: 10
 
-playercounter:
-  activated: true
-  text:
-    - "&3Hello world!"
-    - "&eNewline!"
-    - "&6    spaces!"
-    - "&d&lCombined"
-    - "&1Players: %online%"
-    - "&2Max: %max%"
+icons: false
 
 hideplayers: false
+
+motd:
+  activated: true
+  text:
+    - "Hello! %newline%World!"
+    - "Use &4color codes!"
+    - "&ka &rFormatting &rworks &rtoo! &ka"
+    - "&1Players: %online%"
+    - "&2Max: %max%"

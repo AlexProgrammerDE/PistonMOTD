@@ -26,6 +26,7 @@ import java.nio.file.Path;
 public class PistonMOTDSponge {
     protected ConfigurationNode rootNode;
     private final Metrics2.Factory metricsFactory;
+    protected File icons;
 
     @Inject
     private Logger logger;
@@ -113,6 +114,12 @@ public class PistonMOTDSponge {
                         .setURL(asset.getUrl())
                         .build()
                         .load(ConfigurationOptions.defaults()));
+
+                File iconFolder = new File(privateConfigDir.toFile(), "icons");
+
+                if (!iconFolder.exists())
+                    iconFolder.mkdir();
+                icons = iconFolder;
             } else {
                 throw new Exception("Default configuration file missing in jar!!!");
             }
