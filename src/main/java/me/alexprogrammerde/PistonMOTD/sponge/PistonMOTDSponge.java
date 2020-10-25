@@ -80,7 +80,7 @@ public class PistonMOTDSponge {
                 .child(reload, "reload")
                 .build();
 
-        game.getCommandManager().register(this, command, "pistonmotdsponge");
+        game.getCommandManager().register(this, command, "pistonmotd", "pistonmotdsponge");
 
         logger.info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
