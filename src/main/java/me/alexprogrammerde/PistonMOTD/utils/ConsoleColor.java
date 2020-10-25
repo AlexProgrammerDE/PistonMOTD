@@ -1,5 +1,9 @@
 package me.alexprogrammerde.PistonMOTD.utils;
 
+/**
+ * Small collection of color codes for getting colors into the sponge console
+ * Got it from here: https://stackoverflow.com/a/51944613
+ */
 @SuppressWarnings({"unused"})
 public enum ConsoleColor {
     //Color end string, color reset
