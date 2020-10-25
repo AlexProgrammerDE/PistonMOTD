@@ -4,18 +4,13 @@ import com.google.common.reflect.TypeToken;
 import me.alexprogrammerde.PistonMOTD.api.PlaceholderUtil;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.apache.commons.io.FilenameUtils;
-import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
-import org.spongepowered.api.network.status.Favicon;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PingEvent {
-    PistonMOTDSponge plugin;
+    private final PistonMOTDSponge plugin;
 
     public PingEvent(PistonMOTDSponge plugin) {
         this.plugin = plugin;

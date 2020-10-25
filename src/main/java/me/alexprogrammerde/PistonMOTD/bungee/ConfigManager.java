@@ -9,17 +9,14 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ConfigManager {
-    Logger log;
-    Plugin plugin;
-    List<String> headList;
+    private final Plugin plugin;
+    private final List<String> headList;
     File icons;
 
     public ConfigManager(Plugin plugin, List<String> headList) {
         this.plugin = plugin;
-        log = plugin.getLogger();
         this.headList = headList;
     }
 

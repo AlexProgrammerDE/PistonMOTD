@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class UpdateParser {
-    String currentV;
-    String spigotV;
+    private final String currentV;
+    private final String spigotV;
 
     public UpdateParser(@Nonnull String currentV, @Nonnull String spigotV) {
         this.currentV = currentV;

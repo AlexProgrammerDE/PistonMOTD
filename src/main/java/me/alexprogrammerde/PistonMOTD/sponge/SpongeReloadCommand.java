@@ -7,7 +7,8 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
 public class SpongeReloadCommand implements CommandExecutor {
-    PistonMOTDSponge plugin;
+    private final PistonMOTDSponge plugin;
+
     public SpongeReloadCommand(PistonMOTDSponge plugin) {
         this.plugin = plugin;
     }

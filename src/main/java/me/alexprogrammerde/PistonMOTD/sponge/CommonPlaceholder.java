@@ -4,7 +4,7 @@ import me.alexprogrammerde.PistonMOTD.api.PlaceholderParser;
 import org.spongepowered.api.Game;
 
 public class CommonPlaceholder implements PlaceholderParser {
-    Game game;
+    private final Game game;
 
     public CommonPlaceholder(Game game) {
         this.game = game;

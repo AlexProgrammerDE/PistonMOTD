@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PingEvent implements Listener {
-    final PistonMOTDBungee plugin;
-    final File iconFolder;
+    private final PistonMOTDBungee plugin;
+    private final File iconFolder;
 
     public PingEvent(PistonMOTDBungee plugin, File icons) {
         this.plugin = plugin;

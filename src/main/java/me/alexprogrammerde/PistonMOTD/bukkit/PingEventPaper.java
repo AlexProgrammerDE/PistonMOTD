@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PingEventPaper implements Listener {
-    PistonMOTDBukkit plugin;
+    private final PistonMOTDBukkit plugin;
 
     public PingEventPaper(PistonMOTDBukkit plugin) {
         this.plugin = plugin;

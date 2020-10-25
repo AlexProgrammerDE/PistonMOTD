@@ -13,6 +13,8 @@ import java.util.List;
 public class PlaceholderUtil {
     private static final List<PlaceholderParser> placeholders = new ArrayList<>();
 
+    private PlaceholderUtil() {}
+
     /**
      * Parse a string and run all parsers on him
      * @param text A string with placeholders to get parsed

@@ -8,7 +8,6 @@ import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 public class UpdateChecker {
-
     private final Logger log;
     private final int resourceId;
 

@@ -5,15 +5,13 @@ import org.apache.commons.io.FilenameUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.util.CachedServerIcon;
-import org.spongepowered.api.Sponge;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PingEventSpigot implements Listener {
-    PistonMOTDBukkit plugin;
+    private final PistonMOTDBukkit plugin;
 
     public PingEventSpigot(PistonMOTDBukkit plugin) {
         this.plugin = plugin;
