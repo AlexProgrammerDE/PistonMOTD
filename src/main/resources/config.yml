@@ -17,6 +17,8 @@ overridemax:
   activated: false
   value: 10
 
+icons: false
+
 # Extended config only works on paper https://papermc.io/
 # On paper you also get the %tps% placeholder
 extended:

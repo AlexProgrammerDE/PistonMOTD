@@ -10,11 +10,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Objects;
 import java.util.logging.Logger;
 
 public class PistonMOTDBukkit extends JavaPlugin {
-    Logger log;
+    private Logger log;
+    protected File icons;
 
     @Override
     public void onEnable() {
@@ -30,6 +32,11 @@ public class PistonMOTDBukkit extends JavaPlugin {
 
         log.info(ChatColor.AQUA + "Loading config");
         saveDefaultConfig();
+        File iconFolder = new File(getDataFolder(), "icons");
+
+        if (!iconFolder.exists())
+            iconFolder.mkdir();
+        icons = iconFolder;
 
         log.info(ChatColor.AQUA + "Registering placeholders");
         PlaceholderUtil.registerParser(new CommonPlaceholder());

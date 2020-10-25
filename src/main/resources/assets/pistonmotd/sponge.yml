@@ -1,3 +1,8 @@
+# You can find color codes here: https://minecraft.tools/en/color-code.php
+# Formatting comes after the color! &d&l will work, but not &l&d.
+# Placeholders: %online% (Players online)
+# %max% (Server max slots)
+# %newline% adds a newline to your motd.
 playercounter:
   activated: true
   text:
