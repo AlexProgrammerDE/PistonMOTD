@@ -7,7 +7,7 @@ import me.alexprogrammerde.PistonMOTD.utils.UpdateType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
-import org.bstats.bungeecord.Metrics;
+import org.bstats.bungeecord.MetricsLite;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class PistonMOTDBungee extends Plugin {
         }));
 
         log.info(ChatColor.AQUA + "Loading metrics");
-        new Metrics(this, 8968);
+        new MetricsLite(this, 8968);
     }
 
     @Override

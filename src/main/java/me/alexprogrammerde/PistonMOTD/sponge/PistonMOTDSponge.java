@@ -6,7 +6,7 @@ import me.alexprogrammerde.PistonMOTD.utils.ConsoleColor;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
-import org.bstats.sponge.Metrics2;
+import org.bstats.sponge.MetricsLite2;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.asset.Asset;
@@ -25,7 +25,7 @@ import java.nio.file.Path;
 @Plugin(id = "pistonmotd", name = "PistonMOTD", version = "3.0.0", description = "Best MOTD plugin multi platform support!")
 public class PistonMOTDSponge {
     protected ConfigurationNode rootNode;
-    private final Metrics2.Factory metricsFactory;
+    private final MetricsLite2.Factory metricsFactory;
     protected File icons;
 
     @Inject
@@ -45,7 +45,7 @@ public class PistonMOTDSponge {
     private MetricsConfigManager metricsConfigManager;
 
     @Inject
-    public PistonMOTDSponge(Metrics2.Factory metricsFactory) {
+    public PistonMOTDSponge(MetricsLite2.Factory metricsFactory) {
         this.metricsFactory = metricsFactory;
     }
 

@@ -5,7 +5,7 @@ import me.alexprogrammerde.PistonMOTD.api.PlaceholderUtil;
 import me.alexprogrammerde.PistonMOTD.utils.UpdateChecker;
 import me.alexprogrammerde.PistonMOTD.utils.UpdateParser;
 import me.alexprogrammerde.PistonMOTD.utils.UpdateType;
-import org.bstats.bukkit.Metrics;
+import org.bstats.bukkit.MetricsLite;
 import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -76,7 +76,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
         }));
 
         log.info(ChatColor.AQUA + "Loading metrics");
-        new Metrics(this, 9100);
+        new MetricsLite(this, 9100);
     }
 
     @Override
