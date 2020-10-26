@@ -28,47 +28,45 @@ public class PingEvent implements EventHandler<ProxyPingEvent> {
             final String afterIcon = "                                                                            ";
             ConfigurationNode node = plugin.rootNode;
 
-            if (event.getPing().getPlayers().isPresent()) {
-                if (node.getNode("overrideonline", "activated").getBoolean()) {
-                    builder.onlinePlayers(node.getNode("overrideonline", "value").getInt());
-                } else {
-                    builder.onlinePlayers(event.getPing().getPlayers().get().getOnline());
-                }
-
-                if (node.getNode("overridemax", "activated").getBoolean()) {
-                    builder.maximumPlayers(node.getNode("overridemax", "value").getInt());
-                } else {
-                    builder.maximumPlayers(event.getPing().getPlayers().get().getMax());
-                }
-
-                if (node.getNode("playercounter", "activated").getBoolean()) {
-                    List<ServerPing.SamplePlayer> info = new ArrayList<>();
-
-                    for (String str : node.getNode("playercounter", "text").getList(TypeToken.of(String.class))) {
-                        info.add(new ServerPing.SamplePlayer(PlaceholderUtil.parseText(str), UUID.randomUUID()));
-                    }
-
-                    builder.samplePlayers(info.toArray(new ServerPing.SamplePlayer[0]));
-                } else {
-                    builder.samplePlayers(event.getPing().getPlayers().get().getSample().toArray(new ServerPing.SamplePlayer[0]));
-                }
-
-                if (node.getNode("motd", "activated").getBoolean()) {
-                    List<String> list = node.getNode("motd", "text").getList(TypeToken.of(String.class));
-                    builder.description(Component.text(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))))));
-                } else {
-                    builder.description(event.getPing().getDescriptionComponent());
-                }
-
-                if (node.getNode("protocol", "activated").getBoolean()) {
-                    builder.version(new ServerPing.Version(event.getPing().getVersion().getProtocol(), PlaceholderUtil.parseText(Objects.requireNonNull(node.getNode("protocol", "text").getString()).replaceAll("%aftericon%", afterIcon))));
-
-                } else {
-                    builder.version(event.getPing().getVersion());
-                }
-
-                event.setPing(builder.build());
+            if (node.getNode("overrideonline", "activated").getBoolean()) {
+                builder.onlinePlayers(node.getNode("overrideonline", "value").getInt());
+            } else {
+                builder.onlinePlayers(event.getPing().getPlayers().get().getOnline());
             }
+
+            if (node.getNode("overridemax", "activated").getBoolean()) {
+                builder.maximumPlayers(node.getNode("overridemax", "value").getInt());
+            } else {
+                builder.maximumPlayers(event.getPing().getPlayers().get().getMax());
+            }
+
+            if (node.getNode("playercounter", "activated").getBoolean()) {
+                List<ServerPing.SamplePlayer> info = new ArrayList<>();
+
+                for (String str : node.getNode("playercounter", "text").getList(TypeToken.of(String.class))) {
+                    info.add(new ServerPing.SamplePlayer(PlaceholderUtil.parseText(str), UUID.randomUUID()));
+                }
+
+                builder.samplePlayers(info.toArray(new ServerPing.SamplePlayer[0]));
+            } else {
+                builder.samplePlayers(event.getPing().getPlayers().get().getSample().toArray(new ServerPing.SamplePlayer[0]));
+            }
+
+            if (node.getNode("motd", "activated").getBoolean()) {
+                List<String> list = node.getNode("motd", "text").getList(TypeToken.of(String.class));
+                builder.description(Component.text(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))))));
+            } else {
+                builder.description(event.getPing().getDescriptionComponent());
+            }
+
+            if (node.getNode("protocol", "activated").getBoolean()) {
+                builder.version(new ServerPing.Version(event.getPing().getVersion().getProtocol(), PlaceholderUtil.parseText(Objects.requireNonNull(node.getNode("protocol", "text").getString()).replaceAll("%aftericon%", afterIcon))));
+
+            } else {
+                builder.version(event.getPing().getVersion());
+            }
+
+            event.setPing(builder.build());
         } catch (Exception e) {
             e.printStackTrace();
         }
