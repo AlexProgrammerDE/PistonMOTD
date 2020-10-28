@@ -13,8 +13,8 @@ public class BungeeCommand extends Command implements TabExecutor {
     private final String[] COMMANDS = { "reload", "help" };
     private final PistonMOTDBungee plugin;
 
-    public BungeeCommand(PistonMOTDBungee plugin, String name) {
-        super(name);
+    protected BungeeCommand(PistonMOTDBungee plugin) {
+        super("pistonmotdb");
         this.plugin = plugin;
     }
 

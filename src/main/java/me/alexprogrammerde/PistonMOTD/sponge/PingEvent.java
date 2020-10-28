@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PingEvent {
     private final PistonMOTDSponge plugin;
 
-    public PingEvent(PistonMOTDSponge plugin) {
+    protected PingEvent(PistonMOTDSponge plugin) {
         this.plugin = plugin;
     }
 

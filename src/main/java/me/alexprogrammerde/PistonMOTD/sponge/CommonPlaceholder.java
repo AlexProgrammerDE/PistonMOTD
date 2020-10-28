@@ -6,7 +6,7 @@ import org.spongepowered.api.Game;
 public class CommonPlaceholder implements PlaceholderParser {
     private final Game game;
 
-    public CommonPlaceholder(Game game) {
+    protected CommonPlaceholder(Game game) {
         this.game = game;
     }
 

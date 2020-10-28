@@ -9,7 +9,7 @@ import org.spongepowered.api.text.format.TextColors;
 public class JoinEvent {
     private final PistonMOTDSponge plugin;
 
-    public JoinEvent(PistonMOTDSponge plugin) {
+    protected JoinEvent(PistonMOTDSponge plugin) {
         this.plugin = plugin;
     }
 

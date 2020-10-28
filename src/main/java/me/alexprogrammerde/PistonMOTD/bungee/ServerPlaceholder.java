@@ -6,7 +6,7 @@ import net.md_5.bungee.api.ProxyServer;
 public class ServerPlaceholder implements PlaceholderParser {
     private final String server;
 
-    public ServerPlaceholder(String server) {
+    protected ServerPlaceholder(String server) {
         this.server = server;
     }
 

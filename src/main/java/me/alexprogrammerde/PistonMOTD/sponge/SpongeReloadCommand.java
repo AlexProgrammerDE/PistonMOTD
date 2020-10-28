@@ -9,7 +9,7 @@ import org.spongepowered.api.text.Text;
 public class SpongeReloadCommand implements CommandExecutor {
     private final PistonMOTDSponge plugin;
 
-    public SpongeReloadCommand(PistonMOTDSponge plugin) {
+    protected SpongeReloadCommand(PistonMOTDSponge plugin) {
         this.plugin = plugin;
     }
 

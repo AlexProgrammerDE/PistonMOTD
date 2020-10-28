@@ -16,7 +16,7 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
     private final String[] COMMANDS = { "reload", "help" };
     private final PistonMOTDBukkit plugin;
 
-    public BukkitCommand(PistonMOTDBukkit plugin) {
+    protected BukkitCommand(PistonMOTDBukkit plugin) {
         this.plugin = plugin;
     }
 

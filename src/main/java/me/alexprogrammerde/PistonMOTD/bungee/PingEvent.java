@@ -21,7 +21,7 @@ public class PingEvent implements Listener {
     private final PistonMOTDBungee plugin;
     private final File iconFolder;
 
-    public PingEvent(PistonMOTDBungee plugin, File icons) {
+    protected PingEvent(PistonMOTDBungee plugin, File icons) {
         this.plugin = plugin;
         this.iconFolder = icons;
     }

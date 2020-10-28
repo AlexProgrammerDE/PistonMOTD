@@ -15,7 +15,7 @@ import java.util.List;
 public class PingEventPaper implements Listener {
     private final PistonMOTDBukkit plugin;
 
-    public PingEventPaper(PistonMOTDBukkit plugin) {
+    protected PingEventPaper(PistonMOTDBukkit plugin) {
         this.plugin = plugin;
     }
 

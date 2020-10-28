@@ -4,9 +4,10 @@ api-version: 1.16
 main: me.alexprogrammerde.PistonMOTD.bukkit.PistonMOTDBukkit
 description: ${project.description}
 commands:
-  pistonmotdbukkit:
+  pistonmotd:
     description: Allows you to execute some commands for pistonmotd.
     permission: pistonmotd.command
+    aliases: ["pistonmotdbukkit"]
 
 permissions:
   pistonmotd.help:

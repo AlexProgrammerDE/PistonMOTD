@@ -57,7 +57,7 @@ public class PistonMOTDBungee extends Plugin {
         getProxy().getPluginManager().registerListener(this, new PingEvent(this, icons));
 
         log.info(ChatColor.AQUA + "Registering commands");
-        getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this, "pistonmotd"));
+        getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));
 
         log.info(ChatColor.AQUA + "Checking for a newer version");
         new UpdateChecker(getLogger(), 80567).getVersion(version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
@@ -92,7 +92,7 @@ public class PistonMOTDBungee extends Plugin {
         log.info(ChatColor.AQUA + "Finished unloading!");
     }
 
-    public void reloadConfiguration() {
+    protected void reloadConfiguration() {
         config = manager.getConfig("bungeeconfig.yml", "config.yml");
     }
 }

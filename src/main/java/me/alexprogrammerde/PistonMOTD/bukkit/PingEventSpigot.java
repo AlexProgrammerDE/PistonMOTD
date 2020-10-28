@@ -13,7 +13,7 @@ import java.util.List;
 public class PingEventSpigot implements Listener {
     private final PistonMOTDBukkit plugin;
 
-    public PingEventSpigot(PistonMOTDBukkit plugin) {
+    protected PingEventSpigot(PistonMOTDBukkit plugin) {
         this.plugin = plugin;
     }
 

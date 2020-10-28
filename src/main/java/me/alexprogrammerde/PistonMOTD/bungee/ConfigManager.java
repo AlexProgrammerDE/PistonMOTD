@@ -13,14 +13,13 @@ import java.util.List;
 public class ConfigManager {
     private final Plugin plugin;
     private final List<String> headList;
-    File icons;
 
-    public ConfigManager(Plugin plugin, List<String> headList) {
+    protected ConfigManager(Plugin plugin, List<String> headList) {
         this.plugin = plugin;
         this.headList = headList;
     }
 
-    public Configuration getConfig(String resourceName, String fileName) {
+    protected Configuration getConfig(String resourceName, String fileName) {
         Configuration config = null;
         Configuration templateConfig;
         List<String> configKeys = new ArrayList<>();
@@ -175,17 +174,16 @@ public class ConfigManager {
         return config;
     }
 
-    public File getIcons() {
+    protected File getIcons() {
         File iconFolder = new File(plugin.getDataFolder(), "icons");
 
         if (!iconFolder.exists())
             iconFolder.mkdir();
-        icons = iconFolder;
 
-        return icons;
+        return iconFolder;
     }
 
-    void iterateKey(String gKey, List<String> keyList, Configuration config) {
+    private void iterateKey(String gKey, List<String> keyList, Configuration config) {
         for (String key : config.getSection(gKey).getKeys()) {
             keyList.add(gKey + "." + key);
 
