@@ -34,11 +34,11 @@
                 <version>3.2.0</version>
                 <configuration>
                     <excludePackageNames>
-                        me.alexprogrammerde.PistonMOTD.bukkit:
-                        me.alexprogrammerde.PistonMOTD.bungee:
-                        me.alexprogrammerde.PistonMOTD.utils:
-                        me.alexprogrammerde.PistonMOTD.sponge:
-                        me.alexprogrammerde.PistonMOTD.velocity
+                        me.alexprogrammerde.pistonmotd.bukkit:
+                        me.alexprogrammerde.pistonmotd.bungee:
+                        me.alexprogrammerde.pistonmotd.utils:
+                        me.alexprogrammerde.pistonmotd.sponge:
+                        me.alexprogrammerde.pistonmotd.velocity
                     </excludePackageNames>
                 </configuration>
             </plugin>
@@ -56,6 +56,19 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>templating-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-plugin-info</id>
+                        <goals>
+                            <goal>filter-sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
@@ -64,17 +77,25 @@
                     <relocations>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.alexprogrammerde.PistonMOTD.bukkit.paperlib</shadedPattern>
+                            <shadedPattern>me.alexprogrammerde.pistonmotd.bukkit.paperlib</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats.bukkit</pattern>
-                            <shadedPattern>me.alexprogrammerde.PistonMOTD.bukkit.bstats</shadedPattern>
+                            <shadedPattern>me.alexprogrammerde.pistonmotd.bukkit.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats.bungeecord</pattern>
-                            <shadedPattern>me.alexprogrammerde.PistonMOTD.bungee.bstats</shadedPattern>
+                            <shadedPattern>me.alexprogrammerde.pistonmotd.bungee.bstats</shadedPattern>
                         </relocation>
                     </relocations>
+                    <filters>
+                        <filter>
+                            <artifact>*:me.alexprogrammerde.pistonmotd</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.MF</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
                 <executions>
                     <execution>
