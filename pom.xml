@@ -34,7 +34,12 @@
                 <version>3.2.0</version>
                 <configuration>
                     <excludePackageNames>
-                        *:me.alexprogrammerde.pistonmotd.api
+                        me.alexprogrammerde.pistonmotd.bukkit:
+                        me.alexprogrammerde.pistonmotd.bungee:
+                        me.alexprogrammerde.pistonmotd.utils:
+                        me.alexprogrammerde.pistonmotd.sponge:
+                        me.alexprogrammerde.pistonmotd.velocity:
+                        me.alexprogrammerde.pistonmotd.data
                     </excludePackageNames>
                 </configuration>
             </plugin>
@@ -84,14 +89,6 @@
                             <shadedPattern>me.alexprogrammerde.pistonmotd.bungee.bstats</shadedPattern>
                         </relocation>
                     </relocations>
-                    <filters>
-                        <filter>
-                            <artifact>*:me.alexprogrammerde.pistonmotd</artifact>
-                            <excludes>
-                                <exclude>META-INF/*.MF</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
                 </configuration>
                 <executions>
                     <execution>
