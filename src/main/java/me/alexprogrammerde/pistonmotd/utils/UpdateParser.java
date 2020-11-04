@@ -15,28 +15,64 @@ public class UpdateParser {
     }
 
     public void parseUpdate(Consumer<UpdateType> consumer) {
-        String[] currentArr = currentV.split("\\.");
-        String[] spigotArr = spigotV.split("\\.");
-        List<Integer> currentList = new ArrayList<>();
-        List<Integer> spigotList = new ArrayList<>();
-
-        for (String str : currentArr) {
-            currentList.add(Integer.parseInt(str));
-        }
-
-        for (String str : spigotArr) {
-            spigotList.add(Integer.parseInt(str));
-        }
+        SpigotVersion spigot = new SpigotVersion();
+        CurrentVersion current = new CurrentVersion();
 
         // 0 = major, 1 = minor, 2 = patch
-        if (spigotList.get(0) > currentList.get(0)) {
+        if (spigot.MAJOR > current.MAJOR) {
             consumer.accept(UpdateType.MAJOR);
-        } else if (spigotList.get(1) > currentList.get(1)) {
+        } else if (spigot.MINOR > current.MINOR) {
             consumer.accept(UpdateType.MINOR);
-        } else if (spigotList.get(2) > currentList.get(2)) {
+        } else if (spigot.PATCH > current.PATCH) {
             consumer.accept(UpdateType.PATCH);
         } else {
             consumer.accept(UpdateType.NONE);
         }
+    }
+
+    private class SpigotVersion {
+        public SpigotVersion() {
+            String[] spigotArr = spigotV.split("\\.");
+            List<Integer> spigotList = new ArrayList<>();
+
+            for (String str : spigotArr) {
+                spigotList.add(Integer.parseInt(str));
+            }
+
+            MAJOR = spigotList.get(0);
+
+            MINOR = spigotList.get(1);
+
+            PATCH = spigotList.get(2);
+        }
+
+        public final int MAJOR;
+
+        public final int MINOR;
+
+        public final int PATCH;
+    }
+
+    private class CurrentVersion {
+        public CurrentVersion() {
+            String[] currentArr = currentV.split("\\.");
+            List<Integer> currentList = new ArrayList<>();
+
+            for (String str : currentArr) {
+                currentList.add(Integer.parseInt(str));
+            }
+
+            MAJOR = currentList.get(0);
+
+            MINOR = currentList.get(1);
+
+            PATCH = currentList.get(2);
+        }
+
+        public final int MAJOR;
+
+        public final int MINOR;
+
+        public final int PATCH;
     }
 }

@@ -15,14 +15,12 @@ public class UpdateChecker {
     }
 
     public void getVersion(final Consumer<String> consumer) {
-        try (InputStream inputStream = new URL("https://www.pistonmaster.net/PistonMOTD/VERSION/").openStream(); Scanner scanner = new Scanner(inputStream)) {
+        try (InputStream inputStream = new URL("https://www.pistonmaster.net/PistonMOTD/VERSION.txt").openStream(); Scanner scanner = new Scanner(inputStream)) {
             if (scanner.hasNext()) {
-                String returnedString = scanner.next();
-
-                consumer.accept(returnedString);
+                consumer.accept(scanner.next());
             }
         } catch (IOException exception) {
-            log.info("Cannot look for updates: " + exception.getMessage());
+            log.info(ConsoleColor.RED_BOLD + "Cannot look for updates: " + exception.getMessage() + ConsoleColor.RESET);
         }
     }
 }
