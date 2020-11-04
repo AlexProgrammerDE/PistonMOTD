@@ -1,7 +1,7 @@
 name: PistonMOTD
 version: ${project.version}
 api-version: 1.16
-main: me.alexprogrammerde.PistonMOTD.bukkit.PistonMOTDBukkit
+main: me.alexprogrammerde.pistonmotd.bukkit.PistonMOTDBukkit
 description: ${project.description}
 commands:
   pistonmotd:

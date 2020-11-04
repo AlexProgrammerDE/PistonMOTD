@@ -1,5 +1,5 @@
 name: PistonMOTD
 version: ${project.version}
-main: me.alexprogrammerde.PistonMOTD.bungee.PistonMOTDBungee
+main: me.alexprogrammerde.pistonmotd.bungee.PistonMOTDBungee
 author: AlexProgrammerDE
 description: ${project.description}

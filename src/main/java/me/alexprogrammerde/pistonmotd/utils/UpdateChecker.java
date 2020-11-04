@@ -9,15 +9,13 @@ import java.util.logging.Logger;
 
 public class UpdateChecker {
     private final Logger log;
-    private final int resourceId;
 
-    public UpdateChecker(Logger log, int resourceId) {
+    public UpdateChecker(Logger log) {
         this.log = log;
-        this.resourceId = resourceId;
     }
 
     public void getVersion(final Consumer<String> consumer) {
-        try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId + "/").openStream(); Scanner scanner = new Scanner(inputStream)) {
+        try (InputStream inputStream = new URL("https://www.pistonmaster.net/PistonMOTD/VERSION/").openStream(); Scanner scanner = new Scanner(inputStream)) {
             if (scanner.hasNext()) {
                 String returnedString = scanner.next();
 
