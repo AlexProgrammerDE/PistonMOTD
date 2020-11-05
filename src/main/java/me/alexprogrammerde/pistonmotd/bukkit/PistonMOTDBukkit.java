@@ -59,7 +59,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
 
         log.info(ChatColor.AQUA + "Checking for a newer version");
         new UpdateChecker(getLogger()).getVersion(version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
-            if (updateType == UpdateType.NONE) {
+            if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
                 log.info(ChatColor.AQUA + "Your up to date!");
             } else {
                 if (updateType == UpdateType.MAJOR) {

@@ -21,15 +21,15 @@ public class UpdateParser {
         if (web.MAJOR > current.MAJOR) {
             consumer.accept(UpdateType.MAJOR);
         } else if (web.MAJOR < current.MAJOR) {
-            consumer.accept(UpdateType.DEBUG);
+            consumer.accept(UpdateType.AHEAD);
         } else if (web.MINOR > current.MINOR) {
             consumer.accept(UpdateType.MINOR);
         } else if (web.MINOR < current.MINOR) {
-            consumer.accept(UpdateType.DEBUG);
+            consumer.accept(UpdateType.AHEAD);
         } else if (web.PATCH > current.PATCH) {
             consumer.accept(UpdateType.PATCH);
         } else if (web.PATCH < current.PATCH) {
-            consumer.accept(UpdateType.DEBUG);
+            consumer.accept(UpdateType.AHEAD);
         } else {
             consumer.accept(UpdateType.NONE);
         }
