@@ -7,32 +7,37 @@ import java.util.function.Consumer;
 
 public class UpdateParser {
     private final String currentV;
-    private final String spigotV;
+    private final String webV;
 
-    public UpdateParser(@Nonnull String currentV, @Nonnull String spigotV) {
+    public UpdateParser(@Nonnull String currentV, @Nonnull String webV) {
         this.currentV = currentV;
-        this.spigotV = spigotV;
+        this.webV = webV;
     }
 
     public void parseUpdate(Consumer<UpdateType> consumer) {
-        SpigotVersion spigot = new SpigotVersion();
+        WebVersion web = new WebVersion();
         CurrentVersion current = new CurrentVersion();
 
-        // 0 = major, 1 = minor, 2 = patch
-        if (spigot.MAJOR > current.MAJOR) {
+        if (web.MAJOR > current.MAJOR) {
             consumer.accept(UpdateType.MAJOR);
-        } else if (spigot.MINOR > current.MINOR) {
+        } else if (web.MAJOR < current.MAJOR) {
+            consumer.accept(UpdateType.DEBUG);
+        } else if (web.MINOR > current.MINOR) {
             consumer.accept(UpdateType.MINOR);
-        } else if (spigot.PATCH > current.PATCH) {
+        } else if (web.MINOR < current.MINOR) {
+            consumer.accept(UpdateType.DEBUG);
+        } else if (web.PATCH > current.PATCH) {
             consumer.accept(UpdateType.PATCH);
+        } else if (web.PATCH < current.PATCH) {
+            consumer.accept(UpdateType.DEBUG);
         } else {
             consumer.accept(UpdateType.NONE);
         }
     }
 
-    private class SpigotVersion {
-        public SpigotVersion() {
-            String[] spigotArr = spigotV.split("\\.");
+    private class WebVersion {
+        public WebVersion() {
+            String[] spigotArr = webV.split("\\.");
             List<Integer> spigotList = new ArrayList<>();
 
             for (String str : spigotArr) {
