@@ -37,18 +37,18 @@ public class UpdateParser {
 
     private class WebVersion {
         public WebVersion() {
-            String[] spigotArr = webV.split("\\.");
-            List<Integer> spigotList = new ArrayList<>();
+            String[] webArr = webV.split("\\.");
+            List<Integer> webList = new ArrayList<>();
 
-            for (String str : spigotArr) {
-                spigotList.add(Integer.parseInt(str));
+            for (String str : webArr) {
+                webList.add(Integer.parseInt(str));
             }
 
-            MAJOR = spigotList.get(0);
+            MAJOR = webList.get(0);
 
-            MINOR = spigotList.get(1);
+            MINOR = webList.get(1);
 
-            PATCH = spigotList.get(2);
+            PATCH = webList.get(2);
         }
 
         public final int MAJOR;

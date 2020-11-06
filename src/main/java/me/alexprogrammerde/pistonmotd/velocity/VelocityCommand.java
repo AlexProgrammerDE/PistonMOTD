@@ -17,26 +17,30 @@ public class VelocityCommand implements SimpleCommand {
 
     @Override
     public void execute(Invocation invocation) {
-        if (invocation.source().hasPermission("pistonmotd.admin")) {
-            if (invocation.arguments().length == 1) {
-                switch (invocation.arguments()[0]) {
-                    case "help":
+        if (invocation.arguments().length == 1) {
+            switch (invocation.arguments()[0]) {
+                case "help":
+                    if (invocation.source().hasPermission("pistonmotd.help")) {
                         invocation.source().sendMessage(Component.text("Commands:"));
                         invocation.source().sendMessage(Component.text("/pistonmotdv help"));
                         invocation.source().sendMessage(Component.text("/pistonmotdv reload"));
-                        break;
-                    case "reload":
+                    }
+
+                    break;
+                case "reload":
+                    if (invocation.source().hasPermission("pistonmotd.reload")) {
                         plugin.loadConfig();
                         invocation.source().sendMessage(Component.text("Reloaded the config!"));
-                        break;
-                }
+                    }
+
+                    break;
             }
         }
     }
 
     @Override
     public List<String> suggest(Invocation invocation) {
-        if (invocation.source().hasPermission("pistonmotd.admin")) {
+        if (invocation.source().hasPermission("pistonmotd.help") || invocation.source().hasPermission("pistonmotd.reload")) {
             List<String> completions = new ArrayList<>();
 
             if (invocation.arguments().length == 1 && invocation.arguments()[0] != null) {
@@ -57,6 +61,6 @@ public class VelocityCommand implements SimpleCommand {
 
     @Override
     public boolean hasPermission(Invocation invocation) {
-        return invocation.source().hasPermission("pistonmotd.admin");
+        return invocation.source().hasPermission("pistonmotd.command");
     }
 }
