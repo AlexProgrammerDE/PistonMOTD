@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BukkitCommand implements CommandExecutor, TabExecutor {
-    private final String[] COMMANDS = { "reload", "help" };
     private final PistonMOTDBukkit plugin;
 
     protected BukkitCommand(PistonMOTDBukkit plugin) {
@@ -38,16 +37,22 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
-        if (sender.hasPermission("pistonmotd.reload") || sender.hasPermission("pistonmotd.help")) {
-            List<String> completions = new ArrayList<>();
+        List<String> COMMANDS = new ArrayList<>();
 
-            if (args.length == 1 && args[0] != null) {
-                StringUtil.copyPartialMatches(args[0], Arrays.asList(COMMANDS), completions);
-            }
-
-            return completions;
+        if (sender.hasPermission("pistonmotd.help")) {
+            COMMANDS.add("help");
         }
 
-        return null;
+        if (sender.hasPermission("pistonmotd.reload")) {
+            COMMANDS.add("reload");
+        }
+
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1 && args[0] != null) {
+            StringUtil.copyPartialMatches(args[0], COMMANDS, completions);
+        }
+
+        return completions;
     }
 }

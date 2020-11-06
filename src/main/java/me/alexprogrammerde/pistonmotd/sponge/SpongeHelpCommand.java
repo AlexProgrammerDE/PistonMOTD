@@ -6,13 +6,20 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nonnull;
+
 public class SpongeHelpCommand implements CommandExecutor {
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) {
-        src.sendMessage(Text.of("Commands:"));
-        src.sendMessage(Text.of("/pistonmotd help"));
-        src.sendMessage(Text.of("/pistonmotd reload"));
+    public @Nonnull CommandResult execute(CommandSource src, @Nonnull CommandContext args) {
+        if (src.hasPermission("pistonmotd.reload")) {
 
-        return CommandResult.success();
+            src.sendMessage(Text.of("Commands:"));
+            src.sendMessage(Text.of("/pistonmotd help"));
+            src.sendMessage(Text.of("/pistonmotd reload"));
+
+            return CommandResult.success();
+        } else {
+            return CommandResult.empty();
+        }
     }
 }

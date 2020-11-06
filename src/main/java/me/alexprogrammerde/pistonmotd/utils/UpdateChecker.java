@@ -8,9 +8,9 @@ import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 public class UpdateChecker {
-    private final Logger log;
+    private final Object log;
 
-    public UpdateChecker(Logger log) {
+    public UpdateChecker(Object log) {
         this.log = log;
     }
 
@@ -20,7 +20,11 @@ public class UpdateChecker {
                 consumer.accept(scanner.next());
             }
         } catch (IOException exception) {
-            log.info(ConsoleColor.RED_BOLD + "Cannot look for updates: " + exception.getMessage() + ConsoleColor.RESET);
+            if (log instanceof Logger) {
+                ((Logger) log).info(ConsoleColor.RED_BOLD + "Cannot look for updates: " + exception.getMessage() + ConsoleColor.RESET);
+            } else if (log instanceof org.slf4j.Logger) {
+                ((org.slf4j.Logger) log).info(ConsoleColor.RED_BOLD + "Cannot look for updates: " + exception.getMessage() + ConsoleColor.RESET);
+            }
         }
     }
 }

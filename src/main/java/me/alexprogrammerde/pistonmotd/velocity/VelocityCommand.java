@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class VelocityCommand implements SimpleCommand {
-    private final String[] COMMANDS = { "reload", "help" };
     private final PistonMOTDVelocity plugin;
 
     protected VelocityCommand(PistonMOTDVelocity plugin) {
@@ -17,50 +16,37 @@ public class VelocityCommand implements SimpleCommand {
 
     @Override
     public void execute(Invocation invocation) {
-        if (invocation.arguments().length == 1) {
-            switch (invocation.arguments()[0]) {
-                case "help":
-                    if (invocation.source().hasPermission("pistonmotd.help")) {
-                        invocation.source().sendMessage(Component.text("Commands:"));
-                        invocation.source().sendMessage(Component.text("/pistonmotdv help"));
-                        invocation.source().sendMessage(Component.text("/pistonmotdv reload"));
-                    }
-
-                    break;
-                case "reload":
-                    if (invocation.source().hasPermission("pistonmotd.reload")) {
-                        plugin.loadConfig();
-                        invocation.source().sendMessage(Component.text("Reloaded the config!"));
-                    }
-
-                    break;
-            }
+        if (((invocation.arguments().length > 0 && invocation.arguments()[0].equalsIgnoreCase("help")) || invocation.arguments().length == 0) && invocation.source().hasPermission("pistonmotd.help")) {
+            invocation.source().sendMessage(Component.text("Commands:"));
+            invocation.source().sendMessage(Component.text("/pistonmotdv help"));
+            invocation.source().sendMessage(Component.text("/pistonmotdv reload"));
+        } else if (invocation.arguments().length > 0 && invocation.arguments()[0].equalsIgnoreCase("reload") && invocation.source().hasPermission("pistonmotd.reload")) {
+            plugin.loadConfig();
+            invocation.source().sendMessage(Component.text("Reloaded the config!"));
         }
     }
 
     @Override
     public List<String> suggest(Invocation invocation) {
-        if (invocation.source().hasPermission("pistonmotd.help") || invocation.source().hasPermission("pistonmotd.reload")) {
-            List<String> completions = new ArrayList<>();
+        String[] COMMANDS = { "reload", "help" };
 
-            if (invocation.arguments().length == 1 && invocation.arguments()[0] != null) {
-                for (String string : COMMANDS) {
-                    if (string.toLowerCase().startsWith(invocation.arguments()[0].toLowerCase())) {
-                        completions.add(string);
+        List<String> completions = new ArrayList<>();
 
-                        Collections.sort(completions);
-                    }
+        if (invocation.arguments().length == 1 && invocation.arguments()[0] != null) {
+            for (String string : COMMANDS) {
+                if (string.toLowerCase().startsWith(invocation.arguments()[0].toLowerCase())) {
+                    completions.add(string);
+
+                    Collections.sort(completions);
                 }
             }
-
-            return completions;
         }
 
-        return null;
+        return completions;
     }
 
     @Override
     public boolean hasPermission(Invocation invocation) {
-        return invocation.source().hasPermission("pistonmotd.command");
+        return invocation.source().hasPermission("pistonmotd.reload") || invocation.source().hasPermission("pistonmotd.help");
     }
 }

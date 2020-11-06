@@ -25,6 +25,8 @@ icons: false
 
 hideplayers: false
 
+updatechecking: true
+
 motd:
   activated: true
   text:

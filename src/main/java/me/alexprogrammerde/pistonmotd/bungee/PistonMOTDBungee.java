@@ -42,9 +42,7 @@ public class PistonMOTDBungee extends Plugin {
         log.info("                                                                  ");
 
         log.info(ChatColor.AQUA + "Loading config");
-        manager = new ConfigManager(this, headList);
-        config = manager.getConfig("bungeeconfig.yml", "config.yml");
-        icons = manager.getIcons();
+        loadConfig();
 
         log.info(ChatColor.AQUA + "Registering placeholders");
         for (String server : getProxy().getServers().keySet()) {
@@ -92,7 +90,9 @@ public class PistonMOTDBungee extends Plugin {
         log.info(ChatColor.AQUA + "Finished unloading!");
     }
 
-    protected void reloadConfiguration() {
+    protected void loadConfig() {
+        manager = new ConfigManager(this, headList);
         config = manager.getConfig("bungeeconfig.yml", "config.yml");
+        icons = manager.getIcons();
     }
 }

@@ -4,6 +4,10 @@ import com.google.inject.Inject;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.data.PluginData;
 import me.alexprogrammerde.pistonmotd.utils.ConsoleColor;
+import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
+import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
+import me.alexprogrammerde.pistonmotd.utils.UpdateType;
+import net.md_5.bungee.api.ChatColor;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
@@ -30,7 +34,7 @@ public class PistonMOTDSponge {
     protected File icons;
 
     @Inject
-    private Logger logger;
+    private Logger log;
 
     @Inject
     private Game game;
@@ -52,27 +56,27 @@ public class PistonMOTDSponge {
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
-        logger.info("  _____  _       _                 __  __   ____  _______  _____  ");
-        logger.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
-        logger.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
-        logger.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
-        logger.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
-        logger.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
-        logger.info("                                                                  ");
+        log.info("  _____  _       _                 __  __   ____  _______  _____  ");
+        log.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
+        log.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
+        log.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
+        log.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
+        log.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
+        log.info("                                                                  ");
 
-        logger.info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
+        log.info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
         loadConfig();
 
-        logger.info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
+        log.info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
         CommandSpec help = CommandSpec.builder()
                 .description(Text.of("Get help about PistonMOTD!"))
-                .permission("pistonmotd.admin")
+                .permission("pistonmotd.help")
                 .executor(new SpongeHelpCommand())
                 .build();
 
         CommandSpec reload = CommandSpec.builder()
                 .description(Text.of("Reload the configuration of PistonMOTD!"))
-                .permission("pistonmotd.admin")
+                .permission("pistonmotd.reload")
                 .executor(new SpongeReloadCommand(this))
                 .build();
 
@@ -84,22 +88,42 @@ public class PistonMOTDSponge {
 
         game.getCommandManager().register(this, command, "pistonmotd", "pistonmotdsponge");
 
-        logger.info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
+        log.info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
 
-        logger.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
+        log.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
         game.getEventManager().registerListeners(this, new PingEvent(this));
         game.getEventManager().registerListeners(this, new JoinEvent(this));
 
+        if (container.getVersion().isPresent() && rootNode.getNode("").getBoolean()) {
+            log.info(ChatColor.AQUA + "Checking for a newer version");
+            new UpdateChecker(log).getVersion(version -> new UpdateParser(container.getVersion().get(), version).parseUpdate(updateType -> {
+                if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
+                    log.info(ChatColor.AQUA + "Your up to date!");
+                } else {
+                    if (updateType == UpdateType.MAJOR) {
+                        log.info(ChatColor.RED + "There is a MAJOR update available!");
+                    } else if (updateType == UpdateType.MINOR) {
+                        log.info(ChatColor.RED + "There is a MINOR update available!");
+                    } else if (updateType == UpdateType.PATCH) {
+                        log.info(ChatColor.RED + "There is a PATCH update available!");
+                    }
+
+                    log.info(ChatColor.RED + "Current version: " + container.getVersion().get() + " New version: " + version);
+                    log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
+                }
+            }));
+        }
+
         if (hasConsent()) {
-            logger.info(ConsoleColor.CYAN + "Loading metrics" + ConsoleColor.RESET);
+            log.info(ConsoleColor.CYAN + "Loading metrics" + ConsoleColor.RESET);
             metricsFactory.make(9204);
         } else {
-            logger.info(ConsoleColor.CYAN + "Hey there! It seems like data collection is disabled. :( " + ConsoleColor.RESET);
-            logger.info(ConsoleColor.CYAN + "But don't worry... You can fix this! " + ConsoleColor.RESET);
-            logger.info(ConsoleColor.CYAN + "Just execute: \"/sponge metrics pistonmotd enable\"." + ConsoleColor.RESET);
-            logger.info(ConsoleColor.CYAN + "This info is just to give me small info about the server," + ConsoleColor.RESET);
-            logger.info(ConsoleColor.CYAN + "like its version and the plugin version." + ConsoleColor.RESET);
+            log.info(ConsoleColor.CYAN + "Hey there! It seems like data collection is disabled. :( " + ConsoleColor.RESET);
+            log.info(ConsoleColor.CYAN + "But don't worry... You can fix this! " + ConsoleColor.RESET);
+            log.info(ConsoleColor.CYAN + "Just execute: \"/sponge metrics pistonmotd enable\"." + ConsoleColor.RESET);
+            log.info(ConsoleColor.CYAN + "This info is just to give me small info about the server," + ConsoleColor.RESET);
+            log.info(ConsoleColor.CYAN + "like its version and the plugin version." + ConsoleColor.RESET);
         }
     }
 
