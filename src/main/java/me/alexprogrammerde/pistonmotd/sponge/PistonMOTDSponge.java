@@ -110,7 +110,7 @@ public class PistonMOTDSponge {
                     }
 
                     log.info(ChatColor.RED + "Current version: " + container.getVersion().get() + " New version: " + version);
-                    log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
+                    log.info(ChatColor.RED + "Download it at: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions");
                 }
             }));
         }

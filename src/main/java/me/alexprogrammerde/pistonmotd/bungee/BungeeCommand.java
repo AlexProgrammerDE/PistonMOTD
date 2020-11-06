@@ -7,7 +7,6 @@ import net.md_5.bungee.api.plugin.TabExecutor;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class BungeeCommand extends Command implements TabExecutor {

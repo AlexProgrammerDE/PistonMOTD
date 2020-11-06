@@ -71,7 +71,7 @@ public class PistonMOTDBungee extends Plugin {
                 }
 
                 log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
-                log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
+                log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567/updates");
             }
         }));
 

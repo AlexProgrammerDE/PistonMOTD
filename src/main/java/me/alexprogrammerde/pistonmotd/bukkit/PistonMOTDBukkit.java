@@ -54,8 +54,8 @@ public class PistonMOTDBukkit extends JavaPlugin {
         }
 
         log.info(ChatColor.AQUA + "Registering commands");
-        Objects.requireNonNull(getServer().getPluginCommand("pistonmotdbukkit")).setTabCompleter(new BukkitCommand(this));
-        Objects.requireNonNull(getServer().getPluginCommand("pistonmotdbukkit")).setExecutor(new BukkitCommand(this));
+        Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setTabCompleter(new BukkitCommand(this));
+        Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setExecutor(new BukkitCommand(this));
 
         log.info(ChatColor.AQUA + "Checking for a newer version");
         new UpdateChecker(getLogger()).getVersion(version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
@@ -71,7 +71,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
                 }
 
                 log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
-                log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567");
+                log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567/updates");
             }
         }));
 
