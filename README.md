@@ -1,5 +1,7 @@
 # PistonMOTD
-**Best MOTD plugin with bungee, spigot and paper support!**
+[![](https://jitpack.io/v/AlexProgrammerDE/PistonMOTD.svg)](https://jitpack.io/#AlexProgrammerDE/PistonMOTD) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases) 
+
+**Best MOTD plugin multi platform support!**
 
 ## Features
 Features
@@ -15,7 +17,3 @@ Features
 * Modular (You can enable/disable every feature)
 
 Compatible with external MOTD plugins. (Cant promise it will work with every MOTD plugin.)
-
-## Info 
-This is a bungee and bukkit plugin. That means you can drop the jar file into a bungee and into a bukkit based server. (spigot and paper)
-
