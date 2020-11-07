@@ -30,7 +30,7 @@ public class CommonPlaceholder implements PlaceholderParser {
     }
 
     // Got it from here: https://www.spigotmc.org/threads/448771/
-    private final Pattern pattern = Pattern.compile("(?<!\\\\)(&[a-fA-F0-9]{6})");
+    private final Pattern pattern = Pattern.compile("(?<!\\\\)(#[a-fA-F0-9]{6})");
 
     private String format(String message) {
         Matcher matcher = pattern.matcher(message); // Creates a matcher with the given pattern & message
