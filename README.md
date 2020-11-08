@@ -4,8 +4,6 @@
 **Best MOTD plugin multi platform support!**
 
 ## Features
-Features
-
 * Customize playercounter tooltip
 * Customize online player and max player counter
 * Random MOTD
@@ -17,3 +15,9 @@ Features
 * Modular (You can enable/disable every feature)
 
 Compatible with external MOTD plugins. (Cant promise it will work with every MOTD plugin.)
+
+## Websites
+* SpigotMC: https://www.spigotmc.org/resources/80567/
+* Ore: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/
+* Jitpack: https://jitpack.io/#AlexProgrammerDE/PistonMOTD/
+* Javadocs: https://www.pistonmaster.net/PistonMOTD/
