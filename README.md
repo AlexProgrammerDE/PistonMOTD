@@ -19,5 +19,7 @@ Compatible with external MOTD plugins. (Cant promise it will work with every MOT
 ## Websites
 * SpigotMC: https://www.spigotmc.org/resources/80567/
 * Ore: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/
+* MCPlugins: https://mcplugins.io/resources/78/
+* Github: https://github.com/AlexProgrammerDE/PistonMOTD
 * Jitpack: https://jitpack.io/#AlexProgrammerDE/PistonMOTD/
 * Javadocs: https://www.pistonmaster.net/PistonMOTD/
