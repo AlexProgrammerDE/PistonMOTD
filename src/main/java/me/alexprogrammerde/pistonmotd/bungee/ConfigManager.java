@@ -1,7 +1,5 @@
 package me.alexprogrammerde.pistonmotd.bungee;
 
-import jdk.internal.net.http.common.Log;
-import jdk.jfr.internal.LogLevel;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
