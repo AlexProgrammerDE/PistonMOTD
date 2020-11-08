@@ -11,7 +11,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PistonMOTDBukkit extends JavaPlugin {
@@ -34,8 +36,11 @@ public class PistonMOTDBukkit extends JavaPlugin {
         saveDefaultConfig();
         File iconFolder = new File(getDataFolder(), "icons");
 
-        if (!iconFolder.exists())
-            iconFolder.mkdir();
+        if (!iconFolder.exists()) {
+            if (!iconFolder.mkdir())  {
+                getLogger().log(Level.SEVERE, "Couldn't create icon folder!");
+            }
+        }
         icons = iconFolder;
 
         log.info(ChatColor.AQUA + "Registering placeholders");

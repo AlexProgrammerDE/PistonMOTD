@@ -27,9 +27,10 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.metric.MetricsConfigManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 
-@Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION)
+@Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDSponge {
     protected ConfigurationNode rootNode;
     private final MetricsLite2.Factory metricsFactory;
@@ -164,8 +165,12 @@ public class PistonMOTDSponge {
 
                 File iconFolder = new File(publicConfigDir.toFile(), "icons");
 
-                if (!iconFolder.exists())
-                    iconFolder.mkdir();
+                if (!iconFolder.exists()) {
+                    if (!iconFolder.mkdir()) {
+                        throw new IOException("Couldn't create folder!");
+                    }
+                }
+
                 icons = iconFolder;
             } else {
                 throw new Exception("Default configuration file missing in jar!!!");

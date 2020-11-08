@@ -1,5 +1,7 @@
 package me.alexprogrammerde.pistonmotd.bungee;
 
+import jdk.internal.net.http.common.Log;
+import jdk.jfr.internal.LogLevel;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -9,6 +11,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class ConfigManager {
     private final Plugin plugin;
@@ -26,7 +29,9 @@ public class ConfigManager {
         List<String> templateKeys = new ArrayList<>();
 
         if (!plugin.getDataFolder().exists()) {
-            plugin.getDataFolder().mkdir();
+            if (!plugin.getDataFolder().mkdir())  {
+                plugin.getLogger().log(Level.SEVERE, "Couldn't create data folder!");
+            }
         }
 
         File file = new File(plugin.getDataFolder(), fileName);
@@ -177,8 +182,11 @@ public class ConfigManager {
     protected File getIcons() {
         File iconFolder = new File(plugin.getDataFolder(), "icons");
 
-        if (!iconFolder.exists())
-            iconFolder.mkdir();
+        if (!iconFolder.exists()) {
+            if (!iconFolder.mkdir())  {
+                plugin.getLogger().log(Level.SEVERE, "Couldn't create icons folder!");
+            }
+        }
 
         return iconFolder;
     }
