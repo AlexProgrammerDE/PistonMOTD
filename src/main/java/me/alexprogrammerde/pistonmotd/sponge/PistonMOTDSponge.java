@@ -7,9 +7,10 @@ import me.alexprogrammerde.pistonmotd.utils.ConsoleColor;
 import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
-import net.md_5.bungee.api.ChatColor;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationOptions;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 import org.bstats.sponge.MetricsLite2;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.asset.Asset;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.ConfigDir;
+import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
@@ -40,8 +42,16 @@ public class PistonMOTDSponge {
     private Game game;
 
     @Inject
+    @DefaultConfig(sharedRoot = true)
+    private Path defaultConfig;
+
+    @Inject
+    @DefaultConfig(sharedRoot = true)
+    private ConfigurationLoader<CommentedConfigurationNode> configManager;
+
+    @Inject
     @ConfigDir(sharedRoot = true)
-    private Path privateConfigDir;
+    private Path publicConfigDir;
 
     @Inject
     private PluginContainer container;
@@ -95,22 +105,22 @@ public class PistonMOTDSponge {
         game.getEventManager().registerListeners(this, new PingEvent(this));
         game.getEventManager().registerListeners(this, new JoinEvent(this));
 
-        if (container.getVersion().isPresent() && rootNode.getNode("").getBoolean()) {
-            log.info(ChatColor.AQUA + "Checking for a newer version");
+        if (container.getVersion().isPresent() && rootNode.getNode("updatechecking").getBoolean()) {
+            log.info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
             new UpdateChecker(log).getVersion(version -> new UpdateParser(container.getVersion().get(), version).parseUpdate(updateType -> {
                 if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                    log.info(ChatColor.AQUA + "Your up to date!");
+                    log.info(ConsoleColor.CYAN + "Your up to date!" + ConsoleColor.RESET);
                 } else {
                     if (updateType == UpdateType.MAJOR) {
-                        log.info(ChatColor.RED + "There is a MAJOR update available!");
+                        log.info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
                     } else if (updateType == UpdateType.MINOR) {
-                        log.info(ChatColor.RED + "There is a MINOR update available!");
+                        log.info(ConsoleColor.RED + "There is a MINOR update available!" + ConsoleColor.RESET);
                     } else if (updateType == UpdateType.PATCH) {
-                        log.info(ChatColor.RED + "There is a PATCH update available!");
+                        log.info(ConsoleColor.RED + "There is a PATCH update available!" + ConsoleColor.RESET);
                     }
 
-                    log.info(ChatColor.RED + "Current version: " + container.getVersion().get() + " New version: " + version);
-                    log.info(ChatColor.RED + "Download it at: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions");
+                    log.info(ConsoleColor.RED + "Current version: " + container.getVersion().get() + " New version: " + version + ConsoleColor.RESET);
+                    log.info(ConsoleColor.RED + "Download it at: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions" + ConsoleColor.RESET);
                 }
             }));
         }
@@ -128,19 +138,31 @@ public class PistonMOTDSponge {
     }
 
     protected void loadConfig() {
+        final File oldConfigFile = new File(publicConfigDir.toFile(), "pistonmotd.yml");
+
         try {
-            if (container.getAsset("sponge.yml").isPresent()) {
-                Asset asset = container.getAsset("sponge.yml").get();
+            if (container.getAsset("sponge.conf").isPresent()) {
+                ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(defaultConfig).build();
 
-                asset.copyToFile(new File(privateConfigDir.toFile(), "pistonmotd.yml").toPath(), false, true);
-                rootNode = YAMLConfigurationLoader.builder().setPath(new File(privateConfigDir.toFile(), "pistonmotd.yml").toPath()).build().load();
+                if (oldConfigFile.exists()) {
+                    loader.save(YAMLConfigurationLoader.builder().setFile(oldConfigFile).build().load());
 
-                rootNode.mergeValuesFrom(YAMLConfigurationLoader.builder()
-                        .setURL(asset.getUrl())
-                        .build()
-                        .load(ConfigurationOptions.defaults()));
+                    if (!oldConfigFile.delete()) {
+                        throw new Exception("Failed to delete pistonmotd.yml!!!");
+                    }
+                }
 
-                File iconFolder = new File(privateConfigDir.toFile(), "icons");
+                Asset asset = container.getAsset("sponge.conf").get();
+
+                asset.copyToFile(defaultConfig, false, true);
+
+                rootNode = loader.load();
+
+                rootNode.mergeValuesFrom(HoconConfigurationLoader.builder().setURL(asset.getUrl()).build().load());
+
+                loader.save(rootNode);
+
+                File iconFolder = new File(publicConfigDir.toFile(), "icons");
 
                 if (!iconFolder.exists())
                     iconFolder.mkdir();
