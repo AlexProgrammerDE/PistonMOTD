@@ -1,6 +1,7 @@
 package me.alexprogrammerde.pistonmotd.velocity;
 
 import com.velocitypowered.api.command.SimpleCommand;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
@@ -17,12 +18,12 @@ public class VelocityCommand implements SimpleCommand {
     @Override
     public void execute(Invocation invocation) {
         if (((invocation.arguments().length > 0 && invocation.arguments()[0].equalsIgnoreCase("help")) || invocation.arguments().length == 0) && invocation.source().hasPermission("pistonmotd.help")) {
-            invocation.source().sendMessage(Component.text("Commands:"));
-            invocation.source().sendMessage(Component.text("/pistonmotdv help"));
-            invocation.source().sendMessage(Component.text("/pistonmotdv reload"));
+            invocation.source().sendMessage(Identity.nil(), Component.text("Commands:"));
+            invocation.source().sendMessage(Identity.nil(), Component.text("/pistonmotdv help"));
+            invocation.source().sendMessage(Identity.nil(), Component.text("/pistonmotdv reload"));
         } else if (invocation.arguments().length > 0 && invocation.arguments()[0].equalsIgnoreCase("reload") && invocation.source().hasPermission("pistonmotd.reload")) {
             plugin.loadConfig();
-            invocation.source().sendMessage(Component.text("Reloaded the config!"));
+            invocation.source().sendMessage(Identity.nil(), Component.text("Reloaded the config!"));
         }
     }
 

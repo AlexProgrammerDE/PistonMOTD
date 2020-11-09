@@ -26,7 +26,7 @@ import java.util.Objects;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDVelocity {
-    private final ProxyServer server;
+    protected final ProxyServer server;
     private final Logger log;
     protected ConfigurationNode rootNode;
     protected File icons;

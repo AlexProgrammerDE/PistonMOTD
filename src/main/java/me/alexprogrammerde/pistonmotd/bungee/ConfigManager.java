@@ -4,6 +4,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import org.apiguardian.api.API;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -20,6 +21,7 @@ public class ConfigManager {
         this.headList = headList;
     }
 
+    @API(status = API.Status.INTERNAL)
     protected Configuration getConfig(String resourceName, String fileName) {
         Configuration config = null;
         Configuration templateConfig;
@@ -177,6 +179,7 @@ public class ConfigManager {
         return config;
     }
 
+    @API(status = API.Status.INTERNAL)
     protected File getIcons() {
         File iconFolder = new File(plugin.getDataFolder(), "icons");
 
