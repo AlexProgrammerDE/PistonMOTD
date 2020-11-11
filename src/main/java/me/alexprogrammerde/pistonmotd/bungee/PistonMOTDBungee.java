@@ -32,6 +32,10 @@ public class PistonMOTDBungee extends Plugin {
 
         headList.add("# You can find color codes here: https://minecraft.tools/en/color-code.php");
         headList.add("# Formatting comes after the color! &d&l will work, but not &l&d.");
+        headList.add("# MiniMessage formatting IS supported: https://docs.adventure.kyori.net/minimessage.html#template");
+        headList.add("# HEX/RGB colors ARE supported. (Only the motd)");
+        headList.add("# Hex format: &#FFFFFF");
+        headList.add("# Note: The MiniMessage allows you to make rainbow colors and gradients");
         headList.add("# Placeholders: %online% (Players online)");
         headList.add("# %max% (Server max slots)");
         headList.add("# %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)");

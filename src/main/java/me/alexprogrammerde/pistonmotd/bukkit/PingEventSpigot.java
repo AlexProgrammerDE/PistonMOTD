@@ -1,6 +1,9 @@
 package me.alexprogrammerde.pistonmotd.bukkit;
 
+import io.papermc.lib.PaperLib;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
+import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
+import net.kyori.adventure.text.Component;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +25,14 @@ public class PingEventSpigot implements Listener {
     public void onPing(ServerListPingEvent event) {
         if (plugin.getConfig().getBoolean("motd.activated")) {
             List<String> motd = plugin.getConfig().getStringList("motd.text");
-            event.setMotd(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))));
+
+            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))));
+
+            if (PaperLib.getMinecraftVersion() >= 16) {
+                event.setMotd(PistonSerializers.unusualSectionRGB.serialize(motdComponent));
+            } else {
+                event.setMotd(PistonSerializers.section.serialize(motdComponent));
+            }
         }
 
         if (plugin.getConfig().getBoolean("overridemax.activated")) {

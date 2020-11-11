@@ -1,7 +1,11 @@
 package me.alexprogrammerde.pistonmotd.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import io.papermc.lib.PaperLib;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
+import me.alexprogrammerde.pistonmotd.utils.PistonConstants;
+import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
@@ -27,7 +31,14 @@ public class PingEventPaper implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List<String> motd = config.getStringList("motd.text");
-            event.setMotd(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))));
+
+            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))));
+
+            if (event.getClient().getProtocolVersion() >= PistonConstants.MINECRAFT_1_16) {
+                event.setMotd(PistonSerializers.unusualSectionRGB.serialize(motdComponent));
+            } else {
+                event.setMotd(PistonSerializers.section.serialize(motdComponent));
+            }
         }
 
         if (config.getBoolean("extended.protocol.activated")) {

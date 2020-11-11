@@ -6,6 +6,7 @@ import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.utils.PistonConstants;
+import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -52,7 +53,7 @@ public class PingEvent {
                 List<String> motd = node.getNode("motd", "text").getList(TypeToken.of(String.class));
 
                 if (event.getPing().getVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16) {
-                    builder.description(LegacyComponentSerializer.builder().character('§').hexCharacter('#').hexColors().build().deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size())))));
+                    builder.description(PistonSerializers.sectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size())))));
                 } else {
                     builder.description(LegacyComponentSerializer.legacySection().deserialize(PlaceholderUtil.parseText(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))))));
                 }
