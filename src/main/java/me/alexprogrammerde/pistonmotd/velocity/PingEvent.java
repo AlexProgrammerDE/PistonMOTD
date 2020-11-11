@@ -5,13 +5,15 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
-import net.kyori.adventure.text.Component;
+import me.alexprogrammerde.pistonmotd.utils.PistonConstants;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PingEvent {
@@ -47,8 +49,13 @@ public class PingEvent {
             }
 
             if (node.getNode("motd", "activated").getBoolean()) {
-                List<String> list = node.getNode("motd", "text").getList(TypeToken.of(String.class));
-                builder.description(Component.text(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1))))));
+                List<String> motd = node.getNode("motd", "text").getList(TypeToken.of(String.class));
+
+                if (event.getPing().getVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16) {
+                    builder.description(LegacyComponentSerializer.builder().character('§').hexCharacter('#').hexColors().build().deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size())))));
+                } else {
+                    builder.description(LegacyComponentSerializer.legacySection().deserialize(PlaceholderUtil.parseText(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))))));
+                }
             }
 
             if (node.getNode("protocol", "activated").getBoolean()) {

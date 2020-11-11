@@ -17,8 +17,6 @@ public class CommonPlaceholder implements PlaceholderParser {
         returnedString = returnedString.replaceAll("%max%", String.valueOf(game.getServer().getMaxPlayers()));
         returnedString = returnedString.replaceAll("%newline%", "\n");
 
-        returnedString = returnedString.replaceAll("&", "§");
-
         return returnedString;
     }
 }

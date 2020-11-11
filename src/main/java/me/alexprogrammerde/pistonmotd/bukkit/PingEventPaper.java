@@ -2,6 +2,7 @@ package me.alexprogrammerde.pistonmotd.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,6 +12,7 @@ import org.bukkit.event.Listener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEventPaper implements Listener {
     private final PistonMOTDBukkit plugin;
@@ -24,8 +26,8 @@ public class PingEventPaper implements Listener {
         FileConfiguration config = plugin.getConfig();
 
         if (config.getBoolean("motd.activated")) {
-            List<String> list = config.getStringList("motd.text");
-            event.setMotd(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1)))));
+            List<String> motd = config.getStringList("motd.text");
+            event.setMotd(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))));
         }
 
         if (config.getBoolean("extended.protocol.activated")) {

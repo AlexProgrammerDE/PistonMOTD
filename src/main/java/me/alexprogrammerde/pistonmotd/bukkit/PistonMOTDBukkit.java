@@ -5,6 +5,9 @@ import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
@@ -18,10 +21,12 @@ import java.util.logging.Logger;
 public class PistonMOTDBukkit extends JavaPlugin {
     private Logger log;
     protected File icons;
+    protected LuckPerms luckperms = null;
 
     @Override
     public void onEnable() {
         log = getLogger();
+        BukkitAudiences.create(this);
 
         log.info("  _____  _       _                 __  __   ____  _______  _____  ");
         log.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
@@ -46,6 +51,13 @@ public class PistonMOTDBukkit extends JavaPlugin {
         PlaceholderUtil.registerParser(new CommonPlaceholder());
         if (PaperLib.isPaper()) {
             PlaceholderUtil.registerParser(new TPSPlaceholder());
+        }
+
+        log.info(net.md_5.bungee.api.ChatColor.AQUA + "Looking for hooks");
+        if (getServer().getPluginManager().getPlugin("LuckPerms") != null) {
+            try {
+                luckperms = LuckPermsProvider.get();
+            } catch (Exception ignored) {}
         }
 
         log.info(ChatColor.AQUA + "Registering listeners");

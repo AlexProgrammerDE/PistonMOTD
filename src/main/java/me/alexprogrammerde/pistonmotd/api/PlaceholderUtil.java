@@ -1,5 +1,9 @@
 package me.alexprogrammerde.pistonmotd.api;
 
+import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apiguardian.api.API;
 
 import javax.annotation.Nonnull;
@@ -20,14 +24,18 @@ public class PlaceholderUtil {
      * @return A completely parsed string
      */
     @API(status = API.Status.INTERNAL)
-    public static String parseText(String text) {
-        String returnedString = text;
+    public static String parseText(final String text) {
+        String parsedText = text;
 
         for (PlaceholderParser parser : placeholders) {
-            returnedString = parser.parseString(returnedString);
+            parsedText = parser.parseString(parsedText);
         }
 
-        return returnedString;
+        return parseColors(parsedText);
+    }
+
+    private static String parseColors(final String text) {
+        return PistonSerializers.unusualSectionRGB.serialize(PistonSerializers.ampersandRGB.deserialize(PistonSerializers.unusualSectionRGB.serialize(MiniMessage.markdown().parse(text))));
     }
 
     /**

@@ -9,6 +9,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEventSpigot implements Listener {
     private final PistonMOTDBukkit plugin;
@@ -20,8 +21,8 @@ public class PingEventSpigot implements Listener {
     @EventHandler
     public void onPing(ServerListPingEvent event) {
         if (plugin.getConfig().getBoolean("motd.activated")) {
-            List<String> list = plugin.getConfig().getStringList("motd.text");
-            event.setMotd(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1)))));
+            List<String> motd = plugin.getConfig().getStringList("motd.text");
+            event.setMotd(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))));
         }
 
         if (plugin.getConfig().getBoolean("overridemax.activated")) {

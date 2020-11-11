@@ -4,6 +4,7 @@ api-version: 1.16
 main: me.alexprogrammerde.pistonmotd.bukkit.PistonMOTDBukkit
 description: ${project.description}
 website: ${project.url}
+softdepend: ["LuckPerms"]
 commands:
   pistonmotd:
     description: Allows you to execute some commands for pistonmotd.

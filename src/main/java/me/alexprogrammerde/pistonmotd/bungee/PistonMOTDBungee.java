@@ -4,6 +4,9 @@ import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
+import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -15,15 +18,17 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class PistonMOTDBungee extends Plugin {
-    Configuration config;
-    File icons;
-    ConfigManager manager;
-    List<String> headList = new ArrayList<>();
-    Logger log;
+    protected Configuration config;
+    protected File icons;
+    protected ConfigManager manager;
+    protected final List<String> headList = new ArrayList<>();
+    protected Logger log;
+    protected LuckPerms luckperms = null;
 
     @Override
     public void onEnable() {
         log = getLogger();
+        BungeeAudiences.create(this);
 
         headList.add("# You can find color codes here: https://minecraft.tools/en/color-code.php");
         headList.add("# Formatting comes after the color! &d&l will work, but not &l&d.");
@@ -50,6 +55,13 @@ public class PistonMOTDBungee extends Plugin {
         }
 
         PlaceholderUtil.registerParser(new CommonPlaceholder());
+
+        log.info(ChatColor.AQUA + "Looking for hooks");
+        if (getProxy().getPluginManager().getPlugin("LuckPerms") != null) {
+            try {
+                luckperms = LuckPermsProvider.get();
+            } catch (Exception ignored) {}
+        }
 
         log.info(ChatColor.AQUA + "Registering listeners");
         getProxy().getPluginManager().registerListener(this, new PingEvent(this, icons));

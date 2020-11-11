@@ -7,6 +7,7 @@ import me.alexprogrammerde.pistonmotd.utils.ConsoleColor;
 import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
+import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -67,6 +68,8 @@ public class PistonMOTDSponge {
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
+        SpongeAudiences.create(container, game);
+
         log.info("  _____  _       _                 __  __   ____  _______  _____  ");
         log.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
         log.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");

@@ -25,8 +25,8 @@ public class ConfigManager {
     protected Configuration getConfig(String resourceName, String fileName) {
         Configuration config = null;
         Configuration templateConfig;
-        List<String> configKeys = new ArrayList<>();
-        List<String> templateKeys = new ArrayList<>();
+        final List<String> configKeys = new ArrayList<>();
+        final List<String> templateKeys = new ArrayList<>();
 
         if (!plugin.getDataFolder().exists()) {
             if (!plugin.getDataFolder().mkdir())  {

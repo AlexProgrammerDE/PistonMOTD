@@ -2,6 +2,9 @@ package me.alexprogrammerde.pistonmotd.sponge;
 
 import com.google.common.reflect.TypeToken;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
+import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Sponge;
@@ -31,7 +34,7 @@ public class PingEvent {
         try {
             if (node.getNode("motd", "activated").getBoolean()) {
                 List<String> motd = node.getNode("motd", "text").getList(new TypeToken<String>() {});
-                event.getResponse().setDescription(Text.of(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size())))));
+                event.getResponse().setDescription(SpongeComponentSerializer.get().serialize(LegacyComponentSerializer.legacySection().deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))))));
             }
 
             event.getResponse().setHidePlayers(node.getNode("hideplayers").getBoolean());

@@ -1,6 +1,8 @@
 package me.alexprogrammerde.pistonmotd.bungee;
 
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
+import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -9,6 +11,7 @@ import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.protocol.ProtocolConstants;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
@@ -16,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent implements Listener {
     private final PistonMOTDBungee plugin;
@@ -65,7 +69,14 @@ public class PingEvent implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             List<String> list = config.getStringList("motd.text");
-            motd = new TextComponent(PlaceholderUtil.parseText(list.get((int) Math.round(Math.random() * (list.size() - 1)))));
+
+            String randomMotd = PlaceholderUtil.parseText(list.get(ThreadLocalRandom.current().nextInt(0,  list.size())));
+
+            if (event.getConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16) {
+                motd = new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializers.sectionRGB.deserialize(randomMotd)));
+            } else {
+                motd = new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializers.sectionRGB.deserialize(randomMotd)));
+            }
         } else {
             motd = event.getResponse().getDescriptionComponent();
         }

@@ -3,3 +3,4 @@ version: ${project.version}
 main: me.alexprogrammerde.pistonmotd.bungee.PistonMOTDBungee
 author: AlexProgrammerDE
 description: ${project.description}
+softdepend: ["LuckPerms"]
