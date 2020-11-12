@@ -38,6 +38,8 @@ public class PistonMOTDBukkit extends JavaPlugin {
 
         log.info(ChatColor.AQUA + "Loading config");
         saveDefaultConfig();
+        getConfig().options().copyDefaults(true);
+        saveConfig();
         File iconFolder = new File(getDataFolder(), "icons");
 
         if (!iconFolder.exists()) {
@@ -53,7 +55,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
             PlaceholderUtil.registerParser(new TPSPlaceholder());
         }
 
-        log.info(net.md_5.bungee.api.ChatColor.AQUA + "Looking for hooks");
+        log.info(ChatColor.AQUA + "Looking for hooks");
         if (getServer().getPluginManager().getPlugin("LuckPerms") != null) {
             try {
                 luckperms = LuckPermsProvider.get();

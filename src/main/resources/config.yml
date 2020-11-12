@@ -46,3 +46,7 @@ extended:
       - "&d&lCombined"
       - "&1Players: %online%"
       - "&2Max: %max%"
+
+hooks:
+  extended:
+    luckpermsplayercounter: false

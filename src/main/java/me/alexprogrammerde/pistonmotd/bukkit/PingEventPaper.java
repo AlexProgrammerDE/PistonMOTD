@@ -46,19 +46,19 @@ public class PingEventPaper implements Listener {
             event.setVersion(PlaceholderUtil.parseText(config.getString("extended.protocol.activated")));
         }
 
-        if (config.getBoolean("hooks.luckpermsplayercounter") && plugin.luckperms != null) {
+        if (config.getBoolean("hooks.extended.luckpermsplayercounter") && plugin.luckperms != null) {
             event.getPlayerSample().clear();
 
             int i = 0;
 
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                // Get a LuckPerms cached metadata for the player.
                 CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
 
-                // Get their prefix.
                 String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
 
-                event.getPlayerSample().add(i, Bukkit.createProfile(ChatColor.translateAlternateColorCodes('&', prefix + ChatColor.RESET + player.getDisplayName())));
+                String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
+
+                event.getPlayerSample().add(i, Bukkit.createProfile(ChatColor.translateAlternateColorCodes('&', prefix + player.getDisplayName() + suffix)));
                 i++;
             }
         } else if (config.getBoolean("extended.playercounter.activated")) {

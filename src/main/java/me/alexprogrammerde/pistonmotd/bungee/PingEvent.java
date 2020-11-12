@@ -61,13 +61,13 @@ public class PingEvent implements Listener {
 
             int i = 0;
             for (ProxiedPlayer player : plugin.getProxy().getPlayers()) {
-                // Get a LuckPerms cached metadata for the player.
                 CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(ProxiedPlayer.class).getMetaData(player);
 
-                // Get their prefix.
                 String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
 
-                info.add(new ServerPing.PlayerInfo(ChatColor.translateAlternateColorCodes('&',  prefix + ChatColor.RESET + player.getDisplayName()), String.valueOf(i)));
+                String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
+
+                info.add(new ServerPing.PlayerInfo(ChatColor.translateAlternateColorCodes('&',  prefix + player.getDisplayName() + suffix), String.valueOf(i)));
                 i++;
             }
 
