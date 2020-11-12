@@ -1,15 +1,16 @@
 package me.alexprogrammerde.pistonmotd.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
-import io.papermc.lib.PaperLib;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.utils.PistonConstants;
 import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.luckperms.api.cacheddata.CachedMetaData;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -45,7 +46,22 @@ public class PingEventPaper implements Listener {
             event.setVersion(PlaceholderUtil.parseText(config.getString("extended.protocol.activated")));
         }
 
-        if (config.getBoolean("extended.playercounter.activated")) {
+        if (config.getBoolean("hooks.luckpermsplayercounter") && plugin.luckperms != null) {
+            event.getPlayerSample().clear();
+
+            int i = 0;
+
+            for (Player player : plugin.getServer().getOnlinePlayers()) {
+                // Get a LuckPerms cached metadata for the player.
+                CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
+
+                // Get their prefix.
+                String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
+
+                event.getPlayerSample().add(i, Bukkit.createProfile(ChatColor.translateAlternateColorCodes('&', prefix + ChatColor.RESET + player.getDisplayName())));
+                i++;
+            }
+        } else if (config.getBoolean("extended.playercounter.activated")) {
             event.getPlayerSample().clear();
 
             int i = 0;

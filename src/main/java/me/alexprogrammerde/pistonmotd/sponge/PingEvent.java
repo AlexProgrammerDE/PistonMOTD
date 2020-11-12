@@ -2,7 +2,6 @@ package me.alexprogrammerde.pistonmotd.sponge;
 
 import com.google.common.reflect.TypeToken;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
-import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -11,7 +10,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.profile.GameProfile;
-import org.spongepowered.api.text.Text;
 
 import java.io.File;
 import java.util.ArrayList;

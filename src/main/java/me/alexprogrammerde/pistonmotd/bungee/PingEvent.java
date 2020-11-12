@@ -3,10 +3,13 @@ package me.alexprogrammerde.pistonmotd.bungee;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.luckperms.api.cacheddata.CachedMetaData;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
@@ -53,19 +56,39 @@ public class PingEvent implements Listener {
             max = event.getResponse().getPlayers().getMax();
         }
 
-        if (config.getBoolean("playercounter.activated")) {
+        if (config.getBoolean("hooks.luckpermsplayercounter") && plugin.luckperms != null) {
             List<ServerPing.PlayerInfo> info = new ArrayList<>();
 
             int i = 0;
-            for (String str : config.getStringList("playercounter.text")) {
-                info.add(new ServerPing.PlayerInfo(PlaceholderUtil.parseText(str), String.valueOf(i)));
+            for (ProxiedPlayer player : plugin.getProxy().getPlayers()) {
+                // Get a LuckPerms cached metadata for the player.
+                CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(ProxiedPlayer.class).getMetaData(player);
+
+                // Get their prefix.
+                String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
+
+                info.add(new ServerPing.PlayerInfo(ChatColor.translateAlternateColorCodes('&',  prefix + ChatColor.RESET + player.getDisplayName()), String.valueOf(i)));
                 i++;
             }
 
-            players = new ServerPing.Players(max, online, info.toArray(new ServerPing.PlayerInfo[config.getStringList("playercounter.text").size()]));
+            players = new ServerPing.Players(max, online, info.toArray(new ServerPing.PlayerInfo[0]));
         } else {
-            players = new ServerPing.Players(max, online, event.getResponse().getPlayers().getSample());
+            if (config.getBoolean("playercounter.activated")) {
+                List<ServerPing.PlayerInfo> info = new ArrayList<>();
+
+                int i = 0;
+                for (String str : config.getStringList("playercounter.text")) {
+                    info.add(new ServerPing.PlayerInfo(PlaceholderUtil.parseText(str), String.valueOf(i)));
+                    i++;
+                }
+
+                players = new ServerPing.Players(max, online, info.toArray(new ServerPing.PlayerInfo[0]));
+            } else {
+                players = new ServerPing.Players(max, online, event.getResponse().getPlayers().getSample());
+            }
         }
+
+
 
         if (config.getBoolean("motd.activated")) {
             List<String> list = config.getStringList("motd.text");

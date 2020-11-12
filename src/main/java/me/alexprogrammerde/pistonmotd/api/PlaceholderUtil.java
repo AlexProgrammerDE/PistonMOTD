@@ -1,9 +1,7 @@
 package me.alexprogrammerde.pistonmotd.api;
 
 import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apiguardian.api.API;
 
 import javax.annotation.Nonnull;
