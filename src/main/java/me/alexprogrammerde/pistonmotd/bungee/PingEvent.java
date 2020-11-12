@@ -60,6 +60,7 @@ public class PingEvent implements Listener {
             List<ServerPing.PlayerInfo> info = new ArrayList<>();
 
             int i = 0;
+
             for (ProxiedPlayer player : plugin.getProxy().getPlayers()) {
                 CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(ProxiedPlayer.class).getMetaData(player);
 
@@ -77,6 +78,7 @@ public class PingEvent implements Listener {
                 List<ServerPing.PlayerInfo> info = new ArrayList<>();
 
                 int i = 0;
+
                 for (String str : config.getStringList("playercounter.text")) {
                     info.add(new ServerPing.PlayerInfo(PlaceholderUtil.parseText(str), String.valueOf(i)));
                     i++;
@@ -87,8 +89,6 @@ public class PingEvent implements Listener {
                 players = new ServerPing.Players(max, online, event.getResponse().getPlayers().getSample());
             }
         }
-
-
 
         if (config.getBoolean("motd.activated")) {
             List<String> list = config.getStringList("motd.text");

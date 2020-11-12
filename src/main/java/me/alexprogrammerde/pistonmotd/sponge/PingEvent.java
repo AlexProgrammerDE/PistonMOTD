@@ -4,9 +4,11 @@ import com.google.common.reflect.TypeToken;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
+import net.luckperms.api.cacheddata.CachedMetaData;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.profile.GameProfile;
@@ -46,7 +48,17 @@ public class PingEvent {
                     event.getResponse().getPlayers().get().setMax(node.getNode("overridemax", "value").getInt());
                 }
 
-                if (node.getNode("playercounter", "activated").getBoolean()) {
+                if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckperms != null) {
+                    for (Player player : plugin.game.getServer().getOnlinePlayers()) {
+                        CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
+
+                        String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
+
+                        String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
+
+                        event.getResponse().getPlayers().get().getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(prefix + player.getDisplayNameData().displayName() + suffix)));
+                    }
+                } else if (node.getNode("playercounter", "activated").getBoolean()) {
                     event.getResponse().getPlayers().get().getProfiles().clear();
 
                     for (String str : node.getNode("playercounter", "text").getList(new TypeToken<String>() {})) {

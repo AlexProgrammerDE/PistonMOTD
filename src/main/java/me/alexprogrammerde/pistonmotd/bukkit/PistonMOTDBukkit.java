@@ -58,6 +58,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
         log.info(ChatColor.AQUA + "Looking for hooks");
         if (getServer().getPluginManager().getPlugin("LuckPerms") != null) {
             try {
+                log.info(ChatColor.AQUA + "Hooking into LuckPerms");
                 luckperms = LuckPermsProvider.get();
             } catch (Exception ignored) {}
         }
@@ -71,7 +72,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new PingEventSpigot(this), this);
         }
 
-        log.info(ChatColor.AQUA + "Registering commands");
+        log.info(ChatColor.AQUA + "Registering command");
         Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setTabCompleter(new BukkitCommand(this));
         Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setExecutor(new BukkitCommand(this));
 

@@ -8,6 +8,8 @@ import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -36,12 +38,13 @@ public class PistonMOTDSponge {
     protected ConfigurationNode rootNode;
     private final MetricsLite2.Factory metricsFactory;
     protected File icons;
+    protected LuckPerms luckperms = null;
 
     @Inject
     private Logger log;
 
     @Inject
-    private Game game;
+    protected Game game;
 
     @Inject
     @DefaultConfig(sharedRoot = true)
@@ -104,6 +107,14 @@ public class PistonMOTDSponge {
 
         log.info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
+
+        log.info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
+        if (game.getPluginManager().getPlugin("luckperms").isPresent()) {
+            try {
+                log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
+                luckperms = LuckPermsProvider.get();
+            } catch (Exception ignored) {}
+        }
 
         log.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
         game.getEventManager().registerListeners(this, new PingEvent(this));

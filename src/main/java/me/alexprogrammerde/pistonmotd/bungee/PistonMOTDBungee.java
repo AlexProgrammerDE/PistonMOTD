@@ -63,6 +63,7 @@ public class PistonMOTDBungee extends Plugin {
         log.info(ChatColor.AQUA + "Looking for hooks");
         if (getProxy().getPluginManager().getPlugin("LuckPerms") != null) {
             try {
+                log.info(ChatColor.AQUA + "Hooking into LuckPerms");
                 luckperms = LuckPermsProvider.get();
             } catch (Exception ignored) {}
         }
@@ -70,7 +71,7 @@ public class PistonMOTDBungee extends Plugin {
         log.info(ChatColor.AQUA + "Registering listeners");
         getProxy().getPluginManager().registerListener(this, new PingEvent(this, icons));
 
-        log.info(ChatColor.AQUA + "Registering commands");
+        log.info(ChatColor.AQUA + "Registering command");
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));
 
         log.info(ChatColor.AQUA + "Checking for a newer version");

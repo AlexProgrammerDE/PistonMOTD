@@ -3,11 +3,12 @@ package me.alexprogrammerde.pistonmotd.velocity;
 import com.google.common.reflect.TypeToken;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.utils.PistonConstants;
 import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.luckperms.api.cacheddata.CachedMetaData;
 import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
@@ -39,7 +40,21 @@ public class PingEvent {
                 builder.maximumPlayers(node.getNode("overridemax", "value").getInt());
             }
 
-            if (node.getNode("playercounter", "activated").getBoolean()) {
+            if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckperms != null) {
+                List<ServerPing.SamplePlayer> info = new ArrayList<>();
+
+                for (Player player : plugin.server.getAllPlayers()) {
+                    CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
+
+                    String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
+
+                    String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
+
+                    info.add(new ServerPing.SamplePlayer(PlaceholderUtil.parseText(prefix + player.getUsername() + suffix), UUID.randomUUID()));
+                }
+
+                builder.samplePlayers(info.toArray(new ServerPing.SamplePlayer[0]));
+            } else if (node.getNode("playercounter", "activated").getBoolean()) {
                 List<ServerPing.SamplePlayer> info = new ArrayList<>();
 
                 for (String str : node.getNode("playercounter", "text").getList(TypeToken.of(String.class))) {
@@ -55,7 +70,7 @@ public class PingEvent {
                 if (event.getPing().getVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16) {
                     builder.description(PistonSerializers.sectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size())))));
                 } else {
-                    builder.description(LegacyComponentSerializer.legacySection().deserialize(PlaceholderUtil.parseText(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))))));
+                    builder.description(PistonSerializers.section.deserialize(PlaceholderUtil.parseText(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))))));
                 }
             }
 

@@ -13,8 +13,10 @@ import me.alexprogrammerde.pistonmotd.utils.ConsoleColor;
 import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationOptions;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 import org.slf4j.Logger;
 
@@ -30,6 +32,7 @@ public class PistonMOTDVelocity {
     private final Logger log;
     protected ConfigurationNode rootNode;
     protected File icons;
+    protected LuckPerms luckperms = null;
 
     @Inject
     @DataDirectory
@@ -60,10 +63,19 @@ public class PistonMOTDVelocity {
         log.info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
         PlaceholderUtil.registerParser(new CommonPlaceholder(server));
 
-        server.getCommandManager().register("pistonmotdv", new VelocityCommand(this));
+        log.info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
+        if (server.getPluginManager().getPlugin("luckperms").isPresent()) {
+            try {
+                log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
+                luckperms = LuckPermsProvider.get();
+            } catch (Exception ignored) {}
+        }
 
         log.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
         server.getEventManager().register(this, new PingEvent(this));
+
+        log.info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
+        server.getCommandManager().register("pistonmotdv", new VelocityCommand(this));
 
         if (container.getDescription().getVersion().isPresent()) {
             log.info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
@@ -88,28 +100,39 @@ public class PistonMOTDVelocity {
 
     protected void loadConfig() {
         try {
+            final File oldConfigFile = new File(pluginDir.toFile(), "config.yml");
+
+            File file = new File(pluginDir.toFile(), "config.conf");
+
+            HoconConfigurationLoader loader = HoconConfigurationLoader.builder().setFile(file).build();
+
+            if (oldConfigFile.exists()) {
+                loader.save(YAMLConfigurationLoader.builder().setFile(oldConfigFile).build().load());
+
+                if (!oldConfigFile.delete()) {
+                    throw new Exception("Failed to delete config.yml!!!");
+                }
+            }
+
             if (!pluginDir.toFile().exists()) {
                 if (!pluginDir.toFile().mkdir()) {
                     throw new IOException("Couldn't create folder!");
                 }
             }
 
-            File file = new File(pluginDir.toFile(), "config.yml");
-
             if (!file.exists()) {
                 try {
-                    Files.copy(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("velocity.yml")), file.toPath());
+                    Files.copy(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("velocity.conf")), file.toPath());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            rootNode = YAMLConfigurationLoader.builder().setPath(file.toPath()).build().load();
+            rootNode = loader.load();
 
-            rootNode.mergeValuesFrom(YAMLConfigurationLoader.builder()
-                    .setURL(Objects.requireNonNull(getClass().getClassLoader().getResource("velocity.yml")))
-                    .build()
-                    .load(ConfigurationOptions.defaults()));
+            rootNode.mergeValuesFrom(HoconConfigurationLoader.builder().setURL(Objects.requireNonNull(getClass().getClassLoader().getResource("velocity.conf")).toURI().toURL()).build().load());
+
+            loader.save(rootNode);
 
             File iconFolder = new File(pluginDir.toFile(), "icons");
 
