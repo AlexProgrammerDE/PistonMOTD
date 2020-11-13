@@ -2,12 +2,11 @@ package me.alexprogrammerde.pistonmotd.bukkit;
 
 import io.papermc.lib.PaperLib;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
+import me.alexprogrammerde.pistonmotd.utils.LuckPermsWrapper;
 import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
@@ -21,7 +20,7 @@ import java.util.logging.Logger;
 public class PistonMOTDBukkit extends JavaPlugin {
     private Logger log;
     protected File icons;
-    protected LuckPerms luckperms = null;
+    protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Override
     public void onEnable() {
@@ -59,7 +58,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("LuckPerms") != null) {
             try {
                 log.info(ChatColor.AQUA + "Hooking into LuckPerms");
-                luckperms = LuckPermsProvider.get();
+                luckpermsWrapper = new LuckPermsWrapper();
             } catch (Exception ignored) {}
         }
 

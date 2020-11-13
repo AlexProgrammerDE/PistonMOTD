@@ -1,12 +1,11 @@
 package me.alexprogrammerde.pistonmotd.bungee;
 
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
+import me.alexprogrammerde.pistonmotd.utils.LuckPermsWrapper;
 import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -23,7 +22,7 @@ public class PistonMOTDBungee extends Plugin {
     protected ConfigManager manager;
     protected final List<String> headList = new ArrayList<>();
     protected Logger log;
-    protected LuckPerms luckperms = null;
+    protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Override
     public void onEnable() {
@@ -64,7 +63,7 @@ public class PistonMOTDBungee extends Plugin {
         if (getProxy().getPluginManager().getPlugin("LuckPerms") != null) {
             try {
                 log.info(ChatColor.AQUA + "Hooking into LuckPerms");
-                luckperms = LuckPermsProvider.get();
+                luckpermsWrapper = new LuckPermsWrapper();
             } catch (Exception ignored) {}
         }
 

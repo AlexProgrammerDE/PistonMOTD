@@ -56,13 +56,13 @@ public class PingEvent implements Listener {
             max = event.getResponse().getPlayers().getMax();
         }
 
-        if (config.getBoolean("hooks.luckpermsplayercounter") && plugin.luckperms != null) {
+        if (config.getBoolean("hooks.luckpermsplayercounter") && plugin.luckpermsWrapper != null) {
             List<ServerPing.PlayerInfo> info = new ArrayList<>();
 
             int i = 0;
 
             for (ProxiedPlayer player : plugin.getProxy().getPlayers()) {
-                CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(ProxiedPlayer.class).getMetaData(player);
+                CachedMetaData metaData = plugin.luckpermsWrapper.luckperms.getPlayerAdapter(ProxiedPlayer.class).getMetaData(player);
 
                 String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
 

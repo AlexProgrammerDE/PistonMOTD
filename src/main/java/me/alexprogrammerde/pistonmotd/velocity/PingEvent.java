@@ -40,11 +40,11 @@ public class PingEvent {
                 builder.maximumPlayers(node.getNode("overridemax", "value").getInt());
             }
 
-            if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckperms != null) {
+            if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckpermsWrapper != null) {
                 List<ServerPing.SamplePlayer> info = new ArrayList<>();
 
                 for (Player player : plugin.server.getAllPlayers()) {
-                    CachedMetaData metaData = plugin.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
+                    CachedMetaData metaData = plugin.luckpermsWrapper.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
 
                     String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
 

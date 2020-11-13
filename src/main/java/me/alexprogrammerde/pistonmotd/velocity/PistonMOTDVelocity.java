@@ -9,12 +9,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.data.PluginData;
-import me.alexprogrammerde.pistonmotd.utils.ConsoleColor;
-import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
-import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
-import me.alexprogrammerde.pistonmotd.utils.UpdateType;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
+import me.alexprogrammerde.pistonmotd.utils.*;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
@@ -32,7 +27,7 @@ public class PistonMOTDVelocity {
     private final Logger log;
     protected ConfigurationNode rootNode;
     protected File icons;
-    protected LuckPerms luckperms = null;
+    protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Inject
     @DataDirectory
@@ -67,7 +62,7 @@ public class PistonMOTDVelocity {
         if (server.getPluginManager().getPlugin("luckperms").isPresent()) {
             try {
                 log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
-                luckperms = LuckPermsProvider.get();
+                luckpermsWrapper = new LuckPermsWrapper();
             } catch (Exception ignored) {}
         }
 

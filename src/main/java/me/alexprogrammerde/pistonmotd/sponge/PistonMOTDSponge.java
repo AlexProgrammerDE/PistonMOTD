@@ -3,13 +3,8 @@ package me.alexprogrammerde.pistonmotd.sponge;
 import com.google.inject.Inject;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.data.PluginData;
-import me.alexprogrammerde.pistonmotd.utils.ConsoleColor;
-import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
-import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
-import me.alexprogrammerde.pistonmotd.utils.UpdateType;
+import me.alexprogrammerde.pistonmotd.utils.*;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -38,7 +33,7 @@ public class PistonMOTDSponge {
     protected ConfigurationNode rootNode;
     private final MetricsLite2.Factory metricsFactory;
     protected File icons;
-    protected LuckPerms luckperms = null;
+    protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Inject
     private Logger log;
@@ -109,10 +104,12 @@ public class PistonMOTDSponge {
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
 
         log.info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
+
+        log.info(String.valueOf(game.getPluginManager().getPlugin("luckperms").isPresent()));
         if (game.getPluginManager().getPlugin("luckperms").isPresent()) {
             try {
                 log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
-                luckperms = LuckPermsProvider.get();
+                luckpermsWrapper = new LuckPermsWrapper();
             } catch (Exception ignored) {}
         }
 
