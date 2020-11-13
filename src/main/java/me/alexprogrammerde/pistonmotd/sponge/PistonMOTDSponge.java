@@ -104,8 +104,6 @@ public class PistonMOTDSponge {
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
 
         log.info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
-
-        log.info(String.valueOf(game.getPluginManager().getPlugin("luckperms").isPresent()));
         if (game.getPluginManager().getPlugin("luckperms").isPresent()) {
             try {
                 log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);

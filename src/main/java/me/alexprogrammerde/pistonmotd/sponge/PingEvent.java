@@ -49,6 +49,8 @@ public class PingEvent {
                 }
 
                 if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckpermsWrapper != null) {
+                    event.getResponse().getPlayers().get().getProfiles().clear();
+
                     for (Player player : plugin.game.getServer().getOnlinePlayers()) {
                         CachedMetaData metaData = plugin.luckpermsWrapper.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
 
@@ -56,7 +58,7 @@ public class PingEvent {
 
                         String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
 
-                        event.getResponse().getPlayers().get().getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(prefix + player.getDisplayNameData().displayName() + suffix)));
+                        event.getResponse().getPlayers().get().getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(prefix + player.getDisplayNameData().displayName().get().toPlain() + suffix)));
                     }
                 } else if (node.getNode("playercounter", "activated").getBoolean()) {
                     event.getResponse().getPlayers().get().getProfiles().clear();
