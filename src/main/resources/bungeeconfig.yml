@@ -1,4 +1,5 @@
 playercounter:
+  bukkitplayercounter: false
   activated: true
   text:
     - "&3Hello world!"
@@ -22,6 +23,9 @@ protocol:
 
 icons: false
 
+hooks:
+  luckpermsplayercounter: false
+
 motd:
   activated: true
   text:
@@ -30,6 +34,3 @@ motd:
     - "&ka &rFormatting &rworks &rtoo! &ka"
     - "&1Players: %online%"
     - "&2Max: %max%"
-
-hooks:
-  luckpermsplayercounter: false

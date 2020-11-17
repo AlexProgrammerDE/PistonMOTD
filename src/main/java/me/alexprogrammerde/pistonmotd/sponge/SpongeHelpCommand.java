@@ -12,7 +12,6 @@ public class SpongeHelpCommand implements CommandExecutor {
     @Override
     public @Nonnull CommandResult execute(CommandSource src, @Nonnull CommandContext args) {
         if (src.hasPermission("pistonmotd.reload")) {
-
             src.sendMessage(Text.of("Commands:"));
             src.sendMessage(Text.of("/pistonmotd help"));
             src.sendMessage(Text.of("/pistonmotd reload"));

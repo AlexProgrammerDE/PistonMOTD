@@ -56,7 +56,18 @@ public class PingEvent implements Listener {
             max = event.getResponse().getPlayers().getMax();
         }
 
-        if (config.getBoolean("hooks.luckpermsplayercounter") && plugin.luckpermsWrapper != null) {
+        if (config.getBoolean("playercounter.bukkitplayercounter")) {
+            List<ServerPing.PlayerInfo> info = new ArrayList<>();
+
+            int i = 0;
+
+            for (ProxiedPlayer player : plugin.getProxy().getPlayers()) {
+                info.add(new ServerPing.PlayerInfo(player.getDisplayName() + ChatColor.RESET, String.valueOf(i)));
+                i++;
+            }
+
+            players = new ServerPing.Players(max, online, info.toArray(new ServerPing.PlayerInfo[0]));
+        } else if (config.getBoolean("hooks.luckpermsplayercounter") && plugin.luckpermsWrapper != null) {
             List<ServerPing.PlayerInfo> info = new ArrayList<>();
 
             int i = 0;
@@ -68,26 +79,24 @@ public class PingEvent implements Listener {
 
                 String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
 
-                info.add(new ServerPing.PlayerInfo(ChatColor.translateAlternateColorCodes('&',  prefix + player.getDisplayName() + suffix), String.valueOf(i)));
+                info.add(new ServerPing.PlayerInfo(ChatColor.translateAlternateColorCodes('&',  prefix + player.getDisplayName() + suffix) + ChatColor.RESET, String.valueOf(i)));
+                i++;
+            }
+
+            players = new ServerPing.Players(max, online, info.toArray(new ServerPing.PlayerInfo[0]));
+        } else if (config.getBoolean("playercounter.activated")) {
+            List<ServerPing.PlayerInfo> info = new ArrayList<>();
+
+            int i = 0;
+
+            for (String str : config.getStringList("playercounter.text")) {
+                info.add(new ServerPing.PlayerInfo(PlaceholderUtil.parseText(str), String.valueOf(i)));
                 i++;
             }
 
             players = new ServerPing.Players(max, online, info.toArray(new ServerPing.PlayerInfo[0]));
         } else {
-            if (config.getBoolean("playercounter.activated")) {
-                List<ServerPing.PlayerInfo> info = new ArrayList<>();
-
-                int i = 0;
-
-                for (String str : config.getStringList("playercounter.text")) {
-                    info.add(new ServerPing.PlayerInfo(PlaceholderUtil.parseText(str), String.valueOf(i)));
-                    i++;
-                }
-
-                players = new ServerPing.Players(max, online, info.toArray(new ServerPing.PlayerInfo[0]));
-            } else {
-                players = new ServerPing.Players(max, online, event.getResponse().getPlayers().getSample());
-            }
+            players = new ServerPing.Players(max, online, event.getResponse().getPlayers().getSample());
         }
 
         if (config.getBoolean("motd.activated")) {

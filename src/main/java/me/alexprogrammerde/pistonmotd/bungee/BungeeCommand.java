@@ -4,9 +4,9 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BungeeCommand extends Command implements TabExecutor {
@@ -43,8 +43,14 @@ public class BungeeCommand extends Command implements TabExecutor {
 
         List<String> completions = new ArrayList<>();
 
-        if (args.length == 1 && args[0] != null) {
-            StringUtil.copyPartialMatches(args[0], COMMANDS, completions);
+        if (COMMANDS.size() != 0 && args.length == 1 && args[0] != null) {
+            for (String string : COMMANDS) {
+                if (string.toLowerCase().startsWith(args[0].toLowerCase())) {
+                    completions.add(string);
+
+                    Collections.sort(completions);
+                }
+            }
         }
 
         return completions;

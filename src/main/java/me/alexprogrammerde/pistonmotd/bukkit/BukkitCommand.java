@@ -48,7 +48,7 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
 
         List<String> completions = new ArrayList<>();
 
-        if (args.length == 1 && args[0] != null) {
+        if (COMMANDS.size() != 0 && args.length == 1 && args[0] != null) {
             StringUtil.copyPartialMatches(args[0], COMMANDS, completions);
         }
 
