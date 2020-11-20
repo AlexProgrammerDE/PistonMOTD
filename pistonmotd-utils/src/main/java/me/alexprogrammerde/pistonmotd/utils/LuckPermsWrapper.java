@@ -7,6 +7,6 @@ public class LuckPermsWrapper {
     public final LuckPerms luckperms;
 
     public LuckPermsWrapper() {
-        luckperms= LuckPermsProvider.get();
+        luckperms = LuckPermsProvider.get();
     }
 }

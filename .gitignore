@@ -1,3 +1,11 @@
-/target/
-/.idea/
+# Java
+*.class
+*.jar
+hs_err_pid*
+
+# Maven
+target/
+
+# IntelliJ
+.idea
 *.iml
