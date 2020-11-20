@@ -1,4 +1,4 @@
-name: Github pages deploy
+name: Website deploy
 
 on:
   workflow_dispatch:
@@ -27,7 +27,7 @@ jobs:
       run: |
         rm -rf docs/
         mkdir docs
-        mv ./target/site/apidocs/* ./docs
+        mv ./pistonmotd-api/target/site/apidocs/* ./docs
     - name: Generate version file
       run: |
         mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec > ./docs/VERSION.txt
