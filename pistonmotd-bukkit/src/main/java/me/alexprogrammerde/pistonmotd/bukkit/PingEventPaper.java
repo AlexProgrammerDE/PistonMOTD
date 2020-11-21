@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEventPaper implements Listener {
@@ -63,12 +64,9 @@ public class PingEventPaper implements Listener {
             }
         } else if (config.getBoolean("extended.playercounter.activated")) {
             event.getPlayerSample().clear();
-
-            int i = 0;
-
+            
             for (String str : config.getStringList("extended.playercounter.text")) {
-                event.getPlayerSample().add(i, Bukkit.createProfile(PlaceholderUtil.parseText(str)));
-                i++;
+                event.getPlayerSample().add(Bukkit.createProfile(UUID.randomUUID(), PlaceholderUtil.parseText(str)));
             }
         }
 
