@@ -3,7 +3,7 @@ PistonMOTD Config
 
 Best MOTD plugin multi platform support!
 
-<!-- MACRO{toc|fromDepth=1|toDepth=2} -->
+<!-- MACRO{toc|fromDepth=1|toDepth=4} -->
 
 ### Global
 

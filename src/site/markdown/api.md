@@ -1,7 +1,7 @@
 PistonMOTD API
 ---------------
 
-<!-- MACRO{toc|fromDepth=1|toDepth=2} -->
+<!-- MACRO{toc|fromDepth=1|toDepth=3} -->
 
 ### How to set up
 
