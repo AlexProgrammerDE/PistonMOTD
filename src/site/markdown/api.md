@@ -5,7 +5,7 @@ PistonMOTD API
 
 ### How to set up
 
-PistonMOTD uses jitpack as the host for the api dependency: https://jitpack.io/#AlexProgrammerDE/PistonMOTD/ 
+PistonMOTD uses jitpack as the host for the API dependency hosting: [Click here!](https://jitpack.io/#AlexProgrammerDE/PistonMOTD/)
 
 #### Maven
 Repository:
@@ -43,3 +43,11 @@ Dependency:
     	        implementation 'com.github.AlexProgrammerDE:PistonMOTD:4.1.0'
     	}
 ```
+
+### Usage
+
+To register you need a class implementing the [PlaceholderParser](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderParser.java) and to register it at the [PlaceholderUtil](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderUtil.java) with [#registerParser()](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderUtil.java#L44).
+
+Here is a example of that:
+[ServerPlaceholder](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-bungee/src/main/java/me/alexprogrammerde/pistonmotd/bungee/ServerPlaceholder.java)
+[Registering](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-bungee/src/main/java/me/alexprogrammerde/pistonmotd/bungee/PistonMOTDBungee.java#L57)
