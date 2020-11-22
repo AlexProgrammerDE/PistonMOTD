@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="${artifactId}" xmlns="http://maven.apache.org/DECORATION/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd">
+  <bannerLeft>
+    <name>${artifactId}</name>
+    <src>https://github.com/AlexProgrammerDE/PistonMOTD/raw/master/images/banner.png</src>
+    <href>https://pistonmaster.net/PistonMOTD/</href>
+  </bannerLeft>
+
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.7</version>
+  </skin>
+
+  <body>
+    <links>
+      <item name="Github" href="https://github.com/AlexProgrammerDE/PistonMOTD/"/>
+      <item name="Discord" href="https://discord.gg/CDrcxzH"/>
+      <item name="SpigotMC" href="https://www.spigotmc.org/resources/80567/"/>
+      <item name="Ore" href="https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/"/>
+    </links>
+
+    <menu name="Documentation">
+      <item name="About" href="/index.html"/>
+      <item name="API" href="/api.html"/>
+      <item name="Config" href="/config.html"/>
+      <item name="Javadocs" href="/apidocs/index.html"/>
+    </menu>
+
+    <menu ref="reports"/>
+  </body>
+</project>

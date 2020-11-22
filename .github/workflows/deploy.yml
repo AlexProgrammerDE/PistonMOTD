@@ -27,7 +27,7 @@ jobs:
       run: |
         rm -rf docs/
         mkdir docs
-        mv ./pistonmotd-api/target/site/apidocs/* ./docs
+        mv ./target/site/* ./docs
     - name: Generate version file
       run: |
         mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec > ./docs/VERSION.txt

@@ -44,7 +44,7 @@
                 <version>3.2.0</version>
                 <configuration>
                     <excludePackageNames>
-                        me.alexprogrammerde.pistonmotd.me.alexprogrammerde.bukkit:
+                        me.alexprogrammerde.pistonmotd.bukkit:
                         me.alexprogrammerde.pistonmotd.bungee:
                         me.alexprogrammerde.pistonmotd.utils:
                         me.alexprogrammerde.pistonmotd.sponge:
@@ -53,8 +53,32 @@
                     </excludePackageNames>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependencies</report>
+                            <report>team</report>
+                            <report>mailing-lists</report>
+                            <report>ci-management</report>
+                            <report>issue-management</report>
+                            <report>plugins</report>
+                            <report>plugin-management</report>
+                            <report>licenses</report>
+                            <report>scm</report>
+                            <report>help</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
         </plugins>
     </reporting>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/AlexProgrammerDE/PistonMOTD/issues</url>
+    </issueManagement>
 
     <build>
         <plugins>
@@ -75,6 +99,25 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.skins</groupId>
+                        <artifactId>maven-fluido-skin</artifactId>
+                        <version>1.9</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -84,18 +127,14 @@
         </resources>
     </build>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub AlexProgrammerDE Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/AlexProgrammerDE/PistonMOTD</url>
-        </repository>
-    </distributionManagement>
-
     <repositories>
         <repository>
             <id>sonatype-oss</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>papermc</id>
@@ -105,10 +144,6 @@
             <id>sponge-repo</id>
             <name>Sponge Maven Repository</name>
             <url>https://repo.spongepowered.org/maven</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>velocity</id>
