@@ -1,6 +1,5 @@
 PistonMOTD
 ---------------
-
 Best MOTD plugin multi platform support!
 
 <!-- MACRO{toc|fromDepth=1|toDepth=2} -->
@@ -16,6 +15,14 @@ PistonMOTD has a great API that allows you to integrate your own placeholders. [
 ### Config
 
 Not everything in the config is self explaining. So we documented it. [Click here!](./config.html)
+
+### Formatting
+
+How to make your server look shiny in the server list! [Click here!](./format.html)
+
+### Placeholders
+
+There are a few placeholders in PistonMOTD. [Click here!](./placeholders.html)
 
 ### FAQ
 

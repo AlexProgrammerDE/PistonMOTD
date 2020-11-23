@@ -1,5 +1,6 @@
 PistonMOTD API
 ---------------
+PistonMOTD has a great API that allows you to integrate your own placeholders.
 
 <!-- MACRO{toc|fromDepth=1|toDepth=3} -->
 

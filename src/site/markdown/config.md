@@ -1,7 +1,6 @@
 PistonMOTD Config
 ---------------
-
-Best MOTD plugin multi platform support!
+Not everything in the config is self explaining. So we documented it here.
 
 <!-- MACRO{toc|fromDepth=1|toDepth=4} -->
 
@@ -49,53 +48,8 @@ Pistonmaster
 In the playerlist aka playercounter.
 The highest role of the player (by weight) will be displayed!
 
-### Formatting
-How to make your server look shiny in the server list!
-
-#### Styling
-|Color(Minecraft Name)|Color Code|
-|---|---|
-|Dark Red(dark_red)|&4|
-|Red(red)|&c|
-|Gold(gold)|&6|
-|Yellow(yellow)|&e|
-|Dark Green(dark_green)|&2|
-|Green(green)|&a|
-|Aqua(aqua)|&b|
-|Dark Aqua(dark_aqua)|&3|
-|Dark Blue(dark_blue)|&1|
-|Blue(blue)|&9|
-|Light Purple(light_purple)|&d|
-|Dark Purple(dark_purple)|&5|
-|White(white)|&f|
-|Gray(gray)|&7|
-|Dark Gray(dark_gray)|&8|
-|Black(black)|&0|
-
-|Format|Color Code|
-|---|---|
-|"reset" Reset color to default|&r|
-|Bold|&l|
-|Italic|&o|
-|Underline|&n|
-|Strike|&m|
-|Random characters|&k|
-
-#### RGB
-The RGB format is `&#FFFFFF`. **MOTD only!**
-
-#### MiniMessage
-The MiniMessage formatting is supported! It also allows you to create RGB and not RGB gradients and rainbow colors!
-Here is a link to the documentation of it: [Click here!](https://docs.adventure.kyori.net/minimessage.html#format)
-
-#### Placeholders
-| Placeholder | Description |
-|---|---|
-|%online%|The actual playercount.|
-|%max%|The actual player maximum.|
-
 ### Specific
-Some entries are platform specific:
+Some features are platform specific:
 
 #### Proxy
 This includes proxy software such as bungeecord, waterfall and velocity.
@@ -107,12 +61,3 @@ Pistonmaster
 Player2
 Player3
 ```
-
-##### Server placeholder
-The playercount of a server can be get by `%online_servername%`!
-
-#### Server
-This includes server software such as spigot, paper and sponge.
-
-##### TPS placeholder (paper only)
-On paper, you have the `%tps%` placeholder.
