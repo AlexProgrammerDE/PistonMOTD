@@ -16,3 +16,7 @@ PistonMOTD has a great API that allows you to integrate your own placeholders. [
 ### Config
 
 Not everything in the config is self explaining. So we documented it. [Click here!](./config.html)
+
+### FAQ
+
+Questions left? You may find answers in the FAQ section. [Click here!](./faq.html)
