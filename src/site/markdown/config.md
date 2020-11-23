@@ -16,8 +16,6 @@ List of motd shown to the client, which are separated by `%newline%`.
 #### Playercounter
 This is a small list of entries shown when you hover over the playercount. (0/100 as an example)
 
-**Note:** RGB colors **ARE NOT** supported!
-
 #### Protocol
 This is a message shown when the clients version isn't the one from the server.
 
@@ -54,8 +52,8 @@ The highest role of the player (by weight) will be displayed!
 ### Formatting
 How to make your server look shiny in the server list!
 
-#### Colors
-|Color(Minecraft Name)|Chat Code|
+#### Styling
+|Color(Minecraft Name)|Color Code|
 |---|---|
 |Dark Red(dark_red)|&4|
 |Red(red)|&c|
@@ -74,6 +72,15 @@ How to make your server look shiny in the server list!
 |Dark Gray(dark_gray)|&8|
 |Black(black)|&0|
 
+|Format|Color Code|
+|---|---|
+|"reset" Reset color to default|&r|
+|Bold|&l|
+|Italic|&o|
+|Underline|&n|
+|Strike|&m|
+|Random characters|&k|
+
 #### RGB
 The RGB format is `&#FFFFFF`. **MOTD only!**
 
@@ -90,8 +97,8 @@ Here is a link to the documentation of it: [Click here!](https://docs.adventure.
 ### Specific
 Some entries are platform specific:
 
-#### Bungeecord
-
+#### Proxy
+This includes proxy software such as bungeecord, waterfall and velocity.
 
 ##### Bukkit playercounter
 Will show the playercounter like on bukkit:
@@ -104,8 +111,8 @@ Player3
 ##### Server placeholder
 The playercount of a server can be get by `%online_servername%`!
 
-#### Bukkit
-
+#### Server
+This includes server software such as spigot, paper and sponge.
 
 ##### TPS placeholder (paper only)
 On paper, you have the `%tps%` placeholder.

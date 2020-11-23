@@ -29,11 +29,7 @@ public class PlaceholderUtil {
             parsedText = parser.parseString(parsedText);
         }
 
-        return parseColors(parsedText);
-    }
-
-    private static String parseColors(final String text) {
-        return PistonSerializers.unusualSectionRGB.serialize(PistonSerializers.ampersandRGB.deserialize(PistonSerializers.unusualSectionRGB.serialize(MiniMessage.markdown().parse(text))));
+        return PistonSerializers.unusualSectionRGB.serialize(PistonSerializers.ampersandRGB.deserialize(PistonSerializers.unusualSectionRGB.serialize(MiniMessage.markdown().parse(parsedText))));
     }
 
     /**

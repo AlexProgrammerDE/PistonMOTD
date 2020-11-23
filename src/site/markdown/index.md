@@ -7,7 +7,7 @@ Best MOTD plugin multi platform support!
 
 ### About
 
-PistonMOTD is the best option for your next server setup. It has official support for *spigot, paper, bungeecord, sponge, waterfall, sponge and velocity*!
+PistonMOTD is the best option for your next server setup. It has official support for **spigot, paper, bungeecord, waterfall, sponge and velocity**!
 
 ### API
 

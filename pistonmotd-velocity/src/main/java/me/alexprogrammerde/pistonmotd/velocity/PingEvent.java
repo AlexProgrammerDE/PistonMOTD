@@ -40,7 +40,15 @@ public class PingEvent {
                 builder.maximumPlayers(node.getNode("overridemax", "value").getInt());
             }
 
-            if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckpermsWrapper != null) {
+            if (node.getNode("playercounter", "bukkitplayercounter").getBoolean()) {
+                List<ServerPing.SamplePlayer> info = new ArrayList<>();
+
+                for (Player player : plugin.server.getAllPlayers()) {
+                    info.add(new ServerPing.SamplePlayer(PlaceholderUtil.parseText(player.getUsername() + "§r"), UUID.randomUUID()));
+                }
+
+                builder.samplePlayers(info.toArray(new ServerPing.SamplePlayer[0]));
+            } else if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckpermsWrapper != null) {
                 List<ServerPing.SamplePlayer> info = new ArrayList<>();
 
                 for (Player player : plugin.server.getAllPlayers()) {
