@@ -5,7 +5,7 @@
     <parent>
         <artifactId>PistonMOTD</artifactId>
         <groupId>me.alexprogrammerde</groupId>
-        <version>4.1.0</version>
+        <version>4.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -50,37 +50,37 @@
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-api</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-utils</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-bukkit</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-bungee</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-sponge</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-velocity</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

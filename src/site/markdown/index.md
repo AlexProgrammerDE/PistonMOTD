@@ -1,16 +1,16 @@
 PistonMOTD
 ---------------
-Best MOTD plugin multi platform support!
+[![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/CDrcxzH) 
+[![jitpack.io](https://jitpack.io/v/AlexProgrammerDE/PistonMOTD.svg)](https://jitpack.io/#AlexProgrammerDE/PistonMOTD)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases) 
+
+**Best MOTD plugin multi platform support!**
 
 <!-- MACRO{toc|fromDepth=1|toDepth=2} -->
 
 ### About
 
 PistonMOTD is the best option for your next server setup. It has official support for **spigot, paper, bungeecord, waterfall, sponge and velocity**!
-
-### API
-
-PistonMOTD has a great API that allows you to integrate your own placeholders. [Click here!](./api.html)
 
 ### Config
 
@@ -23,6 +23,10 @@ How to make your server look shiny in the server list! [Click here!](./format.ht
 ### Placeholders
 
 There are a few placeholders in PistonMOTD. [Click here!](./placeholders.html)
+
+### API
+
+PistonMOTD has a great API that allows you to integrate your own placeholders. [Click here!](./api.html)
 
 ### FAQ
 

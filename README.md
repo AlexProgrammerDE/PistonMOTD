@@ -1,5 +1,7 @@
 # PistonMOTD
-[![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/CDrcxzH) [![jitpack.io](https://jitpack.io/v/AlexProgrammerDE/PistonMOTD.svg)](https://jitpack.io/#AlexProgrammerDE/PistonMOTD) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases) 
+[![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/CDrcxzH) 
+[![jitpack.io](https://jitpack.io/v/AlexProgrammerDE/PistonMOTD.svg)](https://jitpack.io/#AlexProgrammerDE/PistonMOTD)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases) 
 
 **Best MOTD plugin multi platform support!**
 
@@ -17,10 +19,10 @@
 Compatible with external MOTD plugins. (Cant promise it will work with every MOTD plugin.)
 
 ## Websites
+* Website: https://www.pistonmaster.net/PistonMOTD/
 * SpigotMC: https://www.spigotmc.org/resources/80567/
 * Ore: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/
 * MCPlugins: https://mcplugins.io/resources/78/
 * Github: https://github.com/AlexProgrammerDE/PistonMOTD/
 * Discord: https://discord.gg/CDrcxzH
 * Jitpack: https://jitpack.io/#AlexProgrammerDE/PistonMOTD/
-* Javadocs: https://www.pistonmaster.net/PistonMOTD/
