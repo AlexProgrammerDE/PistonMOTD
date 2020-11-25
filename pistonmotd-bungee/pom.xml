@@ -73,7 +73,7 @@
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
-            <artifactId>bstats-bungeecord-lite</artifactId>
+            <artifactId>bstats-bungeecord</artifactId>
             <version>1.7</version>
             <scope>compile</scope>
         </dependency>

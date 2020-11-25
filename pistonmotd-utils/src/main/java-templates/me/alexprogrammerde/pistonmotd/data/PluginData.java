@@ -1,11 +1,11 @@
 package me.alexprogrammerde.pistonmotd.data;
 
 public class PluginData {
-    public static final String NAME = "${project.name}";
+    public static final String NAME = "${parent.name}";
 
-    public static final String VERSION = "${project.version}";
+    public static final String VERSION = "${parent.version}";
 
-    public static final String DESCRIPTION = "${project.description}";
+    public static final String DESCRIPTION = "${parent.description}";
 
-    public static final String URL = "${project.url}";
+    public static final String URL = "${parent.url}";
 }

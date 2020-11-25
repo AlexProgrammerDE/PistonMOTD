@@ -7,7 +7,7 @@ import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
 import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
 import me.alexprogrammerde.pistonmotd.utils.UpdateType;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import org.bstats.bukkit.MetricsLite;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -94,7 +94,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
         }));
 
         log.info(ChatColor.AQUA + "Loading metrics");
-        new MetricsLite(this, 9100);
+        new Metrics(this, 9100);
     }
 
     @Override

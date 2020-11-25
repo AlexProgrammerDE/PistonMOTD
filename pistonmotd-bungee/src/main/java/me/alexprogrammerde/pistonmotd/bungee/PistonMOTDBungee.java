@@ -9,7 +9,7 @@ import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
-import org.bstats.bungeecord.MetricsLite;
+import org.bstats.bungeecord.Metrics;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class PistonMOTDBungee extends Plugin {
         }));
 
         log.info(ChatColor.AQUA + "Loading metrics");
-        new MetricsLite(this, 8968);
+        new Metrics(this, 8968);
     }
 
     @Override

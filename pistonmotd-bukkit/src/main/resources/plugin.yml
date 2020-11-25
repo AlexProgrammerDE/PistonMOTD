@@ -1,9 +1,9 @@
 name: PistonMOTD
-version: ${project.version}
+version: ${parent.version}
 api-version: 1.16
 main: me.alexprogrammerde.pistonmotd.bukkit.PistonMOTDBukkit
-description: ${project.description}
-website: ${project.url}
+description: ${parent.description}
+website: ${parent.url}
 softdepend: ["LuckPerms"]
 commands:
   pistonmotd:

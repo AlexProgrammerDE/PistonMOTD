@@ -64,7 +64,7 @@
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
-            <artifactId>bstats-sponge-lite</artifactId>
+            <artifactId>bstats-sponge</artifactId>
             <version>1.7</version>
             <scope>compile</scope>
         </dependency>

@@ -71,7 +71,7 @@
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit-lite</artifactId>
+            <artifactId>bstats-bukkit</artifactId>
             <version>1.7</version>
             <scope>compile</scope>
         </dependency>
