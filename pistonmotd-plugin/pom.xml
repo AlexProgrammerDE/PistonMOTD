@@ -60,8 +60,13 @@
                                     <artifactId>${project.artifactId}</artifactId>
                                     <version>${project.version}</version>
                                     <type>${project.packaging}</type>
+                                    <overWrite>true</overWrite>
+                                    <destFileName>PistonMOTD-${parent.version}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
                             <outputDirectory>../target/</outputDirectory>
                         </configuration>
                     </execution>

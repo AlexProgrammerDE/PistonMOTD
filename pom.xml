@@ -95,6 +95,13 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.google.code.gson</groupId>
+                            <artifactId>gson</artifactId>
+                            <version>2.8.6</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -139,7 +146,7 @@
         </repository>
         <repository>
             <id>velocity</id>
-            <url>https://repo.velocitypowered.com/snapshots/</url>
+            <url>https://nexus.velocitypowered.com/repository/maven-public/</url>
         </repository>
         <repository>
             <id>CodeMC</id>
