@@ -35,6 +35,11 @@
         </license>
     </licenses>
 
+    <issueManagement>
+        <system>Github Issues</system>
+        <url>https://github.com/AlexProgrammerDE/PistonMOTD/issues</url>
+    </issueManagement>
+
     <reporting>
         <excludeDefaults>true</excludeDefaults>
         <plugins>
@@ -73,11 +78,6 @@
         </plugins>
     </reporting>
 
-    <issueManagement>
-        <system>Github</system>
-        <url>https://github.com/AlexProgrammerDE/PistonMOTD/issues</url>
-    </issueManagement>
-
     <build>
         <plugins>
             <plugin>
@@ -95,13 +95,6 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>com.google.code.gson</groupId>
-                            <artifactId>gson</artifactId>
-                            <version>2.8.6</version>
-                        </path>
-                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
