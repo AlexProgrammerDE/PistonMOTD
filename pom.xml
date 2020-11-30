@@ -40,6 +40,17 @@
         <url>https://github.com/AlexProgrammerDE/PistonMOTD/issues</url>
     </issueManagement>
 
+    <distributionManagement>
+        <repository>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <reporting>
         <excludeDefaults>true</excludeDefaults>
         <plugins>
