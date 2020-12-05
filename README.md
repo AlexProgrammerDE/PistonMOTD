@@ -1,6 +1,6 @@
 # PistonMOTD
 [![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/CDrcxzH) 
-[![jitpack.io](https://jitpack.io/v/AlexProgrammerDE/PistonMOTD.svg)](https://jitpack.io/#AlexProgrammerDE/PistonMOTD)
+[![Build Status](https://ci.codemc.io/buildStatus/icon?job=AlexProgrammerDE%2FPistonMOTD)](https://ci.codemc.io/job/AlexProgrammerDE/job/PistonMOTD/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases) 
 
 **Best MOTD plugin multi platform support!**
@@ -18,7 +18,32 @@
 
 Compatible with external MOTD plugins. (Cant promise it will work with every MOTD plugin.)
 
-## Websites
+## API
+
+We got an easy to integrate API for adding additional placeholders into the plugin.
+
+Repository:
+```xml
+  <repositories>
+      <repository>
+          <id>codemc-repo</id>
+          <url>https://repo.codemc.org/repository/maven-public/</url>
+      </repository>
+  </repositories>
+```
+
+Dependency:
+```xml
+  <dependencies>
+    <dependency>
+      <groupId>me.alexprogrammerde</groupId>
+      <artifactId>pistonmotd-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+  </dependencies>
+```
+
+## Links
 * Website: https://www.pistonmaster.net/PistonMOTD/
 * SpigotMC: https://www.spigotmc.org/resources/80567/
 * Ore: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/

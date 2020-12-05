@@ -30,7 +30,7 @@
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -83,6 +83,7 @@
                             <report>licenses</report>
                             <report>help</report>
                         </reports>
+
                     </reportSet>
                 </reportSets>
             </plugin>

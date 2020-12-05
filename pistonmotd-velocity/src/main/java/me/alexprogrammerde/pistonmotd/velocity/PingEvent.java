@@ -82,8 +82,13 @@ public class PingEvent {
                 }
             }
 
-            if (node.getNode("protocol", "activated").getBoolean()) {
+            if (node.getNode("protocol", "activated").getBoolean() || node.getNode("overrideprotocolnumber", "activated").getBoolean()) {
+                builder.version(new ServerPing.Version(node.getNode("overrideprotocolnumber", "value").getInt(), PlaceholderUtil.parseText(Objects.requireNonNull(node.getNode("protocol", "text").getString()).replaceAll("%aftericon%", afterIcon))));
+            } else if (node.getNode("protocol", "activated").getBoolean()) {
                 builder.version(new ServerPing.Version(event.getPing().getVersion().getProtocol(), PlaceholderUtil.parseText(Objects.requireNonNull(node.getNode("protocol", "text").getString()).replaceAll("%aftericon%", afterIcon))));
+            } else if (node.getNode("overrideprotocolnumber", "activated").getBoolean()) {
+                builder.version(new ServerPing.Version(node.getNode("overrideprotocolnumber", "value").getInt(), event.getPing().getVersion().getName()));
+
             }
 
             event.setPing(builder.build());

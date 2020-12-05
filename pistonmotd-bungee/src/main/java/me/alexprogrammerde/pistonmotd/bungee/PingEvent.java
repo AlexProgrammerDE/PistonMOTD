@@ -113,10 +113,16 @@ public class PingEvent implements Listener {
             motd = event.getResponse().getDescriptionComponent();
         }
 
-        if (config.getBoolean("protocol.activated")) {
+        if (config.getBoolean("protocol.activated") || config.getBoolean("overrideprotocolnumber.activated")) {
             ServerPing.Protocol provided = event.getResponse().getVersion();
 
-            provided.setName(PlaceholderUtil.parseText(config.getString("protocol.text").replaceAll("%aftericon%", afterIcon)));
+            if (config.getBoolean("protocol.activated")) {
+                provided.setName(PlaceholderUtil.parseText(config.getString("protocol.text").replaceAll("%aftericon%", afterIcon)));
+            }
+
+            if (config.getBoolean("overrideprotocolnumber.activated")) {
+                provided.setProtocol(config.getInt("overrideprotocolnumber.value"));
+            }
 
             protocol = provided;
         } else {

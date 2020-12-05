@@ -21,6 +21,10 @@ protocol:
   activated: true
   text: "&1My custom protocol message!"
 
+overrideprotocolnumber:
+  activated: false
+  value: 1
+
 icons: false
 
 hooks:

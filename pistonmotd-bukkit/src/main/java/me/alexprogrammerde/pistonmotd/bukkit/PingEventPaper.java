@@ -44,7 +44,11 @@ public class PingEventPaper implements Listener {
         }
 
         if (config.getBoolean("extended.protocol.activated")) {
-            event.setVersion(PlaceholderUtil.parseText(config.getString("extended.protocol.activated")));
+            event.setVersion(PlaceholderUtil.parseText(config.getString("extended.protocol.text")));
+        }
+
+        if (config.getBoolean("extended.overrideprotocolnumber.activated")) {
+            event.setProtocolVersion(config.getInt("extended.overrideprotocolnumber.value"));
         }
 
         if (config.getBoolean("hooks.extended.luckpermsplayercounter") && plugin.luckpermsWrapper != null) {
@@ -79,7 +83,7 @@ public class PingEventPaper implements Listener {
         }
 
         if (config.getBoolean("extended.hideplayers")) {
-            event.setHidePlayers(config.getBoolean("extended.hideplayers.value"));
+            event.setHidePlayers(true);
         }
 
         if (plugin.getConfig().getBoolean("icons")) {

@@ -34,6 +34,9 @@ extended:
   overrideonline:
     activated: false
     value: 0
+  overrideprotocolnumber:
+    activated: false
+    value: 1
   # Instead of showing the playerstats the client will just display "???"
   hideplayers: false
   # This is shown when you hover over the playercount
