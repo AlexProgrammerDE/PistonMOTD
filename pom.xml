@@ -6,7 +6,7 @@
 
     <groupId>me.alexprogrammerde</groupId>
     <artifactId>PistonMOTD</artifactId>
-    <version>4.2.0</version>
+    <version>4.3.0</version>
     <modules>
         <module>pistonmotd-bukkit</module>
         <module>pistonmotd-api</module>
