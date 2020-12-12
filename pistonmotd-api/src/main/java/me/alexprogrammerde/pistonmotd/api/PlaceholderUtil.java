@@ -41,7 +41,6 @@ public class PlaceholderUtil {
         placeholders.add(parser);
     }
 
-
     /**
      * Unregister a parser to stop him from parsing
      * @param parser The parser to unregister
