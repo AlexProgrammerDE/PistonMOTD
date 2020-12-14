@@ -98,7 +98,7 @@ public class PistonMOTDSponge {
                 .build();
 
         CommandSpec command = CommandSpec.builder()
-                .description(Text.of("Main command of PistonMOTD"))
+                .description(Text.of("Main command of PistonMOTD!"))
                 .child(help, "help")
                 .child(reload, "reload")
                 .build();
