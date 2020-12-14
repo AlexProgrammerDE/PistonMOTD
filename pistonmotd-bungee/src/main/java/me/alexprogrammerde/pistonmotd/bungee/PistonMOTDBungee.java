@@ -2,9 +2,10 @@ package me.alexprogrammerde.pistonmotd.bungee;
 
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.utils.LuckPermsWrapper;
-import me.alexprogrammerde.pistonmotd.utils.UpdateChecker;
-import me.alexprogrammerde.pistonmotd.utils.UpdateParser;
-import me.alexprogrammerde.pistonmotd.utils.UpdateType;
+import me.alexprogrammerde.pistonutils.PistonLogger;
+import me.alexprogrammerde.pistonutils.UpdateChecker;
+import me.alexprogrammerde.pistonutils.UpdateParser;
+import me.alexprogrammerde.pistonutils.UpdateType;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -74,7 +75,7 @@ public class PistonMOTDBungee extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));
 
         log.info(ChatColor.AQUA + "Checking for a newer version");
-        new UpdateChecker(getLogger()).getVersion(version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
+        new UpdateChecker(new PistonLogger(getLogger())).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
             if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
                 log.info(ChatColor.AQUA + "Your up to date!");
             } else {
@@ -87,12 +88,14 @@ public class PistonMOTDBungee extends Plugin {
                 }
 
                 log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
-                log.info(ChatColor.RED + "Download it at: https://www.spigotmc.org/resources/80567/updates");
+                log.info(ChatColor.RED + "Download it at: https://github.com/AlexProgrammerDE/PistonMOTD/releases");
             }
         }));
 
         log.info(ChatColor.AQUA + "Loading metrics");
         new Metrics(this, 8968);
+
+        log.info(ChatColor.AQUA + "Done! :D");
     }
 
     @Override

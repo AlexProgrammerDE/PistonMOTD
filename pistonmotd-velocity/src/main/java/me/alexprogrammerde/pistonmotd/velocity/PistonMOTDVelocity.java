@@ -9,7 +9,12 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.alexprogrammerde.pistonmotd.api.PlaceholderUtil;
 import me.alexprogrammerde.pistonmotd.data.PluginData;
-import me.alexprogrammerde.pistonmotd.utils.*;
+import me.alexprogrammerde.pistonmotd.utils.ConsoleColor;
+import me.alexprogrammerde.pistonmotd.utils.LuckPermsWrapper;
+import me.alexprogrammerde.pistonutils.PistonLogger;
+import me.alexprogrammerde.pistonutils.UpdateChecker;
+import me.alexprogrammerde.pistonutils.UpdateParser;
+import me.alexprogrammerde.pistonutils.UpdateType;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
@@ -74,7 +79,7 @@ public class PistonMOTDVelocity {
 
         if (container.getDescription().getVersion().isPresent()) {
             log.info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
-            new UpdateChecker(log).getVersion(version -> new UpdateParser(container.getDescription().getVersion().get(), version).parseUpdate(updateType -> {
+            new UpdateChecker(new PistonLogger(log)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(container.getDescription().getVersion().get(), version).parseUpdate(updateType -> {
                 if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
                     log.info(ConsoleColor.CYAN + "Your up to date!" + ConsoleColor.RESET);
                 } else {
@@ -91,6 +96,8 @@ public class PistonMOTDVelocity {
                 }
             }));
         }
+
+        log.info(ConsoleColor.CYAN + "Done! :D" + ConsoleColor.RESET);
     }
 
     protected void loadConfig() {
