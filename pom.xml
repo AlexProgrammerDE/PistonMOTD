@@ -51,6 +51,10 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <scm>
+        <connection>scm:git:https://github.com/AlexProgrammerDE/PistonMOTD</connection>
+    </scm>
+
     <reporting>
         <excludeDefaults>true</excludeDefaults>
         <plugins>

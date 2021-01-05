@@ -47,11 +47,11 @@ public class BungeeCommand extends Command implements TabExecutor {
             for (String string : COMMANDS) {
                 if (string.toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(string);
-
-                    Collections.sort(completions);
                 }
             }
         }
+
+        Collections.sort(completions);
 
         return completions;
     }

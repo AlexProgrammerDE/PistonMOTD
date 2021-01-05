@@ -37,12 +37,12 @@ public class VelocityCommand implements SimpleCommand {
             for (String string : COMMANDS) {
                 if (string.toLowerCase().startsWith(invocation.arguments()[0].toLowerCase())) {
                     completions.add(string);
-
-                    Collections.sort(completions);
                 }
             }
         }
 
+        Collections.sort(completions);
+        
         return completions;
     }
 

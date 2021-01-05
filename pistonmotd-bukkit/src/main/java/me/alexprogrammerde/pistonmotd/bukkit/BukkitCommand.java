@@ -9,6 +9,7 @@ import org.bukkit.util.StringUtil;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BukkitCommand implements CommandExecutor, TabExecutor {
@@ -51,6 +52,8 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
         if (COMMANDS.size() != 0 && args.length == 1 && args[0] != null) {
             StringUtil.copyPartialMatches(args[0], COMMANDS, completions);
         }
+
+        Collections.sort(completions);
 
         return completions;
     }

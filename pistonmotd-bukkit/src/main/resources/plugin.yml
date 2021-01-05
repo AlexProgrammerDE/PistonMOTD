@@ -1,6 +1,6 @@
 name: PistonMOTD
 version: ${parent.version}
-api-version: 1.16
+api-version: 1.13
 main: me.alexprogrammerde.pistonmotd.bukkit.PistonMOTDBukkit
 description: ${parent.description}
 website: ${parent.url}
