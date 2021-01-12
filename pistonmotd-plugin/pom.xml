@@ -19,7 +19,6 @@
                 <version>3.2.4</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <minimizeJar>true</minimizeJar>
                     <relocations>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
@@ -62,7 +61,7 @@
                                     <version>${project.version}</version>
                                     <type>${project.packaging}</type>
                                     <overWrite>true</overWrite>
-                                    <destFileName>PistonMOTD-${parent.version}.jar</destFileName>
+                                    <destFileName>PistonMOTD-${project.parent.version}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                             <overWriteIfNewer>true</overWriteIfNewer>
