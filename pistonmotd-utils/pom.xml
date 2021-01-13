@@ -5,7 +5,7 @@
     <parent>
         <artifactId>PistonMOTD</artifactId>
         <groupId>me.alexprogrammerde</groupId>
-        <version>4.3.0</version>
+        <version>4.3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,37 +22,6 @@
                         <id>add-plugin-info</id>
                         <goals>
                             <goal>filter-sources</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <minimizeJar>true</minimizeJar>
-                    <relocations>
-                        <relocation>
-                            <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.alexprogrammerde.pistonmotd.bukkit.paperlib</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.bstats.bukkit</pattern>
-                            <shadedPattern>me.alexprogrammerde.pistonmotd.bukkit.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.bstats.bungeecord</pattern>
-                            <shadedPattern>me.alexprogrammerde.pistonmotd.bungee.bstats</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>PistonMOTD</artifactId>
         <groupId>me.alexprogrammerde</groupId>
-        <version>4.3.0</version>
+        <version>4.3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -33,6 +33,19 @@
                             <shadedPattern>me.alexprogrammerde.pistonmotd.bungee.bstats</shadedPattern>
                         </relocation>
                     </relocations>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>module-info.class</exclude>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                                <exclude>META-INF/*.MF</exclude>
+                                <exclude>META-INF/*.txt</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
                 <executions>
                     <execution>
@@ -78,38 +91,26 @@
     <dependencies>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
-            <artifactId>pistonmotd-api</artifactId>
-            <version>4.3.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.alexprogrammerde</groupId>
-            <artifactId>pistonmotd-utils</artifactId>
-            <version>4.3.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-bukkit</artifactId>
-            <version>4.3.0</version>
+            <version>4.3.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-bungee</artifactId>
-            <version>4.3.0</version>
+            <version>4.3.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-sponge</artifactId>
-            <version>4.3.0</version>
+            <version>4.3.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-velocity</artifactId>
-            <version>4.3.0</version>
+            <version>4.3.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -3,7 +3,7 @@
 [![Build Status](https://ci.codemc.io/buildStatus/icon?job=AlexProgrammerDE%2FPistonMOTD)](https://ci.codemc.io/job/AlexProgrammerDE/job/PistonMOTD/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases) 
 
-**Best MOTD plugin multi platform support!**
+**Best MOTD plugin with multi-platform support!**
 
 ## Features
 * Customize playercounter tooltip

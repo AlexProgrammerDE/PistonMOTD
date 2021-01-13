@@ -4,7 +4,7 @@ PistonMOTD
 [![jitpack.io](https://jitpack.io/v/AlexProgrammerDE/PistonMOTD.svg)](https://jitpack.io/#AlexProgrammerDE/PistonMOTD)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases) 
 
-**Best MOTD plugin multi platform support!**
+**Best MOTD plugin with multi-platform support!**
 
 <!-- MACRO{toc|fromDepth=1|toDepth=2} -->
 

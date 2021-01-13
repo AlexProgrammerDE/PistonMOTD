@@ -4,13 +4,13 @@ import me.alexprogrammerde.pistonmotd.utils.PistonSerializers;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.apiguardian.api.API;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class to use to manage parsers and parse text.
  */
+@SuppressWarnings({"unused"})
 public class PlaceholderUtil {
     private static final List<PlaceholderParser> placeholders = new ArrayList<>();
 
@@ -37,7 +37,7 @@ public class PlaceholderUtil {
      * @param parser A parser to register
      */
     @API(status = API.Status.STABLE)
-    public static void registerParser(@Nonnull PlaceholderParser parser) {
+    public static void registerParser(PlaceholderParser parser) {
         placeholders.add(parser);
     }
 
@@ -46,7 +46,7 @@ public class PlaceholderUtil {
      * @param parser The parser to unregister
      */
     @API(status = API.Status.STABLE)
-    public static void unregisterParser(@Nonnull PlaceholderParser parser) {
+    public static void unregisterParser(PlaceholderParser parser) {
         placeholders.remove(parser);
     }
 }

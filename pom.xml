@@ -6,7 +6,7 @@
 
     <groupId>me.alexprogrammerde</groupId>
     <artifactId>PistonMOTD</artifactId>
-    <version>4.3.0</version>
+    <version>4.3.1</version>
     <modules>
         <module>pistonmotd-bukkit</module>
         <module>pistonmotd-api</module>
@@ -20,7 +20,7 @@
 
     <name>PistonMOTD</name>
 
-    <description>Best MOTD plugin multi platform support!</description>
+    <description>Best MOTD plugin with multi-platform support!</description>
     <url>https://pistonmaster.net/PistonMOTD</url>
 
     <properties>
@@ -202,12 +202,6 @@
             <artifactId>api</artifactId>
             <version>5.2</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>1.3.9</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
