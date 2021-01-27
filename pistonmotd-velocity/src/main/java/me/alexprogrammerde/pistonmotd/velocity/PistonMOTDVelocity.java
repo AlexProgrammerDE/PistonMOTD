@@ -68,7 +68,8 @@ public class PistonMOTDVelocity {
             try {
                 log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
                 luckpermsWrapper = new LuckPermsWrapper();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         log.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
@@ -111,15 +112,11 @@ public class PistonMOTDVelocity {
             if (oldConfigFile.exists()) {
                 loader.save(YAMLConfigurationLoader.builder().setFile(oldConfigFile).build().load());
 
-                if (!oldConfigFile.delete()) {
-                    throw new Exception("Failed to delete config.yml!!!");
-                }
+                Files.delete(oldConfigFile.toPath());
             }
 
-            if (!pluginDir.toFile().exists()) {
-                if (!pluginDir.toFile().mkdir()) {
-                    throw new IOException("Couldn't create folder!");
-                }
+            if (!pluginDir.toFile().exists() && !pluginDir.toFile().mkdir()) {
+                throw new IOException("Couldn't create folder!");
             }
 
             if (!file.exists()) {

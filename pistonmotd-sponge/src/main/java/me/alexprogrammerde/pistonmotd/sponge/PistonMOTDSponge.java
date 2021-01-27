@@ -15,7 +15,7 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
-import org.bstats.sponge.Metrics2;
+import org.bstats.sponge.Metrics;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.asset.Asset;
@@ -36,7 +36,7 @@ import java.nio.file.Path;
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDSponge {
     protected ConfigurationNode rootNode;
-    private final Metrics2.Factory metricsFactory;
+    private final Metrics.Factory metricsFactory;
     protected File icons;
     protected LuckPermsWrapper luckpermsWrapper = null;
 
@@ -65,7 +65,7 @@ public class PistonMOTDSponge {
     private MetricsConfigManager metricsConfigManager;
 
     @Inject
-    public PistonMOTDSponge(Metrics2.Factory metricsFactory) {
+    public PistonMOTDSponge(Metrics.Factory metricsFactory) {
         this.metricsFactory = metricsFactory;
     }
 
