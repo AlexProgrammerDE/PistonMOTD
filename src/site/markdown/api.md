@@ -6,8 +6,8 @@ PistonMOTD has a great API that allows you to integrate your own placeholders.
 
 ### How to set up
 
-PistonMOTD uses jitpack as the host for the API dependency
-hosting: [Click here!](https://jitpack.io/#AlexProgrammerDE/PistonMOTD/)
+PistonMOTD uses CodeMC as the host for the API dependency
+hosting: [Click here!](https://ci.codemc.io/job/AlexProgrammerDE/job/PistonMOTD/)
 
 #### Maven
 
