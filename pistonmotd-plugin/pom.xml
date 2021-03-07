@@ -5,7 +5,7 @@
     <parent>
         <artifactId>PistonMOTD</artifactId>
         <groupId>me.alexprogrammerde</groupId>
-        <version>4.3.1</version>
+        <version>4.3.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,15 +22,15 @@
                     <relocations>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.alexprogrammerde.pistonmotd.bukkit.paperlib</shadedPattern>
+                            <shadedPattern>net.pistonmaster.pistonmotd.shade.paperlib</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>org.bstats.bukkit</pattern>
-                            <shadedPattern>me.alexprogrammerde.pistonmotd.bukkit.bstats</shadedPattern>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>net.pistonmaster.pistonmotd.shade.bstats</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>org.bstats.bungeecord</pattern>
-                            <shadedPattern>me.alexprogrammerde.pistonmotd.bungee.bstats</shadedPattern>
+                            <pattern>net.pistonmaster.pistonutils</pattern>
+                            <shadedPattern>net.pistonmaster.pistonmotd.shade.pistonutils</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>
@@ -92,25 +92,25 @@
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-bukkit</artifactId>
-            <version>4.3.1</version>
+            <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-bungee</artifactId>
-            <version>4.3.1</version>
+            <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-sponge</artifactId>
-            <version>4.3.1</version>
+            <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.alexprogrammerde</groupId>
             <artifactId>pistonmotd-velocity</artifactId>
-            <version>4.3.1</version>
+            <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
