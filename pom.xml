@@ -64,12 +64,12 @@
                 <version>3.2.0</version>
                 <configuration>
                     <excludePackageNames>
-                        me.alexprogrammerde.pistonmotd.bukkit:
-                        me.alexprogrammerde.pistonmotd.bungee:
-                        me.alexprogrammerde.pistonmotd.utils:
-                        me.alexprogrammerde.pistonmotd.sponge:
-                        me.alexprogrammerde.pistonmotd.velocity:
-                        me.alexprogrammerde.pistonmotd.data
+                        net.pistonmaster.pistonmotd.bukkit:
+                        net.pistonmaster.pistonmotd.bungee:
+                        net.pistonmaster.pistonmotd.utils:
+                        net.pistonmaster.pistonmotd.sponge:
+                        net.pistonmaster.pistonmotd.velocity:
+                        net.pistonmaster.pistonmotd.data
                     </excludePackageNames>
                 </configuration>
             </plugin>
@@ -200,7 +200,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>me.alexprogrammerde</groupId>
+            <groupId>net.pistonmaster</groupId>
             <artifactId>PistonUtils</artifactId>
             <version>1.2.1</version>
         </dependency>

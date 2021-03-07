@@ -1,7 +1,7 @@
 name: PistonMOTD
 version: ${parent.version}
 api-version: 1.13
-main: me.alexprogrammerde.pistonmotd.bukkit.PistonMOTDBukkit
+main: net.pistonmaster.pistonmotd.bukkit.PistonMOTDBukkit
 description: ${parent.description}
 website: ${parent.url}
 softdepend: ["LuckPerms"]

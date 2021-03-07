@@ -90,25 +90,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>me.alexprogrammerde</groupId>
+            <groupId>net.pistonmaster</groupId>
             <artifactId>pistonmotd-bukkit</artifactId>
             <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>me.alexprogrammerde</groupId>
+            <groupId>net.pistonmaster</groupId>
             <artifactId>pistonmotd-bungee</artifactId>
             <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>me.alexprogrammerde</groupId>
+            <groupId>net.pistonmaster</groupId>
             <artifactId>pistonmotd-sponge</artifactId>
             <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>me.alexprogrammerde</groupId>
+            <groupId>net.pistonmaster</groupId>
             <artifactId>pistonmotd-velocity</artifactId>
             <version>4.3.2</version>
             <scope>compile</scope>

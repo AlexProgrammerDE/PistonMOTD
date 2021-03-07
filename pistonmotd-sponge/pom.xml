@@ -59,13 +59,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>me.alexprogrammerde</groupId>
+            <groupId>net.pistonmaster</groupId>
             <artifactId>pistonmotd-api</artifactId>
             <version>4.3.2</version>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>me.alexprogrammerde</groupId>
+            <groupId>net.pistonmaster</groupId>
             <artifactId>pistonmotd-utils</artifactId>
             <version>4.3.2</version>
             <optional>true</optional>
