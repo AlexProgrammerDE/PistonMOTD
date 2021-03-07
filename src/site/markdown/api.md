@@ -6,48 +6,62 @@ PistonMOTD has a great API that allows you to integrate your own placeholders.
 
 ### How to set up
 
-PistonMOTD uses jitpack as the host for the API dependency hosting: [Click here!](https://jitpack.io/#AlexProgrammerDE/PistonMOTD/)
+PistonMOTD uses jitpack as the host for the API dependency
+hosting: [Click here!](https://jitpack.io/#AlexProgrammerDE/PistonMOTD/)
 
 #### Maven
+
 Repository:
+
 ```xml
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
+
+<repositories>
+    <repository>
+        <id>CodeMC</id>
+        <url>https://repo.codemc.org/repository/maven-public</url>
+    </repository>
+</repositories>
 ```
 
 Dependency:
+
 ```xml
-	<dependency>
-	    <groupId>com.github.AlexProgrammerDE</groupId>
-	    <artifactId>PistonMOTD</artifactId>
-	    <version>4.1.0</version>
-	</dependency>
+
+<dependency>
+    <groupId>net.pistonmaster</groupId>
+    <artifactId>pistonmotd-api</artifactId>
+    <version>4.3.2</version>
+</dependency>
 ```
 
 #### Gradle
+
 Repository:
-```hocon
-	allprojects {
-		repositories {
-			maven { url 'https://jitpack.io' }
-		}
-	}
+
+```groovy
+allprojects {
+    repositories {
+        maven { url 'https://repo.codemc.org/repository/maven-public' }
+    }
+}
 ```
 
 Dependency:
-```hocon
-	dependencies {
-    	        implementation 'com.github.AlexProgrammerDE:PistonMOTD:4.1.0'
-    	}
+
+```groovy
+dependencies {
+    implementation 'com.github.AlexProgrammerDE:PistonMOTD:4.1.0'
+}
 ```
 
 ### Usage
 
-To register you need a class implementing the [PlaceholderParser](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderParser.java) and to register it at the [PlaceholderUtil](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderUtil.java) with [#registerParser()](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderUtil.java#L44).
+To register you need a class implementing
+the [PlaceholderParser](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderParser.java)
+and to register it at
+the [PlaceholderUtil](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderUtil.java)
+with [#registerParser()](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-api/src/main/java/me/alexprogrammerde/pistonmotd/api/PlaceholderUtil.java#L44)
+.
 
 Here is an example of that:
 [ServerPlaceholder](https://github.com/AlexProgrammerDE/PistonMOTD/blob/master/pistonmotd-bungee/src/main/java/me/alexprogrammerde/pistonmotd/bungee/ServerPlaceholder.java)

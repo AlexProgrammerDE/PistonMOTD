@@ -12,11 +12,11 @@
 * A custom client out of date message. You can force that to always happen too.
 * Random favicon
 * Placeholders (extendable via api)
-* Hide your playercount (only on me.alexprogrammerde.bukkit)
+* Hide your playercount (only on bukkit)
 * Very easy to understand config
 * Modular (You can enable/disable every feature)
 
-Compatible with external MOTD plugins. (Cant promise it will work with every MOTD plugin.)
+Compatible with external MOTD plugins. (Can't promise it will work with every MOTD plugin.)
 
 ## API
 
@@ -36,9 +36,9 @@ Dependency:
 ```xml
   <dependencies>
     <dependency>
-      <groupId>me.alexprogrammerde</groupId>
+      <groupId>net.pistonmaster</groupId>
       <artifactId>pistonmotd-api</artifactId>
-      <version>4.2.0</version>
+      <version>4.3.2</version>
     </dependency>
   </dependencies>
 ```
