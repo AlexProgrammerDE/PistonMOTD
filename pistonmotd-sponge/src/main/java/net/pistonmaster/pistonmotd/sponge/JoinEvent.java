@@ -5,6 +5,7 @@ import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.Tristate;
 
 public class JoinEvent {
     private final PistonMOTDSponge plugin;
@@ -17,7 +18,7 @@ public class JoinEvent {
     public void onJoin(ClientConnectionEvent temp) {
         if (temp instanceof ClientConnectionEvent.Join) {
             ClientConnectionEvent.Join event = (ClientConnectionEvent.Join) temp;
-            if (event.getTargetEntity().hasPermission("sponge.command.metrics") && !plugin.hasConsent()) {
+            if (event.getTargetEntity().hasPermission("sponge.command.metrics") && plugin.getEffectiveCollectionState() == Tristate.UNDEFINED) {
                 event.getTargetEntity().sendMessage(Text.builder("-----[ PistonMOTD ]-----").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
                 event.getTargetEntity().sendMessage(Text.builder("Hey there! It seems like data collection is disabled. :( ").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
                 event.getTargetEntity().sendMessage(Text.builder("But don't worry... You can fix this! ").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
