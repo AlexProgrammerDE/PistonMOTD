@@ -27,6 +27,7 @@ import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.metric.MetricsConfigManager;
 
 import java.io.File;
@@ -140,10 +141,11 @@ public class PistonMOTDSponge {
             }));
         }
 
-        if (hasConsent()) {
+        final Tristate collectionState = this.getEffectiveCollectionState();
+        if (collectionState == Tristate.TRUE) {
             log.info(ConsoleColor.CYAN + "Loading metrics" + ConsoleColor.RESET);
             metricsFactory.make(9204);
-        } else {
+        } else if (collectionState == Tristate.UNDEFINED) {
             log.info(ConsoleColor.CYAN + "Hey there! It seems like data collection is disabled. :( " + ConsoleColor.RESET);
             log.info(ConsoleColor.CYAN + "But don't worry... You can fix this! " + ConsoleColor.RESET);
             log.info(ConsoleColor.CYAN + "Just execute: \"/sponge metrics pistonmotd enable\"." + ConsoleColor.RESET);
@@ -196,7 +198,19 @@ public class PistonMOTDSponge {
         }
     }
 
-    protected boolean hasConsent() {
-        return metricsConfigManager.getCollectionState(this.container).asBoolean();
+    /**
+     * Gets the effective collection state for the plugin.
+     * <p>
+     * This will return the global collection state fallback, if the server administrator doesn't
+     * have a specific collection state for the plugin.
+     *
+     * @return The collection state
+     */
+    protected Tristate getEffectiveCollectionState() {
+        final Tristate pluginState = this.metricsConfigManager.getCollectionState(this.container);
+        if (pluginState == Tristate.UNDEFINED) {
+            return this.metricsConfigManager.getGlobalCollectionState();
+        }
+        return pluginState;
     }
 }
