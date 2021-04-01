@@ -6,6 +6,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
@@ -39,17 +40,17 @@ public class PingEvent {
 
             event.getResponse().setHidePlayers(node.getNode("hideplayers").getBoolean());
 
-            if (event.getResponse().getPlayers().isPresent()) {
+            event.getResponse().getPlayers().ifPresent(players -> {
                 if (node.getNode("overrideonline", "activated").getBoolean()) {
-                    event.getResponse().getPlayers().get().setOnline(node.getNode("overrideonline", "value").getInt());
+                    players.setOnline(node.getNode("overrideonline", "value").getInt());
                 }
 
                 if (node.getNode("overridemax", "activated").getBoolean()) {
-                    event.getResponse().getPlayers().get().setMax(node.getNode("overridemax", "value").getInt());
+                    players.setMax(node.getNode("overridemax", "value").getInt());
                 }
 
                 if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckpermsWrapper != null) {
-                    event.getResponse().getPlayers().get().getProfiles().clear();
+                    players.getProfiles().clear();
 
                     for (Player player : plugin.game.getServer().getOnlinePlayers()) {
                         CachedMetaData metaData = plugin.luckpermsWrapper.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
@@ -58,16 +59,20 @@ public class PingEvent {
 
                         String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
 
-                        event.getResponse().getPlayers().get().getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(prefix + player.getDisplayNameData().displayName().get().toPlain() + suffix)));
+                        players.getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(prefix + player.getDisplayNameData().displayName().get().toPlain() + suffix)));
                     }
                 } else if (node.getNode("playercounter", "activated").getBoolean()) {
-                    event.getResponse().getPlayers().get().getProfiles().clear();
+                    players.getProfiles().clear();
 
-                    for (String str : node.getNode("playercounter", "text").getList(new TypeToken<String>() {})) {
-                        event.getResponse().getPlayers().get().getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(str)));
+                    try {
+                        for (String str : node.getNode("playercounter", "text").getList(new TypeToken<String>() {})) {
+                            players.getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(str)));
+                        }
+                    } catch (ObjectMappingException e) {
+                        e.printStackTrace();
                     }
                 }
-            }
+            });
 
             if (node.getNode("icons").getBoolean()) {
                 File[] icons = plugin.icons.listFiles();
