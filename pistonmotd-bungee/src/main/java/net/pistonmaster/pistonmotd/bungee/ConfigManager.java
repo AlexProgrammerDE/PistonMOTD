@@ -29,7 +29,7 @@ public class ConfigManager {
         final List<String> templateKeys = new ArrayList<>();
 
         if (!plugin.getDataFolder().exists()) {
-            if (!plugin.getDataFolder().mkdir())  {
+            if (!plugin.getDataFolder().mkdir()) {
                 plugin.getLogger().log(Level.SEVERE, "Couldn't create data folder!");
             }
         }
@@ -69,7 +69,7 @@ public class ConfigManager {
 
             out.write(output);
             out.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
 
@@ -172,7 +172,7 @@ public class ConfigManager {
             out.write(output);
             out.close();
 
-        } catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
 
@@ -184,7 +184,7 @@ public class ConfigManager {
         File iconFolder = new File(plugin.getDataFolder(), "icons");
 
         if (!iconFolder.exists()) {
-            if (!iconFolder.mkdir())  {
+            if (!iconFolder.mkdir()) {
                 plugin.getLogger().log(Level.SEVERE, "Couldn't create icons folder!");
             }
         }

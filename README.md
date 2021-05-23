@@ -1,11 +1,13 @@
 # PistonMOTD
-[![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/CDrcxzH) 
+
+[![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/CDrcxzH)
 [![Build Status](https://ci.codemc.io/buildStatus/icon?job=AlexProgrammerDE%2FPistonMOTD)](https://ci.codemc.io/job/AlexProgrammerDE/job/PistonMOTD/)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases) 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases)
 
 **Best MOTD plugin with multi-platform support!**
 
 ## Features
+
 * Customize playercounter tooltip
 * Customize the online player and max player counter
 * Random MOTD
@@ -23,6 +25,7 @@ Compatible with external MOTD plugins. (Can't promise it will work with every MO
 We got an easy to integrate API for adding additional placeholders into the plugin.
 
 Repository:
+
 ```xml
   <repositories>
       <repository>
@@ -33,6 +36,7 @@ Repository:
 ```
 
 Dependency:
+
 ```xml
   <dependencies>
     <dependency>
@@ -44,6 +48,7 @@ Dependency:
 ```
 
 ## Links
+
 * Website: https://www.pistonmaster.net/PistonMOTD/
 * SpigotMC: https://www.spigotmc.org/resources/80567/
 * Ore: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/

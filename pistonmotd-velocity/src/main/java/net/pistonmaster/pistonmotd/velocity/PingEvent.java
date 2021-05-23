@@ -5,10 +5,10 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.ServerPing;
+import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.utils.PistonConstants;
 import net.pistonmaster.pistonmotd.utils.PistonSerializers;
-import net.luckperms.api.cacheddata.CachedMetaData;
 import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
@@ -76,9 +76,9 @@ public class PingEvent {
                 List<String> motd = node.getNode("motd", "text").getList(TypeToken.of(String.class));
 
                 if (event.getPing().getVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16) {
-                    builder.description(PistonSerializers.sectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size())))));
+                    builder.description(PistonSerializers.sectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size())))));
                 } else {
-                    builder.description(PistonSerializers.section.deserialize(PlaceholderUtil.parseText(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))))));
+                    builder.description(PistonSerializers.section.deserialize(PlaceholderUtil.parseText(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size()))))));
                 }
             }
 

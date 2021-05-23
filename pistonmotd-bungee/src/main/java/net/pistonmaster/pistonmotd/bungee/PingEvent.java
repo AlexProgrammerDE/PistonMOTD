@@ -1,7 +1,5 @@
 package net.pistonmaster.pistonmotd.bungee;
 
-import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.utils.PistonSerializers;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.md_5.bungee.api.ChatColor;
@@ -15,6 +13,8 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.protocol.ProtocolConstants;
+import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.utils.PistonSerializers;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
@@ -79,7 +79,7 @@ public class PingEvent implements Listener {
 
                 String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
 
-                info.add(new ServerPing.PlayerInfo(ChatColor.translateAlternateColorCodes('&',  prefix + player.getDisplayName() + suffix) + ChatColor.RESET, String.valueOf(i)));
+                info.add(new ServerPing.PlayerInfo(ChatColor.translateAlternateColorCodes('&', prefix + player.getDisplayName() + suffix) + ChatColor.RESET, String.valueOf(i)));
                 i++;
             }
 
@@ -102,7 +102,7 @@ public class PingEvent implements Listener {
         if (config.getBoolean("motd.activated")) {
             List<String> list = config.getStringList("motd.text");
 
-            String randomMotd = PlaceholderUtil.parseText(list.get(ThreadLocalRandom.current().nextInt(0,  list.size())));
+            String randomMotd = PlaceholderUtil.parseText(list.get(ThreadLocalRandom.current().nextInt(0, list.size())));
 
             if (event.getConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16) {
                 motd = new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializers.sectionRGB.deserialize(randomMotd)));

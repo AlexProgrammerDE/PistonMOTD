@@ -8,9 +8,9 @@ public class CommonPlaceholder implements PlaceholderParser {
     public String parseString(String text) {
         String returnedString = text;
 
-        returnedString = returnedString.replaceAll("%online%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
-        returnedString = returnedString.replaceAll("%max%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
-        returnedString = returnedString.replaceAll("%newline%", "\n");
+        returnedString = returnedString.replace("%online%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
+        returnedString = returnedString.replace("%max%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
+        returnedString = returnedString.replace("%newline%", "\n");
 
         return returnedString;
     }

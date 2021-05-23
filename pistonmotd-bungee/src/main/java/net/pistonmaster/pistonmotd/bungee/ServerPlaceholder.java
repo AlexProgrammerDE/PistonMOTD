@@ -1,7 +1,7 @@
 package net.pistonmaster.pistonmotd.bungee;
 
-import net.pistonmaster.pistonmotd.api.PlaceholderParser;
 import net.md_5.bungee.api.ProxyServer;
+import net.pistonmaster.pistonmotd.api.PlaceholderParser;
 
 public class ServerPlaceholder implements PlaceholderParser {
     private final String server;

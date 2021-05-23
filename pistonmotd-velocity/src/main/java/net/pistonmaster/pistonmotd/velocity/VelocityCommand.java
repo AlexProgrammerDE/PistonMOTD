@@ -29,12 +29,12 @@ public class VelocityCommand implements SimpleCommand {
 
     @Override
     public List<String> suggest(Invocation invocation) {
-        String[] COMMANDS = { "reload", "help" };
+        String[] commands = {"reload", "help"};
 
         List<String> completions = new ArrayList<>();
 
         if (invocation.arguments().length == 1 && invocation.arguments()[0] != null) {
-            for (String string : COMMANDS) {
+            for (String string : commands) {
                 if (string.toLowerCase().startsWith(invocation.arguments()[0].toLowerCase())) {
                     completions.add(string);
                 }
@@ -42,7 +42,7 @@ public class VelocityCommand implements SimpleCommand {
         }
 
         Collections.sort(completions);
-        
+
         return completions;
     }
 

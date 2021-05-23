@@ -1,10 +1,10 @@
 package net.pistonmaster.pistonmotd.sponge;
 
 import com.google.common.reflect.TypeToken;
-import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
+import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.apache.commons.io.FilenameUtils;
@@ -34,8 +34,9 @@ public class PingEvent {
 
         try {
             if (node.getNode("motd", "activated").getBoolean()) {
-                List<String> motd = node.getNode("motd", "text").getList(new TypeToken<String>() {});
-                event.getResponse().setDescription(SpongeComponentSerializer.get().serialize(LegacyComponentSerializer.legacySection().deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))))));
+                List<String> motd = node.getNode("motd", "text").getList(new TypeToken<String>() {
+                });
+                event.getResponse().setDescription(SpongeComponentSerializer.get().serialize(LegacyComponentSerializer.legacySection().deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size()))))));
             }
 
             event.getResponse().setHidePlayers(node.getNode("hideplayers").getBoolean());
@@ -65,7 +66,8 @@ public class PingEvent {
                     players.getProfiles().clear();
 
                     try {
-                        for (String str : node.getNode("playercounter", "text").getList(new TypeToken<String>() {})) {
+                        for (String str : node.getNode("playercounter", "text").getList(new TypeToken<String>() {
+                        })) {
                             players.getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(str)));
                         }
                     } catch (ObjectMappingException e) {

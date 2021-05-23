@@ -16,7 +16,8 @@ public class SpongeReloadCommand implements CommandExecutor {
     }
 
     @Override
-    public @Nonnull CommandResult execute(CommandSource src, @Nonnull CommandContext args) {
+    public @Nonnull
+    CommandResult execute(CommandSource src, @Nonnull CommandContext args) {
         if (src.hasPermission("pistonmotd.reload")) {
             plugin.loadConfig();
 

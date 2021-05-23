@@ -5,6 +5,7 @@ How to make your server look shiny in the server list!
 <!-- MACRO{toc|fromDepth=1|toDepth=4} -->
 
 ### Color
+
 |Color (Minecraft Name)|Color Code|
 |---|---|
 |Dark Red (dark_red)|&4|
@@ -25,6 +26,7 @@ How to make your server look shiny in the server list!
 |Black (black)|&0|
 
 ### Format
+
 |Format|Color Code|
 |---|---|
 |"reset" Reset color to default|&r|
@@ -35,8 +37,10 @@ How to make your server look shiny in the server list!
 |Random characters|&k|
 
 ### RGB
+
 The RGB format is `&#FFFFFF`. **MOTD only!**
 
 ### MiniMessage
+
 The MiniMessage formatting is supported! It also allows you to create RGB and not RGB gradients and rainbow colors!
 Here is a link to the documentation of it: [Click here!](https://docs.adventure.kyori.net/minimessage.html#format)

@@ -4,12 +4,12 @@ api-version: 1.13
 main: net.pistonmaster.pistonmotd.bukkit.PistonMOTDBukkit
 description: ${parent.description}
 website: ${parent.url}
-softdepend: ["LuckPerms"]
+softdepend: [ "LuckPerms" ]
 commands:
   pistonmotd:
     description: Allows you to execute some commands for pistonmotd.
     permission: pistonmotd.command
-    aliases: ["pistonmotdbukkit"]
+    aliases: [ "pistonmotdbukkit" ]
 
 permissions:
   pistonmotd.help:

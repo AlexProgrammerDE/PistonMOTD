@@ -1,11 +1,11 @@
 package net.pistonmaster.pistonmotd.sponge;
 
 import com.google.inject.Inject;
+import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.utils.LuckPermsWrapper;
-import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -36,17 +36,14 @@ import java.nio.file.Path;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDSponge {
-    protected ConfigurationNode rootNode;
     private final Metrics.Factory metricsFactory;
+    protected ConfigurationNode rootNode;
     protected File icons;
     protected LuckPermsWrapper luckpermsWrapper = null;
-
-    @Inject
-    private Logger log;
-
     @Inject
     protected Game game;
-
+    @Inject
+    private Logger log;
     @Inject
     @DefaultConfig(sharedRoot = true)
     private Path defaultConfig;
@@ -114,7 +111,8 @@ public class PistonMOTDSponge {
             try {
                 log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
                 luckpermsWrapper = new LuckPermsWrapper();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         log.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);

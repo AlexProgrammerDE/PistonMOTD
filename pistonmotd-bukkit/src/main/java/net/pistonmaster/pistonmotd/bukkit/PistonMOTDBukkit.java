@@ -1,9 +1,9 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
 import io.papermc.lib.PaperLib;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.utils.LuckPermsWrapper;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -19,9 +19,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PistonMOTDBukkit extends JavaPlugin {
-    private Logger log;
     protected File icons;
     protected LuckPermsWrapper luckpermsWrapper = null;
+    private Logger log;
 
     @Override
     public void onEnable() {
@@ -43,7 +43,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
         File iconFolder = new File(getDataFolder(), "icons");
 
         if (!iconFolder.exists()) {
-            if (!iconFolder.mkdir())  {
+            if (!iconFolder.mkdir()) {
                 getLogger().log(Level.SEVERE, "Couldn't create icon folder!");
             }
         }
@@ -60,7 +60,8 @@ public class PistonMOTDBukkit extends JavaPlugin {
             try {
                 log.info(ChatColor.AQUA + "Hooking into LuckPerms");
                 luckpermsWrapper = new LuckPermsWrapper();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         log.info(ChatColor.AQUA + "Registering listeners");

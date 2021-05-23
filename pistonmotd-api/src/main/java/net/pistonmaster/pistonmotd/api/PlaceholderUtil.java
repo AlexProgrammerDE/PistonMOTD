@@ -1,7 +1,7 @@
 package net.pistonmaster.pistonmotd.api;
 
-import net.pistonmaster.pistonmotd.utils.PistonSerializers;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.pistonmaster.pistonmotd.utils.PistonSerializers;
 import org.apiguardian.api.API;
 
 import java.util.ArrayList;
@@ -14,10 +14,12 @@ import java.util.List;
 public class PlaceholderUtil {
     private static final List<PlaceholderParser> placeholders = new ArrayList<>();
 
-    private PlaceholderUtil() {}
+    private PlaceholderUtil() {
+    }
 
     /**
      * Parse a string and run all parsers on him
+     *
      * @param text A string with placeholders to get parsed
      * @return A completely parsed string
      */
@@ -34,6 +36,7 @@ public class PlaceholderUtil {
 
     /**
      * Register a parser to make him parse some placeholders
+     *
      * @param parser A parser to register
      */
     @API(status = API.Status.STABLE)
@@ -43,6 +46,7 @@ public class PlaceholderUtil {
 
     /**
      * Unregister a parser to stop him from parsing
+     *
      * @param parser The parser to unregister
      */
     @API(status = API.Status.STABLE)

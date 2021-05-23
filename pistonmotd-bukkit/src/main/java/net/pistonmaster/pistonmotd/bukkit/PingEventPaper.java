@@ -1,11 +1,11 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import net.kyori.adventure.text.Component;
+import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.utils.PistonConstants;
 import net.pistonmaster.pistonmotd.utils.PistonSerializers;
-import net.kyori.adventure.text.Component;
-import net.luckperms.api.cacheddata.CachedMetaData;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,7 +34,7 @@ public class PingEventPaper implements Listener {
         if (config.getBoolean("motd.activated")) {
             List<String> motd = config.getStringList("motd.text");
 
-            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))));
+            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size()))));
 
             if (event.getClient().getProtocolVersion() >= PistonConstants.MINECRAFT_1_16) {
                 event.setMotd(PistonSerializers.unusualSectionRGB.serialize(motdComponent));
@@ -68,7 +68,7 @@ public class PingEventPaper implements Listener {
             }
         } else if (config.getBoolean("extended.playercounter.activated")) {
             event.getPlayerSample().clear();
-            
+
             for (String str : config.getStringList("extended.playercounter.text")) {
                 event.getPlayerSample().add(Bukkit.createProfile(UUID.randomUUID(), PlaceholderUtil.parseText(str)));
             }

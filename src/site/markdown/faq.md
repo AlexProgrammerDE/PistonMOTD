@@ -30,6 +30,6 @@ Please consider using it for your server as it can really help you to look profe
 
 ### Does this plugin support 1.16 HEX/RGB colors?
 
-Yes it does, but only for the motd and nothing else. 
+Yes it does, but only for the motd and nothing else.
 
 You can read into the formatting section in the config site. [Click here!](./config.html)

@@ -1,11 +1,11 @@
 package net.pistonmaster.pistonmotd.bungee;
 
-import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.utils.LuckPermsWrapper;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
+import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class PistonMOTDBungee extends Plugin {
+    protected final List<String> headList = new ArrayList<>();
     protected Configuration config;
     protected File icons;
     protected ConfigManager manager;
-    protected final List<String> headList = new ArrayList<>();
     protected Logger log;
     protected LuckPermsWrapper luckpermsWrapper = null;
 
@@ -65,7 +65,8 @@ public class PistonMOTDBungee extends Plugin {
             try {
                 log.info(ChatColor.AQUA + "Hooking into LuckPerms");
                 luckpermsWrapper = new LuckPermsWrapper();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         log.info(ChatColor.AQUA + "Registering listeners");

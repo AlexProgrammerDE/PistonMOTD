@@ -1,9 +1,9 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
 import io.papermc.lib.PaperLib;
+import net.kyori.adventure.text.Component;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.utils.PistonSerializers;
-import net.kyori.adventure.text.Component;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +26,7 @@ public class PingEventSpigot implements Listener {
         if (plugin.getConfig().getBoolean("motd.activated")) {
             List<String> motd = plugin.getConfig().getStringList("motd.text");
 
-            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0,  motd.size()))));
+            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size()))));
 
             if (PaperLib.getMinecraftVersion() >= 16) {
                 event.setMotd(PistonSerializers.unusualSectionRGB.serialize(motdComponent));
