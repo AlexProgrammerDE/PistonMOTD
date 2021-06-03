@@ -6,18 +6,16 @@ import net.pistonmaster.pistonmotd.api.PlaceholderParser;
 public class CommonPlaceholder implements PlaceholderParser {
     @Override
     public String parseString(String text) {
-        String returnedString = text;
-
         // Legacy placeholders. Don't touch them!
-        returnedString = returnedString.replaceAll("%real_players%", "%online%");
-        returnedString = returnedString.replaceAll("%displayed_players%", "%online%");
-        returnedString = returnedString.replaceAll("%real_max%", "%max%");
-        returnedString = returnedString.replaceAll("%displayed_max%", "%max%");
+        text = text.replace("%real_players%", "%online%");
+        text = text.replace("%displayed_players%", "%online%");
+        text = text.replace("%real_max%", "%max%");
+        text = text.replace("%displayed_max%", "%max%");
 
-        returnedString = returnedString.replaceAll("%online%", String.valueOf(ProxyServer.getInstance().getOnlineCount()));
-        returnedString = returnedString.replaceAll("%max%", String.valueOf(ProxyServer.getInstance().getConfig().getPlayerLimit()));
-        returnedString = returnedString.replaceAll("%newline%", "\n");
+        text = text.replace("%online%", String.valueOf(ProxyServer.getInstance().getOnlineCount()));
+        text = text.replace("%max%", String.valueOf(ProxyServer.getInstance().getConfig().getPlayerLimit()));
+        text = text.replace("%newline%", "\n");
 
-        return returnedString;
+        return text;
     }
 }

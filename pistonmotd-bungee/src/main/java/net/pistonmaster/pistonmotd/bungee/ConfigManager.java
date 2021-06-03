@@ -22,22 +22,20 @@ public class ConfigManager {
     }
 
     @API(status = API.Status.INTERNAL)
-    protected Configuration getConfig(String resourceName, String fileName) {
+    protected Configuration getConfig() {
         Configuration config = null;
         Configuration templateConfig;
         final List<String> configKeys = new ArrayList<>();
         final List<String> templateKeys = new ArrayList<>();
 
-        if (!plugin.getDataFolder().exists()) {
-            if (!plugin.getDataFolder().mkdir()) {
-                plugin.getLogger().log(Level.SEVERE, "Couldn't create data folder!");
-            }
+        if (!plugin.getDataFolder().exists() && !plugin.getDataFolder().mkdir()) {
+            plugin.getLogger().log(Level.SEVERE, "Couldn't create data folder!");
         }
 
-        File file = new File(plugin.getDataFolder(), fileName);
+        File file = new File(plugin.getDataFolder(), "config.yml");
 
         if (!file.exists()) {
-            try (InputStream in = plugin.getResourceAsStream(resourceName)) {
+            try (InputStream in = plugin.getResourceAsStream("bungeeconfig.yml")) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -45,24 +43,25 @@ public class ConfigManager {
         }
 
         try {
-            BufferedReader in = new BufferedReader(new FileReader(file));
-            StringBuilder header = new StringBuilder();
+            StringBuilder header;
+            StringBuilder content;
+            try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+                header = new StringBuilder();
 
-            for (String head : headList) {
-                header.append(head).append('\n');
+                for (String head : headList) {
+                    header.append(head).append('\n');
+                }
+
+                content = new StringBuilder();
+
+                while (in.ready()) {
+                    content.append(in.readLine()).append('\n');
+                }
             }
-
-            StringBuilder content = new StringBuilder();
-
-            while (in.ready()) {
-                content.append(in.readLine()).append('\n');
-            }
-
-            in.close();
 
             String output = header + "\n" + content;
 
-            output = output.replaceAll("§", "&");
+            output = output.replace("§", "&");
 
             FileWriter fStream = new FileWriter(file);
             BufferedWriter out = new BufferedWriter(fStream);
@@ -70,7 +69,7 @@ public class ConfigManager {
             out.write(output);
             out.close();
         } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
+            plugin.getLogger().warning("Error: " + e.getMessage());
         }
 
         // Load config
@@ -90,7 +89,7 @@ public class ConfigManager {
         }
 
         // Load template
-        templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourceName));
+        templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream("bungeeconfig.yml"));
 
         for (String key : templateConfig.getKeys()) {
             templateKeys.add(key);
@@ -129,7 +128,7 @@ public class ConfigManager {
             templateKeys.clear();
 
             // Get template config file
-            templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream(resourceName));
+            templateConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(plugin.getResourceAsStream("bungeeconfig.yml"));
 
             for (String tKey : templateConfig.getKeys()) {
                 templateKeys.add(tKey);
@@ -147,33 +146,35 @@ public class ConfigManager {
         }
 
         try {
-            BufferedReader in = new BufferedReader(new FileReader(file));
-            StringBuilder header = new StringBuilder();
+            StringBuilder header;
+            StringBuilder content;
+            try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+                header = new StringBuilder();
 
-            for (String head : headList) {
-                header.append(head).append('\n');
+                for (String head : headList) {
+                    header.append(head).append('\n');
+                }
+
+                content = new StringBuilder();
+
+                while (in.ready()) {
+                    content.append(in.readLine()).append('\n');
+                }
+
             }
-
-            StringBuilder content = new StringBuilder();
-
-            while (in.ready()) {
-                content.append(in.readLine()).append('\n');
-            }
-
-            in.close();
 
             String output = header + "\n" + content;
 
-            output = output.replaceAll("§", "&");
+            output = output.replace("§", "&");
 
             FileWriter fStream = new FileWriter(file);
-            BufferedWriter out = new BufferedWriter(fStream);
+            try (BufferedWriter out = new BufferedWriter(fStream)) {
 
-            out.write(output);
-            out.close();
+                out.write(output);
+            }
 
         } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
+            plugin.getLogger().warning("Error: " + e.getMessage());
         }
 
         return config;
@@ -183,10 +184,8 @@ public class ConfigManager {
     protected File getIcons() {
         File iconFolder = new File(plugin.getDataFolder(), "icons");
 
-        if (!iconFolder.exists()) {
-            if (!iconFolder.mkdir()) {
-                plugin.getLogger().log(Level.SEVERE, "Couldn't create icons folder!");
-            }
+        if (!iconFolder.exists() && !iconFolder.mkdir()) {
+            plugin.getLogger().log(Level.SEVERE, "Couldn't create icons folder!");
         }
 
         return iconFolder;

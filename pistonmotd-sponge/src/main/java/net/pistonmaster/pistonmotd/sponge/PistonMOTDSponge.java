@@ -32,7 +32,9 @@ import org.spongepowered.api.util.metric.MetricsConfigManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDSponge {
@@ -158,18 +160,18 @@ public class PistonMOTDSponge {
         final File oldConfigFile = new File(publicConfigDir.toFile(), "pistonmotd.yml");
 
         try {
-            if (container.getAsset("sponge.conf").isPresent()) {
+
+            Optional<Asset> optionalAsset = container.getAsset("sponge.conf");
+            if (optionalAsset.isPresent()) {
                 ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(defaultConfig).build();
 
                 if (oldConfigFile.exists()) {
                     loader.save(YAMLConfigurationLoader.builder().setFile(oldConfigFile).build().load());
 
-                    if (!oldConfigFile.delete()) {
-                        throw new Exception("Failed to delete pistonmotd.yml!!!");
-                    }
+                    Files.delete(oldConfigFile.toPath());
                 }
 
-                Asset asset = container.getAsset("sponge.conf").get();
+                Asset asset = optionalAsset.get();
 
                 asset.copyToFile(defaultConfig, false, true);
 
@@ -181,15 +183,13 @@ public class PistonMOTDSponge {
 
                 File iconFolder = new File(publicConfigDir.toFile(), "icons");
 
-                if (!iconFolder.exists()) {
-                    if (!iconFolder.mkdir()) {
-                        throw new IOException("Couldn't create folder!");
-                    }
+                if (!iconFolder.exists() && !iconFolder.mkdir()) {
+                    throw new IOException("Couldn't create folder!");
                 }
 
                 icons = iconFolder;
             } else {
-                throw new Exception("Default configuration file missing in jar!!!");
+                throw new IOException("Default configuration file missing in jar!!!");
             }
         } catch (Exception e) {
             e.printStackTrace();

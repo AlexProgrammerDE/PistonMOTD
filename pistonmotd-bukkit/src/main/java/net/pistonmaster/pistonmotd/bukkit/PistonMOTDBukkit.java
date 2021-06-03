@@ -42,10 +42,8 @@ public class PistonMOTDBukkit extends JavaPlugin {
         saveConfig();
         File iconFolder = new File(getDataFolder(), "icons");
 
-        if (!iconFolder.exists()) {
-            if (!iconFolder.mkdir()) {
-                getLogger().log(Level.SEVERE, "Couldn't create icon folder!");
-            }
+        if (!iconFolder.exists() && !iconFolder.mkdir()) {
+            getLogger().log(Level.SEVERE, "Couldn't create icon folder!");
         }
         icons = iconFolder;
 

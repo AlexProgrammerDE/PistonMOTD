@@ -37,20 +37,20 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
-        List<String> COMMANDS = new ArrayList<>();
+        List<String> commands = new ArrayList<>();
 
         if (sender.hasPermission("pistonmotd.help")) {
-            COMMANDS.add("help");
+            commands.add("help");
         }
 
         if (sender.hasPermission("pistonmotd.reload")) {
-            COMMANDS.add("reload");
+            commands.add("reload");
         }
 
         List<String> completions = new ArrayList<>();
 
-        if (COMMANDS.size() != 0 && args.length == 1 && args[0] != null) {
-            StringUtil.copyPartialMatches(args[0], COMMANDS, completions);
+        if (!commands.isEmpty() && args.length == 1 && args[0] != null) {
+            StringUtil.copyPartialMatches(args[0], commands, completions);
         }
 
         Collections.sort(completions);

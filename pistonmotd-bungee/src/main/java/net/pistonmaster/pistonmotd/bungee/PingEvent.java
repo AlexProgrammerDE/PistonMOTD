@@ -117,7 +117,7 @@ public class PingEvent implements Listener {
             ServerPing.Protocol provided = event.getResponse().getVersion();
 
             if (config.getBoolean("protocol.activated")) {
-                provided.setName(PlaceholderUtil.parseText(config.getString("protocol.text").replaceAll("%aftericon%", afterIcon)));
+                provided.setName(PlaceholderUtil.parseText(config.getString("protocol.text").replace("%aftericon%", afterIcon)));
             }
 
             if (config.getBoolean("overrideprotocolnumber.activated")) {

@@ -112,7 +112,7 @@ public class PistonMOTDBungee extends Plugin {
 
     protected void loadConfig() {
         manager = new ConfigManager(this, headList);
-        config = manager.getConfig("bungeeconfig.yml", "config.yml");
+        config = manager.getConfig();
         icons = manager.getIcons();
     }
 }

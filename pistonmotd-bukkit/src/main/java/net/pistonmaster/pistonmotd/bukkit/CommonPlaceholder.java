@@ -6,12 +6,10 @@ import org.bukkit.Bukkit;
 public class CommonPlaceholder implements PlaceholderParser {
     @Override
     public String parseString(String text) {
-        String returnedString = text;
+        text = text.replace("%online%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
+        text = text.replace("%max%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
+        text = text.replace("%newline%", "\n");
 
-        returnedString = returnedString.replace("%online%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
-        returnedString = returnedString.replace("%max%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
-        returnedString = returnedString.replace("%newline%", "\n");
-
-        return returnedString;
+        return text;
     }
 }

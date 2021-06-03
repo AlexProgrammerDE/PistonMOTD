@@ -31,20 +31,20 @@ public class BungeeCommand extends Command implements TabExecutor {
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        List<String> COMMANDS = new ArrayList<>();
+        List<String> commands = new ArrayList<>();
 
         if (sender.hasPermission("pistonmotd.help")) {
-            COMMANDS.add("help");
+            commands.add("help");
         }
 
         if (sender.hasPermission("pistonmotd.reload")) {
-            COMMANDS.add("reload");
+            commands.add("reload");
         }
 
         List<String> completions = new ArrayList<>();
 
-        if (COMMANDS.size() != 0 && args.length == 1 && args[0] != null) {
-            for (String string : COMMANDS) {
+        if (!commands.isEmpty() && args.length == 1 && args[0] != null) {
+            for (String string : commands) {
                 if (string.toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(string);
                 }

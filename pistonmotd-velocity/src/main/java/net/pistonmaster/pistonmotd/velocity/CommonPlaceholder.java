@@ -12,11 +12,10 @@ public class CommonPlaceholder implements PlaceholderParser {
 
     @Override
     public String parseString(String text) {
-        String returnedString = text;
-        returnedString = returnedString.replace("%online%", String.valueOf(proxy.getPlayerCount()));
-        returnedString = returnedString.replace("%max%", String.valueOf(proxy.getConfiguration().getShowMaxPlayers()));
-        returnedString = returnedString.replace("%newline%", "\n");
+        text = text.replace("%online%", String.valueOf(proxy.getPlayerCount()));
+        text = text.replace("%max%", String.valueOf(proxy.getConfiguration().getShowMaxPlayers()));
+        text = text.replace("%newline%", "\n");
 
-        return returnedString;
+        return text;
     }
 }
