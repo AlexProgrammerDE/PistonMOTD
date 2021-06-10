@@ -62,6 +62,9 @@ public class PingEvent implements Listener {
             int i = 0;
 
             for (ProxiedPlayer player : plugin.getProxy().getPlayers()) {
+                if (config.getStringList("hiddenplayers").contains(player.getName()))
+                    continue;
+
                 info.add(new ServerPing.PlayerInfo(player.getDisplayName() + ChatColor.RESET, String.valueOf(i)));
                 i++;
             }
