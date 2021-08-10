@@ -3,6 +3,7 @@ package net.pistonmaster.pistonmotd.bukkit;
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.utils.PistonSerializers;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.event.EventHandler;
@@ -12,7 +13,6 @@ import org.bukkit.event.server.ServerListPingEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEventSpigot implements Listener {
     private final PistonMOTDBukkit plugin;
@@ -26,9 +26,10 @@ public class PingEventSpigot implements Listener {
         if (plugin.getConfig().getBoolean("motd.activated")) {
             List<String> motd = plugin.getConfig().getStringList("motd.text");
 
-            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size()))));
+            boolean supportsHex = PaperLib.getMinecraftVersion() >= 16;
+            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(MOTDUtil.getMOTD(motd, supportsHex, PlaceholderUtil::parseText));
 
-            if (PaperLib.getMinecraftVersion() >= 16) {
+            if (supportsHex) {
                 event.setMotd(PistonSerializers.unusualSectionRGB.serialize(motdComponent));
             } else {
                 event.setMotd(PistonSerializers.section.serialize(motdComponent));

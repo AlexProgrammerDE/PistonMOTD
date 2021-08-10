@@ -14,6 +14,7 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.utils.PistonSerializers;
 import org.apache.commons.io.FilenameUtils;
 
@@ -22,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent implements Listener {
     private final PistonMOTDBungee plugin;
@@ -103,11 +103,10 @@ public class PingEvent implements Listener {
         }
 
         if (config.getBoolean("motd.activated")) {
-            List<String> list = config.getStringList("motd.text");
+            boolean supportsHex = event.getConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16;
+            String randomMotd = MOTDUtil.getMOTD(config.getStringList("motd.text"), supportsHex, PlaceholderUtil::parseText);
 
-            String randomMotd = PlaceholderUtil.parseText(list.get(ThreadLocalRandom.current().nextInt(0, list.size())));
-
-            if (event.getConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16) {
+            if (supportsHex) {
                 motd = new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializers.sectionRGB.deserialize(randomMotd)));
             } else {
                 motd = new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializers.sectionRGB.deserialize(randomMotd)));

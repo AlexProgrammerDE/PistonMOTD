@@ -5,6 +5,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.utils.MOTDUtil;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.apache.commons.io.FilenameUtils;
@@ -18,7 +19,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PingEvent {
@@ -36,7 +36,7 @@ public class PingEvent {
             if (node.getNode("motd", "activated").getBoolean()) {
                 List<String> motd = node.getNode("motd", "text").getList(new TypeToken<String>() {
                 });
-                event.getResponse().setDescription(SpongeComponentSerializer.get().serialize(LegacyComponentSerializer.legacySection().deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size()))))));
+                event.getResponse().setDescription(SpongeComponentSerializer.get().serialize(LegacyComponentSerializer.legacySection().deserialize(MOTDUtil.getMOTD(motd, false, PlaceholderUtil::parseText))));
             }
 
             event.getResponse().setHidePlayers(node.getNode("hideplayers").getBoolean());

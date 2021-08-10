@@ -7,6 +7,7 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.utils.PistonConstants;
 import net.pistonmaster.pistonmotd.utils.PistonSerializers;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PingEvent {
@@ -73,12 +73,13 @@ public class PingEvent {
             }
 
             if (node.getNode("motd", "activated").getBoolean()) {
-                List<String> motd = node.getNode("motd", "text").getList(TypeToken.of(String.class));
+                boolean supportsHex = event.getPing().getVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
+                String motd = MOTDUtil.getMOTD(node.getNode("motd", "text").getList(TypeToken.of(String.class)), supportsHex, PlaceholderUtil::parseText);
 
-                if (event.getPing().getVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16) {
-                    builder.description(PistonSerializers.sectionRGB.deserialize(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size())))));
+                if (supportsHex) {
+                    builder.description(PistonSerializers.sectionRGB.deserialize(motd));
                 } else {
-                    builder.description(PistonSerializers.section.deserialize(PlaceholderUtil.parseText(PlaceholderUtil.parseText(motd.get(ThreadLocalRandom.current().nextInt(0, motd.size()))))));
+                    builder.description(PistonSerializers.section.deserialize(motd));
                 }
             }
 
