@@ -5,13 +5,16 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.ServerPing;
+import com.velocitypowered.api.util.Favicon;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.utils.PistonConstants;
 import net.pistonmaster.pistonmotd.utils.PistonSerializers;
 import ninja.leaping.configurate.ConfigurationNode;
+import org.apache.commons.io.FilenameUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -89,6 +92,22 @@ public class PingEvent {
                 builder.version(new ServerPing.Version(event.getPing().getVersion().getProtocol(), PlaceholderUtil.parseText(Objects.requireNonNull(node.getNode("protocol", "text").getString()).replace("%aftericon%", afterIcon))));
             } else if (node.getNode("overrideprotocolnumber", "activated").getBoolean()) {
                 builder.version(new ServerPing.Version(node.getNode("overrideprotocolnumber", "value").getInt(), event.getPing().getVersion().getName()));
+            }
+
+            if (node.getNode("icons").getBoolean()) {
+                File[] icons = plugin.icons.listFiles();
+
+                List<File> validFiles = new ArrayList<>();
+
+                if (icons != null && icons.length != 0) {
+                    for (File image : icons) {
+                        if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
+                            validFiles.add(image);
+                        }
+                    }
+
+                    builder.favicon(Favicon.create(validFiles.get((int) Math.round(Math.random() * (validFiles.size() - 1))).toPath()));
+                }
             }
 
             event.setPing(builder.build());
