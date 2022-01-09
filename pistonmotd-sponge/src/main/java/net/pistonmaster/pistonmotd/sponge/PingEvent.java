@@ -13,19 +13,26 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
+import org.spongepowered.api.network.status.Favicon;
 import org.spongepowered.api.profile.GameProfile;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PingEvent {
     private final PistonMOTDSponge plugin;
+    private List<Favicon> favicons;
+    private ThreadLocalRandom random;
 
     protected PingEvent(PistonMOTDSponge plugin) {
         this.plugin = plugin;
+        if (plugin.rootNode.getNode("icons").getBoolean()) {
+            favicons = loadFavicons();
+            random = ThreadLocalRandom.current();
+        }
     }
 
     @Listener
@@ -77,22 +84,34 @@ public class PingEvent {
             });
 
             if (node.getNode("icons").getBoolean()) {
-                File[] icons = plugin.icons.listFiles();
-
-                List<File> validFiles = new ArrayList<>();
-
-                if (icons != null && icons.length != 0) {
-                    for (File image : icons) {
-                        if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
-                            validFiles.add(image);
-                        }
-                    }
-
-                    event.getResponse().setFavicon(Sponge.getGame().getRegistry().loadFavicon(validFiles.get((int) Math.round(Math.random() * (validFiles.size() - 1))).toPath()));
-                }
+                event.getResponse().setFavicon(favicons.get(random.nextInt(0, favicons.size())));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private List<Favicon> loadFavicons() {
+        File[] icons = plugin.icons.listFiles();
+
+        List<File> validFiles = new ArrayList<>();
+
+        if (icons != null && icons.length != 0) {
+            for (File image : icons) {
+                if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
+                    validFiles.add(image);
+                }
+            }
+        }
+        return Arrays.asList(validFiles.stream().map(this::createFavicon).filter(Objects::nonNull).toArray(Favicon[]::new));
+    }
+
+    private Favicon createFavicon(File file) {
+        try {
+            return Sponge.getGame().getRegistry().loadFavicon(file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

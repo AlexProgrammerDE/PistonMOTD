@@ -9,10 +9,13 @@ import org.apache.commons.io.FilenameUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.util.CachedServerIcon;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class PingEventSpigot implements Listener {
     private final PistonMOTDBukkit plugin;
@@ -41,23 +44,7 @@ public class PingEventSpigot implements Listener {
         }
 
         if (plugin.getConfig().getBoolean("icons")) {
-            File[] icons = plugin.icons.listFiles();
-
-            List<File> validFiles = new ArrayList<>();
-
-            if (icons != null && icons.length != 0) {
-                for (File image : icons) {
-                    if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
-                        validFiles.add(image);
-                    }
-                }
-
-                try {
-                    event.setServerIcon(plugin.getServer().loadServerIcon(validFiles.get((int) Math.round(Math.random() * (validFiles.size() - 1)))));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            event.setServerIcon(plugin.favicons.get(plugin.random.nextInt(0, plugin.favicons.size())));
         }
     }
 }
