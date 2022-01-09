@@ -125,7 +125,7 @@ public class PistonMOTDSponge {
             log.info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
             new UpdateChecker(new PistonLogger(log)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(container.getVersion().get(), version).parseUpdate(updateType -> {
                 if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                    log.info(ConsoleColor.CYAN + "Your up to date!" + ConsoleColor.RESET);
+                    log.info(ConsoleColor.CYAN + "You're up to date!" + ConsoleColor.RESET);
                 } else {
                     if (updateType == UpdateType.MAJOR) {
                         log.info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
