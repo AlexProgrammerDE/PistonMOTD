@@ -5,6 +5,8 @@ plugins {
 dependencies {
     implementation(projects.pistonmotdApi)
     implementation(projects.pistonmotdUtils)
+    implementation(projects.pistonmotdUtils)
+    implementation(projects.pistonmotdBuildData)
 
     implementation("net.kyori:adventure-platform-spongeapi:4.0.1")
     implementation("org.bstats:bstats-sponge:2.2.1")

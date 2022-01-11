@@ -4,30 +4,23 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    mavenCentral()
     maven {
         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
-
     maven {
         url = uri("https://papermc.io/repo/repository/maven-public/")
     }
-
     maven {
         url = uri("https://repo.spongepowered.org/maven")
     }
-
     maven {
         url = uri("https://nexus.velocitypowered.com/repository/maven-public/")
     }
-
     maven {
         url = uri("https://repo.codemc.org/repository/maven-public")
     }
-
-    maven {
-        url = uri("https://repo.maven.apache.org/maven2/")
-    }
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {

@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(projects.pistonmotdApi)
     implementation(projects.pistonmotdUtils)
+    implementation(projects.pistonmotdBuildData)
 
     compileOnly("com.google.code.gson:gson:2.8.9")
 
