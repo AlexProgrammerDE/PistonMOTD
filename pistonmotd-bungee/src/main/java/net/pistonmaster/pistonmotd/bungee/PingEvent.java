@@ -22,15 +22,24 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent implements Listener {
     private final PistonMOTDBungee plugin;
     private final File iconFolder;
+    private List<Favicon> favicons;
+    private ThreadLocalRandom random;
 
     protected PingEvent(PistonMOTDBungee plugin, File icons) {
         this.plugin = plugin;
         this.iconFolder = icons;
+        if (plugin.config.getBoolean("icons")) {
+            favicons = loadFavicons();
+            random = ThreadLocalRandom.current();
+        }
     }
 
     @EventHandler
@@ -62,8 +71,7 @@ public class PingEvent implements Listener {
             int i = 0;
 
             for (ProxiedPlayer player : plugin.getProxy().getPlayers()) {
-                if (config.getStringList("hiddenplayers").contains(player.getName()))
-                    continue;
+                if (config.getStringList("hiddenplayers").contains(player.getName())) continue;
 
                 info.add(new ServerPing.PlayerInfo(player.getDisplayName() + ChatColor.RESET, String.valueOf(i)));
                 i++;
@@ -132,26 +140,36 @@ public class PingEvent implements Listener {
         }
 
         if (config.getBoolean("icons")) {
-            File[] icons = iconFolder.listFiles();
-
-            List<File> validFiles = new ArrayList<>();
-
-            if (icons != null && icons.length != 0) {
-                for (File image : icons) {
-                    if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
-                        validFiles.add(image);
-                    }
-                }
-
-                icon = Favicon.create(ImageIO.read(validFiles.get((int) Math.round(Math.random() * (validFiles.size() - 1)))));
-            } else {
-                icon = event.getResponse().getFaviconObject();
-            }
+            icon = favicons.get(random.nextInt(0, favicons.size()));
         } else {
             icon = event.getResponse().getFaviconObject();
         }
 
         ServerPing ping = new ServerPing(protocol, players, motd, icon);
         event.setResponse(ping);
+    }
+
+    private List<Favicon> loadFavicons() {
+        File[] icons = plugin.icons.listFiles();
+
+        List<File> validFiles = new ArrayList<>();
+
+        if (icons != null && icons.length != 0) {
+            for (File image : icons) {
+                if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
+                    validFiles.add(image);
+                }
+            }
+        }
+        return Arrays.asList(validFiles.stream().map(this::createFavicon).filter(Objects::nonNull).toArray(Favicon[]::new));
+    }
+
+    private Favicon createFavicon(File file) {
+        try {
+            return Favicon.create(ImageIO.read(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

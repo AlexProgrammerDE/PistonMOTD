@@ -15,17 +15,22 @@ import ninja.leaping.configurate.ConfigurationNode;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PingEvent {
     private final PistonMOTDVelocity plugin;
+    private List<Favicon> favicons;
+    private ThreadLocalRandom random;
 
     protected PingEvent(PistonMOTDVelocity plugin) {
         this.plugin = plugin;
+        if (plugin.rootNode.getNode("icons").getBoolean()) {
+            favicons = loadFavicons();
+            random = ThreadLocalRandom.current();
+        }
     }
 
     @Subscribe
@@ -95,24 +100,36 @@ public class PingEvent {
             }
 
             if (node.getNode("icons").getBoolean()) {
-                File[] icons = plugin.icons.listFiles();
-
-                List<File> validFiles = new ArrayList<>();
-
-                if (icons != null && icons.length != 0) {
-                    for (File image : icons) {
-                        if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
-                            validFiles.add(image);
-                        }
-                    }
-
-                    builder.favicon(Favicon.create(validFiles.get((int) Math.round(Math.random() * (validFiles.size() - 1))).toPath()));
-                }
+                builder.favicon(favicons.get(random.nextInt(0, favicons.size())));
             }
 
             event.setPing(builder.build());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private List<Favicon> loadFavicons() {
+        File[] icons = plugin.icons.listFiles();
+
+        List<File> validFiles = new ArrayList<>();
+
+        if (icons != null && icons.length != 0) {
+            for (File image : icons) {
+                if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
+                    validFiles.add(image);
+                }
+            }
+        }
+        return Arrays.asList(validFiles.stream().map(this::createFavicon).filter(Objects::nonNull).toArray(Favicon[]::new));
+    }
+
+    private Favicon createFavicon(File file) {
+        try {
+            return Favicon.create(file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
