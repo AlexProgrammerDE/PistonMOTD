@@ -5,22 +5,22 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    maven("https://oss.sonatype.org/content/repositories/snapshots") {
+        name = "Sonatype"
     }
-    maven {
-        url = uri("https://papermc.io/repo/repository/maven-public/")
+    maven("https://papermc.io/repo/repository/maven-public/") {
+        name = "PaperMC"
     }
-    maven {
-        url = uri("https://repo.spongepowered.org/maven")
+    maven("https://repo.spongepowered.org/maven") {
+        name = "SpongePowered"
     }
-    maven {
-        url = uri("https://nexus.velocitypowered.com/repository/maven-public/")
+    maven("https://nexus.velocitypowered.com/repository/maven-public/") {
+        name = "VelocityPowered"
     }
-    maven {
-        url = uri("https://repo.codemc.org/repository/maven-public")
+    maven("https://repo.codemc.org/repository/maven-public") {
+        name = "CodeMC"
     }
-    maven { url = uri("https://jitpack.io") }
+    maven("https://jitpack.io") { name = "jitpack.io" }
 }
 
 dependencies {
@@ -33,16 +33,14 @@ dependencies {
     compileOnly("net.luckperms:api:5.3")
 }
 
-group = "net.pistonmaster"
-version = "4.4.0"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
-java.targetCompatibility = JavaVersion.VERSION_1_8
-
-publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
+tasks {
+    processResources {
+        expand("version" to version, "description" to description, "url" to "https://pistonmaster.net/PistonMOTD")
     }
 }
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"

@@ -1,10 +1,23 @@
-plugins {
-    id("pm.java-conventions")
-}
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-dependencies {
-    implementation(projects.pistonmotdBukkit)
-    implementation(projects.pistonmotdBungee)
-    implementation(projects.pistonmotdSponge)
-    implementation(projects.pistonmotdVelocity)
+val platforms = setOf(
+    rootProject.projects.pistonmotdBukkit,
+    rootProject.projects.pistonmotdBungee,
+    rootProject.projects.pistonmotdSponge,
+    rootProject.projects.pistonmotdVelocity
+).map { it.dependencyProject }
+
+tasks {
+    jar {
+        archiveClassifier.set("")
+        archiveFileName.set("PistonMOTD.jar")
+        destinationDirectory.set(rootProject.projectDir.resolve("build/libs"))
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        platforms.forEach { platform ->
+            val shadowJarTask = platform.tasks.named<ShadowJar>("shadowJar").forUseAtConfigurationTime().get()
+            dependsOn(shadowJarTask)
+            dependsOn(platform.tasks.withType<Jar>())
+            from(zipTree(shadowJarTask.archiveFile))
+        }
+    }
 }
