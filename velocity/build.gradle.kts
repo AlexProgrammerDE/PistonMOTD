@@ -7,7 +7,7 @@ dependencies {
     implementation(projects.pistonmotdUtils)
     implementation(projects.pistonmotdBuildData)
 
-    compileOnly("com.google.code.gson:gson:2.8.9")
+    implementation("org.bstats:bstats-velocity:2.2.1")
 
     compileOnly("com.velocitypowered:velocity-api:3.1.1")
     annotationProcessor("com.velocitypowered:velocity-api:3.1.1")
