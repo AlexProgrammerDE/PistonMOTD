@@ -5,17 +5,11 @@ import net.kyori.adventure.text.Component;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.utils.PistonSerializers;
-import org.apache.commons.io.FilenameUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.util.CachedServerIcon;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class PingEventSpigot implements Listener {
     private final PistonMOTDBukkit plugin;
