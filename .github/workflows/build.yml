@@ -18,12 +18,20 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 8
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Build with Gradle
+        run: ./gradlew build
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
           # Artifact name
           name: PistonMOTD
           # A file, directory or wildcard pattern that describes what to upload
-          path: target/*.jar
+          path: build/libs/*.jar
