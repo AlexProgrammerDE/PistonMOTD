@@ -5,7 +5,7 @@ plugins {
 allprojects {
     group = "net.pistonmaster"
     version = "4.4.0"
-    description = "Ability to restore/change skins on servers! (Offline and Online Mode)"
+    description = "Best MOTD plugin with multi-platform support!"
 }
 
 val platforms = setOf(
