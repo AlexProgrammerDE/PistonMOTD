@@ -10,7 +10,7 @@ val platforms = setOf(
 tasks {
     jar {
         archiveClassifier.set("")
-        archiveFileName.set("PistonMOTD.jar")
+        archiveFileName.set("PistonMOTD-${rootProject.version}.jar")
         destinationDirectory.set(rootProject.projectDir.resolve("build/libs"))
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         platforms.forEach { platform ->
