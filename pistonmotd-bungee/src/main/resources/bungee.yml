@@ -1,6 +1,0 @@
-name: PistonMOTD
-version: ${parent.version}
-main: net.pistonmaster.pistonmotd.bungee.PistonMOTDBungee
-author: AlexProgrammerDE
-description: ${parent.description}
-softDepends: [ "LuckPerms" ]
