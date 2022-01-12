@@ -1,7 +1,3 @@
 plugins {
-    id("pm.shadow-conventions")
-}
-
-dependencies {
-    implementation("org.slf4j:slf4j-simple:1.7.32")
+    id("pm.java-conventions")
 }

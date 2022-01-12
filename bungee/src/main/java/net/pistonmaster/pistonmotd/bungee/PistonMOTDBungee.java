@@ -76,7 +76,7 @@ public class PistonMOTDBungee extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));
 
         log.info(ChatColor.AQUA + "Checking for a newer version");
-        new UpdateChecker(new PistonLogger(getLogger())).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
+        new UpdateChecker(new PistonLogger(log::info, log::warning)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
             if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
                 log.info(ChatColor.AQUA + "You're up to date!");
             } else {

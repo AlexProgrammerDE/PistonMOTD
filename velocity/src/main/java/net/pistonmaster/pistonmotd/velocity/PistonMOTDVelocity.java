@@ -80,7 +80,7 @@ public class PistonMOTDVelocity {
 
         if (container.getDescription().getVersion().isPresent()) {
             log.info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
-            new UpdateChecker(new PistonLogger(log)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(container.getDescription().getVersion().get(), version).parseUpdate(updateType -> {
+            new UpdateChecker(new PistonLogger(log::info, log::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(container.getDescription().getVersion().get(), version).parseUpdate(updateType -> {
                 if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
                     log.info(ConsoleColor.CYAN + "You're up to date!" + ConsoleColor.RESET);
                 } else {

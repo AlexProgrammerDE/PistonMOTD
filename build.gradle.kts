@@ -15,19 +15,15 @@ val platforms = setOf(
     projects.pistonmotdVelocity
 ).map { it.dependencyProject }
 
-val shadow = setOf(
-    projects.pistonmotdUtils
-).map { it.dependencyProject }
-
 val special = setOf(
     projects.pistonmotdUniversal,
-    projects.pistonmotdApi
+    projects.pistonmotdApi,
+    projects.pistonmotdUtils
 ).map { it.dependencyProject }
 
 subprojects {
     when (this) {
         in platforms -> plugins.apply("pm.platform-conventions")
-        in shadow -> plugins.apply("pm.shadow-conventions")
         in special -> plugins.apply("pm.java-conventions")
     }
 }
