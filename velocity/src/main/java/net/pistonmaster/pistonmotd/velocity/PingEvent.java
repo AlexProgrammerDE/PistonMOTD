@@ -8,9 +8,9 @@ import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.utils.MOTDUtil;
-import net.pistonmaster.pistonmotd.utils.PistonConstants;
-import net.pistonmaster.pistonmotd.utils.PistonSerializers;
+import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
+import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
+import net.pistonmaster.pistonmotd.shared.utils.PistonSerializers;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.apache.commons.io.FilenameUtils;
 

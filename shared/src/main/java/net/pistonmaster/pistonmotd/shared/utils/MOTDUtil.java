@@ -1,4 +1,4 @@
-package net.pistonmaster.pistonmotd.utils;
+package net.pistonmaster.pistonmotd.shared.utils;
 
 import java.util.List;
 import java.util.Random;

@@ -3,7 +3,8 @@ package net.pistonmaster.pistonmotd.bukkit;
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.utils.LuckPermsWrapper;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
+import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -24,7 +25,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PistonMOTDBukkit extends JavaPlugin {
+public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
     protected File icons;
     protected LuckPermsWrapper luckpermsWrapper = null;
     protected List<CachedServerIcon> favicons;
@@ -36,13 +37,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
         log = getLogger();
         BukkitAudiences.create(this);
 
-        log.info("  _____  _       _                 __  __   ____  _______  _____  ");
-        log.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
-        log.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
-        log.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
-        log.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
-        log.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
-        log.info("                                                                  ");
+        logName();
 
         log.info(ChatColor.AQUA + "Loading config");
         saveDefaultConfig();
@@ -87,23 +82,7 @@ public class PistonMOTDBukkit extends JavaPlugin {
         Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setTabCompleter(new BukkitCommand(this));
         Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setExecutor(new BukkitCommand(this));
 
-        log.info(ChatColor.AQUA + "Checking for a newer version");
-        new UpdateChecker(new PistonLogger(log::info, log::warning)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
-            if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                log.info(ChatColor.AQUA + "You're up to date!");
-            } else {
-                if (updateType == UpdateType.MAJOR) {
-                    log.info(ChatColor.RED + "There is a MAJOR update available!");
-                } else if (updateType == UpdateType.MINOR) {
-                    log.info(ChatColor.RED + "There is a MINOR update available!");
-                } else if (updateType == UpdateType.PATCH) {
-                    log.info(ChatColor.RED + "There is a PATCH update available!");
-                }
-
-                log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
-                log.info(ChatColor.RED + "Download it at: https://github.com/AlexProgrammerDE/PistonMOTD/releases");
-            }
-        }));
+        checkUpdate();
 
         log.info(ChatColor.AQUA + "Loading metrics");
         new Metrics(this, 9100);
@@ -139,5 +118,25 @@ public class PistonMOTDBukkit extends JavaPlugin {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public String getVersion() {
+        return getDescription().getVersion();
+    }
+
+    @Override
+    public void info(String message) {
+        getLogger().info(message);
+    }
+
+    @Override
+    public void warn(String message) {
+        getLogger().warning(message);
+    }
+
+    @Override
+    public void error(String message) {
+        getLogger().severe(message);
     }
 }

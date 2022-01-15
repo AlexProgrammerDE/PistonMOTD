@@ -1,7 +1,7 @@
 package net.pistonmaster.pistonmotd.api;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.pistonmaster.pistonmotd.utils.PistonSerializers;
+import net.pistonmaster.pistonmotd.shared.utils.PistonSerializers;
 import org.apiguardian.api.API;
 
 import java.util.ArrayList;

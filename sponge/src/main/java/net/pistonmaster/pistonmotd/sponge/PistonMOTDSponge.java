@@ -4,8 +4,9 @@ import com.google.inject.Inject;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.data.PluginData;
-import net.pistonmaster.pistonmotd.utils.ConsoleColor;
-import net.pistonmaster.pistonmotd.utils.LuckPermsWrapper;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
+import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
+import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -37,7 +38,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
-public class PistonMOTDSponge {
+public class PistonMOTDSponge implements PistonMOTDPlugin {
     private final Metrics.Factory metricsFactory;
     protected ConfigurationNode rootNode;
     protected File icons;
@@ -74,18 +75,12 @@ public class PistonMOTDSponge {
     public void onServerStart(GameStartedServerEvent event) {
         SpongeAudiences.create(container, game);
 
-        log.info("  _____  _       _                 __  __   ____  _______  _____  ");
-        log.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
-        log.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
-        log.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
-        log.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
-        log.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
-        log.info("                                                                  ");
+        logName();
 
-        log.info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
+        info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
         loadConfig();
 
-        log.info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
+        info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
         CommandSpec help = CommandSpec.builder()
                 .description(Text.of("Get help about PistonMOTD!"))
                 .permission("pistonmotd.help")
@@ -106,10 +101,10 @@ public class PistonMOTDSponge {
 
         game.getCommandManager().register(this, command, "pistonmotd", "pistonmotdsponge");
 
-        log.info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
+        info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
 
-        log.info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
+        info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
         if (game.getPluginManager().getPlugin("luckperms").isPresent()) {
             try {
                 log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
@@ -118,26 +113,26 @@ public class PistonMOTDSponge {
             }
         }
 
-        log.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
+        info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
         game.getEventManager().registerListeners(this, new PingEvent(this));
         game.getEventManager().registerListeners(this, new JoinEvent(this));
 
         if (container.getVersion().isPresent() && rootNode.getNode("updatechecking").getBoolean()) {
-            log.info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
-            new UpdateChecker(new PistonLogger(log::info, log::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(container.getVersion().get(), version).parseUpdate(updateType -> {
+            info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
+            new UpdateChecker(new PistonLogger(this::info, this::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(container.getVersion().get(), version).parseUpdate(updateType -> {
                 if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                    log.info(ConsoleColor.CYAN + "You're up to date!" + ConsoleColor.RESET);
+                    info(ConsoleColor.CYAN + "You're up to date!" + ConsoleColor.RESET);
                 } else {
                     if (updateType == UpdateType.MAJOR) {
-                        log.info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
+                        info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
                     } else if (updateType == UpdateType.MINOR) {
-                        log.info(ConsoleColor.RED + "There is a MINOR update available!" + ConsoleColor.RESET);
+                        info(ConsoleColor.RED + "There is a MINOR update available!" + ConsoleColor.RESET);
                     } else if (updateType == UpdateType.PATCH) {
-                        log.info(ConsoleColor.RED + "There is a PATCH update available!" + ConsoleColor.RESET);
+                        info(ConsoleColor.RED + "There is a PATCH update available!" + ConsoleColor.RESET);
                     }
 
-                    log.info(ConsoleColor.RED + "Current version: " + container.getVersion().get() + " New version: " + version + ConsoleColor.RESET);
-                    log.info(ConsoleColor.RED + "Download it at: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions" + ConsoleColor.RESET);
+                    info(ConsoleColor.RED + "Current version: " + container.getVersion().get() + " New version: " + version + ConsoleColor.RESET);
+                    info(ConsoleColor.RED + "Download it at: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions" + ConsoleColor.RESET);
                 }
             }));
         }
@@ -211,5 +206,25 @@ public class PistonMOTDSponge {
             return this.metricsConfigManager.getGlobalCollectionState();
         }
         return pluginState;
+    }
+
+    @Override
+    public String getVersion() {
+        return container.getVersion().orElse("Unknown");
+    }
+
+    @Override
+    public void info(String message) {
+        log.info(message);
+    }
+
+    @Override
+    public void warn(String message) {
+        log.warn(message);
+    }
+
+    @Override
+    public void error(String message) {
+        log.error(message);
     }
 }

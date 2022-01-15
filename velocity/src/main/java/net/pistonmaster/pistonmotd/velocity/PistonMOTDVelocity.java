@@ -9,8 +9,9 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.data.PluginData;
-import net.pistonmaster.pistonmotd.utils.ConsoleColor;
-import net.pistonmaster.pistonmotd.utils.LuckPermsWrapper;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
+import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
+import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -27,7 +28,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
-public class PistonMOTDVelocity {
+public class PistonMOTDVelocity implements PistonMOTDPlugin {
     protected final ProxyServer server;
     private final Logger log;
     protected ConfigurationNode rootNode;
@@ -49,13 +50,7 @@ public class PistonMOTDVelocity {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-        log.info("  _____  _       _                 __  __   ____  _______  _____  ");
-        log.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
-        log.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
-        log.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
-        log.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
-        log.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
-        log.info("                                                                  ");
+        logName();
 
         log.info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
         loadConfig();
@@ -79,23 +74,7 @@ public class PistonMOTDVelocity {
         server.getCommandManager().register("pistonmotdv", new VelocityCommand(this));
 
         if (container.getDescription().getVersion().isPresent()) {
-            log.info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
-            new UpdateChecker(new PistonLogger(log::info, log::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(container.getDescription().getVersion().get(), version).parseUpdate(updateType -> {
-                if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                    log.info(ConsoleColor.CYAN + "You're up to date!" + ConsoleColor.RESET);
-                } else {
-                    if (updateType == UpdateType.MAJOR) {
-                        log.info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
-                    } else if (updateType == UpdateType.MINOR) {
-                        log.info(ConsoleColor.RED + "There is a MINOR update available!" + ConsoleColor.RESET);
-                    } else if (updateType == UpdateType.PATCH) {
-                        log.info(ConsoleColor.RED + "There is a PATCH update available!" + ConsoleColor.RESET);
-                    }
-
-                    log.info(ConsoleColor.RED + "Current version: " + container.getDescription().getVersion().get() + " New version: " + version + ConsoleColor.RESET);
-                    log.info(ConsoleColor.RED + "Download it at: https://www.spigotmc.org/resources/80567/updates" + ConsoleColor.RESET);
-                }
-            }));
+            checkUpdate();
         }
 
         log.info(ConsoleColor.CYAN + "Done! :D" + ConsoleColor.RESET);
@@ -145,5 +124,25 @@ public class PistonMOTDVelocity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String getVersion() {
+        return container.getDescription().getVersion().orElse("Unknown");
+    }
+
+    @Override
+    public void info(String message) {
+        log.info(message);
+    }
+
+    @Override
+    public void warn(String message) {
+        log.warn(message);
+    }
+
+    @Override
+    public void error(String message) {
+        log.error(message);
     }
 }

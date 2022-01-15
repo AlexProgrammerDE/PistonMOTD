@@ -26,7 +26,7 @@ repositories {
 dependencies {
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.apiguardian:apiguardian-api:1.1.2")
-    implementation("net.pistonmaster:PistonUtils:1.3.0")
+    implementation("net.pistonmaster:PistonUtils:1.3.1")
 
     implementation("net.kyori:adventure-api:4.9.3")
     implementation("net.kyori:adventure-text-serializer-legacy:4.9.3")

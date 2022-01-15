@@ -14,8 +14,8 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.utils.MOTDUtil;
-import net.pistonmaster.pistonmotd.utils.PistonSerializers;
+import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
+import net.pistonmaster.pistonmotd.shared.utils.PistonSerializers;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;

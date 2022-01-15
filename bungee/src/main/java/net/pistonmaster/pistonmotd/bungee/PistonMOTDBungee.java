@@ -5,7 +5,8 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.utils.LuckPermsWrapper;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
+import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class PistonMOTDBungee extends Plugin {
+public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
     protected final List<String> headList = new ArrayList<>();
     protected Configuration config;
     protected File icons;
@@ -42,13 +43,7 @@ public class PistonMOTDBungee extends Plugin {
         headList.add("# %newline% adds a newline to your motd.");
         headList.add("# %online_SERVERNAME% shows the current playercount of one of the servers.");
 
-        log.info("  _____  _       _                 __  __   ____  _______  _____  ");
-        log.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
-        log.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
-        log.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
-        log.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
-        log.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
-        log.info("                                                                  ");
+        logName();
 
         log.info(ChatColor.AQUA + "Loading config");
         loadConfig();
@@ -75,23 +70,7 @@ public class PistonMOTDBungee extends Plugin {
         log.info(ChatColor.AQUA + "Registering command");
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));
 
-        log.info(ChatColor.AQUA + "Checking for a newer version");
-        new UpdateChecker(new PistonLogger(log::info, log::warning)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getDescription().getVersion(), version).parseUpdate(updateType -> {
-            if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                log.info(ChatColor.AQUA + "You're up to date!");
-            } else {
-                if (updateType == UpdateType.MAJOR) {
-                    log.info(ChatColor.RED + "There is a MAJOR update available!");
-                } else if (updateType == UpdateType.MINOR) {
-                    log.info(ChatColor.RED + "There is a MINOR update available!");
-                } else if (updateType == UpdateType.PATCH) {
-                    log.info(ChatColor.RED + "There is a PATCH update available!");
-                }
-
-                log.info(ChatColor.RED + "Current version: " + this.getDescription().getVersion() + " New version: " + version);
-                log.info(ChatColor.RED + "Download it at: https://github.com/AlexProgrammerDE/PistonMOTD/releases");
-            }
-        }));
+        checkUpdate();
 
         log.info(ChatColor.AQUA + "Loading metrics");
         new Metrics(this, 8968);
@@ -114,5 +93,25 @@ public class PistonMOTDBungee extends Plugin {
         manager = new ConfigManager(this, headList);
         config = manager.getConfig();
         icons = manager.getIcons();
+    }
+
+    @Override
+    public String getVersion() {
+        return getDescription().getVersion();
+    }
+
+    @Override
+    public void info(String message) {
+        getLogger().info(message);
+    }
+
+    @Override
+    public void warn(String message) {
+        getLogger().warning(message);
+    }
+
+    @Override
+    public void error(String message) {
+        getLogger().severe(message);
     }
 }

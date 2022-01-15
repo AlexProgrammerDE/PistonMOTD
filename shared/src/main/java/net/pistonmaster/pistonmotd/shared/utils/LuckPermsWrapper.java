@@ -1,4 +1,4 @@
-package net.pistonmaster.pistonmotd.utils;
+package net.pistonmaster.pistonmotd.shared.utils;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;

@@ -1,4 +1,4 @@
-package net.pistonmaster.pistonmotd.utils;
+package net.pistonmaster.pistonmotd.shared.utils;
 
 /**
  * Small collection of color codes for getting colors into the sponge console
