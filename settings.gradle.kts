@@ -17,7 +17,7 @@ pluginManagement {
 
 rootProject.name = "PistonMOTD"
 
-setOf("build-data", "utils", "api", "bukkit", "bungee", "sponge", "velocity", "universal").forEach { setupPMSubproject(it) }
+setOf("build-data", "shared", "api", "bukkit", "bungee", "sponge", "velocity", "universal").forEach { setupPMSubproject(it) }
 
 fun setupPMSubproject(name: String) {
     setupSubproject("pistonmotd-$name") {

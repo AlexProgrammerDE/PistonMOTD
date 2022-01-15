@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.pistonmotdUtils)
+    implementation(projects.pistonmotdShared)
 
     implementation("net.kyori:adventure-text-minimessage:4.0.0-SNAPSHOT")
 }

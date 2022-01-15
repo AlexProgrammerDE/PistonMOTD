@@ -4,8 +4,8 @@ plugins {
 
 dependencies {
     implementation(projects.pistonmotdApi)
-    implementation(projects.pistonmotdUtils)
-    implementation(projects.pistonmotdBuildData)
+    implementation(projects.pistonmotdShared)
+    compileOnly(projects.pistonmotdBuildData)
 
     implementation("org.bstats:bstats-velocity:2.2.1")
 

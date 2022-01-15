@@ -26,11 +26,16 @@ repositories {
 dependencies {
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.apiguardian:apiguardian-api:1.1.2")
+    implementation("net.pistonmaster:PistonUtils:1.3.0")
+
     implementation("net.kyori:adventure-api:4.9.3")
     implementation("net.kyori:adventure-text-serializer-legacy:4.9.3")
     implementation("net.kyori:adventure-text-serializer-legacy-text3:4.0.1")
-    implementation("net.pistonmaster:PistonUtils:1.3.0")
+
     compileOnly("net.luckperms:api:5.3")
+
+    compileOnly("org.projectlombok:lombok:1.18.22")
+    annotationProcessor("org.projectlombok:lombok:1.18.22")
 }
 
 tasks {

@@ -18,7 +18,7 @@ val platforms = setOf(
 val special = setOf(
     projects.pistonmotdUniversal,
     projects.pistonmotdApi,
-    projects.pistonmotdUtils
+    projects.pistonmotdShared
 ).map { it.dependencyProject }
 
 subprojects {

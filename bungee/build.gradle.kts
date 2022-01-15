@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation(projects.pistonmotdApi)
-    implementation(projects.pistonmotdUtils)
+    implementation(projects.pistonmotdShared)
 
     implementation("org.bstats:bstats-bungeecord:2.2.1")
     implementation("net.kyori:adventure-platform-bungeecord:4.0.1")
