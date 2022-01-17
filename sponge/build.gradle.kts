@@ -11,6 +11,6 @@ dependencies {
     implementation("org.bstats:bstats-sponge:2.2.1")
     implementation("net.kyori:adventure-platform-spongeapi:4.0.1")
 
-    compileOnly("org.spongepowered:spongeapi:7.4.0")
-    annotationProcessor("org.spongepowered:spongeapi:7.4.0")
+    compileOnly("org.spongepowered:spongeapi:8.0.0")
+    annotationProcessor("org.spongepowered:spongeapi:8.0.0")
 }
