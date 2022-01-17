@@ -1,10 +1,12 @@
 plugins {
     id("net.kyori.indra")
     id("net.kyori.indra.publishing")
+    id("pm.kyori-conventions")
 }
 
 dependencies {
     implementation(projects.pistonmotdShared)
+    implementation(projects.kyori.relocated)
 
     implementation("net.kyori:adventure-text-minimessage:4.0.0-SNAPSHOT")
 }

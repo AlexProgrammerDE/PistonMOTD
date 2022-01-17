@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(projects.pistonmotdApi)
     implementation(projects.pistonmotdShared)
+    implementation(projects.kyori.normal)
     compileOnly(projects.pistonmotdBuildData)
 
     implementation("org.bstats:bstats-velocity:2.2.1")

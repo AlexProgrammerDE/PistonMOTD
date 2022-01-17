@@ -4,9 +4,9 @@ import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import net.kyori.adventure.text.Component;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
-import net.pistonmaster.pistonmotd.shared.utils.PistonSerializers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,12 +29,12 @@ public class PingEventPaper implements Listener {
 
         if (config.getBoolean("motd.activated")) {
             boolean supportsHex = event.getClient().getProtocolVersion() >= PistonConstants.MINECRAFT_1_16;
-            Component motdComponent = PistonSerializers.unusualSectionRGB.deserialize(MOTDUtil.getMOTD(config.getStringList("motd.text"), supportsHex, PlaceholderUtil::parseText));
+            Component motdComponent = PistonSerializersRelocated.unusualSectionRGB.deserialize(MOTDUtil.getMOTD(config.getStringList("motd.text"), supportsHex, PlaceholderUtil::parseText));
 
             if (supportsHex) {
-                event.setMotd(PistonSerializers.unusualSectionRGB.serialize(motdComponent));
+                event.setMotd(PistonSerializersRelocated.unusualSectionRGB.serialize(motdComponent));
             } else {
-                event.setMotd(PistonSerializers.section.serialize(motdComponent));
+                event.setMotd(PistonSerializersRelocated.section.serialize(motdComponent));
             }
         }
 

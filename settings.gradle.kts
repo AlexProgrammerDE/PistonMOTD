@@ -17,6 +17,7 @@ pluginManagement {
 
 rootProject.name = "PistonMOTD"
 
+include("kyori:normal", "kyori:relocated")
 setOf("build-data", "shared", "api", "bukkit", "bungee", "sponge", "velocity", "universal").forEach { setupPMSubproject(it) }
 
 fun setupPMSubproject(name: String) {

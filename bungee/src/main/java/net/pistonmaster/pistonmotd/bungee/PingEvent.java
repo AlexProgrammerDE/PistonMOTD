@@ -14,8 +14,8 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
-import net.pistonmaster.pistonmotd.shared.utils.PistonSerializers;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
@@ -115,9 +115,9 @@ public class PingEvent implements Listener {
             String randomMotd = MOTDUtil.getMOTD(config.getStringList("motd.text"), supportsHex, PlaceholderUtil::parseText);
 
             if (supportsHex) {
-                motd = new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializers.sectionRGB.deserialize(randomMotd)));
+                motd = new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializersRelocated.sectionRGB.deserialize(randomMotd)));
             } else {
-                motd = new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializers.sectionRGB.deserialize(randomMotd)));
+                motd = new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializersRelocated.sectionRGB.deserialize(randomMotd)));
             }
         } else {
             motd = event.getResponse().getDescriptionComponent();

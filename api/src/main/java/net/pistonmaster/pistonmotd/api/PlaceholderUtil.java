@@ -1,7 +1,7 @@
 package net.pistonmaster.pistonmotd.api;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.pistonmaster.pistonmotd.shared.utils.PistonSerializers;
+import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import org.apiguardian.api.API;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class PlaceholderUtil {
             parsedText = parser.parseString(parsedText);
         }
 
-        return PistonSerializers.unusualSectionRGB.serialize(PistonSerializers.ampersandRGB.deserialize(PistonSerializers.unusualSectionRGB.serialize(MiniMessage.markdown().parse(parsedText))));
+        return PistonSerializersRelocated.unusualSectionRGB.serialize(PistonSerializersRelocated.ampersandRGB.deserialize(PistonSerializersRelocated.unusualSectionRGB.serialize(MiniMessage.markdown().parse(parsedText))));
     }
 
     /**

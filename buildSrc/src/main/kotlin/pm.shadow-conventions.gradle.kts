@@ -29,5 +29,4 @@ fun ShadowJar.configureRelocations() {
     relocate("org.apiguardian", "net.pistonmaster.pistonmotd.shadow.apiguardian")
     relocate("org.bstats", "net.pistonmaster.pistonmotd.shadow.bstats")
     relocate("net.pistonmaster.pistonutils", "net.pistonmaster.pistonmotd.shadow.pistonutils")
-    // relocate("net.kyori", "net.pistonmaster.pistonmotd.shadow.kyori") // TODO: Kyori should be relocate.
 }

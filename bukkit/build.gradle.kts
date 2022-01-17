@@ -1,10 +1,11 @@
 plugins {
-    id("pm.shadow-conventions")
+    id("pm.kyori-conventions")
 }
 
 dependencies {
     implementation(projects.pistonmotdApi)
     implementation(projects.pistonmotdShared)
+    implementation(projects.kyori.relocated)
 
     implementation("io.papermc:paperlib:1.0.7")
     implementation("org.bstats:bstats-bukkit:2.2.1")

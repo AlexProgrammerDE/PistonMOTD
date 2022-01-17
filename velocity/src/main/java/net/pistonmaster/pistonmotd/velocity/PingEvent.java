@@ -8,9 +8,9 @@ import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.kyori.PistonSerializersNormal;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
-import net.pistonmaster.pistonmotd.shared.utils.PistonSerializers;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.apache.commons.io.FilenameUtils;
 
@@ -85,9 +85,9 @@ public class PingEvent {
                 String motd = MOTDUtil.getMOTD(node.getNode("motd", "text").getList(TypeToken.of(String.class)), supportsHex, PlaceholderUtil::parseText);
 
                 if (supportsHex) {
-                    builder.description(PistonSerializers.sectionRGB.deserialize(motd));
+                    builder.description(PistonSerializersNormal.sectionRGB.deserialize(motd));
                 } else {
-                    builder.description(PistonSerializers.section.deserialize(motd));
+                    builder.description(PistonSerializersNormal.section.deserialize(motd));
                 }
             }
 
