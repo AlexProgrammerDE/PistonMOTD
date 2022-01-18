@@ -1,6 +1,7 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
@@ -16,12 +17,9 @@ import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class PingEventPaper implements Listener {
     private final PistonMOTDBukkit plugin;
-
-    protected PingEventPaper(PistonMOTDBukkit plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
     public void onPing(PaperServerListPingEvent event) {

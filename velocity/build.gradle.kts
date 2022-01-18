@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.pistonmotdApi)
+    implementation(project(":pistonmotd-api", "shadow"))
     implementation(projects.pistonmotdShared)
     implementation(projects.kyori.normal)
     compileOnly(projects.pistonmotdBuildData)

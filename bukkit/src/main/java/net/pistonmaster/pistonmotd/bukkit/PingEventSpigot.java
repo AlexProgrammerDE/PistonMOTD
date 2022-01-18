@@ -1,6 +1,7 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
 import io.papermc.lib.PaperLib;
+import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
@@ -11,12 +12,9 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class PingEventSpigot implements Listener {
     private final PistonMOTDBukkit plugin;
-
-    protected PingEventSpigot(PistonMOTDBukkit plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
     public void onPing(ServerListPingEvent event) {

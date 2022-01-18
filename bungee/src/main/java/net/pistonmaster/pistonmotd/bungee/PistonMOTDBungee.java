@@ -7,10 +7,6 @@ import net.md_5.bungee.config.Configuration;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
-import net.pistonmaster.pistonutils.logging.PistonLogger;
-import net.pistonmaster.pistonutils.update.UpdateChecker;
-import net.pistonmaster.pistonutils.update.UpdateParser;
-import net.pistonmaster.pistonutils.update.UpdateType;
 import org.bstats.bungeecord.Metrics;
 
 import java.io.File;
@@ -65,7 +61,7 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
         }
 
         log.info(ChatColor.AQUA + "Registering listeners");
-        getProxy().getPluginManager().registerListener(this, new PingEvent(this, icons));
+        getProxy().getPluginManager().registerListener(this, new PingEvent(this));
 
         log.info(ChatColor.AQUA + "Registering command");
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));

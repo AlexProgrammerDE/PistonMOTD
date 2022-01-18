@@ -1,6 +1,7 @@
 package net.pistonmaster.pistonmotd.velocity;
 
 import com.velocitypowered.api.command.SimpleCommand;
+import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 
@@ -8,12 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class VelocityCommand implements SimpleCommand {
     private final PistonMOTDVelocity plugin;
-
-    protected VelocityCommand(PistonMOTDVelocity plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public void execute(Invocation invocation) {

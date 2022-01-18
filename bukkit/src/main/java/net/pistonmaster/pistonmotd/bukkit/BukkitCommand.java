@@ -1,5 +1,6 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
+import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,12 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class BukkitCommand implements CommandExecutor, TabExecutor {
     private final PistonMOTDBukkit plugin;
-
-    protected BukkitCommand(PistonMOTDBukkit plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String s, String[] args) {

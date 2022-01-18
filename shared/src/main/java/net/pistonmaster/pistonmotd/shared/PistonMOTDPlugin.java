@@ -40,6 +40,8 @@ public interface PistonMOTDPlugin {
     String getVersion();
 
     void info(String message);
+
     void warn(String message);
+
     void error(String message);
 }

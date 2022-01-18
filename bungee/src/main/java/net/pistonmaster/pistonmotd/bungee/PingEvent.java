@@ -29,13 +29,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent implements Listener {
     private final PistonMOTDBungee plugin;
-    private final File iconFolder;
     private List<Favicon> favicons;
     private ThreadLocalRandom random;
 
-    protected PingEvent(PistonMOTDBungee plugin, File icons) {
+    protected PingEvent(PistonMOTDBungee plugin) {
         this.plugin = plugin;
-        this.iconFolder = icons;
         if (plugin.config.getBoolean("icons")) {
             favicons = loadFavicons();
             random = ThreadLocalRandom.current();
@@ -43,7 +41,7 @@ public class PingEvent implements Listener {
     }
 
     @EventHandler
-    public void onPing(ProxyPingEvent event) throws IOException {
+    public void onPing(ProxyPingEvent event) {
         int online;
         int max;
         ServerPing.Players players;

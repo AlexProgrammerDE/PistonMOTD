@@ -8,13 +8,13 @@
 
 ## Features
 
-* Customize playercounter tooltip
+* Customize player-counter tooltip
 * Customize the online player and max player counter
 * Random MOTD
 * A custom client out of date message. You can force that to always happen too.
 * Random favicon
 * Placeholders (extendable via api)
-* Hide your playercount (only on bukkit)
+* Hide your player-count (only on bukkit)
 * Very easy to understand config
 * Modular (You can enable/disable every feature)
 
