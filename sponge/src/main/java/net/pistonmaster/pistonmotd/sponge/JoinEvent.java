@@ -1,32 +1,30 @@
 package net.pistonmaster.pistonmotd.sponge;
 
+import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.network.ClientConnectionEvent;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.event.network.ServerSideConnectionEvent;
 import org.spongepowered.api.util.Tristate;
 
+@RequiredArgsConstructor
 public class JoinEvent {
     private final PistonMOTDSponge plugin;
 
-    protected JoinEvent(PistonMOTDSponge plugin) {
-        this.plugin = plugin;
-    }
-
     @Listener
-    public void onJoin(ClientConnectionEvent temp) {
-        if (temp instanceof ClientConnectionEvent.Join) {
-            ClientConnectionEvent.Join event = (ClientConnectionEvent.Join) temp;
-            if (event.getTargetEntity().hasPermission("sponge.command.metrics") && plugin.getEffectiveCollectionState() == Tristate.UNDEFINED) {
-                event.getTargetEntity().sendMessage(Text.builder("-----[ PistonMOTD ]-----").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
-                event.getTargetEntity().sendMessage(Text.builder("Hey there! It seems like data collection is disabled. :( ").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
-                event.getTargetEntity().sendMessage(Text.builder("But don't worry... You can fix this! ").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
-                event.getTargetEntity().sendMessage(Text.builder("Just click this message to enable it or just execute:").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
-                event.getTargetEntity().sendMessage(Text.builder("\"/sponge metrics pistonmotd enable\".").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
-                event.getTargetEntity().sendMessage(Text.builder("This info is just to give me small info about the server,").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
-                event.getTargetEntity().sendMessage(Text.builder("like its version and the plugin version.").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
-                event.getTargetEntity().sendMessage(Text.builder("-----[ PistonMOTD ]-----").color(TextColors.GOLD).onClick(TextActions.runCommand("/sponge metrics pistonmotd enable")).build());
+    public void onJoin(ServerSideConnectionEvent temp) {
+        if (temp instanceof ServerSideConnectionEvent.Join) {
+            ServerSideConnectionEvent.Join event = (ServerSideConnectionEvent.Join) temp;
+            if (event.player().hasPermission("sponge.command.metrics") && plugin.getEffectiveCollectionState() == Tristate.UNDEFINED) {
+                event.player().sendMessage(Component.text("-----[ PistonMOTD ]-----").color(NamedTextColor.GOLD).clickEvent(ClickEvent.runCommand("/sponge metrics pistonmotd enable")));
+                event.player().sendMessage(Component.text("Hey there! It seems like data collection is disabled. :( ").color(NamedTextColor.GOLD).clickEvent(ClickEvent.runCommand("/sponge metrics pistonmotd enable")));
+                event.player().sendMessage(Component.text("But don't worry... You can fix this! ").color(NamedTextColor.GOLD).clickEvent(ClickEvent.runCommand("/sponge metrics pistonmotd enable")));
+                event.player().sendMessage(Component.text("Just click this message to enable it or just execute:").color(NamedTextColor.GOLD).clickEvent(ClickEvent.runCommand("/sponge metrics pistonmotd enable")));
+                event.player().sendMessage(Component.text("\"/sponge metrics pistonmotd enable\".").color(NamedTextColor.GOLD).clickEvent(ClickEvent.runCommand("/sponge metrics pistonmotd enable")));
+                event.player().sendMessage(Component.text("This info is just to give me small info about the server,").color(NamedTextColor.GOLD).clickEvent(ClickEvent.runCommand("/sponge metrics pistonmotd enable")));
+                event.player().sendMessage(Component.text("like its version and the plugin version.").color(NamedTextColor.GOLD).clickEvent(ClickEvent.runCommand("/sponge metrics pistonmotd enable")));
+                event.player().sendMessage(Component.text("-----[ PistonMOTD ]-----").color(NamedTextColor.GOLD).clickEvent(ClickEvent.runCommand("/sponge metrics pistonmotd enable")));
             }
         }
     }

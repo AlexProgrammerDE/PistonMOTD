@@ -1,31 +1,28 @@
 package net.pistonmaster.pistonmotd.sponge;
 
+import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
+import org.spongepowered.api.adventure.Audiences;
+import org.spongepowered.api.command.CommandExecutor;
 import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.command.parameter.CommandContext;
 
-import javax.annotation.Nonnull;
-
+@RequiredArgsConstructor
 public class SpongeReloadCommand implements CommandExecutor {
     private final PistonMOTDSponge plugin;
 
-    protected SpongeReloadCommand(PistonMOTDSponge plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
-    public @Nonnull
-    CommandResult execute(CommandSource src, @Nonnull CommandContext args) {
-        if (src.hasPermission("pistonmotd.reload")) {
+    public CommandResult execute(CommandContext context) {
+        if (context.subject().hasPermission("pistonmotd.reload")) {
             plugin.loadConfig();
 
-            src.sendMessage(Text.of("Reloaded the config!"));
+            context.sendMessage(Identity.nil(), Component.text("Reloaded the config!"));
 
             return CommandResult.success();
         } else {
-            return CommandResult.empty();
+            return CommandResult.error(Component.text("You don't have permission to do that!"));
         }
     }
 }

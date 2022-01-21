@@ -15,6 +15,7 @@ import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
+import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import org.apache.commons.io.FilenameUtils;
 
@@ -169,5 +170,77 @@ public class PingEvent implements Listener {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private PistonStatusPing wrap(ProxyPingEvent event, ServerPing ping) {
+        return new PistonStatusPing() {
+            @Override
+            public void setDescription(String description) {
+                boolean supportsHex = event.getConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16;
+
+                if (supportsHex) {
+                    ping.setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
+                } else {
+                    ping.setDescriptionComponent(new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
+                }
+            }
+
+            @Override
+            public void setMax(int max) {
+                ping.getPlayers().setMax(max);
+            }
+
+            @Override
+            public void setOnline(int online) {
+                ping.getPlayers().setOnline(online);
+            }
+
+            @Override
+            public void setVersionName(String name) {
+                ping.getVersion().setName(name);
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) {
+                ping.getVersion().setProtocol(protocol);
+            }
+
+            @Override
+            public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
+                if (hidePlayers) {
+                    ping.setVersion(null);
+                }
+            }
+
+            @Override
+            public String getDescription() {
+                return ping.getDescriptionComponent().toLegacyText();
+            }
+
+            @Override
+            public int getMax() {
+                return ping.getPlayers().getMax();
+            }
+
+            @Override
+            public int getOnline() {
+                return ping.getPlayers().getOnline();
+            }
+
+            @Override
+            public String getVersionName() {
+                return ping.getVersion().getName();
+            }
+
+            @Override
+            public int getVersionProtocol() {
+                return ping.getVersion().getProtocol();
+            }
+
+            @Override
+            public boolean getHidePlayers() throws UnsupportedOperationException {
+                return ping.getPlayers() == null;
+            }
+        };
     }
 }

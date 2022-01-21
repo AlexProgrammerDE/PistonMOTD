@@ -15,10 +15,44 @@ pluginManagement {
     }
 }
 
+dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
+    repositories {
+        mavenCentral()
+        maven("https://oss.sonatype.org/content/repositories/snapshots") {
+            name = "Sonatype"
+        }
+        maven("https://papermc.io/repo/repository/maven-public/") {
+            name = "PaperMC"
+        }
+        maven("https://repo.spongepowered.org/maven") {
+            name = "SpongePowered"
+        }
+        maven("https://nexus.velocitypowered.com/repository/maven-public/") {
+            name = "VelocityPowered"
+        }
+        maven("https://repo.codemc.org/repository/maven-public") {
+            name = "CodeMC"
+        }
+        maven("https://jitpack.io") {
+            name = "jitpack.io"
+        }
+    }
+}
+
 rootProject.name = "PistonMOTD"
 
 include("kyori:normal", "kyori:relocated")
-setOf("build-data", "shared", "api", "bukkit", "bungee", "sponge", "velocity", "universal").forEach { setupPMSubproject(it) }
+setOf(
+    "build-data",
+    "shared",
+    "api",
+    "bukkit",
+    "bungee",
+    "sponge",
+    "velocity",
+    "universal"
+).forEach { setupPMSubproject(it) }
 
 fun setupPMSubproject(name: String) {
     setupSubproject("pistonmotd-$name") {

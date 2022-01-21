@@ -1,27 +1,24 @@
 package net.pistonmaster.pistonmotd.sponge;
 
-import com.google.common.reflect.TypeToken;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.apache.commons.io.FilenameUtils;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.network.status.Favicon;
 import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings("UnstableApiUsage")
 public class PingEvent {
     private final PistonMOTDSponge plugin;
     private List<Favicon> favicons;
@@ -29,7 +26,7 @@ public class PingEvent {
 
     protected PingEvent(PistonMOTDSponge plugin) {
         this.plugin = plugin;
-        if (plugin.rootNode.getNode("icons").getBoolean()) {
+        if (plugin.rootNode.node("icons").getBoolean()) {
             favicons = loadFavicons();
             random = ThreadLocalRandom.current();
         }
@@ -40,51 +37,49 @@ public class PingEvent {
         ConfigurationNode node = plugin.rootNode;
 
         try {
-            if (node.getNode("motd", "activated").getBoolean()) {
-                List<String> motd = node.getNode("motd", "text").getList(new TypeToken<String>() {
-                });
-                event.getResponse().setDescription(SpongeComponentSerializer.get().serialize(LegacyComponentSerializer.legacySection().deserialize(MOTDUtil.getMOTD(motd, false, PlaceholderUtil::parseText))));
+            if (node.node("motd", "activated").getBoolean()) {
+                List<String> motd = node.node("motd", "text").getList(String.class);
+                event.response().setDescription(LegacyComponentSerializer.legacySection().deserialize(MOTDUtil.getMOTD(motd, false, PlaceholderUtil::parseText)));
             }
 
-            event.getResponse().setHidePlayers(node.getNode("hideplayers").getBoolean());
+            event.response().setHidePlayers(node.node("hideplayers").getBoolean());
 
-            event.getResponse().getPlayers().ifPresent(players -> {
-                if (node.getNode("overrideonline", "activated").getBoolean()) {
-                    players.setOnline(node.getNode("overrideonline", "value").getInt());
+            event.response().players().ifPresent(players -> {
+                if (node.node("overrideonline", "activated").getBoolean()) {
+                    players.setOnline(node.node("overrideonline", "value").getInt());
                 }
 
-                if (node.getNode("overridemax", "activated").getBoolean()) {
-                    players.setMax(node.getNode("overridemax", "value").getInt());
+                if (node.node("overridemax", "activated").getBoolean()) {
+                    players.setMax(node.node("overridemax", "value").getInt());
                 }
 
-                if (node.getNode("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckpermsWrapper != null) {
-                    players.getProfiles().clear();
+                if (node.node("hooks", "luckpermsplayercounter").getBoolean() && plugin.luckpermsWrapper != null) {
+                    players.profiles().clear();
 
-                    for (Player player : plugin.game.getServer().getOnlinePlayers()) {
+                    for (Player player : plugin.game.server().onlinePlayers()) {
                         CachedMetaData metaData = plugin.luckpermsWrapper.luckperms.getPlayerAdapter(Player.class).getMetaData(player);
 
                         String prefix = metaData.getPrefix() == null ? "" : metaData.getPrefix();
 
                         String suffix = metaData.getSuffix() == null ? "" : metaData.getSuffix();
 
-                        players.getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(prefix + player.getDisplayNameData().displayName().get().toPlain() + suffix)));
+                        players.profiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(prefix + LegacyComponentSerializer.legacySection().serialize(player.displayName().get()) + suffix)));
                     }
-                } else if (node.getNode("playercounter", "activated").getBoolean()) {
-                    players.getProfiles().clear();
+                } else if (node.node("playercounter", "activated").getBoolean()) {
+                    players.profiles().clear();
 
                     try {
-                        for (String str : node.getNode("playercounter", "text").getList(new TypeToken<String>() {
-                        })) {
-                            players.getProfiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(str)));
+                        for (String str : node.node("playercounter", "text").getList(String.class)) {
+                            players.profiles().add(GameProfile.of(UUID.randomUUID(), PlaceholderUtil.parseText(str)));
                         }
-                    } catch (ObjectMappingException e) {
+                    } catch (SerializationException e) {
                         e.printStackTrace();
                     }
                 }
             });
 
-            if (node.getNode("icons").getBoolean()) {
-                event.getResponse().setFavicon(favicons.get(random.nextInt(0, favicons.size())));
+            if (node.node("icons").getBoolean()) {
+                event.response().setFavicon(favicons.get(random.nextInt(0, favicons.size())));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,10 +103,72 @@ public class PingEvent {
 
     private Favicon createFavicon(File file) {
         try {
-            return Sponge.getGame().getRegistry().loadFavicon(file.toPath());
+            return Favicon.load(file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public PistonStatusPing wrap(ClientPingServerEvent event) {
+        return new PistonStatusPing() {
+            @Override
+            public void setDescription(String description) {
+                event.response().setDescription(LegacyComponentSerializer.legacySection().deserialize(description));
+            }
+
+            @Override
+            public void setMax(int max) {
+                event.response().players().ifPresent(players -> players.setMax(max));
+            }
+
+            @Override
+            public void setOnline(int online) throws UnsupportedOperationException {
+                event.response().players().ifPresent(players -> players.setOnline(online));
+            }
+
+            @Override
+            public void setVersionName(String name) throws UnsupportedOperationException {
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) throws UnsupportedOperationException {
+            }
+
+            @Override
+            public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
+                event.response().setHidePlayers(hidePlayers);
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public int getMax() {
+                return 0;
+            }
+
+            @Override
+            public int getOnline() throws UnsupportedOperationException {
+                return 0;
+            }
+
+            @Override
+            public String getVersionName() throws UnsupportedOperationException {
+                return null;
+            }
+
+            @Override
+            public int getVersionProtocol() throws UnsupportedOperationException {
+                return 0;
+            }
+
+            @Override
+            public boolean getHidePlayers() throws UnsupportedOperationException {
+                return false;
+            }
+        };// TODO: Implement
     }
 }

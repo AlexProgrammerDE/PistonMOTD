@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
+import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 import org.bukkit.Bukkit;
@@ -82,5 +83,69 @@ public class PingEventPaper implements Listener {
         if (plugin.getConfig().getBoolean("icons")) {
             event.setServerIcon(plugin.favicons.get(plugin.random.nextInt(0, plugin.favicons.size())));
         }
+    }
+
+    private PistonStatusPing wrap(PaperServerListPingEvent event) {
+        return new PistonStatusPing() {
+            @Override
+            public void setDescription(String description) {
+                event.setMotd(description);
+            }
+
+            @Override
+            public void setMax(int max) {
+                event.setMaxPlayers(max);
+            }
+
+            @Override
+            public void setOnline(int online) {
+                event.setNumPlayers(online);
+            }
+
+            @Override
+            public void setVersionName(String name) {
+                event.setVersion(name);
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) {
+                event.setProtocolVersion(protocol);
+            }
+
+            @Override
+            public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
+                event.setHidePlayers(hidePlayers);
+            }
+
+            @Override
+            public String getDescription() {
+                return event.getMotd();
+            }
+
+            @Override
+            public int getMax() {
+                return event.getMaxPlayers();
+            }
+
+            @Override
+            public int getOnline() {
+                return event.getNumPlayers();
+            }
+
+            @Override
+            public String getVersionName() {
+                return event.getVersion();
+            }
+
+            @Override
+            public int getVersionProtocol() {
+                return event.getProtocolVersion();
+            }
+
+            @Override
+            public boolean getHidePlayers() throws UnsupportedOperationException {
+                return event.shouldHidePlayers();
+            }
+        };
     }
 }

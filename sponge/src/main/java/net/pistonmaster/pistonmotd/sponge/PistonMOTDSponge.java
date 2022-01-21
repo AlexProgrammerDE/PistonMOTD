@@ -1,43 +1,45 @@
 package net.pistonmaster.pistonmotd.sponge;
 
 import com.google.inject.Inject;
-import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.LinearComponents;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
-import net.pistonmaster.pistonutils.logging.PistonLogger;
-import net.pistonmaster.pistonutils.update.UpdateChecker;
-import net.pistonmaster.pistonutils.update.UpdateParser;
-import net.pistonmaster.pistonutils.update.UpdateType;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
-import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
+import org.apache.logging.log4j.Logger;
+import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.bstats.sponge.Metrics;
-import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.asset.Asset;
-import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.command.Command;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.parameter.Parameter;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.state.GameStartedServerEvent;
-import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
+import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.metric.MetricsConfigManager;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.loader.ConfigurationLoader;
+import org.spongepowered.plugin.PluginContainer;
+import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
-@Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
+@Plugin("pistonmotd")
 public class PistonMOTDSponge implements PistonMOTDPlugin {
     private final Metrics.Factory metricsFactory;
     protected ConfigurationNode rootNode;
@@ -52,7 +54,6 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     private Path defaultConfig;
 
     @Inject
-    @DefaultConfig(sharedRoot = true)
     private ConfigurationLoader<CommentedConfigurationNode> configManager;
 
     @Inject
@@ -72,40 +73,19 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     }
 
     @Listener
-    public void onServerStart(GameStartedServerEvent event) {
-        SpongeAudiences.create(container, game);
-
+    public void onServerStart(final ConstructPluginEvent event) {
         logName();
 
         info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
         loadConfig();
 
-        info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
-        CommandSpec help = CommandSpec.builder()
-                .description(Text.of("Get help about PistonMOTD!"))
-                .permission("pistonmotd.help")
-                .executor(new SpongeHelpCommand())
-                .build();
 
-        CommandSpec reload = CommandSpec.builder()
-                .description(Text.of("Reload the configuration of PistonMOTD!"))
-                .permission("pistonmotd.reload")
-                .executor(new SpongeReloadCommand(this))
-                .build();
-
-        CommandSpec command = CommandSpec.builder()
-                .description(Text.of("Main command of PistonMOTD!"))
-                .child(help, "help")
-                .child(reload, "reload")
-                .build();
-
-        game.getCommandManager().register(this, command, "pistonmotd", "pistonmotdsponge");
 
         info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
 
         info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
-        if (game.getPluginManager().getPlugin("luckperms").isPresent()) {
+        if (game.pluginManager().plugin("luckperms").isPresent()) {
             try {
                 log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
                 luckpermsWrapper = new LuckPermsWrapper();
@@ -114,27 +94,11 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
         }
 
         info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
-        game.getEventManager().registerListeners(this, new PingEvent(this));
-        game.getEventManager().registerListeners(this, new JoinEvent(this));
+        game.eventManager().registerListeners(container, new PingEvent(this));
+        game.eventManager().registerListeners(container, new JoinEvent(this));
 
-        if (container.getVersion().isPresent() && rootNode.getNode("updatechecking").getBoolean()) {
-            info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
-            new UpdateChecker(new PistonLogger(this::info, this::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(container.getVersion().get(), version).parseUpdate(updateType -> {
-                if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                    info(ConsoleColor.CYAN + "You're up to date!" + ConsoleColor.RESET);
-                } else {
-                    if (updateType == UpdateType.MAJOR) {
-                        info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
-                    } else if (updateType == UpdateType.MINOR) {
-                        info(ConsoleColor.RED + "There is a MINOR update available!" + ConsoleColor.RESET);
-                    } else if (updateType == UpdateType.PATCH) {
-                        info(ConsoleColor.RED + "There is a PATCH update available!" + ConsoleColor.RESET);
-                    }
-
-                    info(ConsoleColor.RED + "Current version: " + container.getVersion().get() + " New version: " + version + ConsoleColor.RESET);
-                    info(ConsoleColor.RED + "Download it at: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions" + ConsoleColor.RESET);
-                }
-            }));
+        if (rootNode.node("updatechecking").getBoolean()) {
+            checkUpdate();
         }
 
         final Tristate collectionState = this.getEffectiveCollectionState();
@@ -152,14 +116,54 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
         log.info(ConsoleColor.CYAN + "Done! :D" + ConsoleColor.RESET);
     }
 
+    @Listener
+    public void onRegisterCommands(final RegisterCommandEvent<Command.Parameterized> event) {
+        info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
+        Command.Parameterized help = Command.builder()
+                .shortDescription(Component.text("Get help about PistonMOTD!"))
+                .permission("pistonmotd.help")
+                .executor(new SpongeHelpCommand())
+                .build();
+
+        Command.Parameterized reload = Command.builder()
+                .shortDescription(Component.text("Reload the configuration of PistonMOTD!"))
+                .permission("pistonmotd.reload")
+                .executor(new SpongeReloadCommand(this))
+                .build();
+
+        event.register(this.container, Command.builder()
+                .shortDescription(Component.text("Main command of PistonMOTD!"))
+                .addParameter(Parameter.subcommand(help, "help"))
+                .addParameter(Parameter.subcommand(reload, "reload"))
+                .build(), "pistonmotd", "pistonmotdsponge");
+
+        final Parameter.Value<String> nameParam = Parameter.string().key("name").build();
+        event.register(this.container, Command.builder()
+                .addParameter(nameParam)
+                .permission("example.command.greet")
+                .executor(ctx -> {
+                    final String name = ctx.requireOne(nameParam);
+                    ctx.sendMessage(Identity.nil(), LinearComponents.linear(
+                            NamedTextColor.AQUA,
+                            Component.text("Hello "),
+                            Component.text(name, Style.style(TextDecoration.BOLD)),
+                            Component.text("!")
+                    ));
+
+                    return CommandResult.success();
+                })
+                .build(), "greet", "wave");
+    }
+
     protected void loadConfig() {
+        // TODO: Replace sponge config loading
+        /*
         final File oldConfigFile = new File(publicConfigDir.toFile(), "pistonmotd.yml");
 
         try {
-
-            Optional<Asset> optionalAsset = container.getAsset("sponge.conf");
+            Optional<URI> optionalAsset = container.locateResource(URI.create("sponge.conf"));
             if (optionalAsset.isPresent()) {
-                ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setPath(defaultConfig).build();
+                ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().path(defaultConfig).build();
 
                 if (oldConfigFile.exists()) {
                     loader.save(YAMLConfigurationLoader.builder().setFile(oldConfigFile).build().load());
@@ -167,13 +171,13 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
                     Files.delete(oldConfigFile.toPath());
                 }
 
-                Asset asset = optionalAsset.get();
+                URI asset = optionalAsset.get();
 
                 asset.copyToFile(defaultConfig, false, true);
 
                 rootNode = loader.load();
 
-                rootNode.mergeValuesFrom(HoconConfigurationLoader.builder().setURL(asset.getUrl()).build().load());
+                rootNode.mergeValuesFrom(HoconConfigurationLoader.builder().url(asset.getUrl()).build().load());
 
                 loader.save(rootNode);
 
@@ -189,7 +193,7 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
@@ -201,16 +205,18 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
      * @return The collection state
      */
     protected Tristate getEffectiveCollectionState() {
-        final Tristate pluginState = this.metricsConfigManager.getCollectionState(this.container);
+        final Tristate pluginState = this.metricsConfigManager.collectionState(this.container);
         if (pluginState == Tristate.UNDEFINED) {
-            return this.metricsConfigManager.getGlobalCollectionState();
+            return this.metricsConfigManager.globalCollectionState();
         }
         return pluginState;
     }
 
     @Override
     public String getVersion() {
-        return container.getVersion().orElse("Unknown");
+        ArtifactVersion version = container.metadata().version();
+
+        return version.getMajorVersion() + "." + version.getMinorVersion() + "." + version.getIncrementalVersion();
     }
 
     @Override
