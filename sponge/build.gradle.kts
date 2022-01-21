@@ -16,6 +16,7 @@ dependencies {
 }
 
 sponge {
+    injectRepositories(false)
     apiVersion("8.0.0-SNAPSHOT")
     license("../LICENSE")
     loader {
