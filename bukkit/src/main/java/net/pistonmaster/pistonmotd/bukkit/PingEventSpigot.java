@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
+import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,11 +15,12 @@ import org.bukkit.event.server.ServerListPingEvent;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class PingEventSpigot implements Listener {
+public class PingEventSpigot implements Listener, StatusPingListener {
     private final PistonMOTDBukkit plugin;
 
     @EventHandler
     public void onPing(ServerListPingEvent event) {
+        handle(wrap(event));
         if (plugin.getConfig().getBoolean("motd.activated")) {
             List<String> motd = plugin.getConfig().getStringList("motd.text");
 

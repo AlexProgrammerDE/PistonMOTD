@@ -9,6 +9,9 @@ import com.velocitypowered.api.util.Favicon;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersNormal;
+import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
+import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
+import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -20,7 +23,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
-public class PingEvent {
+public class PingEvent implements StatusPingListener {
     private final PistonMOTDVelocity plugin;
     private List<Favicon> favicons;
     private ThreadLocalRandom random;
@@ -35,6 +38,7 @@ public class PingEvent {
 
     @Subscribe
     public void onPing(ProxyPingEvent event) {
+        handle(wrap(event));
         try {
             final ServerPing.Builder builder = event.getPing().asBuilder();
             final String afterIcon = "                                                                            ";
@@ -81,7 +85,7 @@ public class PingEvent {
             }
 
             if (node.getNode("motd", "activated").getBoolean()) {
-                boolean supportsHex = event.getPing().getVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
+                boolean supportsHex = event.getConnection().getProtocolVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
                 String motd = MOTDUtil.getMOTD(node.getNode("motd", "text").getList(TypeToken.of(String.class)), supportsHex, PlaceholderUtil::parseText);
 
                 if (supportsHex) {
@@ -131,5 +135,82 @@ public class PingEvent {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private PistonStatusPing wrap(ServerPing.Builder event) {
+        return null;
+        /*
+        return new PistonStatusPing() {
+            @Override
+            public void setDescription(String description) {
+                boolean supportsHex = event.getConnection().getProtocolVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
+                String motd = MOTDUtil.getMOTD(node.getNode("motd", "text").getList(TypeToken.of(String.class)), supportsHex, PlaceholderUtil::parseText);
+
+                if (supportsHex) {
+                    event.description(PistonSerializersNormal.sectionRGB.deserialize(motd));
+                } else {
+                    event.description(PistonSerializersNormal.section.deserialize(motd));
+                }
+            }
+
+            @Override
+            public void setMax(int max) {
+                event.maximumPlayers(max);
+            }
+
+            @Override
+            public void setOnline(int online) {
+                event.onlinePlayers(online);
+            }
+
+            @Override
+            public void setVersionName(String name) {
+
+
+                event.version(name);
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) {
+                event.getResponse().getVersion().setProtocol(protocol);
+            }
+
+            @Override
+            public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
+                if (hidePlayers) {
+                    event.getResponse().setPlayers(null);
+                }
+            }
+
+            @Override
+            public String getDescription() {
+                return event.getResponse().getDescriptionComponent().toLegacyText();
+            }
+
+            @Override
+            public int getMax() {
+                return event.getResponse().getPlayers().getMax();
+            }
+
+            @Override
+            public int getOnline() {
+                return event.getResponse().getPlayers().getOnline();
+            }
+
+            @Override
+            public String getVersionName() {
+                return event.getResponse().getVersion().getName();
+            }
+
+            @Override
+            public int getVersionProtocol() {
+                return event.getResponse().getVersion().getProtocol();
+            }
+
+            @Override
+            public boolean getHidePlayers() throws UnsupportedOperationException {
+                return event.getResponse().getPlayers() == null;
+            }
+        };*/ // TODO
     }
 }

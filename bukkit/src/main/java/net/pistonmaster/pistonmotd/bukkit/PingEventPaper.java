@@ -7,6 +7,7 @@ import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
+import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 import org.bukkit.Bukkit;
@@ -19,11 +20,12 @@ import org.bukkit.event.Listener;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class PingEventPaper implements Listener {
+public class PingEventPaper implements Listener, StatusPingListener {
     private final PistonMOTDBukkit plugin;
 
     @EventHandler
     public void onPing(PaperServerListPingEvent event) {
+        handle(wrap(event));
         FileConfiguration config = plugin.getConfig();
 
         if (config.getBoolean("motd.activated")) {

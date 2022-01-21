@@ -4,6 +4,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
+import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.entity.living.player.Player;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PingEvent {
+public class PingEvent implements StatusPingListener {
     private final PistonMOTDSponge plugin;
     private List<Favicon> favicons;
     private ThreadLocalRandom random;
@@ -34,6 +35,7 @@ public class PingEvent {
 
     @Listener
     public void onPing(ClientPingServerEvent event) {
+        handle(wrap(event));
         ConfigurationNode node = plugin.rootNode;
 
         try {

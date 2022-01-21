@@ -28,9 +28,9 @@ sponge {
         entrypoint("net.pistonmaster.pistonmotd.sponge.PistonMOTDSponge")
         description(rootProject.description)
         links {
-            homepage("https://spongepowered.org")
-            source("https://spongepowered.org/source")
-            issues("https://spongepowered.org/issues")
+            homepage("https://pistonmaster.net/PistonMOTD")
+            source("https://github.com/AlexProgrammerDE/PistonMOTD")
+            issues("https://github.com/AlexProgrammerDE/PistonMOTD/issues")
         }
         contributor("AlexProgrammerDE") {
             description("Lead Developer")
