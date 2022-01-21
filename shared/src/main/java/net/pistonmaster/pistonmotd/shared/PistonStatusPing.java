@@ -22,6 +22,4 @@ public interface PistonStatusPing {
     String getVersionName() throws UnsupportedOperationException;
 
     int getVersionProtocol() throws UnsupportedOperationException;
-
-    boolean getHidePlayers() throws UnsupportedOperationException;
 }

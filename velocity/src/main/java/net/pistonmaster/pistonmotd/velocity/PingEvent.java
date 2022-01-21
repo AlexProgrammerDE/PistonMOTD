@@ -6,6 +6,8 @@ import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersNormal;
@@ -15,6 +17,7 @@ import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -38,7 +41,7 @@ public class PingEvent implements StatusPingListener {
 
     @Subscribe
     public void onPing(ProxyPingEvent event) {
-        handle(wrap(event));
+        handle(wrap(event, event.getPing().asBuilder()));
         try {
             final ServerPing.Builder builder = event.getPing().asBuilder();
             final String afterIcon = "                                                                            ";
@@ -137,80 +140,70 @@ public class PingEvent implements StatusPingListener {
         }
     }
 
-    private PistonStatusPing wrap(ServerPing.Builder event) {
-        return null;
-        /*
+    private PistonStatusPing wrap(ProxyPingEvent event, ServerPing.Builder builder) {
         return new PistonStatusPing() {
             @Override
             public void setDescription(String description) {
                 boolean supportsHex = event.getConnection().getProtocolVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
-                String motd = MOTDUtil.getMOTD(node.getNode("motd", "text").getList(TypeToken.of(String.class)), supportsHex, PlaceholderUtil::parseText);
 
                 if (supportsHex) {
-                    event.description(PistonSerializersNormal.sectionRGB.deserialize(motd));
+                    builder.description(PistonSerializersNormal.sectionRGB.deserialize(description));
                 } else {
-                    event.description(PistonSerializersNormal.section.deserialize(motd));
+                    builder.description(PistonSerializersNormal.section.deserialize(description));
                 }
             }
 
             @Override
             public void setMax(int max) {
-                event.maximumPlayers(max);
+                builder.maximumPlayers(max);
             }
 
             @Override
             public void setOnline(int online) {
-                event.onlinePlayers(online);
+                builder.onlinePlayers(online);
             }
 
             @Override
             public void setVersionName(String name) {
-
-
-                event.version(name);
+                builder.version(new ServerPing.Version(builder.getVersion().getProtocol(), name));
             }
 
             @Override
             public void setVersionProtocol(int protocol) {
-                event.getResponse().getVersion().setProtocol(protocol);
+                builder.version(new ServerPing.Version(protocol, builder.getVersion().getName()));
             }
 
             @Override
             public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
                 if (hidePlayers) {
-                    event.getResponse().setPlayers(null);
+                    builder.nullPlayers();
                 }
             }
 
             @Override
             public String getDescription() {
-                return event.getResponse().getDescriptionComponent().toLegacyText();
+                return LegacyComponentSerializer.legacySection().serialize(builder.getDescriptionComponent().orElse(Component.empty()));
             }
 
             @Override
             public int getMax() {
-                return event.getResponse().getPlayers().getMax();
+                return builder.getMaximumPlayers();
             }
 
             @Override
             public int getOnline() {
-                return event.getResponse().getPlayers().getOnline();
+                return builder.getOnlinePlayers();
             }
 
             @Override
             public String getVersionName() {
-                return event.getResponse().getVersion().getName();
+                return builder.getVersion().getName();
             }
 
             @Override
             public int getVersionProtocol() {
-                return event.getResponse().getVersion().getProtocol();
+                return builder.getVersion().getProtocol();
             }
-
-            @Override
-            public boolean getHidePlayers() throws UnsupportedOperationException {
-                return event.getResponse().getPlayers() == null;
-            }
-        };*/ // TODO
+        };
     }
 }

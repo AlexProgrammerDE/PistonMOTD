@@ -167,10 +167,6 @@ public class PingEvent implements StatusPingListener {
                 return 0;
             }
 
-            @Override
-            public boolean getHidePlayers() throws UnsupportedOperationException {
-                return false;
-            }
         };// TODO: Implement
     }
 }

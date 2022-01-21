@@ -239,10 +239,6 @@ public class PingEvent implements Listener, StatusPingListener {
                 return event.getResponse().getVersion().getProtocol();
             }
 
-            @Override
-            public boolean getHidePlayers() throws UnsupportedOperationException {
-                return event.getResponse().getPlayers() == null;
-            }
         };
     }
 }

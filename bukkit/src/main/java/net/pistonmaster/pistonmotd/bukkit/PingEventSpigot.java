@@ -100,10 +100,6 @@ public class PingEventSpigot implements Listener, StatusPingListener {
                 throw new UnsupportedOperationException("Spigot does not support this method");
             }
 
-            @Override
-            public boolean getHidePlayers() throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
-            }
         };
     }
 }

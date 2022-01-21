@@ -144,10 +144,6 @@ public class PingEventPaper implements Listener, StatusPingListener {
                 return event.getProtocolVersion();
             }
 
-            @Override
-            public boolean getHidePlayers() throws UnsupportedOperationException {
-                return event.shouldHidePlayers();
-            }
         };
     }
 }
