@@ -90,31 +90,6 @@ public class PingEventPaper implements Listener, StatusPingListener {
     private PistonStatusPing wrap(PaperServerListPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void setDescription(String description) {
-                event.setMotd(description);
-            }
-
-            @Override
-            public void setMax(int max) {
-                event.setMaxPlayers(max);
-            }
-
-            @Override
-            public void setOnline(int online) {
-                event.setNumPlayers(online);
-            }
-
-            @Override
-            public void setVersionName(String name) {
-                event.setVersion(name);
-            }
-
-            @Override
-            public void setVersionProtocol(int protocol) {
-                event.setProtocolVersion(protocol);
-            }
-
-            @Override
             public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
                 event.setHidePlayers(hidePlayers);
             }
@@ -125,8 +100,18 @@ public class PingEventPaper implements Listener, StatusPingListener {
             }
 
             @Override
+            public void setDescription(String description) {
+                event.setMotd(description);
+            }
+
+            @Override
             public int getMax() {
                 return event.getMaxPlayers();
+            }
+
+            @Override
+            public void setMax(int max) {
+                event.setMaxPlayers(max);
             }
 
             @Override
@@ -135,13 +120,28 @@ public class PingEventPaper implements Listener, StatusPingListener {
             }
 
             @Override
+            public void setOnline(int online) {
+                event.setNumPlayers(online);
+            }
+
+            @Override
             public String getVersionName() {
                 return event.getVersion();
             }
 
             @Override
+            public void setVersionName(String name) {
+                event.setVersion(name);
+            }
+
+            @Override
             public int getVersionProtocol() {
                 return event.getProtocolVersion();
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) {
+                event.setProtocolVersion(protocol);
             }
 
         };

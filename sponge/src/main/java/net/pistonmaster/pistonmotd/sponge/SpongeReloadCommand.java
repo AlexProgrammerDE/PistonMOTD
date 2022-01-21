@@ -1,10 +1,8 @@
 package net.pistonmaster.pistonmotd.sponge;
 
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import org.spongepowered.api.adventure.Audiences;
 import org.spongepowered.api.command.CommandExecutor;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.parameter.CommandContext;

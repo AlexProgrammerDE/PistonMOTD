@@ -27,17 +27,12 @@ import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.metric.MetricsConfigManager;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 
 @Plugin("pistonmotd")
 public class PistonMOTDSponge implements PistonMOTDPlugin {
@@ -78,7 +73,6 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
         info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
         loadConfig();
-
 
 
         info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);

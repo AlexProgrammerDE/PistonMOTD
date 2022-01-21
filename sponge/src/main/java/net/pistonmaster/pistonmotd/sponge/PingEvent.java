@@ -115,29 +115,6 @@ public class PingEvent implements StatusPingListener {
     public PistonStatusPing wrap(ClientPingServerEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void setDescription(String description) {
-                event.response().setDescription(LegacyComponentSerializer.legacySection().deserialize(description));
-            }
-
-            @Override
-            public void setMax(int max) {
-                event.response().players().ifPresent(players -> players.setMax(max));
-            }
-
-            @Override
-            public void setOnline(int online) throws UnsupportedOperationException {
-                event.response().players().ifPresent(players -> players.setOnline(online));
-            }
-
-            @Override
-            public void setVersionName(String name) throws UnsupportedOperationException {
-            }
-
-            @Override
-            public void setVersionProtocol(int protocol) throws UnsupportedOperationException {
-            }
-
-            @Override
             public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
                 event.response().setHidePlayers(hidePlayers);
             }
@@ -148,8 +125,18 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
+            public void setDescription(String description) {
+                event.response().setDescription(LegacyComponentSerializer.legacySection().deserialize(description));
+            }
+
+            @Override
             public int getMax() {
                 return 0;
+            }
+
+            @Override
+            public void setMax(int max) {
+                event.response().players().ifPresent(players -> players.setMax(max));
             }
 
             @Override
@@ -158,13 +145,26 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
+            public void setOnline(int online) throws UnsupportedOperationException {
+                event.response().players().ifPresent(players -> players.setOnline(online));
+            }
+
+            @Override
             public String getVersionName() throws UnsupportedOperationException {
                 return null;
             }
 
             @Override
+            public void setVersionName(String name) throws UnsupportedOperationException {
+            }
+
+            @Override
             public int getVersionProtocol() throws UnsupportedOperationException {
                 return 0;
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) throws UnsupportedOperationException {
             }
 
         };// TODO: Implement

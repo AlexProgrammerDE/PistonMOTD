@@ -177,37 +177,6 @@ public class PingEvent implements Listener, StatusPingListener {
     private PistonStatusPing wrap(ProxyPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void setDescription(String description) {
-                boolean supportsHex = event.getConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16;
-
-                if (supportsHex) {
-                    event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
-                } else {
-                    event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
-                }
-            }
-
-            @Override
-            public void setMax(int max) {
-                event.getResponse().getPlayers().setMax(max);
-            }
-
-            @Override
-            public void setOnline(int online) {
-                event.getResponse().getPlayers().setOnline(online);
-            }
-
-            @Override
-            public void setVersionName(String name) {
-                event.getResponse().getVersion().setName(name);
-            }
-
-            @Override
-            public void setVersionProtocol(int protocol) {
-                event.getResponse().getVersion().setProtocol(protocol);
-            }
-
-            @Override
             public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
                 if (hidePlayers) {
                     event.getResponse().setPlayers(null);
@@ -220,8 +189,24 @@ public class PingEvent implements Listener, StatusPingListener {
             }
 
             @Override
+            public void setDescription(String description) {
+                boolean supportsHex = event.getConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16;
+
+                if (supportsHex) {
+                    event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
+                } else {
+                    event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
+                }
+            }
+
+            @Override
             public int getMax() {
                 return event.getResponse().getPlayers().getMax();
+            }
+
+            @Override
+            public void setMax(int max) {
+                event.getResponse().getPlayers().setMax(max);
             }
 
             @Override
@@ -230,13 +215,28 @@ public class PingEvent implements Listener, StatusPingListener {
             }
 
             @Override
+            public void setOnline(int online) {
+                event.getResponse().getPlayers().setOnline(online);
+            }
+
+            @Override
             public String getVersionName() {
                 return event.getResponse().getVersion().getName();
             }
 
             @Override
+            public void setVersionName(String name) {
+                event.getResponse().getVersion().setName(name);
+            }
+
+            @Override
             public int getVersionProtocol() {
                 return event.getResponse().getVersion().getProtocol();
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) {
+                event.getResponse().getVersion().setProtocol(protocol);
             }
 
         };

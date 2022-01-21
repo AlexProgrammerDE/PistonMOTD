@@ -11,13 +11,11 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersNormal;
-import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -143,37 +141,6 @@ public class PingEvent implements StatusPingListener {
     private PistonStatusPing wrap(ProxyPingEvent event, ServerPing.Builder builder) {
         return new PistonStatusPing() {
             @Override
-            public void setDescription(String description) {
-                boolean supportsHex = event.getConnection().getProtocolVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
-
-                if (supportsHex) {
-                    builder.description(PistonSerializersNormal.sectionRGB.deserialize(description));
-                } else {
-                    builder.description(PistonSerializersNormal.section.deserialize(description));
-                }
-            }
-
-            @Override
-            public void setMax(int max) {
-                builder.maximumPlayers(max);
-            }
-
-            @Override
-            public void setOnline(int online) {
-                builder.onlinePlayers(online);
-            }
-
-            @Override
-            public void setVersionName(String name) {
-                builder.version(new ServerPing.Version(builder.getVersion().getProtocol(), name));
-            }
-
-            @Override
-            public void setVersionProtocol(int protocol) {
-                builder.version(new ServerPing.Version(protocol, builder.getVersion().getName()));
-            }
-
-            @Override
             public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
                 if (hidePlayers) {
                     builder.nullPlayers();
@@ -186,8 +153,24 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
+            public void setDescription(String description) {
+                boolean supportsHex = event.getConnection().getProtocolVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
+
+                if (supportsHex) {
+                    builder.description(PistonSerializersNormal.sectionRGB.deserialize(description));
+                } else {
+                    builder.description(PistonSerializersNormal.section.deserialize(description));
+                }
+            }
+
+            @Override
             public int getMax() {
                 return builder.getMaximumPlayers();
+            }
+
+            @Override
+            public void setMax(int max) {
+                builder.maximumPlayers(max);
             }
 
             @Override
@@ -196,13 +179,28 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
+            public void setOnline(int online) {
+                builder.onlinePlayers(online);
+            }
+
+            @Override
             public String getVersionName() {
                 return builder.getVersion().getName();
             }
 
             @Override
+            public void setVersionName(String name) {
+                builder.version(new ServerPing.Version(builder.getVersion().getProtocol(), name));
+            }
+
+            @Override
             public int getVersionProtocol() {
                 return builder.getVersion().getProtocol();
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) {
+                builder.version(new ServerPing.Version(protocol, builder.getVersion().getName()));
             }
         };
     }

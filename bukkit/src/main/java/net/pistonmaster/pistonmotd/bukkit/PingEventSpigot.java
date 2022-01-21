@@ -46,31 +46,6 @@ public class PingEventSpigot implements Listener, StatusPingListener {
     private PistonStatusPing wrap(ServerListPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void setDescription(String description) {
-                event.setMotd(description);
-            }
-
-            @Override
-            public void setMax(int max) {
-                event.setMaxPlayers(max);
-            }
-
-            @Override
-            public void setOnline(int online) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
-            }
-
-            @Override
-            public void setVersionName(String name) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
-            }
-
-            @Override
-            public void setVersionProtocol(int protocol) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
-            }
-
-            @Override
             public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
                 throw new UnsupportedOperationException("Spigot does not support this method");
             }
@@ -81,8 +56,18 @@ public class PingEventSpigot implements Listener, StatusPingListener {
             }
 
             @Override
+            public void setDescription(String description) {
+                event.setMotd(description);
+            }
+
+            @Override
             public int getMax() {
                 return event.getMaxPlayers();
+            }
+
+            @Override
+            public void setMax(int max) {
+                event.setMaxPlayers(max);
             }
 
             @Override
@@ -91,12 +76,27 @@ public class PingEventSpigot implements Listener, StatusPingListener {
             }
 
             @Override
+            public void setOnline(int online) throws UnsupportedOperationException {
+                throw new UnsupportedOperationException("Spigot does not support this method");
+            }
+
+            @Override
             public String getVersionName() throws UnsupportedOperationException {
                 throw new UnsupportedOperationException("Spigot does not support this method");
             }
 
             @Override
+            public void setVersionName(String name) throws UnsupportedOperationException {
+                throw new UnsupportedOperationException("Spigot does not support this method");
+            }
+
+            @Override
             public int getVersionProtocol() throws UnsupportedOperationException {
+                throw new UnsupportedOperationException("Spigot does not support this method");
+            }
+
+            @Override
+            public void setVersionProtocol(int protocol) throws UnsupportedOperationException {
                 throw new UnsupportedOperationException("Spigot does not support this method");
             }
 
