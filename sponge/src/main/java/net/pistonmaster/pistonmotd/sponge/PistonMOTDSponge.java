@@ -33,6 +33,7 @@ import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Path;
 
 @Plugin("pistonmotd")
@@ -138,7 +139,7 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
     @Override
     public InputStream getDefaultConfig() {
-        return null; // TODO
+        return container.openResource(URI.create("sponge.yml")).orElse(null);
     }
 
     /**

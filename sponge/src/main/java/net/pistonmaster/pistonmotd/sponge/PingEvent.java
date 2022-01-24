@@ -11,6 +11,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.network.status.Favicon;
+import org.spongepowered.api.network.status.StatusResponse;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -121,7 +122,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public String getDescription() {
-                return null;
+                return LegacyComponentSerializer.legacySection().serialize(event.response().description());
             }
 
             @Override
@@ -131,7 +132,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public int getMax() {
-                return 0;
+                return event.response().players().map(StatusResponse.Players::max).orElse(0);
             }
 
             @Override
@@ -141,7 +142,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public int getOnline() throws UnsupportedOperationException {
-                return 0;
+                return event.response().players().map(StatusResponse.Players::online).orElse(0);
             }
 
             @Override
@@ -151,22 +152,24 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public String getVersionName() throws UnsupportedOperationException {
-                return null;
+                return event.response().version().name();
             }
 
             @Override
             public void setVersionName(String name) throws UnsupportedOperationException {
+                throw new UnsupportedOperationException("Not supported on sponge!");
             }
 
             @Override
             public int getVersionProtocol() throws UnsupportedOperationException {
-                return 0;
+                return event.response().version().dataVersion().orElse(0);
             }
 
             @Override
             public void setVersionProtocol(int protocol) throws UnsupportedOperationException {
+                throw new UnsupportedOperationException("Not supported on sponge!");
             }
 
-        };// TODO: Implement
+        };
     }
 }
