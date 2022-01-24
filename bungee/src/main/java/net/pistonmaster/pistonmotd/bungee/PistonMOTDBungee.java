@@ -2,29 +2,26 @@ package net.pistonmaster.pistonmotd.bungee;
 
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.config.Configuration;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
+import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.bstats.bungeecord.Metrics;
 
-import java.io.File;
+import javax.imageio.ImageIO;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
-    protected final List<String> headList = new ArrayList<>();
-    protected Configuration config;
-    protected File icons;
-    protected ConfigManager manager;
     protected Logger log;
     protected LuckPermsWrapper luckpermsWrapper = null;
 
@@ -32,18 +29,6 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
     public void onEnable() {
         log = getLogger();
         BungeeAudiences.create(this);
-
-        headList.add("# You can find color codes here: https://minecraft.tools/en/color-code.php");
-        headList.add("# Formatting comes after the color! &d&l will work, but not &l&d.");
-        headList.add("# MiniMessage formatting IS supported: https://docs.adventure.kyori.net/minimessage.html#template");
-        headList.add("# HEX/RGB colors ARE supported. (Only the motd)");
-        headList.add("# Hex format: &#FFFFFF");
-        headList.add("# Note: The MiniMessage allows you to make rainbow colors and gradients");
-        headList.add("# Placeholders: %online% (Players online)");
-        headList.add("# %max% (Server max slots)");
-        headList.add("# %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)");
-        headList.add("# %newline% adds a newline to your motd.");
-        headList.add("# %online_SERVERNAME% shows the current playercount of one of the servers.");
 
         logName();
 
@@ -88,6 +73,11 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
         getProxy().getPluginManager().unregisterCommands(this);
 
         log.info(ChatColor.AQUA + "Finished unloading!");
+    }
+
+    @Override
+    public StatusFavicon createFavicon(Path path) throws Exception {
+        return new StatusFavicon(Favicon.create(ImageIO.read(Files.newInputStream(path))));
     }
 
     @Override

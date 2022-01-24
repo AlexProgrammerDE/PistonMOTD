@@ -5,6 +5,7 @@ import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersNormal;
@@ -12,57 +13,20 @@ import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
-import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Getter
+@RequiredArgsConstructor
 public class PingEvent implements StatusPingListener {
     private final PistonMOTDVelocity plugin;
-    private List<Favicon> favicons;
-    private ThreadLocalRandom random;
-
-    protected PingEvent(PistonMOTDVelocity plugin) {
-        this.plugin = plugin;
-        if (plugin.rootNode.getNode("icons").getBoolean()) {
-            favicons = loadFavicons();
-            random = ThreadLocalRandom.current();
-        }
-    }
 
     @Subscribe
     public void onPing(ProxyPingEvent event) {
         ServerPing.Builder builder = event.getPing().asBuilder();
         handle(wrap(event, builder));
         event.setPing(builder.build());
-    }
-
-    private List<Favicon> loadFavicons() {
-        File[] icons = plugin.icons.listFiles();
-
-        List<File> validFiles = new ArrayList<>();
-
-        if (icons != null && icons.length != 0) {
-            for (File image : icons) {
-                if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
-                    validFiles.add(image);
-                }
-            }
-        }
-        return Arrays.asList(validFiles.stream().map(this::createFavicon).filter(Objects::nonNull).toArray(Favicon[]::new));
-    }
-
-    private Favicon createFavicon(File file) {
-        try {
-            return Favicon.create(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     private PistonStatusPing wrap(ProxyPingEvent event, ServerPing.Builder builder) {

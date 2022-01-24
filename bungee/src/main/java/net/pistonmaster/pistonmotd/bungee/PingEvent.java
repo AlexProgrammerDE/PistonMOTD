@@ -1,6 +1,7 @@
 package net.pistonmaster.pistonmotd.bungee;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
@@ -13,56 +14,19 @@ import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
-import org.apache.commons.io.FilenameUtils;
 
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Arrays;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Getter
+@RequiredArgsConstructor
 public class PingEvent implements Listener, StatusPingListener {
     private final PistonMOTDBungee plugin;
-    private List<Favicon> favicons;
-    private ThreadLocalRandom random;
-
-    protected PingEvent(PistonMOTDBungee plugin) {
-        this.plugin = plugin;
-        if (plugin.config.getBoolean("icons")) {
-            favicons = loadFavicons();
-            random = ThreadLocalRandom.current();
-        }
-    }
 
     @EventHandler
     public void onPing(ProxyPingEvent event) {
         handle(wrap(event));
-    }
-
-    private List<Favicon> loadFavicons() {
-        File[] icons = plugin.icons.listFiles();
-
-        List<File> validFiles = new ArrayList<>();
-
-        if (icons != null && icons.length != 0) {
-            for (File image : icons) {
-                if (FilenameUtils.getExtension(image.getPath()).equals("png")) {
-                    validFiles.add(image);
-                }
-            }
-        }
-        return Arrays.asList(validFiles.stream().map(this::createFavicon).filter(Objects::nonNull).toArray(Favicon[]::new));
-    }
-
-    private Favicon createFavicon(File file) {
-        try {
-            return Favicon.create(ImageIO.read(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     private PistonStatusPing wrap(ProxyPingEvent event) {

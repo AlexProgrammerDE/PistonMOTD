@@ -8,16 +8,16 @@ import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.util.Favicon;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
+import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
-import ninja.leaping.configurate.ConfigurationNode;
 import org.slf4j.Logger;
 
-import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
 public class PistonMOTDVelocity implements PistonMOTDPlugin {
     protected final ProxyServer server;
     private final Logger log;
-    protected ConfigurationNode rootNode;
-    protected File icons;
     protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Inject
@@ -49,7 +47,6 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         logName();
 
-        log.info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
         loadConfig();
 
         log.info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
@@ -75,6 +72,11 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
         }
 
         log.info(ConsoleColor.CYAN + "Done! :D" + ConsoleColor.RESET);
+    }
+
+    @Override
+    public StatusFavicon createFavicon(Path path) throws Exception {
+        return new StatusFavicon(Favicon.create(path));
     }
 
     @Override

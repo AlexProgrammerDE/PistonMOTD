@@ -6,6 +6,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
+import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.apache.logging.log4j.Logger;
@@ -19,13 +20,12 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
 import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
+import org.spongepowered.api.network.status.Favicon;
 import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.metric.MetricsConfigManager;
-import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
-import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
@@ -36,8 +36,6 @@ import java.util.stream.Collectors;
 @Plugin("pistonmotd")
 public class PistonMOTDSponge implements PistonMOTDPlugin {
     private final Metrics.Factory metricsFactory;
-    protected ConfigurationNode rootNode;
-    protected File icons;
     protected LuckPermsWrapper luckpermsWrapper = null;
     @Inject
     protected Game game;
@@ -86,7 +84,7 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
         game.eventManager().registerListeners(container, new PingEvent(this));
         game.eventManager().registerListeners(container, new JoinEvent(this));
 
-        if (rootNode.node("updatechecking").getBoolean()) {
+        if (getPluginConfig().getBoolean("updatechecking")) {
             checkUpdate();
         }
 
@@ -125,6 +123,11 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
                 .addParameter(Parameter.subcommand(help, "help"))
                 .addParameter(Parameter.subcommand(reload, "reload"))
                 .build(), "pistonmotd", "pistonmotdsponge");
+    }
+
+    @Override
+    public StatusFavicon createFavicon(Path path) throws Exception {
+        return new StatusFavicon(Favicon.load(path));
     }
 
     @Override

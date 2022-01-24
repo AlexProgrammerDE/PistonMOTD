@@ -54,7 +54,11 @@ public interface StatusPingListener {
         }
 
         if (config.getBoolean("icons")) {
-            ping.setFavicon(plugin.favicons.get(plugin.random.nextInt(0, plugin.favicons.size())));
+            if (plugin.favicons.isEmpty()) {
+                plugin.warn("No valid favicons found in your icons folder, but the icons setting is enabled...");
+            } else {
+                ping.setFavicon(plugin.favicons.get(plugin.random.nextInt(0, plugin.favicons.size())));
+            }
         }
     }
 

@@ -9,8 +9,7 @@ import net.skinsrestorer.axiom.AxiomConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -59,12 +58,36 @@ public interface PistonMOTDPlugin {
         }
 
         try {
-            Files.createDirectories(getIconFolder());
+            Path iconFolder = getIconFolder();
+            if (!Files.exists(iconFolder)) {
+                Files.createDirectories(iconFolder);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             error("Could not create the icon directory!");
         }
+
+        loadFavicons();
     }
+
+    default void loadFavicons() {
+        favicons.clear();
+        try (DirectoryStream<Path> ds = Files.newDirectoryStream(getIconFolder(), new DirectoriesFilter())) {
+            for (Path p : ds) {
+                try {
+                    favicons.add(createFavicon(p));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    error("Could not load favicon! (" + p.getFileName() + ")");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    StatusFavicon createFavicon(Path path) throws Exception;
 
     Path getPluginConfigFile();
 
@@ -101,4 +124,13 @@ public interface PistonMOTDPlugin {
     void warn(String message);
 
     void error(String message);
+
+    class DirectoriesFilter implements DirectoryStream.Filter<Path> {
+        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.png");
+
+        @Override
+        public boolean accept(Path entry) {
+            return !Files.isDirectory(entry) && matcher.matches(entry);
+        }
+    }
 }
