@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -114,6 +115,16 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
             @Override
             public String getDisplayName() {
                 return player.getDisplayName();
+            }
+
+            @Override
+            public String getName() {
+                return player.getName();
+            }
+
+            @Override
+            public UUID getUniqueId() {
+                return player.getUniqueId();
             }
         };
     }

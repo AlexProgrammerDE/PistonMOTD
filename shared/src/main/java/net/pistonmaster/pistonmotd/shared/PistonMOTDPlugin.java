@@ -1,7 +1,6 @@
 package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
-import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -14,17 +13,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicReference;
 
 public interface PistonMOTDPlugin {
     AxiomConfiguration config = new AxiomConfiguration();
     List<StatusFavicon> favicons = new ArrayList<>();
-    AtomicReference<LuckPermsWrapper> luckpermsWrapper = new AtomicReference<>();
     ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    default AxiomConfiguration getConfig() {
+    default AxiomConfiguration getPluginConfig() {
         return config;
     }
 
@@ -41,25 +37,32 @@ public interface PistonMOTDPlugin {
     default void loadConfig() {
         info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
         Path pluginConfigFile = getPluginConfigFile();
+        AxiomConfiguration defaultConfig = new AxiomConfiguration();
+
         try {
+            Files.createDirectories(pluginConfigFile.getParent());
+
+            try (InputStream is = getDefaultConfig()) {
+                defaultConfig.load(is);
+            }
+
+            if (!Files.exists(pluginConfigFile)) {
+                defaultConfig.save(pluginConfigFile);
+            }
+
             config.load(pluginConfigFile);
-        } catch (IOException e) {
-            error("Could not load config");
-        }
 
-        try (InputStream defaultConfig = getDefaultConfig()) {
-            AxiomConfiguration defaultConfigs = new AxiomConfiguration();
-            defaultConfigs.load(defaultConfig);
-
-            config.mergeDefault(defaultConfigs);
+            config.mergeDefault(defaultConfig);
         } catch (IOException e) {
             e.printStackTrace();
+            error("Could not load config");
         }
 
         try {
             Files.createDirectories(getIconFolder());
         } catch (IOException e) {
             e.printStackTrace();
+            error("Could not create the icon directory!");
         }
     }
 

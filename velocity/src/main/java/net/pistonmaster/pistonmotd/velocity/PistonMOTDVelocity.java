@@ -15,17 +15,13 @@ import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
-import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 import org.slf4j.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
@@ -106,6 +102,16 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
             @Override
             public String getDisplayName() {
                 return player.getUsername();
+            }
+
+            @Override
+            public String getName() {
+                return player.getUsername();
+            }
+
+            @Override
+            public UUID getUniqueId() {
+                return player.getUniqueId();
             }
         };
     }

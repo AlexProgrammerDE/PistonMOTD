@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Plugin("pistonmotd")
@@ -151,6 +152,16 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
             @Override
             public String getDisplayName() {
                 return LegacyComponentSerializer.legacySection().serialize(player.displayName().get());
+            }
+
+            @Override
+            public String getName() {
+                return player.name();
+            }
+
+            @Override
+            public UUID getUniqueId() {
+                return player.profile().uuid();
             }
         };
     }
