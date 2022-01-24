@@ -32,6 +32,7 @@ import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Path;
 
 @Plugin("pistonmotd")
@@ -71,9 +72,7 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     public void onServerStart(final ConstructPluginEvent event) {
         logName();
 
-        info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
         loadConfig();
-
 
         info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
@@ -130,64 +129,16 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
                 .addParameter(Parameter.subcommand(help, "help"))
                 .addParameter(Parameter.subcommand(reload, "reload"))
                 .build(), "pistonmotd", "pistonmotdsponge");
-
-        final Parameter.Value<String> nameParam = Parameter.string().key("name").build();
-        event.register(this.container, Command.builder()
-                .addParameter(nameParam)
-                .permission("example.command.greet")
-                .executor(ctx -> {
-                    final String name = ctx.requireOne(nameParam);
-                    ctx.sendMessage(Identity.nil(), LinearComponents.linear(
-                            NamedTextColor.AQUA,
-                            Component.text("Hello "),
-                            Component.text(name, Style.style(TextDecoration.BOLD)),
-                            Component.text("!")
-                    ));
-
-                    return CommandResult.success();
-                })
-                .build(), "greet", "wave");
     }
 
-    protected void loadConfig() {
-        // TODO: Replace sponge config loading
-        /*
-        final File oldConfigFile = new File(publicConfigDir.toFile(), "pistonmotd.yml");
+    @Override
+    public Path getPluginConfigFile() {
+        return defaultConfig;
+    }
 
-        try {
-            Optional<URI> optionalAsset = container.locateResource(URI.create("sponge.conf"));
-            if (optionalAsset.isPresent()) {
-                ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().path(defaultConfig).build();
-
-                if (oldConfigFile.exists()) {
-                    loader.save(YAMLConfigurationLoader.builder().setFile(oldConfigFile).build().load());
-
-                    Files.delete(oldConfigFile.toPath());
-                }
-
-                URI asset = optionalAsset.get();
-
-                asset.copyToFile(defaultConfig, false, true);
-
-                rootNode = loader.load();
-
-                rootNode.mergeValuesFrom(HoconConfigurationLoader.builder().url(asset.getUrl()).build().load());
-
-                loader.save(rootNode);
-
-                File iconFolder = new File(publicConfigDir.toFile(), "icons");
-
-                if (!iconFolder.exists() && !iconFolder.mkdir()) {
-                    throw new IOException("Couldn't create folder!");
-                }
-
-                icons = iconFolder;
-            } else {
-                throw new IOException("Default configuration file missing in jar!!!");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+    @Override
+    public InputStream getDefaultConfig() {
+        return null; // TODO
     }
 
     /**

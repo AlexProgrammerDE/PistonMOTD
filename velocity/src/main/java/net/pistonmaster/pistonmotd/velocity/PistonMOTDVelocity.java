@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -67,7 +68,7 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
         server.getEventManager().register(this, new PingEvent(this));
 
         log.info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
-        server.getCommandManager().register("pistonmotdv", new VelocityCommand(this));
+        server.getCommandManager().register("pistonmotd", new VelocityCommand(this), "pistonmotdv", "pistonmotdvelocity");
 
         if (container.getDescription().getVersion().isPresent()) {
             checkUpdate();
@@ -76,50 +77,14 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
         log.info(ConsoleColor.CYAN + "Done! :D" + ConsoleColor.RESET);
     }
 
-    protected void loadConfig() {
-        try {
-            final File oldConfigFile = new File(pluginDir.toFile(), "config.yml");
+    @Override
+    public Path getPluginConfigFile() {
+        return pluginDir.resolve("config.conf");
+    }
 
-            File file = new File(pluginDir.toFile(), "config.conf");
-
-            HoconConfigurationLoader loader = HoconConfigurationLoader.builder().setFile(file).build();
-
-            if (oldConfigFile.exists()) {
-                loader.save(YAMLConfigurationLoader.builder().setFile(oldConfigFile).build().load());
-
-                Files.delete(oldConfigFile.toPath());
-            }
-
-            if (!pluginDir.toFile().exists() && !pluginDir.toFile().mkdir()) {
-                throw new IOException("Couldn't create folder!");
-            }
-
-            if (!file.exists()) {
-                try {
-                    Files.copy(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("velocity.conf")), file.toPath());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            rootNode = loader.load();
-
-            rootNode.mergeValuesFrom(HoconConfigurationLoader.builder().setURL(Objects.requireNonNull(getClass().getClassLoader().getResource("velocity.conf")).toURI().toURL()).build().load());
-
-            loader.save(rootNode);
-
-            File iconFolder = new File(pluginDir.toFile(), "icons");
-
-            if (!iconFolder.exists()) {
-                if (!iconFolder.mkdir()) {
-                    throw new IOException("Couldn't create folder!");
-                }
-            }
-
-            icons = iconFolder;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public InputStream getDefaultConfig() {
+        return getClass().getClassLoader().getResourceAsStream("velocity.conf");
     }
 
     @Override

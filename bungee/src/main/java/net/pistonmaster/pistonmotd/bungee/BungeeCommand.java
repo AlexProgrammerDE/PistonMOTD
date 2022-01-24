@@ -13,7 +13,7 @@ public class BungeeCommand extends Command implements TabExecutor {
     private final PistonMOTDBungee plugin;
 
     protected BungeeCommand(PistonMOTDBungee plugin) {
-        super("pistonmotdb");
+        super("pistonmotd", null, "pistonmotdb", "pistonmotdbungee");
         this.plugin = plugin;
     }
 

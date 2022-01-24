@@ -5,8 +5,15 @@ import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
 import net.pistonmaster.pistonutils.update.UpdateType;
+import net.skinsrestorer.axiom.AxiomConfiguration;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 
 public interface PistonMOTDPlugin {
+    AxiomConfiguration config = new AxiomConfiguration();
+
     default void logName() {
         info("  _____  _       _                 __  __   ____  _______  _____  ");
         info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
@@ -16,6 +23,28 @@ public interface PistonMOTDPlugin {
         info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
         info("                                                                  ");
     }
+
+    default void loadConfig() {
+        info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
+        try {
+            config.load(getPluginConfigFile());
+        } catch (IOException e) {
+            error("Could not load config");
+        }
+
+        try (InputStream defaultConfig = getDefaultConfig()) {
+            AxiomConfiguration defaultConfigs = new AxiomConfiguration();
+            defaultConfigs.load(defaultConfig);
+
+            config.mergeDefault(defaultConfigs);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    Path getPluginConfigFile();
+
+    InputStream getDefaultConfig();
 
     default void checkUpdate() {
         info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);

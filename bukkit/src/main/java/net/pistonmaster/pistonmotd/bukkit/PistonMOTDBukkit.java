@@ -13,12 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
 
 import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
@@ -42,7 +43,7 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
         File iconFolder = new File(getDataFolder(), "icons");
 
         if (!iconFolder.exists() && !iconFolder.mkdir()) {
-            getLogger().log(Level.SEVERE, "Couldn't create icon folder!");
+            getLogger().severe("Couldn't create icon folder!");
         }
         icons = iconFolder;
         if (getConfig().getBoolean("icons")) { //Dont load favicons into memory unless the feature is enabled
@@ -114,6 +115,16 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Path getPluginConfigFile() {
+        return getDataFolder().toPath().resolve("config.yml");
+    }
+
+    @Override
+    public InputStream getDefaultConfig() {
+        return getResource("config.yml");
     }
 
     @Override

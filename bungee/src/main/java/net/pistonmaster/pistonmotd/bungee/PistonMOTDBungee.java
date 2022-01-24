@@ -10,6 +10,8 @@ import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.bstats.bungeecord.Metrics;
 
 import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -41,7 +43,6 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
 
         logName();
 
-        log.info(ChatColor.AQUA + "Loading config");
         loadConfig();
 
         log.info(ChatColor.AQUA + "Registering placeholders");
@@ -85,10 +86,14 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
         log.info(ChatColor.AQUA + "Finished unloading!");
     }
 
-    protected void loadConfig() {
-        manager = new ConfigManager(this, headList);
-        config = manager.getConfig();
-        icons = manager.getIcons();
+    @Override
+    public Path getPluginConfigFile() {
+        return getDataFolder().toPath().resolve("config.yml");
+    }
+
+    @Override
+    public InputStream getDefaultConfig() {
+        return getResourceAsStream("bungeconfig.yml");
     }
 
     @Override
