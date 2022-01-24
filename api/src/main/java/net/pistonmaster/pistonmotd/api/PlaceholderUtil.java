@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class to use to manage parsers and parse text.
+ * Class for managing parsers and parse text.
  */
 @SuppressWarnings({"unused"})
 public class PlaceholderUtil {

@@ -1,6 +1,7 @@
 package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
+import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -9,10 +10,23 @@ import net.skinsrestorer.axiom.AxiomConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicReference;
 
 public interface PistonMOTDPlugin {
     AxiomConfiguration config = new AxiomConfiguration();
+    List<StatusFavicon> favicons = new ArrayList<>();
+    AtomicReference<LuckPermsWrapper> luckpermsWrapper = new AtomicReference<>();
+    ThreadLocalRandom random = ThreadLocalRandom.current();
+
+    default AxiomConfiguration getConfig() {
+        return config;
+    }
 
     default void logName() {
         info("  _____  _       _                 __  __   ____  _______  _____  ");
@@ -26,8 +40,9 @@ public interface PistonMOTDPlugin {
 
     default void loadConfig() {
         info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
+        Path pluginConfigFile = getPluginConfigFile();
         try {
-            config.load(getPluginConfigFile());
+            config.load(pluginConfigFile);
         } catch (IOException e) {
             error("Could not load config");
         }
@@ -40,11 +55,21 @@ public interface PistonMOTDPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            Files.createDirectories(getIconFolder());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     Path getPluginConfigFile();
 
+    Path getIconFolder();
+
     InputStream getDefaultConfig();
+
+    List<PlayerWrapper> getPlayers();
 
     default void checkUpdate() {
         info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);

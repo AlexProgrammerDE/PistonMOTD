@@ -6,10 +6,12 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
+import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -22,7 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDVelocity implements PistonMOTDPlugin {
@@ -83,8 +87,27 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     }
 
     @Override
+    public Path getIconFolder() {
+        return pluginDir.resolve("icons");
+    }
+
+    @Override
     public InputStream getDefaultConfig() {
         return getClass().getClassLoader().getResourceAsStream("velocity.conf");
+    }
+
+    @Override
+    public List<PlayerWrapper> getPlayers() {
+        return server.getAllPlayers().stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    private PlayerWrapper wrap(Player player) {
+        return new PlayerWrapper() {
+            @Override
+            public String getDisplayName() {
+                return player.getUsername();
+            }
+        };
     }
 
     @Override

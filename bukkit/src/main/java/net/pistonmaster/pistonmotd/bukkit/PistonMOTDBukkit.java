@@ -4,10 +4,12 @@ import io.papermc.lib.PaperLib;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
+import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.apache.commons.io.FilenameUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
     protected File icons;
@@ -123,8 +126,27 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
     }
 
     @Override
+    public Path getIconFolder() {
+        return getDataFolder().toPath().resolve("icons");
+    }
+
+    @Override
     public InputStream getDefaultConfig() {
         return getResource("config.yml");
+    }
+
+    @Override
+    public List<PlayerWrapper> getPlayers() {
+        return getServer().getOnlinePlayers().stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    private PlayerWrapper wrap(Player player) {
+        return new PlayerWrapper() {
+            @Override
+            public String getDisplayName() {
+                return player.getDisplayName();
+            }
+        };
     }
 
     @Override

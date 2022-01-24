@@ -6,12 +6,14 @@ import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersNormal;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
+import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
@@ -22,7 +24,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
+@Getter
 @SuppressWarnings("UnstableApiUsage")
 public class PingEvent implements StatusPingListener {
     private final PistonMOTDVelocity plugin;
@@ -154,9 +158,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public void setDescription(String description) {
-                boolean supportsHex = event.getConnection().getProtocolVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
-
-                if (supportsHex) {
+                if (supportsHex()) {
                     builder.description(PistonSerializersNormal.sectionRGB.deserialize(description));
                 } else {
                     builder.description(PistonSerializersNormal.section.deserialize(description));
@@ -201,6 +203,26 @@ public class PingEvent implements StatusPingListener {
             @Override
             public void setVersionProtocol(int protocol) {
                 builder.version(new ServerPing.Version(protocol, builder.getVersion().getName()));
+            }
+
+            @Override
+            public void clearSamples() throws UnsupportedOperationException {
+                builder.clearSamplePlayers();
+            }
+
+            @Override
+            public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
+                builder.samplePlayers(Stream.concat(builder.getSamplePlayers().stream(), Stream.of(new ServerPing.SamplePlayer(name, uuid))).toArray(ServerPing.SamplePlayer[]::new));
+            }
+
+            @Override
+            public boolean supportsHex() {
+                return event.getConnection().getProtocolVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
+            }
+
+            @Override
+            public void setFavicon(StatusFavicon favicon) {
+                builder.favicon((Favicon) favicon.getValue());
             }
         };
     }

@@ -1,11 +1,14 @@
 package net.pistonmaster.pistonmotd.sponge;
 
+import lombok.Getter;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
+import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
+import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 import org.apache.commons.io.FilenameUtils;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -20,7 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
+@Getter
 public class PingEvent implements StatusPingListener {
     private final PistonMOTDSponge plugin;
     private List<Favicon> favicons;
@@ -170,6 +175,31 @@ public class PingEvent implements StatusPingListener {
                 throw new UnsupportedOperationException("Not supported on sponge!");
             }
 
+            @Override
+            public void clearSamples() throws UnsupportedOperationException {
+                event.response().players().ifPresent(e -> e.profiles().clear());
+            }
+
+            @Override
+            public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
+                event.response().players().ifPresent(e -> e.profiles().add(GameProfile.of(UUID.randomUUID(), name)));
+            }
+
+            @Override
+            public boolean supportsHex() {
+                OptionalInt version = event.client().version().dataVersion();
+
+                if (version.isPresent()) {
+                    return version.getAsInt() >= PistonConstants.MINECRAFT_1_16;
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public void setFavicon(StatusFavicon favicon) {
+                event.response().setFavicon((Favicon) favicon.getValue());
+            }
         };
     }
 }

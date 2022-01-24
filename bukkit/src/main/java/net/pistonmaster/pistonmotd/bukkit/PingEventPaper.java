@@ -1,12 +1,14 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
+import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
@@ -16,9 +18,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.util.CachedServerIcon;
 
 import java.util.UUID;
 
+@Getter
 @RequiredArgsConstructor
 public class PingEventPaper implements Listener, StatusPingListener {
     private final PistonMOTDBukkit plugin;
@@ -144,6 +148,25 @@ public class PingEventPaper implements Listener, StatusPingListener {
                 event.setProtocolVersion(protocol);
             }
 
+            @Override
+            public void clearSamples() throws UnsupportedOperationException {
+                event.getPlayerSample().clear();
+            }
+
+            @Override
+            public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
+                event.getPlayerSample().add(Bukkit.createProfile(uuid, name));
+            }
+
+            @Override
+            public boolean supportsHex() {
+                return event.getClient().getProtocolVersion() >= PistonConstants.MINECRAFT_1_16;
+            }
+
+            @Override
+            public void setFavicon(StatusFavicon favicon) {
+                event.setServerIcon((CachedServerIcon) favicon.getValue());
+            }
         };
     }
 }

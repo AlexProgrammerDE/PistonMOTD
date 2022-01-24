@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     implementation("net.skinsrestorer:axiom:1.0.0-SNAPSHOT")
+    implementation(projects.pistonmotdApi)
 }

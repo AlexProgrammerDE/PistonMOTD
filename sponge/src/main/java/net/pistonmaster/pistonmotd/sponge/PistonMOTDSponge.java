@@ -1,14 +1,11 @@
 package net.pistonmaster.pistonmotd.sponge;
 
 import com.google.inject.Inject;
-import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.LinearComponents;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.Style;
-import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
+import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.apache.logging.log4j.Logger;
@@ -16,18 +13,15 @@ import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.bstats.sponge.Metrics;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.Command;
-import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.parameter.Parameter;
 import org.spongepowered.api.config.ConfigDir;
-import org.spongepowered.api.config.DefaultConfig;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
 import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.metric.MetricsConfigManager;
-import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
@@ -35,6 +29,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Plugin("pistonmotd")
 public class PistonMOTDSponge implements PistonMOTDPlugin {
@@ -46,16 +42,14 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     protected Game game;
     @Inject
     private Logger log;
-    @Inject
-    @DefaultConfig(sharedRoot = true)
-    private Path defaultConfig;
-
-    @Inject
-    private ConfigurationLoader<CommentedConfigurationNode> configManager;
 
     @Inject
     @ConfigDir(sharedRoot = true)
     private Path publicConfigDir;
+
+    @Inject
+    @ConfigDir(sharedRoot = false)
+    private Path privateConfigDir;
 
     @Inject
     private PluginContainer container;
@@ -101,9 +95,9 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
             metricsFactory.make(9204);
         } else if (collectionState == Tristate.UNDEFINED) {
             log.info(ConsoleColor.CYAN + "Hey there! It seems like data collection is disabled. :( " + ConsoleColor.RESET);
-            log.info(ConsoleColor.CYAN + "But don't worry... You can fix this! " + ConsoleColor.RESET);
+            log.info(ConsoleColor.CYAN + "But you change fix this!" + ConsoleColor.RESET);
             log.info(ConsoleColor.CYAN + "Just execute: \"/sponge metrics pistonmotd enable\"." + ConsoleColor.RESET);
-            log.info(ConsoleColor.CYAN + "This info is just to give me small info about the server," + ConsoleColor.RESET);
+            log.info(ConsoleColor.CYAN + "This includes only small infos about the server," + ConsoleColor.RESET);
             log.info(ConsoleColor.CYAN + "like its version and the plugin version." + ConsoleColor.RESET);
         }
 
@@ -134,12 +128,31 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
     @Override
     public Path getPluginConfigFile() {
-        return defaultConfig;
+        return publicConfigDir.resolve("pistonmotd.yml");
+    }
+
+    @Override
+    public Path getIconFolder() {
+        return privateConfigDir.resolve("icons");
     }
 
     @Override
     public InputStream getDefaultConfig() {
         return container.openResource(URI.create("sponge.yml")).orElse(null);
+    }
+
+    @Override
+    public List<PlayerWrapper> getPlayers() {
+        return game.server().onlinePlayers().stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    private PlayerWrapper wrap(Player player) {
+        return new PlayerWrapper() {
+            @Override
+            public String getDisplayName() {
+                return LegacyComponentSerializer.legacySection().serialize(player.displayName().get());
+            }
+        };
     }
 
     /**

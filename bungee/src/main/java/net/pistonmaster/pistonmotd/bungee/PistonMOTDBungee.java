@@ -2,10 +2,12 @@ package net.pistonmaster.pistonmotd.bungee;
 
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
+import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.bstats.bungeecord.Metrics;
 
@@ -15,6 +17,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
     protected final List<String> headList = new ArrayList<>();
@@ -92,8 +95,27 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
     }
 
     @Override
+    public Path getIconFolder() {
+        return getDataFolder().toPath().resolve("icons");
+    }
+
+    @Override
     public InputStream getDefaultConfig() {
         return getResourceAsStream("bungeconfig.yml");
+    }
+
+    @Override
+    public List<PlayerWrapper> getPlayers() {
+        return getProxy().getPlayers().stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    private PlayerWrapper wrap(ProxiedPlayer player) {
+        return new PlayerWrapper() {
+            @Override
+            public String getDisplayName() {
+                return player.getDisplayName();
+            }
+        };
     }
 
     @Override

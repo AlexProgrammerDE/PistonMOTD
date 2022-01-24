@@ -1,5 +1,7 @@
 package net.pistonmaster.pistonmotd.shared;
 
+import java.util.UUID;
+
 public interface PistonStatusPing {
     void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException;
 
@@ -22,4 +24,12 @@ public interface PistonStatusPing {
     int getVersionProtocol() throws UnsupportedOperationException;
 
     void setVersionProtocol(int protocol) throws UnsupportedOperationException;
+
+    void clearSamples() throws UnsupportedOperationException;
+
+    void addSample(UUID uuid, String name) throws UnsupportedOperationException;
+
+    boolean supportsHex();
+
+    void setFavicon(StatusFavicon favicon);
 }

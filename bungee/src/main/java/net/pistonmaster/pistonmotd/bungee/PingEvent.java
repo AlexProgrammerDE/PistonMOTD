@@ -1,5 +1,6 @@
 package net.pistonmaster.pistonmotd.bungee;
 
+import lombok.Getter;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.luckperms.api.cacheddata.CachedMetaData;
 import net.md_5.bungee.api.ChatColor;
@@ -16,19 +17,20 @@ import net.md_5.bungee.protocol.ProtocolConstants;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
+import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
+import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
+@Getter
 public class PingEvent implements Listener, StatusPingListener {
     private final PistonMOTDBungee plugin;
     private List<Favicon> favicons;
@@ -190,9 +192,7 @@ public class PingEvent implements Listener, StatusPingListener {
 
             @Override
             public void setDescription(String description) {
-                boolean supportsHex = event.getConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16;
-
-                if (supportsHex) {
+                if (supportsHex()) {
                     event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
                 } else {
                     event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
@@ -239,6 +239,28 @@ public class PingEvent implements Listener, StatusPingListener {
                 event.getResponse().getVersion().setProtocol(protocol);
             }
 
+            @Override
+            public void clearSamples() throws UnsupportedOperationException {
+                event.getResponse().getPlayers().setSample(new ServerPing.PlayerInfo[0]);
+            }
+
+            @Override
+            public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
+                event.getResponse().getPlayers().setSample(
+                        Stream.concat(Arrays.stream(event.getResponse().getPlayers().getSample()),
+                                        Stream.of(new ServerPing.PlayerInfo(name, uuid)))
+                                .toArray(ServerPing.PlayerInfo[]::new));
+            }
+
+            @Override
+            public boolean supportsHex() {
+                return event.getConnection().getVersion() >= PistonConstants.MINECRAFT_1_16;
+            }
+
+            @Override
+            public void setFavicon(StatusFavicon favicon) {
+                event.getResponse().setFavicon((Favicon) favicon.getValue());
+            }
         };
     }
 }
