@@ -29,4 +29,8 @@ fun ShadowJar.configureRelocations() {
     relocate("org.apiguardian", "net.pistonmaster.pistonmotd.shadow.apiguardian")
     relocate("org.bstats", "net.pistonmaster.pistonmotd.shadow.bstats")
     relocate("net.pistonmaster.pistonutils", "net.pistonmaster.pistonmotd.shadow.pistonutils")
+    relocate("net.skinsrestorer.axiom", "net.pistonmaster.pistonmotd.shadow.axiom")
+    relocate("org.yaml.snakeyaml", "net.pistonmaster.pistonmotd.shadow.snakeyaml")
+    relocate("org.intellij.lang.annotations", "net.pistonmaster.pistonmotd.shadow.annotations.intellij")
+    relocate("org.jetbrains.annotations", "net.pistonmaster.pistonmotd.shadow.annotations.jetbrains")
 }

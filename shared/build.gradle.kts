@@ -1,8 +1,8 @@
 plugins {
-    id("pm.java-conventions")
+    id("pm.shadow-conventions")
 }
 
 dependencies {
-    implementation("net.skinsrestorer:axiom:1.0.0-SNAPSHOT")
+    api("net.skinsrestorer:axiom:1.0.0-SNAPSHOT")
     implementation(projects.pistonmotdApi)
 }
