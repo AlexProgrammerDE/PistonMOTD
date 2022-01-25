@@ -135,8 +135,8 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     }
 
     @Override
-    public Path getIconFolder() {
-        return privateConfigDir.resolve("icons");
+    public Path getFaviconFolder() {
+        return privateConfigDir.resolve("favicons");
     }
 
     @Override

@@ -13,71 +13,71 @@ public interface StatusPingListener {
         PistonMOTDPlugin plugin = getPlugin();
         AxiomConfiguration config = plugin.getPluginConfig();
 
-        if (config.getBoolean("motd.activated")) {
-            ping.setDescription(MOTDUtil.getMOTD(config.getStringList("motd.text"), ping.supportsHex(), PlaceholderUtil::parseText));
+        if (config.getBoolean("description.activated")) {
+            ping.setDescription(MOTDUtil.getMOTD(config.getStringList("description.text"), ping.supportsHex(), PlaceholderUtil::parseText));
         }
 
-        if (config.getBoolean("hideplayers")) {
+        if (config.getBoolean("players.hide")) {
             try {
                 ping.setHidePlayers(true);
             } catch (UnsupportedOperationException e) {
-                logUnsupportedConfig("protocol");
+                logUnsupportedConfig("players.hide");
             }
         } else {
-            if (config.getBoolean("protocol.activated")) {
+            if (config.getBoolean("players.max.activated")) {
+                ping.setMax(config.getInt("players.max.value"));
+            }
+
+            if (config.getBoolean("players.online.activated")) {
                 try {
-                    ping.setVersionName(PlaceholderUtil.parseText(config.getString("extended.protocol.text").replace("%aftericon%", afterIcon)));
+                    ping.setOnline(config.getInt("players.online.value"));
                 } catch (UnsupportedOperationException e) {
-                    logUnsupportedConfig("protocol");
+                    logUnsupportedConfig("players.online");
                 }
             }
 
-            if (config.getBoolean("overrideprotocolnumber.activated")) {
+            if (config.getBoolean("players.sample.bukkit.activated")) {
                 try {
-                    ping.setVersionProtocol(config.getInt("extended.overrideprotocolnumber.value"));
+                    ping.clearSamples();
+
+                    for (PlayerWrapper player : plugin.getPlayers()) {
+                        if (config.getStringList("players.sample.bukkit.hidden").contains(player.getName())) continue;
+
+                        ping.addSample(player.getUniqueId(), player.getDisplayName());
+                    }
                 } catch (UnsupportedOperationException e) {
-                    logUnsupportedConfig("overrideprotocolnumber");
+                    logUnsupportedConfig("players.sample.bukkit");
+                }
+            } else if (config.getBoolean("players.sample.activated")) {
+                try {
+                    ping.clearSamples();
+
+                    for (String str : config.getStringList("players.sample.text")) {
+                        ping.addSample(UUID.randomUUID(), PlaceholderUtil.parseText(str));
+                    }
+                } catch (UnsupportedOperationException e) {
+                    logUnsupportedConfig("players.sample");
                 }
             }
         }
 
-        if (config.getBoolean("playercounter.bukkitplayercounter")) {
+        if (config.getBoolean("version.name.activated")) {
             try {
-                ping.clearSamples();
-
-                for (PlayerWrapper player : plugin.getPlayers()) {
-                    if (config.getStringList("hiddenplayers").contains(player.getName())) continue;
-
-                    ping.addSample(player.getUniqueId(), player.getDisplayName());
-                }
+                ping.setVersionName(PlaceholderUtil.parseText(config.getString("version.name.text").replace("%aftericon%", afterIcon)));
             } catch (UnsupportedOperationException e) {
-                logUnsupportedConfig("playercounter.bukkitplayercounter");
-            }
-        } else if (config.getBoolean("playercounter.activated")) {
-            try {
-                ping.clearSamples();
-
-                for (String str : config.getStringList("extended.playercounter.text")) {
-                    ping.addSample(UUID.randomUUID(), PlaceholderUtil.parseText(str));
-                }
-            } catch (UnsupportedOperationException e) {
-                logUnsupportedConfig("playercounter");
+                logUnsupportedConfig("version.name");
             }
         }
 
-        if (config.getBoolean("overridemax.activated")) {
-            ping.setMax(config.getInt("overridemax.value"));
-        }
-
-        if (config.getBoolean("overrideonline.activated")) {
+        if (config.getBoolean("version.protocol.activated")) {
             try {
-                ping.setOnline(config.getInt("extended.overrideonline.value"));
+                ping.setVersionProtocol(config.getInt("version.protocol.value"));
             } catch (UnsupportedOperationException e) {
-                logUnsupportedConfig("overrideonline");
+                logUnsupportedConfig("version.protocol");
             }
         }
 
-        if (config.getBoolean("icons")) {
+        if (config.getBoolean("favicons")) {
             if (plugin.favicons.isEmpty()) {
                 plugin.warn("No valid favicons found in your icons folder, but the icons setting is enabled...");
             } else {

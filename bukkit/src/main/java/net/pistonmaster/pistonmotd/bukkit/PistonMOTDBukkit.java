@@ -83,8 +83,8 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
     }
 
     @Override
-    public Path getIconFolder() {
-        return getDataFolder().toPath().resolve("icons");
+    public Path getFaviconFolder() {
+        return getDataFolder().toPath().resolve("favicons");
     }
 
     @Override

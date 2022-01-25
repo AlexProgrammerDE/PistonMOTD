@@ -84,8 +84,8 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     }
 
     @Override
-    public Path getIconFolder() {
-        return pluginDir.resolve("icons");
+    public Path getFaviconFolder() {
+        return pluginDir.resolve("favicons");
     }
 
     @Override

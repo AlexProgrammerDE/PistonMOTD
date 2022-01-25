@@ -1,62 +1,55 @@
-# Override your actual player count
-overrideonline:
-  activated: false
-  value: 0
-
-# Override your max player count
-overridemax:
-  activated: false
-  value: 10
-
-# A protocol message is shown if the version of the client doesn't match the version of the server.
-# %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)
-protocol:
-  activated: true
-  text: "&1My custom protocol message!"
-
-overrideprotocolnumber:
-  activated: false
-  value: 1
-
-# When enabled a random image out of the icons folder will be shown.
-icons: false
-
-hooks:
-  luckpermsplayercounter: false
-
 # You can find color codes here: https://minecraft.tools/en/color-code.php
 # Formatting comes after the color! &d&l will work, but not &l&d.
 # MiniMessage formatting IS supported: https://docs.adventure.kyori.net/minimessage.html#template
-# HEX/RGB colors ARE supported. (Only the motd)
+# HEX/RGB colors ARE supported. (Only the MOTD)
 # Hex format: &#FFFFFF
 # Note: The MiniMessage allows you to make rainbow colors and gradients
 # Placeholders: %online% (Players online)
 # %max% (Server max slots)
-# %newline% adds a newline to your motd.
+# %newline% adds a newline to your MOTD.
 # %tps% shows the tps (Paper only)
-motd:
+description:
   activated: true
   text:
     - "Hello! %newline%World!"
     - "Use &4color codes!"
     - "&ka &rFormatting &rworks &rtoo! &ka"
-    - "&1Players: %online%"
-    - "&2Max: %max%"
+    - "&1Players: %online%/%max%"
 
-# Shown when you hover over the player count
-playercounter:
-  bukkitplayercounter: false
-  activated: true
-  text:
-    - "&3Hello world!"
-    - "&eNewline!"
-    - "&6    spaces!"
-    - "&d&lCombined"
-    - "&1Players: %online%"
-    - "&2Max: %max%"
+version:
+  # A protocol message is shown if the version of the client doesn't match the version of the server.
+  # %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)
+  name:
+    activated: true
+    text: "&1My custom protocol message!"
+  protocol:
+    activated: false
+    value: 1
 
-# Will show ??? as the player count.
-hideplayers: false
+players:
+  # Override your actual player count
+  online:
+    activated: false
+    value: 0
+  # Override your max player count
+  max:
+    activated: false
+    value: 10
+  # Will show ??? as the player count.
+  hide: false
+  # Shown when you hover over the player count
+  sample:
+    bukkit:
+      activated: true
+      hidden:
+        - "Notch"
+    activated: true
+      text:
+        - "&3Hello world!"
+        - "&eNewline!"
+        - "&6    spaces!"
+        - "&d&lCombined"
+        - "&1Players: %online%/%max%"
 
-hiddenplayers:
-  - "Notch"
+# When enabled a random image out of the /plugins/PistonMOTD/favicons folder will be shown.
+favicons: false

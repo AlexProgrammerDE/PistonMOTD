@@ -58,7 +58,7 @@ public interface PistonMOTDPlugin {
         }
 
         try {
-            Path iconFolder = getIconFolder();
+            Path iconFolder = getFaviconFolder();
             if (!Files.exists(iconFolder)) {
                 Files.createDirectories(iconFolder);
             }
@@ -72,7 +72,7 @@ public interface PistonMOTDPlugin {
 
     default void loadFavicons() {
         favicons.clear();
-        try (DirectoryStream<Path> ds = Files.newDirectoryStream(getIconFolder(), new DirectoriesFilter())) {
+        try (DirectoryStream<Path> ds = Files.newDirectoryStream(getFaviconFolder(), new DirectoriesFilter())) {
             for (Path p : ds) {
                 try {
                     favicons.add(createFavicon(p));
@@ -91,7 +91,7 @@ public interface PistonMOTDPlugin {
 
     Path getPluginConfigFile();
 
-    Path getIconFolder();
+    Path getFaviconFolder();
 
     InputStream getDefaultConfig();
 
