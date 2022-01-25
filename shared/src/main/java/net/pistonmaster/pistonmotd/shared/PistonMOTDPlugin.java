@@ -99,7 +99,7 @@ public interface PistonMOTDPlugin {
 
     default void checkUpdate() {
         info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
-        new UpdateChecker(new PistonLogger(this::info, this::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getVersion(), version).parseUpdate(updateType -> {
+        new UpdateChecker(new PistonLogger(this::info, this::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getStrippedVersion(), version).parseUpdate(updateType -> {
             if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
                 info(ConsoleColor.CYAN + "You're up to date!" + ConsoleColor.RESET);
             } else {
@@ -115,6 +115,10 @@ public interface PistonMOTDPlugin {
                 info(ConsoleColor.RED + "Download it at: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions" + ConsoleColor.RESET);
             }
         }));
+    }
+
+    default String getStrippedVersion() {
+        return getVersion().replace("-SNAPSHOT", "");
     }
 
     String getVersion();
