@@ -4,7 +4,7 @@ plugins {
 
 allprojects {
     group = "net.pistonmaster"
-    version = "4.4.0"
+    version = "5.0.0-SNAPSHOT"
     description = "Best MOTD plugin with multi-platform support!"
 }
 
