@@ -30,11 +30,11 @@ public interface PistonMOTDPlugin {
         info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
         info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
         info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
-        info("                                                                  ");
+        info("");
     }
 
     default void loadConfig() {
-        info(ConsoleColor.CYAN + "Loading config" + ConsoleColor.RESET);
+        startup("Loading config");
         Path pluginConfigFile = getPluginConfigFile();
         AxiomConfiguration defaultConfig = new AxiomConfiguration();
 
@@ -52,6 +52,8 @@ public interface PistonMOTDPlugin {
             config.load(pluginConfigFile);
 
             config.mergeDefault(defaultConfig);
+
+            config.save(pluginConfigFile);
         } catch (IOException e) {
             e.printStackTrace();
             error("Could not load config");
@@ -72,6 +74,7 @@ public interface PistonMOTDPlugin {
 
     default void loadFavicons() {
         favicons.clear();
+
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(getFaviconFolder(), new DirectoriesFilter())) {
             for (Path p : ds) {
                 try {
@@ -84,7 +87,6 @@ public interface PistonMOTDPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     StatusFavicon createFavicon(Path path) throws Exception;
@@ -98,10 +100,10 @@ public interface PistonMOTDPlugin {
     List<PlayerWrapper> getPlayers();
 
     default void checkUpdate() {
-        info(ConsoleColor.CYAN + "Checking for a newer version" + ConsoleColor.RESET);
+        startup("Checking for a newer version");
         new UpdateChecker(new PistonLogger(this::info, this::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getStrippedVersion(), version).parseUpdate(updateType -> {
             if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                info(ConsoleColor.CYAN + "You're up to date!" + ConsoleColor.RESET);
+                startup("You're up to date!");
             } else {
                 if (updateType == UpdateType.MAJOR) {
                     info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
