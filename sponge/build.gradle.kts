@@ -18,7 +18,7 @@ dependencies {
 sponge {
     injectRepositories(false)
     apiVersion("8.0.0-SNAPSHOT")
-    license("../LICENSE")
+    license("Apache License 2.0")
     loader {
         name(PluginLoaders.JAVA_PLAIN)
         version("1.0")
