@@ -125,6 +125,10 @@ public interface PistonMOTDPlugin {
 
     void error(String message);
 
+    default void startup(String message) {
+        info(ConsoleColor.CYAN + message + ConsoleColor.RESET);
+    }
+
     class DirectoriesFilter implements DirectoryStream.Filter<Path> {
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.png");
 

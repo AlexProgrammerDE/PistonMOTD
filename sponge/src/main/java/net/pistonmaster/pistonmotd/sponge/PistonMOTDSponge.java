@@ -7,7 +7,6 @@ import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.apache.logging.log4j.Logger;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
@@ -68,19 +67,19 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
         loadConfig();
 
-        info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
+        startup("Registering placeholders");
         PlaceholderUtil.registerParser(new CommonPlaceholder(game));
 
-        info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
+        startup("Looking for hooks");
         if (game.pluginManager().plugin("luckperms").isPresent()) {
             try {
-                log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
+                startup("Hooking into LuckPerms");
                 luckpermsWrapper = new LuckPermsWrapper();
             } catch (Exception ignored) {
             }
         }
 
-        info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
+        startup("Registering listeners");
         game.eventManager().registerListeners(container, new PingEvent(this));
         game.eventManager().registerListeners(container, new JoinEvent(this));
 
@@ -90,22 +89,22 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
         final Tristate collectionState = this.getEffectiveCollectionState();
         if (collectionState == Tristate.TRUE) {
-            log.info(ConsoleColor.CYAN + "Loading metrics" + ConsoleColor.RESET);
+            startup("Loading metrics");
             metricsFactory.make(9204);
         } else if (collectionState == Tristate.UNDEFINED) {
-            log.info(ConsoleColor.CYAN + "Hey there! It seems like data collection is disabled. :( " + ConsoleColor.RESET);
-            log.info(ConsoleColor.CYAN + "But you change fix this!" + ConsoleColor.RESET);
-            log.info(ConsoleColor.CYAN + "Just execute: \"/sponge metrics pistonmotd enable\"." + ConsoleColor.RESET);
-            log.info(ConsoleColor.CYAN + "This includes only small infos about the server," + ConsoleColor.RESET);
-            log.info(ConsoleColor.CYAN + "like its version and the plugin version." + ConsoleColor.RESET);
+            startup("Hey there! It seems like data collection is disabled. :( ");
+            startup("But you change fix this!");
+            startup("Just execute: \"/sponge metrics pistonmotd enable\".");
+            startup("This includes only small infos about the server,");
+            startup("like its version and the plugin version.");
         }
 
-        log.info(ConsoleColor.CYAN + "Done! :D" + ConsoleColor.RESET);
+        startup("Done! :D");
     }
 
     @Listener
     public void onRegisterCommands(final RegisterCommandEvent<Command.Parameterized> event) {
-        info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
+        startup("Registering command");
         Command.Parameterized help = Command.builder()
                 .shortDescription(Component.text("Get help about PistonMOTD!"))
                 .permission("pistonmotd.help")
@@ -142,7 +141,7 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
     @Override
     public InputStream getDefaultConfig() {
-        return container.openResource(URI.create("sponge.yml")).orElse(null);
+        return container.openResource(URI.create("config.yml")).orElse(null);
     }
 
     @Override

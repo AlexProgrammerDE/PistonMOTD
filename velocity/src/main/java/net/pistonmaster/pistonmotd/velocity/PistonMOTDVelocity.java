@@ -14,7 +14,6 @@ import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.slf4j.Logger;
 
@@ -49,29 +48,29 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
 
         loadConfig();
 
-        log.info(ConsoleColor.CYAN + "Registering placeholders" + ConsoleColor.RESET);
+        startup("Registering placeholders");
         PlaceholderUtil.registerParser(new CommonPlaceholder(server));
 
-        log.info(ConsoleColor.CYAN + "Looking for hooks" + ConsoleColor.RESET);
+        startup("Looking for hooks");
         if (server.getPluginManager().getPlugin("luckperms").isPresent()) {
             try {
-                log.info(ConsoleColor.CYAN + "Hooking into LuckPerms" + ConsoleColor.RESET);
+                startup("Hooking into LuckPerms");
                 luckpermsWrapper = new LuckPermsWrapper();
             } catch (Exception ignored) {
             }
         }
 
-        log.info(ConsoleColor.CYAN + "Registering listeners" + ConsoleColor.RESET);
+        startup("Registering listeners");
         server.getEventManager().register(this, new PingEvent(this));
 
-        log.info(ConsoleColor.CYAN + "Registering command" + ConsoleColor.RESET);
+        startup("Registering command");
         server.getCommandManager().register("pistonmotd", new VelocityCommand(this), "pistonmotdv", "pistonmotdvelocity");
 
         if (container.getDescription().getVersion().isPresent()) {
             checkUpdate();
         }
 
-        log.info(ConsoleColor.CYAN + "Done! :D" + ConsoleColor.RESET);
+        startup("Done! :D");
     }
 
     @Override
@@ -91,7 +90,7 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
 
     @Override
     public InputStream getDefaultConfig() {
-        return getClass().getClassLoader().getResourceAsStream("velocity.conf");
+        return getClass().getClassLoader().getResourceAsStream("config.yml");
     }
 
     @Override
