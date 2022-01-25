@@ -67,8 +67,7 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
         loadConfig();
 
-        startup("Registering placeholders");
-        PlaceholderUtil.registerParser(new CommonPlaceholder(game));
+        registerCommonPlaceholder();
 
         startup("Looking for hooks");
         if (game.pluginManager().plugin("luckperms").isPresent()) {
@@ -147,6 +146,16 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     @Override
     public List<PlayerWrapper> getPlayers() {
         return game.server().onlinePlayers().stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMaxPlayers() {
+        return game.server().maxPlayers();
+    }
+
+    @Override
+    public int getPlayerCount() {
+        return getPlayers().size();
     }
 
     private PlayerWrapper wrap(Player player) {

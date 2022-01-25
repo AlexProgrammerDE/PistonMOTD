@@ -1,5 +1,6 @@
 package net.pistonmaster.pistonmotd.shared;
 
+import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
@@ -72,6 +73,11 @@ public interface PistonMOTDPlugin {
         loadFavicons();
     }
 
+    default void registerCommonPlaceholder() {
+        startup("Registering placeholders");
+        PlaceholderUtil.registerParser(new CommonPlaceholder(this));
+    }
+
     default void loadFavicons() {
         favicons.clear();
 
@@ -98,6 +104,10 @@ public interface PistonMOTDPlugin {
     InputStream getDefaultConfig();
 
     List<PlayerWrapper> getPlayers();
+
+    int getMaxPlayers();
+
+    int getPlayerCount();
 
     default void checkUpdate() {
         startup("Checking for a newer version");

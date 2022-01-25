@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDVelocity implements PistonMOTDPlugin {
-    protected final ProxyServer server;
+    protected final ProxyServer proxyServer;
     private final Logger log;
     protected LuckPermsWrapper luckpermsWrapper = null;
 
@@ -37,8 +37,8 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     private PluginContainer container;
 
     @Inject
-    public PistonMOTDVelocity(ProxyServer server, Logger log) {
-        this.server = server;
+    public PistonMOTDVelocity(ProxyServer proxyServer, Logger log) {
+        this.proxyServer = proxyServer;
         this.log = log;
     }
 
@@ -48,11 +48,10 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
 
         loadConfig();
 
-        startup("Registering placeholders");
-        PlaceholderUtil.registerParser(new CommonPlaceholder(server));
+        registerCommonPlaceholder();
 
         startup("Looking for hooks");
-        if (server.getPluginManager().getPlugin("luckperms").isPresent()) {
+        if (proxyServer.getPluginManager().getPlugin("luckperms").isPresent()) {
             try {
                 startup("Hooking into LuckPerms");
                 luckpermsWrapper = new LuckPermsWrapper();
@@ -61,10 +60,10 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
         }
 
         startup("Registering listeners");
-        server.getEventManager().register(this, new PingEvent(this));
+        proxyServer.getEventManager().register(this, new PingEvent(this));
 
         startup("Registering command");
-        server.getCommandManager().register("pistonmotd", new VelocityCommand(this), "pistonmotdv", "pistonmotdvelocity");
+        proxyServer.getCommandManager().register("pistonmotd", new VelocityCommand(this), "pistonmotdv", "pistonmotdvelocity");
 
         if (container.getDescription().getVersion().isPresent()) {
             checkUpdate();
@@ -95,7 +94,17 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
 
     @Override
     public List<PlayerWrapper> getPlayers() {
-        return server.getAllPlayers().stream().map(this::wrap).collect(Collectors.toList());
+        return proxyServer.getAllPlayers().stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMaxPlayers() {
+        return proxyServer.getConfiguration().getShowMaxPlayers();
+    }
+
+    @Override
+    public int getPlayerCount() {
+        return proxyServer.getPlayerCount();
     }
 
     private PlayerWrapper wrap(Player player) {

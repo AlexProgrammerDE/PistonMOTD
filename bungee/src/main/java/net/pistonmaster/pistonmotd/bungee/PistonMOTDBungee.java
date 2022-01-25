@@ -30,12 +30,10 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
 
         loadConfig();
 
-        startup("Registering placeholders");
+        registerCommonPlaceholder();
         for (String server : getProxy().getServers().keySet()) {
             PlaceholderUtil.registerParser(new ServerPlaceholder(server));
         }
-
-        PlaceholderUtil.registerParser(new CommonPlaceholder());
 
         startup("Looking for hooks");
         if (getProxy().getPluginManager().getPlugin("LuckPerms") != null) {
@@ -94,6 +92,16 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
     @Override
     public List<PlayerWrapper> getPlayers() {
         return getProxy().getPlayers().stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMaxPlayers() {
+        return getProxy().getConfig().getPlayerLimit();
+    }
+
+    @Override
+    public int getPlayerCount() {
+        return getProxy().getOnlineCount();
     }
 
     private PlayerWrapper wrap(ProxiedPlayer player) {

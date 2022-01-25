@@ -1,9 +1,9 @@
 # You can find color codes here: https://minecraft.tools/en/color-code.php
 # Formatting comes after the color! &d&l will work, but not &l&d.
 # MiniMessage formatting IS supported: https://docs.adventure.kyori.net/minimessage.html#template
+# MiniMessage allows you to make rainbow colors and gradients!
 # HEX/RGB colors ARE supported. (Only the MOTD)
 # Hex format: &#FFFFFF
-# Note: The MiniMessage allows you to make rainbow colors and gradients
 # Placeholders: %online% (Players online)
 # %max% (Server max slots)
 # %newline% adds a newline to your MOTD.

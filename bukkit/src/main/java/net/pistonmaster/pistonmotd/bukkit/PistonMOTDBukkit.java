@@ -30,8 +30,7 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
 
         loadConfig();
 
-        startup("Registering placeholders");
-        PlaceholderUtil.registerParser(new CommonPlaceholder());
+        registerCommonPlaceholder();
         if (PaperLib.isPaper()) {
             PlaceholderUtil.registerParser(new TPSPlaceholder());
         }
@@ -95,6 +94,16 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
     @Override
     public List<PlayerWrapper> getPlayers() {
         return getServer().getOnlinePlayers().stream().map(this::wrap).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMaxPlayers() {
+        return getServer().getMaxPlayers();
+    }
+
+    @Override
+    public int getPlayerCount() {
+        return getPlayers().size();
     }
 
     private PlayerWrapper wrap(Player player) {
