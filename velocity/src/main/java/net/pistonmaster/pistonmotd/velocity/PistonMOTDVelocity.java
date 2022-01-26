@@ -9,7 +9,6 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.util.Favicon;
-import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
@@ -25,21 +24,19 @@ import java.util.stream.Collectors;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDVelocity implements PistonMOTDPlugin {
-    protected final ProxyServer proxyServer;
+    private final ProxyServer proxyServer;
     private final Logger log;
+    private final Path pluginDir;
+    private final PluginContainer container;
+
     protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Inject
-    @DataDirectory
-    private Path pluginDir;
-
-    @Inject
-    private PluginContainer container;
-
-    @Inject
-    public PistonMOTDVelocity(ProxyServer proxyServer, Logger log) {
+    public PistonMOTDVelocity(ProxyServer proxyServer, Logger log, @DataDirectory Path pluginDir, PluginContainer container) {
         this.proxyServer = proxyServer;
         this.log = log;
+        this.pluginDir = pluginDir;
+        this.container = container;
     }
 
     @Subscribe

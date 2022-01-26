@@ -16,6 +16,7 @@ description:
     - "&ka &rFormatting &rworks &rtoo! &ka"
     - "&1Players: %online%/%max%"
 
+# Not supported on: Spigot (Paper works), Sponge
 version:
   # A protocol message is shown if the version of the client doesn't match the version of the server.
   # %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)
@@ -28,6 +29,7 @@ version:
 
 players:
   # Override your actual player count
+  # Not supported on: Spigot (Paper works)
   online:
     activated: false
     value: 0
@@ -36,8 +38,10 @@ players:
     activated: false
     value: 10
   # Will show ??? as the player count.
+  # Not supported on: Spigot (Paper works)
   hide: false
   # Shown when you hover over the player count
+  # Not supported on: Spigot (Paper works)
   sample:
     bukkit:
       activated: true
