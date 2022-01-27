@@ -7,7 +7,7 @@ plugins {
 
 tasks {
     jar {
-        archiveClassifier.set("unshaded")
+        // archiveClassifier.set("unshaded")
         from(project.rootProject.file("LICENSE"))
     }
 
