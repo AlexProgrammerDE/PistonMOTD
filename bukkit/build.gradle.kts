@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation(projects.pistonmotdApi)
     implementation(projects.pistonmotdShared)
-    implementation(projects.kyori.relocated)
+    implementation(projects.pistonmotdKyoriRelocated)
 
     implementation("io.papermc:paperlib:1.0.7")
     implementation("org.bstats:bstats-bukkit:2.2.1")

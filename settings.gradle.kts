@@ -42,7 +42,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "PistonMOTD"
 
-include("kyori:normal", "kyori:relocated")
+setOf(
+    "normal",
+    "relocated"
+).forEach {
+    setupSubproject("pistonmotd-kyori-$it") {
+        projectDir = file("kyori").resolve(it)
+    }
+}
+
 setOf(
     "build-data",
     "shared",

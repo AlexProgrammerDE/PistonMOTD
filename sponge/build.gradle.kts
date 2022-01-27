@@ -9,7 +9,7 @@ plugins {
 dependencies {
     implementation(project(":pistonmotd-api", "shadow"))
     implementation(projects.pistonmotdShared)
-    implementation(projects.kyori.normal)
+    implementation(projects.pistonmotdKyoriNormal)
     compileOnly(projects.pistonmotdBuildData)
 
     implementation("org.bstats:bstats-sponge:2.2.1")
