@@ -66,6 +66,9 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
             checkUpdate();
         }
 
+        startup("Loading metrics");
+        new Metrics(this, 14316);
+
         startup("Done! :D");
     }
 
