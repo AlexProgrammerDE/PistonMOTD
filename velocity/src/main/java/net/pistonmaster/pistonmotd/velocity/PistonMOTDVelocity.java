@@ -82,7 +82,7 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
 
     @Override
     public Path getPluginConfigFile() {
-        return pluginDir.resolve("config.conf");
+        return pluginDir.resolve("config.yml");
     }
 
     @Override
