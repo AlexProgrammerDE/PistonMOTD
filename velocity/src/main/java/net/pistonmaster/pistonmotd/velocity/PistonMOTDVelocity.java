@@ -14,6 +14,7 @@ import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
+import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 import java.io.InputStream;
@@ -28,15 +29,17 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     private final Logger log;
     private final Path pluginDir;
     private final PluginContainer container;
+    private final Metrics.Factory metricsFactory;
 
     protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Inject
-    public PistonMOTDVelocity(ProxyServer proxyServer, Logger log, @DataDirectory Path pluginDir, PluginContainer container) {
+    public PistonMOTDVelocity(ProxyServer proxyServer, Logger log, @DataDirectory Path pluginDir, PluginContainer container, Metrics.Factory metricsFactory) {
         this.proxyServer = proxyServer;
         this.log = log;
         this.pluginDir = pluginDir;
         this.container = container;
+        this.metricsFactory = metricsFactory;
     }
 
     @Subscribe
@@ -67,7 +70,7 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
         }
 
         startup("Loading metrics");
-        new Metrics(this, 14316);
+        metricsFactory.make(this, 14316);
 
         startup("Done! :D");
     }
