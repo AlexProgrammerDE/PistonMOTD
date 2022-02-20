@@ -72,6 +72,11 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
     }
 
     @Override
+    public boolean isPluginEnabled(String pluginName) {
+        return getServer().getPluginManager().getPlugin(pluginName) != null;
+    }
+
+    @Override
     public StatusFavicon createFavicon(Path path) throws Exception {
         return new StatusFavicon(getServer().loadServerIcon(path.toFile()));
     }

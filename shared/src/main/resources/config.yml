@@ -23,6 +23,8 @@ version:
   name:
     activated: true
     text: "&1My custom protocol message!"
+  # Dangerous! This can show a wrong server version to the client.
+  # When the client is on a different protocol, it will show the version name set above.
   protocol:
     activated: false
     value: 1
@@ -40,10 +42,12 @@ players:
   # Will show ??? as the player count.
   # Not supported on: Spigot (Paper works)
   hide: false
-  # Shown when you hover over the player count
+  # Box shown when you hover over the player count
   # Not supported on: Spigot (Paper works)
   sample:
-    bukkit:
+    # Restores the vanilla behavior for the sample box.
+    # The name of every player on the server will be shown in the sample box.
+    vanilla:
       activated: true
       hidden:
         - "Notch"
@@ -55,5 +59,31 @@ players:
       - "&d&lCombined"
       - "&1Players: %online%/%max%"
 
-# When enabled a random image out of the /plugins/PistonMOTD/favicons folder will be shown.
-favicons: false
+# The image of a server in the server list.
+favicon:
+  activated: false
+  # Favicons are stored in the /plugins/PistonMOTD/favicons folder.
+  # Favicons are 64x64 pixels and must be PNG. The file name does not matter for random mode.
+  # Valid: RANDOM, SINGLE
+  mode: RANDOM
+  # The single favicon shown when SINGLE is selected.
+  single: example.png
+
+# Extensions to the functionality of PistonMOTD
+extensions:
+  # Support for SuperVanish. Hide players from the player count/sample on Bukkit.
+  supervanish: false
+  # Support for PremiumVanish. Hide players from the player count/sample on BungeeCord. (Premium plugin)
+  premiumvanish: false
+
+# Advanced features that should not be messed with unless you know what you're doing.
+advanced:
+  # If activated the server will only be shown as supported for the following protocols.
+  supportedProtocol:
+    activated: true
+    unsupportedNumber: -1 # Shown when the protocol is not supported.
+    # The supported protocol versions.
+    # Protocol version numbers can be found here: https://wiki.vg/Protocol_version_numbers
+    numbers:
+      - 757
+      - 756

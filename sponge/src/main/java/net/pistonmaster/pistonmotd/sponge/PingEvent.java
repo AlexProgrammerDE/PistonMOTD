@@ -108,6 +108,11 @@ public class PingEvent implements StatusPingListener {
             public void setFavicon(StatusFavicon favicon) {
                 event.response().setFavicon((Favicon) favicon.getValue());
             }
+
+            @Override
+            public int getClientProtocol() throws UnsupportedOperationException {
+                return event.client().version().dataVersion().orElse(0);
+            }
         };
     }
 }

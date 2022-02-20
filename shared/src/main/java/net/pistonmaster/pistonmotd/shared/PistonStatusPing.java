@@ -32,4 +32,6 @@ public interface PistonStatusPing {
     boolean supportsHex();
 
     void setFavicon(StatusFavicon favicon);
+
+    int getClientProtocol() throws UnsupportedOperationException;
 }

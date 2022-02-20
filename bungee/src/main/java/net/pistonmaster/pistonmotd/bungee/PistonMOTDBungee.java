@@ -70,6 +70,11 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
     }
 
     @Override
+    public boolean isPluginEnabled(String pluginName) {
+        return getProxy().getPluginManager().getPlugin(pluginName) != null;
+    }
+
+    @Override
     public StatusFavicon createFavicon(Path path) throws Exception {
         return new StatusFavicon(Favicon.create(ImageIO.read(Files.newInputStream(path))));
     }

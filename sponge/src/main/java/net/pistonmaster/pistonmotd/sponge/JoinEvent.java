@@ -20,11 +20,11 @@ public class JoinEvent {
             ServerPlayer player = event.player();
             if (player.hasPermission("sponge.command.metrics") && plugin.getEffectiveCollectionState() == Tristate.UNDEFINED) {
                 send(player, "-----[ PistonMOTD ]-----");
-                send(player, "Hey there! It seems like data collection is disabled. :( ");
-                send(player, "But you change fix this! ");
+                send(player, "Hey there! It seems like data collection is disabled. :(");
+                send(player, "But you can enable it!");
                 send(player, "Just click this message to enable it or just execute:");
-                send(player, "\"/sponge metrics pistonmotd enable\".");
-                send(player, "This includes only small infos about the server,");
+                send(player, "\"/sponge metrics pistonmotd enable\"");
+                send(player, "This only collects small infos about the server,");
                 send(player, "like its version and the plugin version.");
                 send(player, "-----[ PistonMOTD ]-----");
             }

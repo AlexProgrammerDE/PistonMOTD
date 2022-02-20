@@ -1,10 +1,14 @@
 package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.shared.utils.EnumSafetyUtil;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.skinsrestorer.axiom.AxiomConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public interface StatusPingListener {
     String afterIcon = "                                                                            ";
@@ -77,11 +81,46 @@ public interface StatusPingListener {
             }
         }
 
-        if (config.getBoolean("favicons")) {
-            if (plugin.favicons.isEmpty()) {
-                plugin.warn("No valid favicons found in your icons folder, but the icons setting is enabled...");
+        if (config.getBoolean("advanced.supportedProtocol.activated")) {
+            try {
+                List<String> supportedProtocols = config.getStringList("advanced.supportedProtocol.numbers");
+
+                if (!supportedProtocols.isEmpty()) {
+                    List<Integer> protocols = supportedProtocols.stream().map(Integer::parseInt).collect(Collectors.toList());
+
+                    if (protocols.contains(ping.getClientProtocol())) {
+                        ping.setVersionProtocol(ping.getClientProtocol());
+                    } else {
+                        ping.setVersionProtocol(config.getInt("advanced.supportedProtocol.unsupportedNumber"));
+                    }
+                }
+            } catch (UnsupportedOperationException e) {
+                logUnsupportedConfig("advanced.supportedProtocol");
+            }
+        }
+
+        if (config.getBoolean("favicon.activated")) {
+            String modeString = config.getString("favicon.mode").toUpperCase();
+            FaviconMode mode = EnumSafetyUtil.getSafeEnum(FaviconMode.class, modeString);
+
+            if (mode == FaviconMode.RANDOM) {
+                if (plugin.favicons.isEmpty()) {
+                    plugin.warn("No valid favicons found in your favicons folder, but the favicons setting is enabled...");
+                } else {
+                    ping.setFavicon(new ArrayList<>(plugin.favicons.values())
+                            .get(plugin.random.nextInt(0, plugin.favicons.size())));
+                }
+            } else if (mode == FaviconMode.SINGLE) {
+                String faviconName = config.getString("favicon.single");
+                StatusFavicon favicon = plugin.favicons.get(faviconName);
+
+                if (favicon == null) {
+                    plugin.warn("The favicon '" + faviconName + "' does not exist.");
+                } else {
+                    ping.setFavicon(favicon);
+                }
             } else {
-                ping.setFavicon(plugin.favicons.get(plugin.random.nextInt(0, plugin.favicons.size())));
+                plugin.warn("Invalid favicon mode: " + modeString);
             }
         }
     }

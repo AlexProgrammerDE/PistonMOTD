@@ -90,10 +90,10 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
             startup("Loading metrics");
             metricsFactory.make(9204);
         } else if (collectionState == Tristate.UNDEFINED) {
-            startup("Hey there! It seems like data collection is disabled. :( ");
-            startup("But you change fix this!");
-            startup("Just execute: \"/sponge metrics pistonmotd enable\".");
-            startup("This includes only small infos about the server,");
+            startup("Hey there! It seems like data collection is disabled. :(");
+            startup("But you can enable it!");
+            startup("Just execute: \"/sponge metrics pistonmotd enable\"");
+            startup("This only collects small infos about the server,");
             startup("like its version and the plugin version.");
         }
 
@@ -120,6 +120,11 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
                 .addParameter(Parameter.subcommand(help, "help"))
                 .addParameter(Parameter.subcommand(reload, "reload"))
                 .build(), "pistonmotd", "pistonmotdsponge");
+    }
+
+    @Override
+    public boolean isPluginEnabled(String pluginName) {
+        return game.pluginManager().plugin(pluginName).isPresent();
     }
 
     @Override
@@ -155,6 +160,11 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     @Override
     public int getPlayerCount() {
         return getPlayers().size();
+    }
+
+    @Override
+    public String getDownloadURL() {
+        return "https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions";
     }
 
     private PlayerWrapper wrap(Player player) {

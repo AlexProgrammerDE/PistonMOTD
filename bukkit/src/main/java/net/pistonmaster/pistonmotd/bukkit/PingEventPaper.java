@@ -100,6 +100,11 @@ public class PingEventPaper implements Listener, StatusPingListener {
             public void setFavicon(StatusFavicon favicon) {
                 event.setServerIcon((CachedServerIcon) favicon.getValue());
             }
+
+            @Override
+            public int getClientProtocol() throws UnsupportedOperationException {
+                return event.getClient().getProtocolVersion();
+            }
         };
     }
 }

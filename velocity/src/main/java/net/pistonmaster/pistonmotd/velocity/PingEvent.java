@@ -104,12 +104,17 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public boolean supportsHex() {
-                return event.getConnection().getProtocolVersion().getProtocol() >= PistonConstants.MINECRAFT_1_16;
+                return getClientProtocol() >= PistonConstants.MINECRAFT_1_16;
             }
 
             @Override
             public void setFavicon(StatusFavicon favicon) {
                 builder.favicon((Favicon) favicon.getValue());
+            }
+
+            @Override
+            public int getClientProtocol() throws UnsupportedOperationException {
+                return event.getConnection().getProtocolVersion().getProtocol();
             }
         };
     }

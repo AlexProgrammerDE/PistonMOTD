@@ -76,6 +76,11 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     }
 
     @Override
+    public boolean isPluginEnabled(String pluginName) {
+        return proxyServer.getPluginManager().getPlugin(pluginName).isPresent();
+    }
+
+    @Override
     public StatusFavicon createFavicon(Path path) throws Exception {
         return new StatusFavicon(Favicon.create(path));
     }

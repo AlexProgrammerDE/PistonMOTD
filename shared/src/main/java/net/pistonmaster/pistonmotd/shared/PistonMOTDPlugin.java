@@ -11,13 +11,14 @@ import net.skinsrestorer.axiom.AxiomConfiguration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public interface PistonMOTDPlugin {
     AxiomConfiguration config = new AxiomConfiguration();
-    List<StatusFavicon> favicons = new ArrayList<>();
+    Map<String, StatusFavicon> favicons = new LinkedHashMap<>();
     ThreadLocalRandom random = ThreadLocalRandom.current();
 
     default AxiomConfiguration getPluginConfig() {
@@ -81,10 +82,10 @@ public interface PistonMOTDPlugin {
     default void loadFavicons() {
         favicons.clear();
 
-        try (DirectoryStream<Path> ds = Files.newDirectoryStream(getFaviconFolder(), new DirectoriesFilter())) {
+        try (DirectoryStream<Path> ds = Files.newDirectoryStream(getFaviconFolder(), new FaviconFilter())) {
             for (Path p : ds) {
                 try {
-                    favicons.add(createFavicon(p));
+                    favicons.put(p.getFileName().toString(), createFavicon(p));
                 } catch (Exception e) {
                     e.printStackTrace();
                     error("Could not load favicon! (" + p.getFileName() + ")");
@@ -94,6 +95,8 @@ public interface PistonMOTDPlugin {
             e.printStackTrace();
         }
     }
+
+    boolean isPluginEnabled(String pluginName);
 
     StatusFavicon createFavicon(Path path) throws Exception;
 
@@ -124,9 +127,13 @@ public interface PistonMOTDPlugin {
                 }
 
                 info(ConsoleColor.RED + "Current version: " + getVersion() + " New version: " + version + ConsoleColor.RESET);
-                info(ConsoleColor.RED + "Download it at: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/versions" + ConsoleColor.RESET);
+                info(ConsoleColor.RED + "Download it at: " + getDownloadURL() + ConsoleColor.RESET);
             }
         }));
+    }
+
+    default String getDownloadURL() {
+        return "https://github.com/AlexProgrammerDE/PistonMOTD/releases";
     }
 
     default String getStrippedVersion() {
@@ -145,7 +152,7 @@ public interface PistonMOTDPlugin {
         info(ConsoleColor.CYAN + message + ConsoleColor.RESET);
     }
 
-    class DirectoriesFilter implements DirectoryStream.Filter<Path> {
+    class FaviconFilter implements DirectoryStream.Filter<Path> {
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.png");
 
         @Override

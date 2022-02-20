@@ -98,6 +98,11 @@ public class PingEventSpigot implements Listener, StatusPingListener {
             public void setFavicon(StatusFavicon favicon) {
                 event.setServerIcon((CachedServerIcon) favicon.getValue());
             }
+
+            @Override
+            public int getClientProtocol() throws UnsupportedOperationException {
+                throw new UnsupportedOperationException("Spigot does not support this method");
+            }
         };
     }
 }
