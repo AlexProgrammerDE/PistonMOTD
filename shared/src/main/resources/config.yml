@@ -60,7 +60,6 @@ players:
       - "&d&lCombined"
       - "&1Players: %online%/%max%"
 
-
 # The image of a server in the server list.
 favicon:
   activated: false

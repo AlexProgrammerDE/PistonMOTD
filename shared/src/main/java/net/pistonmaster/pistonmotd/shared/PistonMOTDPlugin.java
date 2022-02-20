@@ -153,7 +153,7 @@ public interface PistonMOTDPlugin {
     }
 
     class FaviconFilter implements DirectoryStream.Filter<Path> {
-        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.png");
+        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**.png");
 
         @Override
         public boolean accept(Path entry) {
