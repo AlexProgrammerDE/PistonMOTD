@@ -72,10 +72,16 @@ favicon:
 
 # Extensions to the functionality of PistonMOTD
 extensions:
-  # Support for SuperVanish. Hide players from the player count/sample on Bukkit.
-  supervanish: false
-  # Support for PremiumVanish. Hide players from the player count/sample on BungeeCord. (Premium plugin)
-  premiumvanish: false
+  # Extensions for vanishing plugins
+  vanish:
+    # Support for SuperVanish. Hide players from the player count/sample on Bukkit.
+    supervanish: false
+    # Support for PremiumVanish. Hide players from the player count/sample on Bukkit AND BungeeCord. (Premium plugin)
+    premiumvanish: false
+    # Hide players from the vanilla player sample feature.
+    hideSample: true
+    # Hide players from the online player count. (Most vanish plugins already have that built in)
+    hideCount: false
 
 # Advanced features that should not be messed with unless you know what you're doing.
 advanced:

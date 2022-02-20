@@ -4,7 +4,7 @@ api-version: 1.13
 main: net.pistonmaster.pistonmotd.bukkit.PistonMOTDBukkit
 description: ${description}
 website: ${url}
-softdepend: [ "LuckPerms" ]
+softdepend: [ "LuckPerms", "SuperVanish", "PremiumVanish" ]
 commands:
   pistonmotd:
     description: Allows you to execute some commands for pistonmotd.

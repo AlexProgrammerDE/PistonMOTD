@@ -13,7 +13,6 @@ import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
@@ -30,8 +29,6 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     private final Path pluginDir;
     private final PluginContainer container;
     private final Metrics.Factory metricsFactory;
-
-    protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Inject
     public PistonMOTDVelocity(ProxyServer proxyServer, Logger log, @DataDirectory Path pluginDir, PluginContainer container, Metrics.Factory metricsFactory) {
@@ -50,14 +47,7 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
 
         registerCommonPlaceholder();
 
-        startup("Looking for hooks");
-        if (proxyServer.getPluginManager().getPlugin("luckperms").isPresent()) {
-            try {
-                startup("Hooking into LuckPerms");
-                luckpermsWrapper = new LuckPermsWrapper();
-            } catch (Exception ignored) {
-            }
-        }
+        loadHooks();
 
         startup("Registering listeners");
         proxyServer.getEventManager().register(this, new PingEvent(this));
@@ -152,5 +142,20 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     @Override
     public void error(String message) {
         log.error(message);
+    }
+
+    @Override
+    public String getSuperVanishName() {
+        return "supervanish"; // Does not support velocity
+    }
+
+    @Override
+    public String getPremiumVanishName() {
+        return "premiumvanish"; // Does not support velocity
+    }
+
+    @Override
+    public String getLuckPermsName() {
+        return "luckperms";
     }
 }

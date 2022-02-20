@@ -6,7 +6,6 @@ import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -20,7 +19,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
-    protected LuckPermsWrapper luckpermsWrapper = null;
 
     @Override
     public void onEnable() {
@@ -35,14 +33,7 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
             PlaceholderUtil.registerParser(new TPSPlaceholder());
         }
 
-        startup("Looking for hooks");
-        if (getServer().getPluginManager().getPlugin("LuckPerms") != null) {
-            try {
-                startup("Hooking into LuckPerms");
-                luckpermsWrapper = new LuckPermsWrapper();
-            } catch (Exception ignored) {
-            }
-        }
+        loadHooks();
 
         startup("Registering listeners");
         if (PaperLib.isPaper()) {
@@ -148,5 +139,20 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
     @Override
     public void error(String message) {
         getLogger().severe(message);
+    }
+
+    @Override
+    public String getSuperVanishName() {
+        return "SuperVanish";
+    }
+
+    @Override
+    public String getPremiumVanishName() {
+        return "PremiumVanish";
+    }
+
+    @Override
+    public String getLuckPermsName() {
+        return "LuckPerms";
     }
 }

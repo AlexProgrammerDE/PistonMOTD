@@ -2,6 +2,7 @@ package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
+import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;
 import net.pistonmaster.pistonutils.update.UpdateChecker;
 import net.pistonmaster.pistonutils.update.UpdateParser;
@@ -15,11 +16,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public interface PistonMOTDPlugin {
     AxiomConfiguration config = new AxiomConfiguration();
     Map<String, StatusFavicon> favicons = new LinkedHashMap<>();
     ThreadLocalRandom random = ThreadLocalRandom.current();
+    AtomicBoolean premiumVanish = new AtomicBoolean();
+    AtomicBoolean superVanish = new AtomicBoolean();
+    AtomicReference<LuckPermsWrapper> luckPerms = new AtomicReference<>();
 
     default AxiomConfiguration getPluginConfig() {
         return config;
@@ -96,6 +102,24 @@ public interface PistonMOTDPlugin {
         }
     }
 
+    default void loadHooks() {
+        startup("Looking for hooks");
+        if (isPluginEnabled(getSuperVanishName())) {
+            startup("Hooking into SuperVanish");
+            superVanish.set(true);
+        }
+
+        if (isPluginEnabled(getPremiumVanishName())) {
+            startup("Hooking into PremiumVanish");
+            premiumVanish.set(true);
+        }
+
+        if (isPluginEnabled(getLuckPermsName())) {
+            startup("Hooking into LuckPerms");
+            luckPerms.set(new LuckPermsWrapper());
+        }
+    }
+
     boolean isPluginEnabled(String pluginName);
 
     StatusFavicon createFavicon(Path path) throws Exception;
@@ -151,6 +175,12 @@ public interface PistonMOTDPlugin {
     default void startup(String message) {
         info(ConsoleColor.CYAN + message + ConsoleColor.RESET);
     }
+
+    String getSuperVanishName();
+
+    String getPremiumVanishName();
+
+    String getLuckPermsName();
 
     class FaviconFilter implements DirectoryStream.Filter<Path> {
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**.png");

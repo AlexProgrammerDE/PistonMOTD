@@ -1,13 +1,13 @@
 package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.shared.extensions.PremiumVanishExtension;
+import net.pistonmaster.pistonmotd.shared.extensions.SuperVanishExtension;
 import net.pistonmaster.pistonmotd.shared.utils.EnumSafetyUtil;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.skinsrestorer.axiom.AxiomConfiguration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public interface StatusPingListener {
@@ -16,6 +16,15 @@ public interface StatusPingListener {
     default void handle(PistonStatusPing ping) {
         PistonMOTDPlugin plugin = getPlugin();
         AxiomConfiguration config = plugin.getPluginConfig();
+        Set<UUID> vanished = new HashSet<>();
+
+        if (config.getBoolean("extensions.vanish.supervanish") && plugin.superVanish.get()) {
+            vanished.addAll(SuperVanishExtension.getVanishedPlayers());
+        }
+
+        if (config.getBoolean("extensions.vanish.premiumvanish") && plugin.premiumVanish.get()) {
+            vanished.addAll(PremiumVanishExtension.getVanishedPlayers());
+        }
 
         if (config.getBoolean("description.activated")) {
             ping.setDescription(MOTDUtil.getMOTD(config.getStringList("description.text"), ping.supportsHex(), PlaceholderUtil::parseText));
@@ -40,12 +49,26 @@ public interface StatusPingListener {
                 }
             }
 
+            if (config.getBoolean("extensions.vanish.hideCount")) {
+                try {
+                    ping.setOnline(ping.getOnline() - vanished.size());
+                } catch (UnsupportedOperationException e) {
+                    logUnsupportedConfig("extensions.vanish.hideCount");
+                }
+            }
+
             if (config.getBoolean("players.sample.vanilla.activated")) {
                 try {
                     ping.clearSamples();
+                    List<String> hiddenNames = config.getStringList("players.sample.vanilla.hidden");
+                    boolean hideSample = config.getBoolean("extensions.vanish.hideSample");
 
                     for (PlayerWrapper player : plugin.getPlayers()) {
-                        if (config.getStringList("players.sample.vanilla.hidden").contains(player.getName())) continue;
+                        if (hiddenNames.contains(player.getName()))
+                            continue;
+
+                        if (hideSample && vanished.contains(player.getUniqueId()))
+                            continue;
 
                         ping.addSample(player.getUniqueId(), player.getDisplayName());
                     }

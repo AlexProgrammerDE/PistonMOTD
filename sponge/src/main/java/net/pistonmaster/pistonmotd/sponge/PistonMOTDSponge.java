@@ -6,7 +6,6 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import org.apache.logging.log4j.Logger;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.bstats.sponge.Metrics;
@@ -34,7 +33,6 @@ import java.util.stream.Collectors;
 @Plugin("pistonmotd")
 public class PistonMOTDSponge implements PistonMOTDPlugin {
     private final Metrics.Factory metricsFactory;
-    protected LuckPermsWrapper luckpermsWrapper = null;
     @Inject
     protected Game game;
     @Inject
@@ -68,14 +66,7 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
         registerCommonPlaceholder();
 
-        startup("Looking for hooks");
-        if (game.pluginManager().plugin("luckperms").isPresent()) {
-            try {
-                startup("Hooking into LuckPerms");
-                luckpermsWrapper = new LuckPermsWrapper();
-            } catch (Exception ignored) {
-            }
-        }
+        loadHooks();
 
         startup("Registering listeners");
         game.eventManager().registerListeners(container, new PingEvent(this));
@@ -222,5 +213,20 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     @Override
     public void error(String message) {
         log.error(message);
+    }
+
+    @Override
+    public String getSuperVanishName() {
+        return "SuperVanish"; // Does not support Sponge
+    }
+
+    @Override
+    public String getPremiumVanishName() {
+        return "PremiumVanish"; // Does not support Sponge
+    }
+
+    @Override
+    public String getLuckPermsName() {
+        return "luckperms";
     }
 }
