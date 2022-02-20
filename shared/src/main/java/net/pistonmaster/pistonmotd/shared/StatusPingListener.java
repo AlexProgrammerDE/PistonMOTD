@@ -40,17 +40,17 @@ public interface StatusPingListener {
                 }
             }
 
-            if (config.getBoolean("players.sample.bukkit.activated")) {
+            if (config.getBoolean("players.sample.vanilla.activated")) {
                 try {
                     ping.clearSamples();
 
                     for (PlayerWrapper player : plugin.getPlayers()) {
-                        if (config.getStringList("players.sample.bukkit.hidden").contains(player.getName())) continue;
+                        if (config.getStringList("players.sample.vanilla.hidden").contains(player.getName())) continue;
 
                         ping.addSample(player.getUniqueId(), player.getDisplayName());
                     }
                 } catch (UnsupportedOperationException e) {
-                    logUnsupportedConfig("players.sample.bukkit");
+                    logUnsupportedConfig("players.sample.vanilla");
                 }
             } else if (config.getBoolean("players.sample.activated")) {
                 try {
