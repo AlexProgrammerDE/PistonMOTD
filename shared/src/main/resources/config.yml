@@ -18,11 +18,11 @@ description:
 
 # Not supported on: Spigot (Paper works), Sponge
 version:
-  # A protocol message is shown if the version of the client doesn't match the version of the server.
+  # The version name is shown if the version of the client doesn't match the version of the server.
   # %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)
   name:
     activated: true
-    text: "&1My custom protocol message!"
+    text: "&1My custom version name!"
   # Dangerous! This can show a wrong server version to the client.
   # When the client is on a different protocol, it will show the version name set above.
   protocol:
@@ -47,8 +47,9 @@ players:
   sample:
     # Restores the vanilla behavior for the sample box.
     # The name of every player on the server will be shown in the sample box.
+    # Overrides the text feature from below.
     vanilla:
-      activated: true
+      activated: false
       hidden:
         - "Notch"
     activated: true
@@ -58,6 +59,7 @@ players:
       - "&6    spaces!"
       - "&d&lCombined"
       - "&1Players: %online%/%max%"
+
 
 # The image of a server in the server list.
 favicon:
@@ -80,7 +82,7 @@ extensions:
 advanced:
   # If activated the server will only be shown as supported for the following protocols.
   supportedProtocol:
-    activated: true
+    activated: false
     unsupportedNumber: -1 # Shown when the protocol is not supported.
     # The supported protocol versions.
     # Protocol version numbers can be found here: https://wiki.vg/Protocol_version_numbers
