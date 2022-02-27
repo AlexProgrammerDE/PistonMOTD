@@ -8,6 +8,12 @@ allprojects {
     description = "Best MOTD plugin with multi-platform support!"
 }
 
+tasks.create("outputVersion") {
+    doLast {
+        println("Version: ${project.version}")
+    }
+}
+
 val platforms = setOf(
     projects.pistonmotdBukkit,
     projects.pistonmotdBungee,
