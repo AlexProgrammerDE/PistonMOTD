@@ -10,7 +10,7 @@ allprojects {
 
 tasks.create("outputVersion") {
     doLast {
-        println("Version: ${project.version}")
+        println(project.version)
     }
 }
 
