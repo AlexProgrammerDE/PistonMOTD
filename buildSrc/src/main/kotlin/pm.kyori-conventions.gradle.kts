@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation("net.kyori:adventure-api:4.9.3")
+    implementation("net.kyori:adventure-api:4.10.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.10.0")
 }
 
