@@ -5,5 +5,5 @@ plugins {
 dependencies {
     implementation(projects.pistonmotdKyoriRelocated)
 
-    implementation("net.kyori:adventure-text-minimessage:4.0.0-SNAPSHOT")
+    implementation("net.kyori:adventure-text-minimessage:4.10.0")
 }
