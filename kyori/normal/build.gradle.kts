@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    compileOnly("net.kyori:adventure-text-serializer-legacy:4.9.3")
+    compileOnly("net.kyori:adventure-text-serializer-legacy:4.10.0")
 }
