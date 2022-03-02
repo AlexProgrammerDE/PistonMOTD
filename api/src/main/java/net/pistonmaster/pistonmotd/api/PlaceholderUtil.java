@@ -31,7 +31,7 @@ public class PlaceholderUtil {
             parsedText = parser.parseString(parsedText);
         }
 
-        return PistonSerializersRelocated.unusualSectionRGB.serialize(PistonSerializersRelocated.ampersandRGB.deserialize(PistonSerializersRelocated.unusualSectionRGB.serialize(MiniMessage.markdown().parse(parsedText))));
+        return PistonSerializersRelocated.unusualSectionRGB.serialize(PistonSerializersRelocated.ampersandRGB.deserialize(PistonSerializersRelocated.unusualSectionRGB.serialize(MiniMessage.miniMessage().deserialize(parsedText))));
     }
 
     /**
