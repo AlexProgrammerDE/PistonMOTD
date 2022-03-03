@@ -1,5 +1,7 @@
 package net.pistonmaster.pistonmotd.shared;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.UUID;
 
 public interface PistonStatusPing {
@@ -34,4 +36,6 @@ public interface PistonStatusPing {
     void setFavicon(StatusFavicon favicon);
 
     int getClientProtocol() throws UnsupportedOperationException;
+
+    InetSocketAddress getClientVirtualHost() throws UnsupportedOperationException;
 }
