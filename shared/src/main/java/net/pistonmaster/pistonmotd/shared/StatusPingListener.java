@@ -163,7 +163,7 @@ public interface StatusPingListener {
                         if (virtualHost.getHostString().endsWith(domainSection.getString("domain"))) {
                             if (domainSection.getBoolean("description.activated")) {
                                 ping.setDescription(MOTDUtil.getMOTD(
-                                        Stream.of(config.getString("description.text")).collect(Collectors.toList()),
+                                        config.getStringList("description.text"),
                                         ping.supportsHex(),
                                         PlaceholderUtil::parseText));
                             }
