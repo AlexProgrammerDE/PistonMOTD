@@ -11,7 +11,6 @@ import net.skinsrestorer.axiom.AxiomConfigurationSection;
 import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public interface StatusPingListener {
     String afterIcon = "                                                                            ";
@@ -154,37 +153,39 @@ public interface StatusPingListener {
             try {
                 InetSocketAddress virtualHost = ping.getClientVirtualHost();
 
-                try {
-                    List<String> domains = config.getSection("advanced.perDomainStatus.domains").getKeys();
+                if (virtualHost != null) {
+                    try {
+                        List<String> domains = config.getSection("advanced.perDomainStatus.domains").getKeys();
 
-                    for (String domainId : domains) {
-                        AxiomConfigurationSection domainSection = config.getSection("advanced.perDomainStatus.domains." + domainId);
+                        for (String domainId : domains) {
+                            AxiomConfigurationSection domainSection = config.getSection("advanced.perDomainStatus.domains." + domainId);
 
-                        if (virtualHost.getHostString().endsWith(domainSection.getString("domain"))) {
-                            if (domainSection.getBoolean("description.activated")) {
-                                ping.setDescription(MOTDUtil.getMOTD(
-                                        config.getStringList("description.text"),
-                                        ping.supportsHex(),
-                                        PlaceholderUtil::parseText));
-                            }
-
-                            if (domainSection.getBoolean("favicon.activated")) {
-                                String faviconName = config.getString("favicon.file");
-                                StatusFavicon favicon = plugin.favicons.get(faviconName);
-
-                                if (favicon == null) {
-                                    plugin.warn("The favicon '" + faviconName + "' does not exist.");
-                                } else {
-                                    ping.setFavicon(favicon);
+                            if (virtualHost.getHostString().endsWith(domainSection.getString("domain"))) {
+                                if (domainSection.getBoolean("description.activated")) {
+                                    ping.setDescription(MOTDUtil.getMOTD(
+                                            domainSection.getStringList("description.text"),
+                                            ping.supportsHex(),
+                                            PlaceholderUtil::parseText));
                                 }
-                            }
 
-                            break;
+                                if (domainSection.getBoolean("favicon.activated")) {
+                                    String faviconName = domainSection.getString("favicon.file");
+                                    StatusFavicon favicon = plugin.favicons.get(faviconName);
+
+                                    if (favicon == null) {
+                                        plugin.warn("The favicon '" + faviconName + "' does not exist.");
+                                    } else {
+                                        ping.setFavicon(favicon);
+                                    }
+                                }
+
+                                break;
+                            }
                         }
+                    } catch (ClassCastException | NullPointerException e) {
+                        e.printStackTrace();
+                        plugin.warn("The 'advanced.perDomainStatus.domains' has invalid structure.");
                     }
-                } catch (ClassCastException | NullPointerException e) {
-                    e.printStackTrace();
-                    plugin.warn("The 'advanced.perDomainStatus.domains' has invalid structure.");
                 }
             } catch (UnsupportedOperationException e) {
                 logUnsupportedConfig("advanced.supportedProtocol");
