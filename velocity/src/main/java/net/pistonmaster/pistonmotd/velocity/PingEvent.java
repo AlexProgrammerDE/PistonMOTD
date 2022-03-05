@@ -99,7 +99,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
-                builder.samplePlayers(Stream.concat(builder.getSamplePlayers().stream(), Stream.of(new ServerPing.SamplePlayer(name, uuid))).toArray(ServerPing.SamplePlayer[]::new));
+                builder.samplePlayers(new ServerPing.SamplePlayer(name, uuid));
             }
 
             @Override
