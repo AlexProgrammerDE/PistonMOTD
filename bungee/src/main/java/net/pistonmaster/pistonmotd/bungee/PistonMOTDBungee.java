@@ -26,7 +26,7 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
 
         logName();
 
-        loadConfig();
+        startupLoadConfig();
 
         registerCommonPlaceholder();
         for (String server : getProxy().getServers().keySet()) {

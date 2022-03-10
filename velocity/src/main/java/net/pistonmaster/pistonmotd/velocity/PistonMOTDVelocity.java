@@ -43,7 +43,7 @@ public class PistonMOTDVelocity implements PistonMOTDPlugin {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         logName();
 
-        loadConfig();
+        startupLoadConfig();
 
         registerCommonPlaceholder();
 

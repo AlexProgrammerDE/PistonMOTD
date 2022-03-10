@@ -62,7 +62,7 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     public void onServerStart(final ConstructPluginEvent event) {
         logName();
 
-        loadConfig();
+        startupLoadConfig();
 
         registerCommonPlaceholder();
 

@@ -26,7 +26,7 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
 
         logName();
 
-        loadConfig();
+        startupLoadConfig();
 
         registerCommonPlaceholder();
         if (PaperLib.isPaper()) {
