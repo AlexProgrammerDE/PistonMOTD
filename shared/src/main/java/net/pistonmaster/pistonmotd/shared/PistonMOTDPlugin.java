@@ -41,8 +41,12 @@ public interface PistonMOTDPlugin {
         info("");
     }
 
-    default void loadConfig() {
+    default void startupLoadConfig() {
         startup("Loading config");
+        loadConfig();
+    }
+
+    default void loadConfig() {
         Path pluginConfigFile = getPluginConfigFile();
         AxiomConfiguration defaultConfig = new AxiomConfiguration();
 
