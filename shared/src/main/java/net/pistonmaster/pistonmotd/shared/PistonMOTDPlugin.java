@@ -63,7 +63,7 @@ public interface PistonMOTDPlugin {
 
             config.load(pluginConfigFile);
 
-            config.mergeDefault(defaultConfig);
+            config.merge(defaultConfig);
 
             config.save(pluginConfigFile);
         } catch (IOException e) {
