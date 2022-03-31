@@ -1,10 +1,13 @@
 package net.pistonmaster.pistonmotd.shared.utils;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Small collection of color codes for getting colors into the sponge console
  * Got it from here: https://stackoverflow.com/a/51944613
  */
 @SuppressWarnings({"unused"})
+@RequiredArgsConstructor
 public enum ConsoleColor {
     // Color end string, color reset
     RESET("\033[0m"),
@@ -80,10 +83,6 @@ public enum ConsoleColor {
     WHITE_BACKGROUND_BRIGHT("\033[0;107m");     // WHITE
 
     private final String code;
-
-    ConsoleColor(String code) {
-        this.code = code;
-    }
 
     @Override
     public String toString() {
