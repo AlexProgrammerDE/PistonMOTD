@@ -9,18 +9,18 @@ import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersNormal;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Getter
 @RequiredArgsConstructor
 public class PingEvent implements StatusPingListener {
-    private final PistonMOTDVelocity plugin;
+    private final PistonMOTDPlugin plugin;
 
     @Subscribe
     public void onPing(ProxyPingEvent event) {

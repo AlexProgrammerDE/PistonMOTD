@@ -18,11 +18,11 @@ public interface StatusPingListener {
         AxiomConfiguration config = plugin.getPluginConfig();
         Set<UUID> vanished = new HashSet<>();
 
-        if (config.getBoolean("extensions.vanish.supervanish") && plugin.superVanish.get()) {
+        if (config.getBoolean("extensions.vanish.supervanish") && plugin.getSuperVanish().get()) {
             vanished.addAll(SuperVanishExtension.getVanishedPlayers());
         }
 
-        if (config.getBoolean("extensions.vanish.premiumvanish") && plugin.premiumVanish.get()) {
+        if (config.getBoolean("extensions.vanish.premiumvanish") && plugin.getPremiumVanish().get()) {
             vanished.addAll(PremiumVanishExtension.getVanishedPlayers());
         }
 
@@ -63,7 +63,7 @@ public interface StatusPingListener {
                     List<String> hiddenNames = config.getStringList("players.sample.vanilla.hidden");
                     boolean hideSample = config.getBoolean("extensions.vanish.hideSample");
 
-                    for (PlayerWrapper player : plugin.getPlayers()) {
+                    for (PlayerWrapper player : plugin.getPlatform().getPlayers()) {
                         if (hiddenNames.contains(player.getName()))
                             continue;
 
@@ -127,29 +127,29 @@ public interface StatusPingListener {
             FaviconMode mode = EnumSafetyUtil.getSafeEnum(FaviconMode.class, modeString);
 
             if (mode == FaviconMode.RANDOM) {
-                if (plugin.favicons.isEmpty()) {
-                    plugin.warn("No valid favicons found in your favicons folder, but the favicons setting is enabled...");
+                if (plugin.getFavicons().isEmpty()) {
+                    plugin.getPlatform().warn("No valid favicons found in your favicons folder, but the favicons setting is enabled...");
                 } else {
-                    ping.setFavicon(new ArrayList<>(plugin.favicons.values())
-                            .get(plugin.random.nextInt(0, plugin.favicons.size())));
+                    ping.setFavicon(new ArrayList<>(plugin.getFavicons().values())
+                            .get(plugin.getRandom().nextInt(0, plugin.getFavicons().size())));
                 }
             } else if (mode == FaviconMode.SINGLE) {
                 String faviconName = config.getString("favicon.single");
-                StatusFavicon favicon = plugin.favicons.get(faviconName);
+                StatusFavicon favicon = plugin.getFavicons().get(faviconName);
 
                 if (favicon == null) {
-                    plugin.warn("The favicon '" + faviconName + "' does not exist.");
+                    plugin.getPlatform().warn("The favicon '" + faviconName + "' does not exist.");
                 } else {
                     ping.setFavicon(favicon);
                 }
             } else {
-                plugin.warn("Invalid favicon mode: " + modeString);
+                plugin.getPlatform().warn("Invalid favicon mode: " + modeString);
             }
         }
     }
 
     default void logUnsupportedConfig(String value) {
-        getPlugin().warn("\"" + value + "\" was activated in the config, but your platform does not support this feature!");
+        getPlugin().getPlatform().warn("\"" + value + "\" was activated in the config, but your platform does not support this feature!");
     }
 
     PistonMOTDPlugin getPlugin();

@@ -24,7 +24,7 @@ public class BungeeCommand extends Command implements TabExecutor {
             sender.sendMessage(new ComponentBuilder("/pistonmotd help").create());
             sender.sendMessage(new ComponentBuilder("/pistonmotd reload").create());
         } else if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("pistonmotd.reload")) {
-            plugin.loadConfig();
+            plugin.getPlugin().loadConfig();
             sender.sendMessage(new ComponentBuilder("Reloaded the config!").create());
         }
     }

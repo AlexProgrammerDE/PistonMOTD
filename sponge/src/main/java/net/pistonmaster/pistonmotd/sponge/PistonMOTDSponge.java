@@ -1,8 +1,10 @@
 package net.pistonmaster.pistonmotd.sponge;
 
 import com.google.inject.Inject;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -31,24 +33,22 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Plugin("pistonmotd")
-public class PistonMOTDSponge implements PistonMOTDPlugin {
+public class PistonMOTDSponge implements PistonMOTDPlatform {
     private final Metrics.Factory metricsFactory;
+    @Getter
+    private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
     @Inject
     protected Game game;
     @Inject
     private Logger log;
-
     @Inject
     @ConfigDir(sharedRoot = true)
     private Path publicConfigDir;
-
     @Inject
     @ConfigDir(sharedRoot = false)
     private Path privateConfigDir;
-
     @Inject
     private PluginContainer container;
-
     @Inject
     private MetricsConfigManager metricsConfigManager;
 
@@ -60,20 +60,20 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
 
     @Listener
     public void onServerStart(final ConstructPluginEvent event) {
-        logName();
+        plugin.logName();
 
-        startupLoadConfig();
+        plugin.startupLoadConfig();
 
-        registerCommonPlaceholder();
+        plugin.registerCommonPlaceholder();
 
-        loadHooks();
+        plugin.loadHooks();
 
         startup("Registering listeners");
-        game.eventManager().registerListeners(container, new PingEvent(this));
+        game.eventManager().registerListeners(container, new PingEvent(plugin));
         game.eventManager().registerListeners(container, new JoinEvent(this));
 
-        if (getPluginConfig().getBoolean("updatechecking")) {
-            checkUpdate();
+        if (plugin.getPluginConfig().getBoolean("updatechecking")) {
+            plugin.checkUpdate();
         }
 
         final Tristate collectionState = this.getEffectiveCollectionState();

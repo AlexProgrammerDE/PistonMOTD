@@ -1,5 +1,7 @@
 package net.pistonmaster.pistonmotd.shared;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
@@ -11,49 +13,54 @@ import net.skinsrestorer.axiom.AxiomConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public interface PistonMOTDPlugin {
-    AxiomConfiguration config = new AxiomConfiguration();
-    Map<String, StatusFavicon> favicons = new LinkedHashMap<>();
-    ThreadLocalRandom random = ThreadLocalRandom.current();
-    AtomicBoolean premiumVanish = new AtomicBoolean();
-    AtomicBoolean superVanish = new AtomicBoolean();
-    AtomicReference<LuckPermsWrapper> luckPerms = new AtomicReference<>();
+@Getter
+@RequiredArgsConstructor
+@SuppressWarnings("WriteOnlyObject") // Lombok's getters are ignored by this check
+public class PistonMOTDPlugin {
+    private final AxiomConfiguration config = new AxiomConfiguration();
+    private final Map<String, StatusFavicon> favicons = new LinkedHashMap<>();
+    private final ThreadLocalRandom random = ThreadLocalRandom.current();
+    private final AtomicBoolean premiumVanish = new AtomicBoolean();
+    private final AtomicBoolean superVanish = new AtomicBoolean();
+    private final AtomicReference<LuckPermsWrapper> luckPerms = new AtomicReference<>();
+    private final PistonMOTDPlatform platform;
 
-    default AxiomConfiguration getPluginConfig() {
+    public AxiomConfiguration getPluginConfig() {
         return config;
     }
 
-    default void logName() {
-        info("  _____  _       _                 __  __   ____  _______  _____  ");
-        info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
-        info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
-        info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
-        info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
-        info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
-        info("");
+    public void logName() {
+        platform.info("  _____  _       _                 __  __   ____  _______  _____  ");
+        platform.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
+        platform.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
+        platform.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
+        platform.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
+        platform.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
+        platform.info("");
     }
 
-    default void startupLoadConfig() {
-        startup("Loading config");
+    public void startupLoadConfig() {
+        platform.startup("Loading config");
         loadConfig();
     }
 
-    default void loadConfig() {
-        Path pluginConfigFile = getPluginConfigFile();
+    public void loadConfig() {
+        Path pluginConfigFile = platform.getPluginConfigFile();
         AxiomConfiguration defaultConfig = new AxiomConfiguration();
 
         try {
             Files.createDirectories(pluginConfigFile.getParent());
 
-            try (InputStream is = getDefaultConfig()) {
+            try (InputStream is = platform.getDefaultConfig()) {
                 defaultConfig.load(is);
             }
 
@@ -68,37 +75,37 @@ public interface PistonMOTDPlugin {
             config.save(pluginConfigFile);
         } catch (IOException e) {
             e.printStackTrace();
-            error("Could not load config");
+            platform.error("Could not load config");
         }
 
         try {
-            Path iconFolder = getFaviconFolder();
+            Path iconFolder = platform.getFaviconFolder();
             if (!Files.exists(iconFolder)) {
                 Files.createDirectories(iconFolder);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            error("Could not create the icon directory!");
+            platform.error("Could not create the icon directory!");
         }
 
         loadFavicons();
     }
 
-    default void registerCommonPlaceholder() {
-        startup("Registering placeholders");
-        PlaceholderUtil.registerParser(new CommonPlaceholder(this));
+    public void registerCommonPlaceholder() {
+        platform.startup("Registering placeholders");
+        PlaceholderUtil.registerParser(new CommonPlaceholder(platform));
     }
 
-    default void loadFavicons() {
+    public void loadFavicons() {
         favicons.clear();
 
-        try (DirectoryStream<Path> ds = Files.newDirectoryStream(getFaviconFolder(), new FaviconFilter())) {
+        try (DirectoryStream<Path> ds = Files.newDirectoryStream(platform.getFaviconFolder(), new PistonMOTDPlatform.FaviconFilter())) {
             for (Path p : ds) {
                 try {
-                    favicons.put(p.getFileName().toString(), createFavicon(p));
+                    favicons.put(p.getFileName().toString(), platform.createFavicon(p));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    error("Could not load favicon! (" + p.getFileName() + ")");
+                    platform.error("Could not load favicon! (" + p.getFileName() + ")");
                 }
             }
         } catch (IOException e) {
@@ -106,92 +113,41 @@ public interface PistonMOTDPlugin {
         }
     }
 
-    default void loadHooks() {
-        startup("Looking for hooks");
-        if (isPluginEnabled(getSuperVanishName())) {
-            startup("Hooking into SuperVanish");
+    public void loadHooks() {
+        platform.startup("Looking for hooks");
+        if (platform.isPluginEnabled(platform.getSuperVanishName())) {
+            platform.startup("Hooking into SuperVanish");
             superVanish.set(true);
         }
 
-        if (isPluginEnabled(getPremiumVanishName())) {
-            startup("Hooking into PremiumVanish");
+        if (platform.isPluginEnabled(platform.getPremiumVanishName())) {
+            platform.startup("Hooking into PremiumVanish");
             premiumVanish.set(true);
         }
 
-        if (isPluginEnabled(getLuckPermsName())) {
-            startup("Hooking into LuckPerms");
+        if (platform.isPluginEnabled(platform.getLuckPermsName())) {
+            platform.startup("Hooking into LuckPerms");
             luckPerms.set(new LuckPermsWrapper());
         }
     }
 
-    boolean isPluginEnabled(String pluginName);
-
-    StatusFavicon createFavicon(Path path) throws Exception;
-
-    Path getPluginConfigFile();
-
-    Path getFaviconFolder();
-
-    InputStream getDefaultConfig();
-
-    List<PlayerWrapper> getPlayers();
-
-    int getMaxPlayers();
-
-    int getPlayerCount();
-
-    default void checkUpdate() {
-        startup("Checking for a newer version");
-        new UpdateChecker(new PistonLogger(this::info, this::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(getStrippedVersion(), version).parseUpdate(updateType -> {
+    public void checkUpdate() {
+        platform.startup("Checking for a newer version");
+        new UpdateChecker(new PistonLogger(platform::info, platform::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(platform.getStrippedVersion(), version).parseUpdate(updateType -> {
             if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
-                startup("You're up to date!");
+                platform.startup("You're up to date!");
             } else {
                 if (updateType == UpdateType.MAJOR) {
-                    info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
+                    platform.info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
                 } else if (updateType == UpdateType.MINOR) {
-                    info(ConsoleColor.RED + "There is a MINOR update available!" + ConsoleColor.RESET);
+                    platform.info(ConsoleColor.RED + "There is a MINOR update available!" + ConsoleColor.RESET);
                 } else if (updateType == UpdateType.PATCH) {
-                    info(ConsoleColor.RED + "There is a PATCH update available!" + ConsoleColor.RESET);
+                    platform.info(ConsoleColor.RED + "There is a PATCH update available!" + ConsoleColor.RESET);
                 }
 
-                info(ConsoleColor.RED + "Current version: " + getVersion() + " New version: " + version + ConsoleColor.RESET);
-                info(ConsoleColor.RED + "Download it at: " + getDownloadURL() + ConsoleColor.RESET);
+                platform.info(ConsoleColor.RED + "Current version: " + platform.getVersion() + " New version: " + version + ConsoleColor.RESET);
+                platform.info(ConsoleColor.RED + "Download it at: " + platform.getDownloadURL() + ConsoleColor.RESET);
             }
         }));
-    }
-
-    default String getDownloadURL() {
-        return "https://github.com/AlexProgrammerDE/PistonMOTD/releases";
-    }
-
-    default String getStrippedVersion() {
-        return getVersion().replace("-SNAPSHOT", "");
-    }
-
-    String getVersion();
-
-    void info(String message);
-
-    void warn(String message);
-
-    void error(String message);
-
-    default void startup(String message) {
-        info(ConsoleColor.CYAN + message + ConsoleColor.RESET);
-    }
-
-    String getSuperVanishName();
-
-    String getPremiumVanishName();
-
-    String getLuckPermsName();
-
-    class FaviconFilter implements DirectoryStream.Filter<Path> {
-        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**.png");
-
-        @Override
-        public boolean accept(Path entry) {
-            return !Files.isDirectory(entry) && matcher.matches(entry);
-        }
     }
 }

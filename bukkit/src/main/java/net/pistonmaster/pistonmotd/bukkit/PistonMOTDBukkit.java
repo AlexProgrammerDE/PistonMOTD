@@ -1,8 +1,10 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
 import io.papermc.lib.PaperLib;
+import lombok.Getter;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -18,37 +20,39 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlugin {
+public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
+    @Getter
+    private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
 
     @Override
     public void onEnable() {
         BukkitAudiences.create(this);
 
-        logName();
+        plugin.logName();
 
-        startupLoadConfig();
+        plugin.startupLoadConfig();
 
-        registerCommonPlaceholder();
+        plugin.registerCommonPlaceholder();
         if (PaperLib.isPaper()) {
             PlaceholderUtil.registerParser(new TPSPlaceholder());
         }
 
-        loadHooks();
+        plugin.loadHooks();
 
         startup("Registering listeners");
         if (PaperLib.isPaper()) {
-            getServer().getPluginManager().registerEvents(new PingEventPaper(this), this);
+            getServer().getPluginManager().registerEvents(new PingEventPaper(plugin), this);
         } else {
             PaperLib.suggestPaper(this);
 
-            getServer().getPluginManager().registerEvents(new PingEventSpigot(this), this);
+            getServer().getPluginManager().registerEvents(new PingEventSpigot(plugin), this);
         }
 
         startup("Registering command");
         Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setTabCompleter(new BukkitCommand(this));
         Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setExecutor(new BukkitCommand(this));
 
-        checkUpdate();
+        plugin.checkUpdate();
 
         startup("Loading metrics");
         new Metrics(this, 9100);

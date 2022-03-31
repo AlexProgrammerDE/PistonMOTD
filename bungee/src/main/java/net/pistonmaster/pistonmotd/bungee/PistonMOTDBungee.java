@@ -1,10 +1,12 @@
 package net.pistonmaster.pistonmotd.bungee;
 
+import lombok.Getter;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -18,30 +20,32 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
+public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
+    @Getter
+    private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
 
     @Override
     public void onEnable() {
         BungeeAudiences.create(this);
 
-        logName();
+        plugin.logName();
 
-        startupLoadConfig();
+        plugin.startupLoadConfig();
 
-        registerCommonPlaceholder();
+        plugin.registerCommonPlaceholder();
         for (String server : getProxy().getServers().keySet()) {
             PlaceholderUtil.registerParser(new ServerPlaceholder(server));
         }
 
-        loadHooks();
+        plugin.loadHooks();
 
         startup("Registering listeners");
-        getProxy().getPluginManager().registerListener(this, new PingEvent(this));
+        getProxy().getPluginManager().registerListener(this, new PingEvent(plugin));
 
         startup("Registering command");
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));
 
-        checkUpdate();
+        plugin.checkUpdate();
 
         startup("Loading metrics");
         new Metrics(this, 8968);
