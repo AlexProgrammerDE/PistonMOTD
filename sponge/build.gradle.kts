@@ -1,5 +1,5 @@
 import org.spongepowered.gradle.plugin.config.PluginLoaders
-import org.spongepowered.plugin.metadata.model.PluginDependency
+import org.spongepowered.plugin.metadata.model.PluginDependency as PluginDependency1
 
 plugins {
     id("pm.shadow-conventions")
@@ -17,7 +17,7 @@ dependencies {
 
 sponge {
     injectRepositories(false)
-    apiVersion("8.0.0-SNAPSHOT")
+    apiVersion("8.0.0")
     license("Apache License 2.0")
     loader {
         name(PluginLoaders.JAVA_PLAIN)
@@ -36,7 +36,7 @@ sponge {
             description("Lead Developer")
         }
         dependency("spongeapi") {
-            loadOrder.set(PluginDependency.LoadOrder.AFTER)
+            loadOrder.set(PluginDependency1.LoadOrder.AFTER)
             optional(false)
         }
     }

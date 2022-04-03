@@ -127,7 +127,7 @@ public class PistonMOTDPlugin {
 
         if (platform.isPluginEnabled(platform.getLuckPermsName())) {
             platform.startup("Hooking into LuckPerms");
-            luckPerms.set(new LuckPermsWrapper());
+            luckPerms.set(new LuckPermsWrapper(this));
         }
     }
 

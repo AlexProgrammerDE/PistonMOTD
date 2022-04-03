@@ -122,6 +122,11 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
             public UUID getUniqueId() {
                 return player.getUniqueId();
             }
+
+            @Override
+            public Object getHandle() {
+                return player;
+            }
         };
     }
 
@@ -158,5 +163,10 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
     @Override
     public String getLuckPermsName() {
         return "LuckPerms";
+    }
+
+    @Override
+    public Class<?> getPlayerClass() {
+        return Player.class;
     }
 }

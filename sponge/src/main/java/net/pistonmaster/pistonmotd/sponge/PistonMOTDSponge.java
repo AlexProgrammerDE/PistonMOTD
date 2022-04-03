@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("SpongeInjection")
 @Plugin("pistonmotd")
 public class PistonMOTDSponge implements PistonMOTDPlatform {
     private final Metrics.Factory metricsFactory;
@@ -53,7 +54,6 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
     private MetricsConfigManager metricsConfigManager;
 
     @Inject
-    @SuppressWarnings("SpongeInjection")
     public PistonMOTDSponge(Metrics.Factory metricsFactory) {
         this.metricsFactory = metricsFactory;
     }
@@ -174,6 +174,11 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
             public UUID getUniqueId() {
                 return player.profile().uuid();
             }
+
+            @Override
+            public Object getHandle() {
+                return player;
+            }
         };
     }
 
@@ -228,5 +233,10 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
     @Override
     public String getLuckPermsName() {
         return "luckperms";
+    }
+
+    @Override
+    public Class<?> getPlayerClass() {
+        return Player.class;
     }
 }

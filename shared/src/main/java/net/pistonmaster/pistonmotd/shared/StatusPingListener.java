@@ -3,7 +3,9 @@ package net.pistonmaster.pistonmotd.shared;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.extensions.PremiumVanishExtension;
 import net.pistonmaster.pistonmotd.shared.extensions.SuperVanishExtension;
+import net.pistonmaster.pistonmotd.shared.utils.ChatColor;
 import net.pistonmaster.pistonmotd.shared.utils.EnumSafetyUtil;
+import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 import net.skinsrestorer.axiom.AxiomConfiguration;
 
@@ -58,6 +60,14 @@ public interface StatusPingListener {
             }
 
             if (config.getBoolean("players.sample.vanilla.activated")) {
+                boolean luckperms = config.getBoolean("extensions.prefix.luckperms");
+                LuckPermsWrapper luckpermsWrapper = plugin.getLuckPerms().get();
+
+                if (luckperms && luckpermsWrapper == null) {
+                    plugin.getPlatform().warn("Luckpemrs integration enabled, but LuckPerms is not installed!");
+                    luckperms = false;
+                }
+
                 try {
                     ping.clearSamples();
                     List<String> hiddenNames = config.getStringList("players.sample.vanilla.hidden");
@@ -70,7 +80,22 @@ public interface StatusPingListener {
                         if (hideSample && vanished.contains(player.getUniqueId()))
                             continue;
 
-                        ping.addSample(player.getUniqueId(), player.getDisplayName());
+                        String prefix = "";
+                        String suffix = "";
+                        if (luckperms) {
+                            LuckPermsWrapper.LuckPermsMeta meta = luckpermsWrapper.getWrappedMeta(player);
+
+                            if (meta.getPrefix() != null)
+                                prefix = meta.getPrefix();
+
+                            if (meta.getSuffix() != null)
+                                suffix = meta.getSuffix();
+                        }
+
+                        String displayName = ChatColor.translateAlternateColorCodes('&',
+                                prefix + player.getDisplayName() + suffix + ChatColor.RESET);
+
+                        ping.addSample(player.getUniqueId(), displayName);
                     }
                 } catch (UnsupportedOperationException e) {
                     logUnsupportedConfig("players.sample.vanilla");

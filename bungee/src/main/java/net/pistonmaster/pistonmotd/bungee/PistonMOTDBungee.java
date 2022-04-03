@@ -120,6 +120,11 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
             public UUID getUniqueId() {
                 return player.getUniqueId();
             }
+
+            @Override
+            public Object getHandle() {
+                return player;
+            }
         };
     }
 
@@ -156,5 +161,10 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
     @Override
     public String getLuckPermsName() {
         return "LuckPerms";
+    }
+
+    @Override
+    public Class<?> getPlayerClass() {
+        return ProxiedPlayer.class;
     }
 }

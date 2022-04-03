@@ -49,6 +49,8 @@ public interface PistonMOTDPlatform {
 
     String getLuckPermsName();
 
+    Class<?> getPlayerClass();
+
     class FaviconFilter implements DirectoryStream.Filter<Path> {
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**.png");
 
