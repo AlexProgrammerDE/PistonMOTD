@@ -125,6 +125,11 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
             public UUID getUniqueId() {
                 return player.getUniqueId();
             }
+
+            @Override
+            public Object getHandle() {
+                return player;
+            }
         };
     }
 
@@ -161,5 +166,10 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
     @Override
     public String getLuckPermsName() {
         return "luckperms";
+    }
+
+    @Override
+    public Class<?> getPlayerClass() {
+        return Player.class;
     }
 }

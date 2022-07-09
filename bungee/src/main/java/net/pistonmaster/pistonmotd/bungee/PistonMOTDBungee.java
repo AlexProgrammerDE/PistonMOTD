@@ -23,19 +23,18 @@ import java.util.stream.Collectors;
 public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
     @Getter
     private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
+    private BungeeAudiences adventure;
 
     @Override
     public void onEnable() {
-        BungeeAudiences.create(this);
+        this.adventure = BungeeAudiences.create(this);
 
         plugin.logName();
 
         plugin.startupLoadConfig();
 
         plugin.registerCommonPlaceholder();
-        for (String server : getProxy().getServers().keySet()) {
-            PlaceholderUtil.registerParser(new ServerPlaceholder(server));
-        }
+        PlaceholderUtil.registerParser(new ServerPlaceholder(getProxy()));
 
         plugin.loadHooks();
 
@@ -55,6 +54,11 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
 
     @Override
     public void onDisable() {
+        if (this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
+
         startup("Unloading the listeners");
         getProxy().getPluginManager().unregisterListeners(this);
 
@@ -120,6 +124,11 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
             public UUID getUniqueId() {
                 return player.getUniqueId();
             }
+
+            @Override
+            public Object getHandle() {
+                return player;
+            }
         };
     }
 
@@ -156,5 +165,10 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
     @Override
     public String getLuckPermsName() {
         return "LuckPerms";
+    }
+
+    @Override
+    public Class<?> getPlayerClass() {
+        return ProxiedPlayer.class;
     }
 }

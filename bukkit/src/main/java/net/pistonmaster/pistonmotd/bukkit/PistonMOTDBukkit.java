@@ -23,10 +23,11 @@ import java.util.stream.Collectors;
 public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
     @Getter
     private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
+    private BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
-        BukkitAudiences.create(this);
+        this.adventure = BukkitAudiences.create(this);
 
         plugin.logName();
 
@@ -62,6 +63,11 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
 
     @Override
     public void onDisable() {
+        if (this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
+
         startup("Unregistering listeners");
         HandlerList.unregisterAll(this);
     }
@@ -122,6 +128,11 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
             public UUID getUniqueId() {
                 return player.getUniqueId();
             }
+
+            @Override
+            public Object getHandle() {
+                return player;
+            }
         };
     }
 
@@ -158,5 +169,10 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
     @Override
     public String getLuckPermsName() {
         return "LuckPerms";
+    }
+
+    @Override
+    public Class<?> getPlayerClass() {
+        return Player.class;
     }
 }

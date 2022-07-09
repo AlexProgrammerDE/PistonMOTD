@@ -82,6 +82,10 @@ extensions:
     hideSample: true
     # Hide players from the online player count. (Most vanish plugins already have that built in)
     hideCount: false
+  # Player prefixes for the player sample
+  prefix:
+    # Use LuckPerms player prefixes if it is installed
+    luckperms: false
 
 # Advanced features that should not be messed with unless you know what you're doing.
 advanced:
@@ -94,3 +98,6 @@ advanced:
     numbers:
       - 757
       - 756
+
+# Check for updates on startup. (Only works on Sponge)
+updateChecking: true

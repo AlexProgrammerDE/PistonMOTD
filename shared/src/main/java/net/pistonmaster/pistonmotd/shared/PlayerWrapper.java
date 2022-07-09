@@ -8,4 +8,6 @@ public interface PlayerWrapper {
     String getName();
 
     UUID getUniqueId();
+
+    Object getHandle();
 }
