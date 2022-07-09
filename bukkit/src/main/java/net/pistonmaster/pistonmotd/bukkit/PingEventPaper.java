@@ -3,6 +3,7 @@ package net.pistonmaster.pistonmotd.bukkit;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 public class PingEventPaper implements Listener, StatusPingListener {
-    private final PistonMOTDBukkit plugin;
+    private final PistonMOTDPlugin plugin;
 
     @EventHandler
     public void onPing(PaperServerListPingEvent event) {

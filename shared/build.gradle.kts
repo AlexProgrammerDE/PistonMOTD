@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api("net.skinsrestorer:axiom:1.1.0-SNAPSHOT")
+    api("net.skinsrestorer:axiom:1.1.2-SNAPSHOT")
     implementation(project(":pistonmotd-api", "shadow"))
 
     compileOnly("com.github.LeonMangler:PremiumVanishAPI:2.7.11")

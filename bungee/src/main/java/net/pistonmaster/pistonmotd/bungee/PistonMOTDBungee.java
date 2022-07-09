@@ -1,10 +1,12 @@
 package net.pistonmaster.pistonmotd.bungee;
 
+import lombok.Getter;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -18,30 +20,31 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
+public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
+    @Getter
+    private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
+    private BungeeAudiences adventure;
 
     @Override
     public void onEnable() {
-        BungeeAudiences.create(this);
+        this.adventure = BungeeAudiences.create(this);
 
-        logName();
+        plugin.logName();
 
-        startupLoadConfig();
+        plugin.startupLoadConfig();
 
-        registerCommonPlaceholder();
-        for (String server : getProxy().getServers().keySet()) {
-            PlaceholderUtil.registerParser(new ServerPlaceholder(server));
-        }
+        plugin.registerCommonPlaceholder();
+        PlaceholderUtil.registerParser(new ServerPlaceholder(getProxy()));
 
-        loadHooks();
+        plugin.loadHooks();
 
         startup("Registering listeners");
-        getProxy().getPluginManager().registerListener(this, new PingEvent(this));
+        getProxy().getPluginManager().registerListener(this, new PingEvent(plugin));
 
         startup("Registering command");
         getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));
 
-        checkUpdate();
+        plugin.checkUpdate();
 
         startup("Loading metrics");
         new Metrics(this, 8968);
@@ -51,6 +54,11 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
 
     @Override
     public void onDisable() {
+        if (this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
+
         startup("Unloading the listeners");
         getProxy().getPluginManager().unregisterListeners(this);
 
@@ -116,6 +124,11 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
             public UUID getUniqueId() {
                 return player.getUniqueId();
             }
+
+            @Override
+            public Object getHandle() {
+                return player;
+            }
         };
     }
 
@@ -152,5 +165,10 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlugin {
     @Override
     public String getLuckPermsName() {
         return "LuckPerms";
+    }
+
+    @Override
+    public Class<?> getPlayerClass() {
+        return ProxiedPlayer.class;
     }
 }

@@ -3,7 +3,7 @@ import org.spongepowered.plugin.metadata.model.PluginDependency
 
 plugins {
     id("pm.shadow-conventions")
-    id("org.spongepowered.gradle.plugin") version "2.0.1"
+    id("org.spongepowered.gradle.plugin") version "2.0.2"
 }
 
 dependencies {
@@ -17,7 +17,7 @@ dependencies {
 
 sponge {
     injectRepositories(false)
-    apiVersion("8.0.0-SNAPSHOT")
+    apiVersion("8.0.0")
     license("Apache License 2.0")
     loader {
         name(PluginLoaders.JAVA_PLAIN)

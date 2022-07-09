@@ -3,6 +3,7 @@ package net.pistonmaster.pistonmotd.sponge;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 public class PingEvent implements StatusPingListener {
-    private final PistonMOTDSponge plugin;
+    private final PistonMOTDPlugin plugin;
 
     @Listener
     public void onPing(ClientPingServerEvent event) {

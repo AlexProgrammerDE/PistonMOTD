@@ -12,8 +12,8 @@ dependencies {
 
     compileOnly("net.luckperms:api:5.4")
 
-    compileOnly("org.projectlombok:lombok:1.18.22")
-    annotationProcessor("org.projectlombok:lombok:1.18.22")
+    compileOnly("org.projectlombok:lombok:1.18.24")
+    annotationProcessor("org.projectlombok:lombok:1.18.24")
 }
 
 tasks {
@@ -27,6 +27,7 @@ java.targetCompatibility = JavaVersion.VERSION_1_8
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
+    options.compilerArgs.add("-Xlint:all,-serial,-processing")
 }
 
 indra {

@@ -1,8 +1,10 @@
 package net.pistonmaster.pistonmotd.sponge;
 
 import com.google.inject.Inject;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -30,50 +32,48 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("SpongeInjection")
 @Plugin("pistonmotd")
-public class PistonMOTDSponge implements PistonMOTDPlugin {
+public class PistonMOTDSponge implements PistonMOTDPlatform {
     private final Metrics.Factory metricsFactory;
+    @Getter
+    private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
     @Inject
     protected Game game;
     @Inject
     private Logger log;
-
     @Inject
     @ConfigDir(sharedRoot = true)
     private Path publicConfigDir;
-
     @Inject
     @ConfigDir(sharedRoot = false)
     private Path privateConfigDir;
-
     @Inject
     private PluginContainer container;
-
     @Inject
     private MetricsConfigManager metricsConfigManager;
 
     @Inject
-    @SuppressWarnings("SpongeInjection")
     public PistonMOTDSponge(Metrics.Factory metricsFactory) {
         this.metricsFactory = metricsFactory;
     }
 
     @Listener
     public void onServerStart(final ConstructPluginEvent event) {
-        logName();
+        plugin.logName();
 
-        startupLoadConfig();
+        plugin.startupLoadConfig();
 
-        registerCommonPlaceholder();
+        plugin.registerCommonPlaceholder();
 
-        loadHooks();
+        plugin.loadHooks();
 
         startup("Registering listeners");
-        game.eventManager().registerListeners(container, new PingEvent(this));
+        game.eventManager().registerListeners(container, new PingEvent(plugin));
         game.eventManager().registerListeners(container, new JoinEvent(this));
 
-        if (getPluginConfig().getBoolean("updatechecking")) {
-            checkUpdate();
+        if (plugin.getPluginConfig().isUpdateChecking()) {
+            plugin.checkUpdate();
         }
 
         final Tristate collectionState = this.getEffectiveCollectionState();
@@ -174,6 +174,11 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
             public UUID getUniqueId() {
                 return player.profile().uuid();
             }
+
+            @Override
+            public Object getHandle() {
+                return player;
+            }
         };
     }
 
@@ -228,5 +233,10 @@ public class PistonMOTDSponge implements PistonMOTDPlugin {
     @Override
     public String getLuckPermsName() {
         return "luckperms";
+    }
+
+    @Override
+    public Class<?> getPlayerClass() {
+        return Player.class;
     }
 }

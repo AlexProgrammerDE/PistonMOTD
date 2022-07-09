@@ -10,6 +10,7 @@ import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
@@ -23,7 +24,7 @@ import java.util.stream.Stream;
 @Getter
 @RequiredArgsConstructor
 public class PingEvent implements Listener, StatusPingListener {
-    private final PistonMOTDBungee plugin;
+    private final PistonMOTDPlugin plugin;
 
     @EventHandler
     public void onPing(ProxyPingEvent event) {

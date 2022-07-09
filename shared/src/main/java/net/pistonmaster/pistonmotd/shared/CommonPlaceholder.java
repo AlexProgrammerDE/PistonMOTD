@@ -5,7 +5,7 @@ import net.pistonmaster.pistonmotd.api.PlaceholderParser;
 
 @RequiredArgsConstructor
 public class CommonPlaceholder implements PlaceholderParser {
-    private final PistonMOTDPlugin plugin;
+    private final PistonMOTDPlatform plugin;
 
     @Override
     public String parseString(String text) {

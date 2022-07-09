@@ -25,7 +25,7 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
             sender.spigot().sendMessage(new ComponentBuilder("/pistonmotd reload").create());
             return true;
         } else if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("pistonmotd.reload")) {
-            plugin.loadConfig();
+            plugin.getPlugin().loadConfig();
             sender.spigot().sendMessage(new ComponentBuilder("Reloaded the config!").create());
             return true;
         }
