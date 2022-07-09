@@ -98,3 +98,6 @@ advanced:
     numbers:
       - 757
       - 756
+
+# Check for updates on startup. (Only works on Sponge)
+updateChecking: true

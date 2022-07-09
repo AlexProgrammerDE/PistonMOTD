@@ -72,7 +72,7 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
         game.eventManager().registerListeners(container, new PingEvent(plugin));
         game.eventManager().registerListeners(container, new JoinEvent(this));
 
-        if (plugin.getPluginConfig().getBoolean("updatechecking")) {
+        if (plugin.getPluginConfig().isUpdateChecking()) {
             plugin.checkUpdate();
         }
 
