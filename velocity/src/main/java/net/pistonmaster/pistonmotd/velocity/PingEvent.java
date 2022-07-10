@@ -16,6 +16,7 @@ import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
 
 import java.net.InetSocketAddress;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -119,8 +120,8 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
-            public InetSocketAddress getClientVirtualHost() throws UnsupportedOperationException {
-                return event.getConnection().getVirtualHost().orElse(null);
+            public Optional<InetSocketAddress> getClientVirtualHost() throws UnsupportedOperationException {
+                return event.getConnection().getVirtualHost();
             }
         };
     }

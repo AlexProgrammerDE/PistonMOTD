@@ -7,8 +7,6 @@ import net.pistonmaster.pistonmotd.shared.utils.ChatColor;
 import net.pistonmaster.pistonmotd.shared.utils.EnumSafetyUtil;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
-import net.skinsrestorer.axiom.AxiomConfiguration;
-import net.skinsrestorer.axiom.AxiomConfigurationSection;
 
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -19,7 +17,7 @@ public interface StatusPingListener {
 
     default void handle(PistonStatusPing ping) {
         PistonMOTDPlugin plugin = getPlugin();
-        PistonMOTDConfig config = plugin.getPluginConfig();
+        PistonMOTDServerConfig config = plugin.getPluginConfig();
         Set<UUID> vanished = new HashSet<>();
 
         if (config.isExtensionVanishSupervanish() && plugin.getSuperVanish().get()) {
@@ -174,31 +172,27 @@ public interface StatusPingListener {
             }
         }
 
-        if (config.getBoolean("advanced.perDomainStatus.activated")) {
+        if (config.isAdvancedPerDomainStatusActivated()) {
             try {
-                InetSocketAddress virtualHost = ping.getClientVirtualHost();
+                Optional<InetSocketAddress> virtualHost = ping.getClientVirtualHost();
 
-                if (virtualHost != null) {
+                if (virtualHost.isPresent()) {
                     try {
-                        List<String> domains = config.getSection("advanced.perDomainStatus.domains").getKeys();
-
-                        for (String domainId : domains) {
-                            AxiomConfigurationSection domainSection = config.getSection("advanced.perDomainStatus.domains." + domainId);
-
-                            if (virtualHost.getHostString().endsWith(domainSection.getString("domain"))) {
-                                if (domainSection.getBoolean("description.activated")) {
+                        for (PistonMOTDServerConfig.PerDomainStatusDomain domainData : config.getAdvancedPerDomainStatusDomains().values()) {
+                            if (virtualHost.get().getHostString().endsWith(domainData.getDomain())) {
+                                if (domainData.isDescriptionActivated()) {
                                     ping.setDescription(MOTDUtil.getMOTD(
-                                            domainSection.getStringList("description.text"),
+                                            domainData.getDescriptionText(),
                                             ping.supportsHex(),
                                             PlaceholderUtil::parseText));
                                 }
 
-                                if (domainSection.getBoolean("favicon.activated")) {
-                                    String faviconName = domainSection.getString("favicon.file");
-                                    StatusFavicon favicon = plugin.favicons.get(faviconName);
+                                if (domainData.isFaviconActivated()) {
+                                    String faviconName = domainData.getFaviconFile();
+                                    StatusFavicon favicon = plugin.getFavicons().get(faviconName);
 
                                     if (favicon == null) {
-                                        plugin.warn("The favicon '" + faviconName + "' does not exist.");
+                                        getPlugin().getPlatform().warn("The favicon '" + faviconName + "' does not exist.");
                                     } else {
                                         ping.setFavicon(favicon);
                                     }
@@ -209,7 +203,7 @@ public interface StatusPingListener {
                         }
                     } catch (ClassCastException | NullPointerException e) {
                         e.printStackTrace();
-                        plugin.warn("The 'advanced.perDomainStatus.domains' has invalid structure.");
+                        getPlugin().getPlatform().warn("The 'advanced.perDomainStatus.domains' has invalid structure.");
                     }
                 }
             } catch (UnsupportedOperationException e) {

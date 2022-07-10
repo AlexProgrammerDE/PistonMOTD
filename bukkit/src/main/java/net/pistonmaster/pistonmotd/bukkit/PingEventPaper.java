@@ -13,8 +13,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.CachedServerIcon;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -110,8 +110,8 @@ public class PingEventPaper implements Listener, StatusPingListener {
             }
 
             @Override
-            public InetSocketAddress getClientVirtualHost() throws UnsupportedOperationException {
-                return event.getClient().getVirtualHost();
+            public Optional<InetSocketAddress> getClientVirtualHost() throws UnsupportedOperationException {
+                return Optional.ofNullable(event.getClient().getVirtualHost());
             }
         };
     }

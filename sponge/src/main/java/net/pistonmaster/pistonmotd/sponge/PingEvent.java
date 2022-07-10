@@ -15,6 +15,7 @@ import org.spongepowered.api.network.status.StatusResponse;
 import org.spongepowered.api.profile.GameProfile;
 
 import java.net.InetSocketAddress;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.UUID;
 
@@ -117,8 +118,8 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
-            public InetSocketAddress getClientVirtualHost() throws UnsupportedOperationException {
-                return event.client().virtualHost().orElse(null);
+            public Optional<InetSocketAddress> getClientVirtualHost() throws UnsupportedOperationException {
+                return event.client().virtualHost();
             }
         };
     }
