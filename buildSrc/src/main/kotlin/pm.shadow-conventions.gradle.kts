@@ -22,10 +22,9 @@ tasks {
     }
 }
 
-
 fun ShadowJar.configureRelocations() {
     relocate("io.papermc.lib", "net.pistonmaster.pistonmotd.shadow.paperlib")
-    relocate("org.apache", "net.pistonmaster.pistonmotd.shadow.apache")
+    relocate("org.apache.commons.lang3", "net.pistonmaster.pistonmotd.shadow.commonslang3")
     relocate("org.bstats", "net.pistonmaster.pistonmotd.shadow.bstats")
     relocate("net.pistonmaster.pistonutils", "net.pistonmaster.pistonmotd.shadow.pistonutils")
     relocate("net.skinsrestorer.axiom", "net.pistonmaster.pistonmotd.shadow.axiom")
