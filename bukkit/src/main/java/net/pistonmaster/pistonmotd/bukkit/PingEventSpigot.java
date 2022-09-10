@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.util.CachedServerIcon;
 
+import java.net.InetSocketAddress;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -102,6 +104,11 @@ public class PingEventSpigot implements Listener, StatusPingListener {
 
             @Override
             public int getClientProtocol() throws UnsupportedOperationException {
+                throw new UnsupportedOperationException("Spigot does not support this method");
+            }
+
+            @Override
+            public Optional<InetSocketAddress> getClientVirtualHost() throws UnsupportedOperationException {
                 throw new UnsupportedOperationException("Spigot does not support this method");
             }
         };

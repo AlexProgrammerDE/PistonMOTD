@@ -8,6 +8,7 @@ import net.pistonmaster.pistonmotd.shared.utils.EnumSafetyUtil;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
 
+import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public interface StatusPingListener {
 
     default void handle(PistonStatusPing ping) {
         PistonMOTDPlugin plugin = getPlugin();
-        PistonMOTDConfig config = plugin.getPluginConfig();
+        PistonMOTDServerConfig config = plugin.getPluginConfig();
         Set<UUID> vanished = new HashSet<>();
 
         if (config.isExtensionVanishSupervanish() && plugin.getSuperVanish().get()) {
@@ -168,6 +169,45 @@ public interface StatusPingListener {
                 }
             } else {
                 plugin.getPlatform().warn("Invalid favicon mode: " + modeString);
+            }
+        }
+
+        if (config.isAdvancedPerDomainStatusActivated()) {
+            try {
+                Optional<InetSocketAddress> virtualHost = ping.getClientVirtualHost();
+
+                if (virtualHost.isPresent()) {
+                    try {
+                        for (PistonMOTDServerConfig.PerDomainStatusDomain domainData : config.getAdvancedPerDomainStatusDomains().values()) {
+                            if (virtualHost.get().getHostString().endsWith(domainData.getDomain())) {
+                                if (domainData.isDescriptionActivated()) {
+                                    ping.setDescription(MOTDUtil.getMOTD(
+                                            domainData.getDescriptionText(),
+                                            ping.supportsHex(),
+                                            PlaceholderUtil::parseText));
+                                }
+
+                                if (domainData.isFaviconActivated()) {
+                                    String faviconName = domainData.getFaviconFile();
+                                    StatusFavicon favicon = plugin.getFavicons().get(faviconName);
+
+                                    if (favicon == null) {
+                                        getPlugin().getPlatform().warn("The favicon '" + faviconName + "' does not exist.");
+                                    } else {
+                                        ping.setFavicon(favicon);
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+                    } catch (ClassCastException | NullPointerException e) {
+                        e.printStackTrace();
+                        getPlugin().getPlatform().warn("The 'advanced.perDomainStatus.domains' has invalid structure.");
+                    }
+                }
+            } catch (UnsupportedOperationException e) {
+                logUnsupportedConfig("advanced.supportedProtocol");
             }
         }
     }

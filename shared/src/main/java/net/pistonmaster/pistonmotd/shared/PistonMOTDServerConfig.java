@@ -2,12 +2,13 @@ package net.pistonmaster.pistonmotd.shared;
 
 import lombok.Getter;
 import net.skinsrestorer.axiom.AxiomConfiguration;
+import net.skinsrestorer.axiom.AxiomConfigurationSection;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
-public class PistonMOTDConfig {
-    private final AxiomConfiguration config = new AxiomConfiguration();
+public class PistonMOTDServerConfig {
     private boolean extensionVanishSupervanish;
     private boolean extensionVanishPremiumvanish;
     private boolean extensionVanishHideSample;
@@ -31,12 +32,13 @@ public class PistonMOTDConfig {
     private boolean advancedSupportedProtocolActivated;
     private List<String> advancedSupportedProtocolNumbers;
     private int advancedSupportedProtocolUnsupportedNumber;
+    private boolean advancedPerDomainStatusActivated;
+    private Map<String, PerDomainStatusDomain> advancedPerDomainStatusDomains;
     private boolean faviconActivated;
     private String faviconMode;
     private String faviconSingle;
-    private boolean updateChecking;
 
-    protected void load() {
+    protected void load(AxiomConfiguration config) {
         extensionVanishSupervanish = config.getBoolean("extensions.vanish.supervanish");
         extensionVanishPremiumvanish = config.getBoolean("extensions.vanish.premiumvanish");
         extensionVanishHideSample = config.getBoolean("extensions.vanish.hideSample");
@@ -60,9 +62,38 @@ public class PistonMOTDConfig {
         advancedSupportedProtocolActivated = config.getBoolean("advanced.supportedProtocol.activated");
         advancedSupportedProtocolNumbers = config.getStringList("advanced.supportedProtocol.numbers");
         advancedSupportedProtocolUnsupportedNumber = config.getInt("advanced.supportedProtocol.unsupportedNumber");
+        advancedPerDomainStatusActivated = config.getBoolean("advanced.perDomainStatus.activated");
+
+        AxiomConfigurationSection perDomainStatusSection = config.getSection("advanced.perDomainStatus.domains");
+        List<String> domains = perDomainStatusSection.getKeys();
+        for (String domainId : domains) {
+            AxiomConfigurationSection domainSection = perDomainStatusSection.getSection(domainId);
+
+            PerDomainStatusDomain domain = new PerDomainStatusDomain();
+            domain.load(domainSection);
+
+            advancedPerDomainStatusDomains.put(domainId, domain);
+        }
+
         faviconActivated = config.getBoolean("favicon.activated");
         faviconMode = config.getString("favicon.mode").toUpperCase();
         faviconSingle = config.getString("favicon.single");
-        updateChecking = config.getBoolean("updateChecking");
+    }
+
+    @Getter
+    public static class PerDomainStatusDomain {
+        private boolean descriptionActivated;
+        private List<String> descriptionText;
+        private boolean faviconActivated;
+        private String faviconFile;
+        private String domain;
+
+        protected void load(AxiomConfigurationSection domainSection) {
+            descriptionActivated = domainSection.getBoolean("description.activated");
+            descriptionText = domainSection.getStringList("description.text");
+            faviconActivated = domainSection.getBoolean("favicon.activated");
+            faviconFile = domainSection.getString("favicon.file");
+            domain = domainSection.getString("domain");
+        }
     }
 }

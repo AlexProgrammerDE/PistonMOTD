@@ -1,7 +1,6 @@
 package net.pistonmaster.pistonmotd.velocity;
 
 import com.velocitypowered.api.command.SimpleCommand;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;

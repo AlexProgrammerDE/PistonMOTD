@@ -1,6 +1,5 @@
 package net.pistonmaster.pistonmotd.shared.utils;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;

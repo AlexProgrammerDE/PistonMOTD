@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 @SuppressWarnings("WriteOnlyObject") // Lombok's getters are ignored by this check
 public class PistonMOTDPlugin {
-    private final PistonMOTDConfig config = new PistonMOTDConfig();
+    private final PistonMOTDPluginConfig config = new PistonMOTDPluginConfig();
     private final Map<String, StatusFavicon> favicons = new LinkedHashMap<>();
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
     private final AtomicBoolean premiumVanish = new AtomicBoolean();
@@ -34,7 +34,7 @@ public class PistonMOTDPlugin {
     private final AtomicReference<LuckPermsWrapper> luckPerms = new AtomicReference<>();
     private final PistonMOTDPlatform platform;
 
-    public PistonMOTDConfig getPluginConfig() {
+    public PistonMOTDPluginConfig getPluginConfig() {
         return config;
     }
 
@@ -68,13 +68,15 @@ public class PistonMOTDPlugin {
                 defaultConfig.save(pluginConfigFile);
             }
 
-            config.getConfig().load(pluginConfigFile);
+            AxiomConfiguration axiomConfiguration = new AxiomConfiguration();
 
-            config.getConfig().merge(defaultConfig);
+            axiomConfiguration.load(pluginConfigFile);
 
-            config.getConfig().save(pluginConfigFile);
+            axiomConfiguration.merge(defaultConfig);
 
-            config.load();
+            axiomConfiguration.save(pluginConfigFile);
+
+            config.load(axiomConfiguration);
         } catch (IOException e) {
             e.printStackTrace();
             platform.error("Could not load config");
