@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.skinsrestorer.axiom.AxiomConfiguration;
 import net.skinsrestorer.axiom.AxiomConfigurationSection;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,14 +67,16 @@ public class PistonMOTDServerConfig {
 
         AxiomConfigurationSection perDomainStatusSection = config.getSection("advanced.perDomainStatus.domains");
         List<String> domains = perDomainStatusSection.getKeys();
+        Map<String, PerDomainStatusDomain> domainMap = new LinkedHashMap<>();
         for (String domainId : domains) {
             AxiomConfigurationSection domainSection = perDomainStatusSection.getSection(domainId);
 
             PerDomainStatusDomain domain = new PerDomainStatusDomain();
             domain.load(domainSection);
 
-            advancedPerDomainStatusDomains.put(domainId, domain);
+            domainMap.put(domainId, domain);
         }
+        advancedPerDomainStatusDomains = domainMap;
 
         faviconActivated = config.getBoolean("favicon.activated");
         faviconMode = config.getString("favicon.mode").toUpperCase();
