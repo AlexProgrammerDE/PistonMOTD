@@ -7,7 +7,7 @@ dependencies {
     implementation(projects.pistonmotdShared)
     implementation(projects.pistonmotdKyoriRelocated)
 
-    implementation("io.papermc:paperlib:1.0.7")
+    implementation("io.papermc:paperlib:1.0.8")
     implementation("org.bstats:bstats-bukkit:3.0.0")
     implementation("net.kyori:adventure-platform-bukkit:4.2.0")
 
