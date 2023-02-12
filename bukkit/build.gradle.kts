@@ -8,7 +8,7 @@ dependencies {
     implementation(projects.pistonmotdKyoriRelocated)
 
     implementation("io.papermc:paperlib:1.0.8")
-    implementation("org.bstats:bstats-bukkit:3.0.0")
+    implementation("org.bstats:bstats-bukkit:3.0.1")
     implementation("net.kyori:adventure-platform-bukkit:4.2.0")
 
     compileOnly("com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT")
