@@ -4,7 +4,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import org.apiguardian.api.API;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -13,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @SuppressWarnings({"unused"})
 public class PlaceholderUtil {
-    private static final List<WeakReference<PlaceholderParser>> placeholders = new CopyOnWriteArrayList<>();
+    private static final List<PlaceholderParser> placeholders = new CopyOnWriteArrayList<>();
 
     private PlaceholderUtil() {
     }
@@ -28,14 +27,7 @@ public class PlaceholderUtil {
     public static String parseText(final String text) {
         String parsedText = text;
 
-        for (WeakReference<PlaceholderParser> weakReference : placeholders) {
-            PlaceholderParser parser = weakReference.get();
-
-            if (parser == null) {
-                placeholders.remove(weakReference);
-                continue;
-            }
-
+        for (PlaceholderParser parser : placeholders) {
             parsedText = parser.parseString(parsedText);
         }
 
@@ -49,7 +41,7 @@ public class PlaceholderUtil {
      */
     @API(status = API.Status.STABLE)
     public static void registerParser(PlaceholderParser parser) {
-        placeholders.add(new WeakReference<>(parser));
+        placeholders.add(parser);
     }
 
     /**
@@ -59,6 +51,6 @@ public class PlaceholderUtil {
      */
     @API(status = API.Status.STABLE)
     public static void unregisterParser(PlaceholderParser parser) {
-        placeholders.removeIf(w -> w.get() == parser);
+        placeholders.removeIf(listParser -> listParser == parser);
     }
 }

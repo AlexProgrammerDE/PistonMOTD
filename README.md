@@ -37,12 +37,15 @@ Repository:
 
 Dependency:
 
+Latest Version (Without the v):
+![Latest Version](https://img.shields.io/github/v/tag/AlexProgrammerDE/PistonMOTD?label=version)
+
 ```xml
   <dependencies>
     <dependency>
       <groupId>net.pistonmaster</groupId>
       <artifactId>pistonmotd-api</artifactId>
-      <version>4.3.2</version>
+      <version>VERSION HERE</version>
     </dependency>
   </dependencies>
 ```
@@ -55,4 +58,3 @@ Dependency:
 * MCPlugins: https://mcplugins.io/resources/78/
 * Github: https://github.com/AlexProgrammerDE/PistonMOTD/
 * Discord: https://discord.gg/CDrcxzH
-* Jitpack: https://jitpack.io/#AlexProgrammerDE/PistonMOTD/
