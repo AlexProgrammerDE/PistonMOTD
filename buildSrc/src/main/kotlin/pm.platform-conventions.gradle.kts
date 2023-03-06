@@ -7,7 +7,7 @@ plugins {
 
 (tasks.getByName("shadowJar") as ShadowJar).archiveFileName.set(
     "PistonMOTD-${
-        project.name.substringAfter("pistonmotd-").capitalize()
+        project.name.substringAfter("pistonmotd-").replaceFirstChar(Char::titlecase)
     }-${project.version}.jar"
 )
 

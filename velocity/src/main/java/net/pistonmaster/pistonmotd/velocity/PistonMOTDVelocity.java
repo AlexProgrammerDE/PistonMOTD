@@ -10,6 +10,7 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.util.Favicon;
 import lombok.Getter;
+import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
@@ -50,6 +51,7 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
         plugin.startupLoadConfig();
 
         plugin.registerCommonPlaceholder();
+        PlaceholderUtil.registerParser(new ServerPlaceholder(proxyServer));
 
         plugin.loadHooks();
 
