@@ -6,7 +6,7 @@ plugins {
 
 dependencies {
     implementation("net.kyori:adventure-api:4.13.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.12.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.13.0")
 }
 
 tasks.named<ShadowJar>("shadowJar").get().apply {
