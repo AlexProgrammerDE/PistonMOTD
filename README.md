@@ -26,7 +26,7 @@ Feel free to join our Discord community server:
 
 [![Discord Banner](https://discord.com/api/guilds/739784741124833301/widget.png?style=banner2)](https://discord.gg/CDrcxzH)
 
-If you find any bugs or want to request new features, open a issue on GitHub.
+This project is in active development, so if you have any feature requests or issues please submit them here on GitHub. PRs are welcome, too. :octocat:
 
 ## API
 
