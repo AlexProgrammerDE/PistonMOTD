@@ -20,6 +20,14 @@
 
 Compatible with external MOTD plugins. (Can't promise it will work with every MOTD plugin.)
 
+## 🌈 Community
+
+Feel free to join our Discord community server:
+
+[![Discord Banner](https://discord.com/api/guilds/739784741124833301/widget.png?style=banner2)](https://discord.gg/CDrcxzH)
+
+If you find any bugs or want to request new features, open a issue on GitHub.
+
 ## API
 
 We got an easy to integrate API for adding additional placeholders into the plugin.
