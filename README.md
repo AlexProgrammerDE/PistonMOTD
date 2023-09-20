@@ -55,6 +55,5 @@ Latest Version (Without the v):
 * Website: https://www.pistonmaster.net/PistonMOTD/
 * SpigotMC: https://www.spigotmc.org/resources/80567/
 * Ore: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/
-* MCPlugins: https://mcplugins.io/resources/78/
 * Github: https://github.com/AlexProgrammerDE/PistonMOTD/
 * Discord: https://discord.gg/CDrcxzH
