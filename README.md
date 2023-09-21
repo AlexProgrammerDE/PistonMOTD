@@ -1,6 +1,6 @@
 # PistonMOTD
 
-[![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/CDrcxzH)
+[![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/FZtaMpuvj8)
 [![Build Status](https://ci.codemc.io/buildStatus/icon?job=AlexProgrammerDE%2FPistonMOTD)](https://ci.codemc.io/job/AlexProgrammerDE/job/PistonMOTD/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases)
 
@@ -24,7 +24,7 @@ Compatible with external MOTD plugins. (Can't promise it will work with every MO
 
 Feel free to join our Discord community server:
 
-[![Discord Banner](https://discord.com/api/guilds/739784741124833301/widget.png?style=banner2)](https://discord.gg/CDrcxzH)
+[![Discord Banner](https://discord.com/api/guilds/739784741124833301/widget.png?style=banner2)](https://discord.gg/FZtaMpuvj8)
 
 This project is in active development, so if you have any feature requests or issues please submit them here on GitHub. PRs are welcome, too. :octocat:
 
