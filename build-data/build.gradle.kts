@@ -6,8 +6,14 @@ plugins {
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 java.targetCompatibility = JavaVersion.VERSION_1_8
 
-blossom {
-    replaceToken("{version}", version)
-    replaceToken("{description}", rootProject.description)
-    replaceToken("{url}", "https://pistonmaster.net/PistonMOTD")
+sourceSets {
+    main {
+        blossom {
+            javaSources {
+                property("version", project.version.toString())
+                property("description", rootProject.description)
+                property("url", "https://pistonmaster.net/PistonMOTD")
+            }
+        }
+    }
 }
