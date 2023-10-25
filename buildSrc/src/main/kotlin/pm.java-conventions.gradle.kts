@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    implementation("commons-io:commons-io:2.14.0")
+    implementation("commons-io:commons-io:2.15.0")
     compileOnlyApi("org.apiguardian:apiguardian-api:1.1.2")
     implementation("net.pistonmaster:PistonUtils:1.3.2")
 
