@@ -116,6 +116,7 @@ public class CenterPlaceholder implements PlaceholderParser {
         return false;
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     public static int[] getLeftPadding(float textWidth, float spaceWidth, float spaceBoldWidth, float lineLength) {
         // Calculate the total padding needed on both sides
         float totalPaddingWidth = lineLength - textWidth;
@@ -127,32 +128,35 @@ public class CenterPlaceholder implements PlaceholderParser {
 
         // Calculate the padding needed on one side to center the text
         float leftPaddingWidth = totalPaddingWidth / 2.0f;
+        int maxPossibleSpaces = (int) (leftPaddingWidth / spaceWidth);
 
-        // Initialize counters for normal and bold spaces
-        int normalSpaces = 0;
-        int boldSpaces = 0;
+        return findClosestExponents(spaceWidth, spaceBoldWidth, leftPaddingWidth, maxPossibleSpaces);
+    }
 
-        // Calculate the number of normal and bold spaces
-        while (leftPaddingWidth > 0) {
-            if (leftPaddingWidth >= spaceBoldWidth) {
-                boldSpaces++;
-                leftPaddingWidth -= spaceBoldWidth;
-            } else if (leftPaddingWidth >= spaceWidth) {
-                normalSpaces++;
-                leftPaddingWidth -= spaceWidth;
-            } else {
-                break; // When the remaining space is too small for even a normal space
+    private static int[] findClosestExponents(float x, float y, float z, int range) {
+        // Initialize the exponents n and m, and the minimum difference
+        int bestN = 0;
+        int bestM = 0;
+        float minDifference = Float.MAX_VALUE;
+
+        // Iterate through possible values of n and m to find the best combination
+        for (int n = 0; n <= range; n++) {
+            for (int m = 0; m <= range; m++) {
+                // Calculate x * n + y * m
+                float value = x * n + y * m;
+
+                // Calculate the difference from z
+                float difference = Math.abs(value - z);
+
+                // Update the best values if the current difference is smaller
+                if (difference < minDifference) {
+                    minDifference = difference;
+                    bestN = n;
+                    bestM = m;
+                }
             }
         }
 
-        // Return the result as an array [normalSpaces, boldSpaces]
-        return new int[]{normalSpaces, boldSpaces};
-    }
-
-    @RequiredArgsConstructor
-    private class ParseResult {
-        private final String text;
-        private final String colorCode;
-        private final Set<Character> formatModifiers;
+        return new int[]{bestN, bestM};
     }
 }
