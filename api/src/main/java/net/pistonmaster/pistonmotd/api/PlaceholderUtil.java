@@ -87,7 +87,7 @@ public class PlaceholderUtil {
      */
     @API(status = API.Status.STABLE)
     public static void registerPostParser(PlaceholderParser parser) {
-        preParsePlaceholders.add(parser);
+        postParsePlaceholders.add(parser);
     }
 
     /**

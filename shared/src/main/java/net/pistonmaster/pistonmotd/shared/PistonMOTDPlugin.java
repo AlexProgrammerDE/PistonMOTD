@@ -96,6 +96,7 @@ public class PistonMOTDPlugin {
     public void registerCommonPlaceholder() {
         platform.startup("Registering placeholders");
         PlaceholderUtil.registerParser(new CommonPlaceholder(platform));
+        PlaceholderUtil.registerPostParser(new CenterPlaceholder());
     }
 
     public void loadFavicons() {
