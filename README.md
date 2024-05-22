@@ -14,7 +14,7 @@
 * A custom client out of date message. You can force that to always happen too.
 * Random favicon
 * Placeholders (extendable via api)
-* Hide your player-count (only on bukkit)
+* Hide your player-count
 * Very easy to understand config
 * Modular (You can enable/disable every feature)
 
