@@ -10,6 +10,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @RequiredArgsConstructor
 public class CenterPlaceholder implements PlaceholderParser {
+    private static final ThreadLocal<boolean[]> CENTERED_LINES = ThreadLocal.withInitial(() -> new boolean[2]);
+
     private static final int LINE_LENGTH = 45;
     private static final String PLACEHOLDER = "%center%";
     private static final String SPACE = " ";
@@ -24,23 +26,23 @@ public class CenterPlaceholder implements PlaceholderParser {
 
     @Override
     public String parseString(String text) {
+        boolean[] centeredLines = CENTERED_LINES.get();
         AtomicReference<String> colorCode = new AtomicReference<>();
         Set<Character> formatModifiers = new HashSet<>();
-        String[] lines = text.split("\n");
+        String[] lines = text.split("\n", 2);
         for (int i = 0; i < lines.length; i++) {
-            lines[i] = centerText(lines[i], colorCode, formatModifiers);
+            // We need to keep track of colors even if the line is not centered
+            String parsed = centerText(lines[i], colorCode, formatModifiers);
+            if (centeredLines[i]) {
+                lines[i] = parsed;
+            }
         }
 
+        CENTERED_LINES.remove();
         return String.join("\n", lines);
     }
 
     private String centerText(String text, AtomicReference<String> colorCode, Set<Character> formatModifiers) {
-        if (!text.startsWith(PLACEHOLDER)) {
-            return text;
-        }
-
-        text = text.substring(PLACEHOLDER.length());
-
         float textWidthCounter = 0;
         int textChars = text.length();
 
@@ -53,8 +55,8 @@ public class CenterPlaceholder implements PlaceholderParser {
                         colorCode.set(null);
                         formatModifiers.clear();
                     } else if (next == HEX_CODE) {
-                        colorCode.set(HEX_CODE + text.substring(i + 1, i + 8));
-                        i += 7;
+                        colorCode.set(text.substring(i + 1, i + 8));
+                        i += 6;
                     } else if (isValidColorChar(next)) {
                         colorCode.set(String.valueOf(next));
                     } else {
@@ -158,5 +160,22 @@ public class CenterPlaceholder implements PlaceholderParser {
         }
 
         return new int[]{bestN, bestM};
+    }
+
+    public static class PreProcessorCenterPlaceholder implements PlaceholderParser {
+        @Override
+        public String parseString(String text) {
+            boolean[] centeredLines = CENTERED_LINES.get();
+
+            String[] lines = text.split("\\n|<newline>", 2);
+            for (int i = 0; i < lines.length; i++) {
+                if (lines[i].startsWith(PLACEHOLDER)) {
+                    centeredLines[i] = true;
+                    lines[i] = lines[i].substring(PLACEHOLDER.length());
+                }
+            }
+
+            return String.join("\n", lines);
+        }
     }
 }

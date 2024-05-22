@@ -96,6 +96,7 @@ public class PistonMOTDPlugin {
     public void registerCommonPlaceholder() {
         platform.startup("Registering placeholders");
         PlaceholderUtil.registerParser(new CommonPlaceholder(platform));
+        PlaceholderUtil.registerParser(new CenterPlaceholder.PreProcessorCenterPlaceholder());
         PlaceholderUtil.registerPostParser(new CenterPlaceholder());
     }
 

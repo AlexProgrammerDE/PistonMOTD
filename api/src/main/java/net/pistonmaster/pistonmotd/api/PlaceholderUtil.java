@@ -1,7 +1,6 @@
 package net.pistonmaster.pistonmotd.api;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import org.apiguardian.api.API;
@@ -57,7 +56,7 @@ public class PlaceholderUtil {
         }
 
         // Initially parse the text via MiniMessage
-        Component component = MiniMessage.miniMessage().deserialize(parsedText);
+        Component component = PistonSerializersRelocated.miniMessage.deserialize(parsedText);
 
         // Parse it to an ampersand RGB string
         String ampersandRGB = PistonSerializersRelocated.ampersandRGB.serialize(component);

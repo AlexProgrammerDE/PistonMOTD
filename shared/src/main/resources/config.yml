@@ -8,6 +8,7 @@
 # %max% (Server max slots)
 # %newline% adds a newline to your MOTD.
 # %tps% shows the tps (Paper only)
+# %center% centers the text of a line. Needs to be at the exact start of a line.
 description:
   activated: true
   text:

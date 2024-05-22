@@ -54,7 +54,7 @@ public interface StatusPingListener {
 
             if (config.isExtensionVanishHideCount()) {
                 try {
-                    ping.setOnline(ping.getOnline() - vanished.size());
+                    ping.setOnline(Math.max(ping.getOnline() - vanished.size(), 0));
                 } catch (UnsupportedOperationException e) {
                     logUnsupportedConfig("extensions.vanish.hideCount");
                 }

@@ -98,7 +98,7 @@ public class PingEventPaper implements Listener, StatusPingListener {
 
             @Override
             public boolean supportsHex() {
-                return event.getClient().getProtocolVersion() >= PistonConstants.MINECRAFT_1_16;
+                return getClientProtocol() == -1 || getClientProtocol() >= PistonConstants.MINECRAFT_1_16;
             }
 
             @Override

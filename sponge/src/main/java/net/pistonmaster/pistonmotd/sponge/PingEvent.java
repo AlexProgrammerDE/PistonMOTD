@@ -16,7 +16,6 @@ import org.spongepowered.api.profile.GameProfile;
 
 import java.net.InetSocketAddress;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.UUID;
 
 @Getter
@@ -98,13 +97,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public boolean supportsHex() {
-                OptionalInt version = event.client().version().dataVersion();
-
-                if (version.isPresent()) {
-                    return version.getAsInt() >= PistonConstants.MINECRAFT_1_16;
-                } else {
-                    return false;
-                }
+                return getClientProtocol() == -1 || getClientProtocol() >= PistonConstants.MINECRAFT_1_16;
             }
 
             @Override
@@ -114,7 +107,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public int getClientProtocol() throws UnsupportedOperationException {
-                return event.client().version().dataVersion().orElse(0);
+                return event.client().version().dataVersion().orElse(-1);
             }
 
             @Override
