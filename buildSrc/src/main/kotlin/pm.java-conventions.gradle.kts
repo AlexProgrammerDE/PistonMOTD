@@ -1,8 +1,6 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("net.kyori.indra")
-    id("net.kyori.indra.publishing")
 }
 
 dependencies {
@@ -22,8 +20,11 @@ tasks {
     }
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
-java.targetCompatibility = JavaVersion.VERSION_1_8
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
@@ -34,39 +35,6 @@ tasks.withType<Javadoc> {
     enabled = false
 }
 
-indra {
-    github("AlexProgrammerDE", "PistonMOTD") {
-        ci(true)
-    }
-
-    gpl3OnlyLicense()
-    publishReleasesTo("codemc-releases", "https://repo.codemc.org/repository/maven-releases/")
-    publishSnapshotsTo("codemc-snapshots", "https://repo.codemc.org/repository/maven-snapshots/")
-
-    configurePublications {
-        pom {
-            name.set("PistonMOTD")
-            url.set("https://pistonmaster.net/PistonMOTD")
-            organization {
-                name.set("AlexProgrammerDE")
-                url.set("https://pistonmaster.net")
-            }
-            developers {
-                developer {
-                    id.set("AlexProgrammerDE")
-                    timezone.set("Europe/Berlin")
-                    url.set("https://pistonmaster.net")
-                }
-            }
-        }
-
-        versionMapping {
-            usage(Usage.JAVA_API) { fromResolutionOf(JavaPlugin.RUNTIME_CLASSPATH_CONFIGURATION_NAME) }
-            usage(Usage.JAVA_RUNTIME) { fromResolutionResult() }
-        }
-    }
-}
-
 val repoName = if (version.toString().endsWith("SNAPSHOT")) "maven-snapshots" else "maven-releases"
 publishing {
     repositories {
@@ -74,6 +42,46 @@ publishing {
             credentials.username = System.getenv("CODEMC_USERNAME")
             credentials.password = System.getenv("CODEMC_PASSWORD")
             name = "codemc"
+        }
+    }
+    publications {
+        register<MavenPublication>("mavenJava") {
+            from(components["java"])
+            pom {
+                name = "PistonMOTD"
+                description = rootProject.description
+                url = "https://github.com/AlexProgrammerDE/PistonMOTD"
+                organization {
+                    name = "AlexProgrammerDE"
+                    url = "https://pistonmaster.net"
+                }
+                developers {
+                    developer {
+                        id = "AlexProgrammerDE"
+                        timezone = "Europe/Berlin"
+                        url = "https://pistonmaster.net"
+                    }
+                }
+                licenses {
+                    license {
+                        name = "GNU General Public License v3.0"
+                        url = "https://www.gnu.org/licenses/gpl-3.0.html"
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://github.com/AlexProgrammerDE/PistonMOTD.git"
+                    developerConnection = "scm:git:ssh://git@github.com/AlexProgrammerDE/PistonMOTD.git"
+                    url = "https://github.com/AlexProgrammerDE/PistonMOTD"
+                }
+                ciManagement {
+                    system = "GitHub Actions"
+                    url = "https://github.com/AlexProgrammerDE/PistonMOTD/actions"
+                }
+                issueManagement {
+                    system = "GitHub"
+                    url = "https://github.com/AlexProgrammerDE/PistonMOTD/issues"
+                }
+            }
         }
     }
 }

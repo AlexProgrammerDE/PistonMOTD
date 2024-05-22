@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface PistonStatusPing {
-    void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException;
+    void hidePlayers() throws UnsupportedOperationException;
 
     String getDescriptionJson();
 

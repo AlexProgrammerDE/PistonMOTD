@@ -32,8 +32,8 @@ public class PingEventPaper implements Listener, StatusPingListener {
     private PistonStatusPing wrap(PaperServerListPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
-                event.setHidePlayers(hidePlayers);
+            public void hidePlayers() throws UnsupportedOperationException {
+                event.setHidePlayers(true);
             }
 
             @Override

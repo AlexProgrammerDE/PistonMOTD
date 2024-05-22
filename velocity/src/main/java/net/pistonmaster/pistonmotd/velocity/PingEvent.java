@@ -33,10 +33,8 @@ public class PingEvent implements StatusPingListener {
     private PistonStatusPing wrap(ProxyPingEvent event, ServerPing.Builder builder) {
         return new PistonStatusPing() {
             @Override
-            public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
-                if (hidePlayers) {
-                    builder.nullPlayers();
-                }
+            public void hidePlayers() throws UnsupportedOperationException {
+                builder.nullPlayers();
             }
 
             @Override

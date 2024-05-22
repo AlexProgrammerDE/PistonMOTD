@@ -34,7 +34,7 @@ public interface StatusPingListener {
 
         if (config.isPlayersHide()) {
             try {
-                ping.setHidePlayers(true);
+                ping.hidePlayers();
             } catch (UnsupportedOperationException e) {
                 logUnsupportedConfig("players.hide");
             }

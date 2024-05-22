@@ -6,5 +6,5 @@ dependencies {
     api("net.skinsrestorer:axiom:1.1.2-SNAPSHOT")
     implementation(project(":pistonmotd-api", "shadow"))
 
-    compileOnly("com.github.LeonMangler:PremiumVanishAPI:2.9.0-4")
+    compileOnly("com.github.LeonMangler:PremiumVanishAPI:2.8.8")
 }

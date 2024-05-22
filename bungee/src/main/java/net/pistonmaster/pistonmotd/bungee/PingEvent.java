@@ -36,10 +36,8 @@ public class PingEvent implements Listener, StatusPingListener {
     private PistonStatusPing wrap(ProxyPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
-                if (hidePlayers) {
-                    event.getResponse().setPlayers(null);
-                }
+            public void hidePlayers() throws UnsupportedOperationException {
+                event.getResponse().setPlayers(null);
             }
 
             @Override

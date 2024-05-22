@@ -30,7 +30,7 @@ public class PingEventSpigot implements Listener, StatusPingListener {
     private PistonStatusPing wrap(ServerListPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void setHidePlayers(boolean hidePlayers) throws UnsupportedOperationException {
+            public void hidePlayers() throws UnsupportedOperationException {
                 throw new UnsupportedOperationException("Spigot does not support this method");
             }
 
