@@ -1,6 +1,8 @@
 package net.pistonmaster.pistonmotd.api;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import org.apiguardian.api.API;
 
@@ -18,20 +20,49 @@ public class PlaceholderUtil {
     }
 
     /**
-     * Parse a string and run all parsers on him
+     * Parse a string and run all parsers on it and convert to json string
      *
      * @param text A string with placeholders to get parsed
-     * @return A completely parsed string
+     * @return A completely parsed gson string
      */
     @API(status = API.Status.INTERNAL)
-    public static String parseText(final String text) {
+    public static String parseTextToJson(final String text, boolean supportsHex) {
+        Component ampersandRGB = parseTextToComponent(text);
+
+        // Serialize it to JSON
+        GsonComponentSerializer serializer = supportsHex ? PistonSerializersRelocated.gsonSerializer : PistonSerializersRelocated.gsonDownSamplingSerializer;
+        return serializer.serialize(ampersandRGB);
+    }
+
+    /**
+     * Parse a string and run all parsers on it and convert to legacy string
+     *
+     * @param text A string with placeholders to get parsed
+     * @return A completely parsed legacy string
+     */
+    @API(status = API.Status.INTERNAL)
+    public static String parseTextToLegacy(final String text) {
+        Component ampersandRGB = parseTextToComponent(text);
+
+        // Serialize it to non-rgb section
+        return PistonSerializersRelocated.section.serialize(ampersandRGB);
+    }
+
+    private static Component parseTextToComponent(final String text) {
         String parsedText = text;
 
         for (PlaceholderParser parser : placeholders) {
             parsedText = parser.parseString(parsedText);
         }
 
-        return PistonSerializersRelocated.unusualSectionRGB.serialize(PistonSerializersRelocated.ampersandRGB.deserialize(PistonSerializersRelocated.unusualSectionRGB.serialize(MiniMessage.miniMessage().deserialize(parsedText))));
+        // Initially parse the text via MiniMessage
+        Component component = MiniMessage.miniMessage().deserialize(parsedText);
+
+        // Parse it to an ampersand RGB string
+        String ampersandRGB = PistonSerializersRelocated.ampersandRGB.serialize(component);
+
+        // Also parse ampersands that were not parsed by MiniMessage
+        return PistonSerializersRelocated.ampersandRGB.deserialize(ampersandRGB);
     }
 
     /**

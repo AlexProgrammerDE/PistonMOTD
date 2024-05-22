@@ -2,7 +2,7 @@ package net.pistonmaster.pistonmotd.sponge;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -37,13 +37,13 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
-            public String getDescription() {
-                return LegacyComponentSerializer.legacySection().serialize(event.response().description());
+            public String getDescriptionJson() {
+                return GsonComponentSerializer.gson().serialize(event.response().description());
             }
 
             @Override
-            public void setDescription(String description) {
-                event.response().setDescription(LegacyComponentSerializer.legacySection().deserialize(description));
+            public void setDescription(String descriptionJson) {
+                event.response().setDescription(GsonComponentSerializer.gson().deserialize(descriptionJson));
             }
 
             @Override

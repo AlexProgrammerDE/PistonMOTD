@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.pistonmotdKyoriRelocated)
+    implementation(projects.pistonmotdKyori)
 
     implementation("net.kyori:adventure-text-minimessage:4.17.0")
 }

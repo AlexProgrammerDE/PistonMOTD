@@ -146,13 +146,13 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
     }
 
     @Override
-    public void warn(String message) {
-        log.warn(message);
+    public void warn(String message, Throwable t) {
+        log.warn(message, t);
     }
 
     @Override
-    public void error(String message) {
-        log.error(message);
+    public void error(String message, Throwable t) {
+        log.error(message, t);
     }
 
     @Override

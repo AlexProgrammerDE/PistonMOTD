@@ -35,9 +35,13 @@ public interface PistonMOTDPlatform {
 
     void info(String message);
 
-    void warn(String message);
+    default void warn(String message) {
+        warn(message, null);
+    }
 
-    void error(String message);
+    void warn(String message, Throwable t);
+
+    void error(String message, Throwable t);
 
     default void startup(String message) {
         info(ConsoleColor.CYAN + message + ConsoleColor.RESET);

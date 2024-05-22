@@ -78,8 +78,7 @@ public class PistonMOTDPlugin {
 
             config.load(axiomConfiguration);
         } catch (IOException e) {
-            e.printStackTrace();
-            platform.error("Could not load config");
+            platform.error("Could not load config", e);
         }
 
         try {
@@ -88,8 +87,7 @@ public class PistonMOTDPlugin {
                 Files.createDirectories(iconFolder);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            platform.error("Could not create the icon directory!");
+            platform.error("Could not create the icon directory!", e);
         }
 
         loadFavicons();
@@ -108,12 +106,11 @@ public class PistonMOTDPlugin {
                 try {
                     favicons.put(p.getFileName().toString(), platform.createFavicon(p));
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    platform.error("Could not load favicon! (" + p.getFileName() + ")");
+                    platform.error("Could not load favicon! (" + p.getFileName() + ")", e);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            platform.error("Could not load favicons!", e);
         }
     }
 

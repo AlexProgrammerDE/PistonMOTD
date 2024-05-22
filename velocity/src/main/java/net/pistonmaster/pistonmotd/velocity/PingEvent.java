@@ -7,8 +7,7 @@ import com.velocitypowered.api.util.Favicon;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.pistonmaster.pistonmotd.kyori.PistonSerializersNormal;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -41,17 +40,13 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
-            public String getDescription() {
-                return LegacyComponentSerializer.legacySection().serialize(builder.getDescriptionComponent().orElse(Component.empty()));
+            public String getDescriptionJson() {
+                return GsonComponentSerializer.gson().serialize(builder.getDescriptionComponent().orElse(Component.empty()));
             }
 
             @Override
-            public void setDescription(String description) {
-                if (supportsHex()) {
-                    builder.description(PistonSerializersNormal.sectionRGB.deserialize(description));
-                } else {
-                    builder.description(PistonSerializersNormal.section.deserialize(description));
-                }
+            public void setDescription(String descriptionJson) {
+                builder.description(GsonComponentSerializer.gson().deserialize(descriptionJson));
             }
 
             @Override

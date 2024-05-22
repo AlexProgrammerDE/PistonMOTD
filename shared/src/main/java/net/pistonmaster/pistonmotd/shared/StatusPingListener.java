@@ -29,7 +29,7 @@ public interface StatusPingListener {
         }
 
         if (config.isDescriptionActivated()) {
-            ping.setDescription(MOTDUtil.getMOTD(config.getDescriptionText(), ping.supportsHex(), PlaceholderUtil::parseText));
+            ping.setDescription(MOTDUtil.getMOTDJson(config.getDescriptionText(), ping.supportsHex()));
         }
 
         if (config.isPlayersHide()) {
@@ -64,7 +64,7 @@ public interface StatusPingListener {
                 LuckPermsWrapper luckpermsWrapper = plugin.getLuckPerms().get();
 
                 if (luckperms && luckpermsWrapper == null) {
-                    plugin.getPlatform().warn("Luckpemrs integration enabled, but LuckPerms is not installed!");
+                    plugin.getPlatform().warn("LuckPerms integration enabled, but LuckPerms is not installed!");
                     luckperms = false;
                 }
 
@@ -105,7 +105,7 @@ public interface StatusPingListener {
                     ping.clearSamples();
 
                     for (String str : config.getPlayersSampleText()) {
-                        ping.addSample(UUID.randomUUID(), PlaceholderUtil.parseText(str));
+                        ping.addSample(UUID.randomUUID(), PlaceholderUtil.parseTextToLegacy(str));
                     }
                 } catch (UnsupportedOperationException e) {
                     logUnsupportedConfig("players.sample");
@@ -115,7 +115,7 @@ public interface StatusPingListener {
 
         if (config.isVersionNameActivated()) {
             try {
-                ping.setVersionName(PlaceholderUtil.parseText(config.getVersionNameText().replace("%aftericon%", afterIcon)));
+                ping.setVersionName(PlaceholderUtil.parseTextToLegacy(config.getVersionNameText().replace("%aftericon%", afterIcon)));
             } catch (UnsupportedOperationException e) {
                 logUnsupportedConfig("version.name");
             }
@@ -181,10 +181,9 @@ public interface StatusPingListener {
                         for (PistonMOTDServerConfig.PerDomainStatusDomain domainData : config.getAdvancedPerDomainStatusDomains().values()) {
                             if (virtualHost.get().getHostString().endsWith(domainData.getDomain())) {
                                 if (domainData.isDescriptionActivated()) {
-                                    ping.setDescription(MOTDUtil.getMOTD(
+                                    ping.setDescription(MOTDUtil.getMOTDJson(
                                             domainData.getDescriptionText(),
-                                            ping.supportsHex(),
-                                            PlaceholderUtil::parseText));
+                                            ping.supportsHex()));
                                 }
 
                                 if (domainData.isFaviconActivated()) {
@@ -202,8 +201,7 @@ public interface StatusPingListener {
                             }
                         }
                     } catch (ClassCastException | NullPointerException e) {
-                        e.printStackTrace();
-                        getPlugin().getPlatform().warn("The 'advanced.perDomainStatus.domains' has invalid structure.");
+                        getPlugin().getPlatform().warn("The 'advanced.perDomainStatus.domains' has invalid structure.", e);
                     }
                 }
             } catch (UnsupportedOperationException e) {

@@ -3,13 +3,14 @@ package net.pistonmaster.pistonmotd.bungee;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -42,17 +43,13 @@ public class PingEvent implements Listener, StatusPingListener {
             }
 
             @Override
-            public String getDescription() {
-                return event.getResponse().getDescriptionComponent().toLegacyText();
+            public String getDescriptionJson() {
+                return GsonComponentSerializer.gson().serialize(BungeeComponentSerializer.get().deserialize(new BaseComponent[]{event.getResponse().getDescriptionComponent()}));
             }
 
             @Override
-            public void setDescription(String description) {
-                if (supportsHex()) {
-                    event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
-                } else {
-                    event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.legacy().serialize(PistonSerializersRelocated.sectionRGB.deserialize(description))));
-                }
+            public void setDescription(String descriptionJson) {
+                event.getResponse().setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(GsonComponentSerializer.gson().deserialize(descriptionJson))));
             }
 
             @Override

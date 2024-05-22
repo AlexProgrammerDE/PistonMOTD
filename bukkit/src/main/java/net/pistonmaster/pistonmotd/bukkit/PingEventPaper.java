@@ -3,6 +3,8 @@ package net.pistonmaster.pistonmotd.bukkit;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
@@ -35,13 +37,13 @@ public class PingEventPaper implements Listener, StatusPingListener {
             }
 
             @Override
-            public String getDescription() {
-                return event.getMotd();
+            public String getDescriptionJson() {
+                return GsonComponentSerializer.gson().serialize(LegacyComponentSerializer.legacySection().deserialize(event.getMotd()));
             }
 
             @Override
-            public void setDescription(String description) {
-                event.setMotd(description);
+            public void setDescription(String descriptionJson) {
+                event.setMotd(LegacyComponentSerializer.legacySection().serialize(GsonComponentSerializer.gson().deserialize(descriptionJson)));
             }
 
             @Override

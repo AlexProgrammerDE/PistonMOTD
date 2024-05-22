@@ -142,14 +142,22 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
         getLogger().info(message);
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     @Override
-    public void warn(String message) {
+    public void warn(String message, Throwable t) {
         getLogger().warning(message);
+        if (t != null) {
+            t.printStackTrace();
+        }
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     @Override
-    public void error(String message) {
+    public void error(String message, Throwable t) {
         getLogger().severe(message);
+        if (t != null) {
+            t.printStackTrace();
+        }
     }
 
     @Override
