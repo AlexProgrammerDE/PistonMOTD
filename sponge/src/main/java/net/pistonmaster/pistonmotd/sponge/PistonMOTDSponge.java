@@ -134,8 +134,8 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
     }
 
     @Override
-    public InputStream getDefaultConfig() {
-        return container.openResource(URI.create("config.yml")).orElse(null);
+    public InputStream getBundledResource(String name) {
+        return container.openResource(URI.create(name)).orElse(null);
     }
 
     @Override

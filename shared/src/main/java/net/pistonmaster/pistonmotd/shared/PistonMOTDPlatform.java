@@ -15,7 +15,7 @@ public interface PistonMOTDPlatform {
 
     Path getFaviconFolder();
 
-    InputStream getDefaultConfig();
+    InputStream getBundledResource(String name);
 
     List<PlayerWrapper> getPlayers();
 

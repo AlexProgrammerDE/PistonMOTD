@@ -93,8 +93,8 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
     }
 
     @Override
-    public InputStream getDefaultConfig() {
-        return getResource("config.yml");
+    public InputStream getBundledResource(String name) {
+        return getResource(name);
     }
 
     @Override

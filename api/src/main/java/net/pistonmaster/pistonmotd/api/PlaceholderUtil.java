@@ -14,7 +14,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @SuppressWarnings({"unused"})
 public class PlaceholderUtil {
-    private static final List<PlaceholderParser> placeholders = new CopyOnWriteArrayList<>();
+    private static final List<PlaceholderParser> preParsePlaceholders = new CopyOnWriteArrayList<>();
+    private static final List<PlaceholderParser> postParsePlaceholders = new CopyOnWriteArrayList<>();
 
     private PlaceholderUtil() {
     }
@@ -51,7 +52,7 @@ public class PlaceholderUtil {
     private static Component parseTextToComponent(final String text) {
         String parsedText = text;
 
-        for (PlaceholderParser parser : placeholders) {
+        for (PlaceholderParser parser : preParsePlaceholders) {
             parsedText = parser.parseString(parsedText);
         }
 
@@ -61,18 +62,32 @@ public class PlaceholderUtil {
         // Parse it to an ampersand RGB string
         String ampersandRGB = PistonSerializersRelocated.ampersandRGB.serialize(component);
 
+        for (PlaceholderParser parser : postParsePlaceholders) {
+            ampersandRGB = parser.parseString(ampersandRGB);
+        }
+
         // Also parse ampersands that were not parsed by MiniMessage
         return PistonSerializersRelocated.ampersandRGB.deserialize(ampersandRGB);
     }
 
     /**
-     * Register a parser to make him parse some placeholders
+     * Register a parser to make him parse some placeholders before converting MiniMessage and ampersand RGB and section RGB
      *
      * @param parser A parser to register
      */
     @API(status = API.Status.STABLE)
     public static void registerParser(PlaceholderParser parser) {
-        placeholders.add(parser);
+        preParsePlaceholders.add(parser);
+    }
+
+    /**
+     * Register a parser to make him parse some placeholders after the main parsing
+     *
+     * @param parser A parser to register
+     */
+    @API(status = API.Status.STABLE)
+    public static void registerPostParser(PlaceholderParser parser) {
+        preParsePlaceholders.add(parser);
     }
 
     /**
@@ -82,6 +97,7 @@ public class PlaceholderUtil {
      */
     @API(status = API.Status.STABLE)
     public static void unregisterParser(PlaceholderParser parser) {
-        placeholders.removeIf(listParser -> listParser == parser);
+        preParsePlaceholders.removeIf(listParser -> listParser == parser);
+        postParsePlaceholders.removeIf(listParser -> listParser == parser);
     }
 }

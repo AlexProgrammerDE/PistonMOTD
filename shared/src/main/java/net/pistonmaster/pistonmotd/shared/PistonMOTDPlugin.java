@@ -60,7 +60,7 @@ public class PistonMOTDPlugin {
         try {
             Files.createDirectories(pluginConfigFile.getParent());
 
-            try (InputStream is = platform.getDefaultConfig()) {
+            try (InputStream is = platform.getBundledResource("config.yml")) {
                 defaultConfig.load(is);
             }
 

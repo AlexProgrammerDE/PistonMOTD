@@ -92,8 +92,8 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
     }
 
     @Override
-    public InputStream getDefaultConfig() {
-        return getClass().getClassLoader().getResourceAsStream("config.yml");
+    public InputStream getBundledResource(String name) {
+        return getClass().getClassLoader().getResourceAsStream(name);
     }
 
     @Override

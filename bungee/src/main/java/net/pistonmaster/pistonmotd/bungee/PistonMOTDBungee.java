@@ -89,8 +89,8 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
     }
 
     @Override
-    public InputStream getDefaultConfig() {
-        return getResourceAsStream("config.yml");
+    public InputStream getBundledResource(String name) {
+        return getResourceAsStream(name);
     }
 
     @Override

@@ -1,5 +1,6 @@
 plugins {
     id("pm.shadow-conventions")
+    id("xyz.jpenilla.run-velocity") version "2.3.0"
 }
 
 dependencies {
@@ -11,4 +12,16 @@ dependencies {
 
     compileOnly("com.velocitypowered:velocity-api:3.1.1")
     annotationProcessor("com.velocitypowered:velocity-api:3.1.1")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+tasks {
+    runVelocity {
+        version("3.2.0-SNAPSHOT")
+    }
 }
