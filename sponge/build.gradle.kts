@@ -11,7 +11,7 @@ dependencies {
     implementation(projects.pistonmotdShared)
     compileOnly(projects.pistonmotdBuildData)
 
-    implementation("org.bstats:bstats-sponge:3.0.3")
+    implementation("org.bstats:bstats-sponge:3.1.0")
 }
 
 sponge {
