@@ -7,5 +7,5 @@ dependencies {
     api("net.lenni0451.mcstructs:text:2.5.3")
     implementation(project(":pistonmotd-api", "shadow"))
 
-    compileOnly("com.github.LeonMangler:PremiumVanishAPI:2.8.8")
+    compileOnly("com.github.LeonMangler:PremiumVanishAPI:2.9.0-4")
 }
