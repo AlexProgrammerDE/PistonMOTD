@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
+@SuppressWarnings({"deprecation"})
 public class BukkitCommand implements CommandExecutor, TabExecutor {
     private final PistonMOTDBukkit plugin;
 

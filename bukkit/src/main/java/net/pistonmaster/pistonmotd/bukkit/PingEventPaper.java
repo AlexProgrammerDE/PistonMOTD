@@ -21,6 +21,7 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
+@SuppressWarnings({"removal", "deprecation"})
 public class PingEventPaper implements Listener, StatusPingListener {
     private final PistonMOTDPlugin plugin;
 
@@ -88,12 +89,20 @@ public class PingEventPaper implements Listener, StatusPingListener {
 
             @Override
             public void clearSamples() throws UnsupportedOperationException {
-                event.getPlayerSample().clear();
+                try {
+                    event.getListedPlayers().clear();
+                } catch (Throwable ignored) {
+                    event.getPlayerSample().clear();
+                }
             }
 
             @Override
             public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
-                event.getPlayerSample().add(Bukkit.createProfile(uuid, name));
+                try {
+                    event.getListedPlayers().add(new PaperServerListPingEvent.ListedPlayerInfo(name, uuid));
+                } catch (Throwable ignored) {
+                    event.getPlayerSample().add(Bukkit.createProfile(uuid, name));
+                }
             }
 
             @Override

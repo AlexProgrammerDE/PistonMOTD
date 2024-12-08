@@ -19,6 +19,7 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
+@SuppressWarnings({"deprecation"})
 public class PingEventSpigot implements Listener, StatusPingListener {
     private final PistonMOTDPlugin plugin;
 

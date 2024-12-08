@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({"deprecation"})
 public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
     @Getter
     private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
