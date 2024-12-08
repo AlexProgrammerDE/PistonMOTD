@@ -5,7 +5,9 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import org.apiguardian.api.API;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -13,8 +15,36 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @SuppressWarnings({"unused"})
 public class PlaceholderUtil {
+    private static final Map<Character, String> MINIMESSAGE_REPLACEMENTS;
     private static final List<PlaceholderParser> preParsePlaceholders = new CopyOnWriteArrayList<>();
     private static final List<PlaceholderParser> postParsePlaceholders = new CopyOnWriteArrayList<>();
+
+    static {
+        MINIMESSAGE_REPLACEMENTS = new LinkedHashMap<>();
+        MINIMESSAGE_REPLACEMENTS.put('0', "black");
+        MINIMESSAGE_REPLACEMENTS.put('1', "dark_blue");
+        MINIMESSAGE_REPLACEMENTS.put('2', "dark_green");
+        MINIMESSAGE_REPLACEMENTS.put('3', "dark_aqua");
+        MINIMESSAGE_REPLACEMENTS.put('4', "dark_red");
+        MINIMESSAGE_REPLACEMENTS.put('5', "dark_purple");
+        MINIMESSAGE_REPLACEMENTS.put('6', "gold");
+        MINIMESSAGE_REPLACEMENTS.put('7', "gray");
+        MINIMESSAGE_REPLACEMENTS.put('8', "dark_gray");
+        MINIMESSAGE_REPLACEMENTS.put('9', "blue");
+        MINIMESSAGE_REPLACEMENTS.put('a', "green");
+        MINIMESSAGE_REPLACEMENTS.put('b', "aqua");
+        MINIMESSAGE_REPLACEMENTS.put('c', "red");
+        MINIMESSAGE_REPLACEMENTS.put('d', "light_purple");
+        MINIMESSAGE_REPLACEMENTS.put('e', "yellow");
+        MINIMESSAGE_REPLACEMENTS.put('f', "white");
+
+        MINIMESSAGE_REPLACEMENTS.put('k', "obfuscated");
+        MINIMESSAGE_REPLACEMENTS.put('l', "bold");
+        MINIMESSAGE_REPLACEMENTS.put('m', "strikethrough");
+        MINIMESSAGE_REPLACEMENTS.put('n', "underline");
+        MINIMESSAGE_REPLACEMENTS.put('o', "italic");
+        MINIMESSAGE_REPLACEMENTS.put('r', "reset");
+    }
 
     private PlaceholderUtil() {
     }
@@ -51,6 +81,9 @@ public class PlaceholderUtil {
     private static Component parseTextToComponent(final String text) {
         String parsedText = text;
 
+        parsedText = replaceLegacyWithMiniMessage("&", parsedText);
+        parsedText = replaceLegacyWithMiniMessage("§", parsedText);
+
         for (PlaceholderParser parser : preParsePlaceholders) {
             parsedText = parser.parseString(parsedText);
         }
@@ -67,6 +100,14 @@ public class PlaceholderUtil {
 
         // Also parse ampersands that were not parsed by MiniMessage
         return PistonSerializersRelocated.ampersandRGB.deserialize(ampersandRGB);
+    }
+
+    private static String replaceLegacyWithMiniMessage(String prefix, String str) {
+        for (Map.Entry<Character, String> entry : MINIMESSAGE_REPLACEMENTS.entrySet()) {
+            str = str.replace(prefix + entry.getKey(), "<" + entry.getValue() + ">");
+        }
+
+        return str;
     }
 
     /**
