@@ -4,14 +4,14 @@ plugins {
 }
 
 dependencies {
-    implementation("commons-io:commons-io:2.17.0")
+    implementation("commons-io:commons-io:2.18.0")
     compileOnlyApi("org.apiguardian:apiguardian-api:1.1.2")
     implementation("net.pistonmaster:PistonUtils:1.3.2")
 
     compileOnly("net.luckperms:api:5.4")
 
-    compileOnly("org.projectlombok:lombok:1.18.34")
-    annotationProcessor("org.projectlombok:lombok:1.18.34")
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
 }
 
 tasks {
