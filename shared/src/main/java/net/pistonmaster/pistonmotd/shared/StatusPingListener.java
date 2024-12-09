@@ -12,8 +12,6 @@ import java.net.InetSocketAddress;
 import java.util.*;
 
 public interface StatusPingListener {
-    String afterIcon = "                                                                            ";
-
     default void handle(PistonStatusPing ping) {
         PistonMOTDPlugin plugin = getPlugin();
         PistonMOTDServerConfig config = plugin.getPluginConfig();
@@ -117,7 +115,7 @@ public interface StatusPingListener {
 
         if (config.isVersionNameActivated()) {
             try {
-                ping.setVersionName(PlaceholderUtil.parseTextToLegacy(config.getVersionNameText().replace("%aftericon%", afterIcon)));
+                ping.setVersionName(PlaceholderUtil.parseTextToLegacy(config.getVersionNameText().replace("%aftericon%", PMHelpers.AFTER_ICON)));
             } catch (UnsupportedOperationException e) {
                 logUnsupportedConfig("version.name");
             }

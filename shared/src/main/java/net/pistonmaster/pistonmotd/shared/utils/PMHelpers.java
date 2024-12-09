@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PMHelpers {
+    public static final String AFTER_ICON = "                                                                            ";
     public static final int MINECRAFT_1_16 = 735;
 
     public static String getMOTDJson(List<String> motds, boolean supportsHex) {
