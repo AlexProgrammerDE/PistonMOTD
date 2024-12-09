@@ -5,13 +5,11 @@ import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.Component;
 import net.pistonmaster.pistonmotd.shared.extensions.PremiumVanishExtension;
 import net.pistonmaster.pistonmotd.shared.extensions.SuperVanishExtension;
-import net.pistonmaster.pistonmotd.shared.utils.EnumSafetyUtil;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
-import net.pistonmaster.pistonmotd.shared.utils.MOTDUtil;
+import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 
 import java.net.InetSocketAddress;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public interface StatusPingListener {
     String afterIcon = "                                                                            ";
@@ -30,7 +28,7 @@ public interface StatusPingListener {
         }
 
         if (config.isDescriptionActivated()) {
-            ping.setDescription(MOTDUtil.getMOTDJson(config.getDescriptionText(), ping.supportsHex()));
+            ping.setDescription(PMHelpers.getMOTDJson(config.getDescriptionText(), ping.supportsHex()));
         }
 
         if (config.isPlayersHide()) {
@@ -138,7 +136,7 @@ public interface StatusPingListener {
                 List<String> supportedProtocols = config.getAdvancedSupportedProtocolNumbers();
 
                 if (!supportedProtocols.isEmpty()) {
-                    List<Integer> protocols = supportedProtocols.stream().map(Integer::parseInt).collect(Collectors.toList());
+                    List<Integer> protocols = supportedProtocols.stream().map(Integer::parseInt).toList();
 
                     if (protocols.contains(ping.getClientProtocol())) {
                         ping.setVersionProtocol(ping.getClientProtocol());
@@ -153,7 +151,7 @@ public interface StatusPingListener {
 
         if (config.isFaviconActivated()) {
             String modeString = config.getFaviconMode();
-            FaviconMode mode = EnumSafetyUtil.getSafeEnum(FaviconMode.class, modeString);
+            FaviconMode mode = PMHelpers.getSafeEnum(FaviconMode.class, modeString);
 
             if (mode == FaviconMode.RANDOM) {
                 if (plugin.getFavicons().isEmpty()) {
@@ -185,7 +183,7 @@ public interface StatusPingListener {
                         for (PistonMOTDServerConfig.PerDomainStatusDomain domainData : config.getAdvancedPerDomainStatusDomains().values()) {
                             if (virtualHost.get().getHostString().endsWith(domainData.getDomain())) {
                                 if (domainData.isDescriptionActivated()) {
-                                    ping.setDescription(MOTDUtil.getMOTDJson(
+                                    ping.setDescription(PMHelpers.getMOTDJson(
                                             domainData.getDescriptionText(),
                                             ping.supportsHex()));
                                 }

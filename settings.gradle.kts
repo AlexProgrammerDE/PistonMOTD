@@ -5,7 +5,7 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        id("com.github.johnrengelman.shadow") version "8.1.1"
+        id("com.gradleup.shadow") version "9.0.0-beta4"
         id("org.cadixdev.licenser") version "0.6.1"
         id("net.kyori.indra") version "3.1.3"
         id("net.kyori.indra.git") version "3.1.3"

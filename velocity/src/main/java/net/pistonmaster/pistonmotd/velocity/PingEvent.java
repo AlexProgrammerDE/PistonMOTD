@@ -12,7 +12,7 @@ import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
-import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
+import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 
 import java.net.InetSocketAddress;
 import java.util.Optional;
@@ -99,7 +99,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public boolean supportsHex() {
-                return getClientProtocol() == -1 || getClientProtocol() >= PistonConstants.MINECRAFT_1_16;
+                return getClientProtocol() == -1 || getClientProtocol() >= PMHelpers.MINECRAFT_1_16;
             }
 
             @Override

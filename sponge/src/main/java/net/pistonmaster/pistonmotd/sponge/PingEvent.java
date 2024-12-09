@@ -7,7 +7,7 @@ import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
-import net.pistonmaster.pistonmotd.shared.utils.PistonConstants;
+import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.network.status.Favicon;
@@ -97,7 +97,7 @@ public class PingEvent implements StatusPingListener {
 
             @Override
             public boolean supportsHex() {
-                return getClientProtocol() == -1 || getClientProtocol() >= PistonConstants.MINECRAFT_1_16;
+                return getClientProtocol() == -1 || getClientProtocol() >= PMHelpers.MINECRAFT_1_16;
             }
 
             @Override

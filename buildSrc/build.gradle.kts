@@ -8,5 +8,15 @@ repositories {
 }
 
 dependencies {
-    implementation("gradle.plugin.com.github.johnrengelman:shadow:8.0.0")
+    implementation("com.gradleup.shadow:shadow-gradle-plugin:9.0.0-beta4")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
