@@ -8,6 +8,7 @@ import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
+import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.network.status.Favicon;
@@ -31,7 +32,7 @@ public class PingEvent implements StatusPingListener {
     public PistonStatusPing wrap(ClientPingServerEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void hidePlayers() throws UnsupportedOperationException {
+            public void hidePlayers() {
                 event.response().setHidePlayers(true);
             }
 
@@ -56,42 +57,42 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
-            public int getOnline() throws UnsupportedOperationException {
+            public int getOnline() {
                 return event.response().players().map(StatusResponse.Players::online).orElse(0);
             }
 
             @Override
-            public void setOnline(int online) throws UnsupportedOperationException {
+            public void setOnline(int online) {
                 event.response().players().ifPresent(players -> players.setOnline(online));
             }
 
             @Override
-            public String getVersionName() throws UnsupportedOperationException {
+            public String getVersionName() {
                 return event.response().version().name();
             }
 
             @Override
-            public void setVersionName(String name) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Not supported on sponge!");
+            public void setVersionName(String name) throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Not supported on sponge!");
             }
 
             @Override
-            public int getVersionProtocol() throws UnsupportedOperationException {
+            public int getVersionProtocol() {
                 return event.response().version().dataVersion().orElse(0);
             }
 
             @Override
-            public void setVersionProtocol(int protocol) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Not supported on sponge!");
+            public void setVersionProtocol(int protocol) throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Not supported on sponge!");
             }
 
             @Override
-            public void clearSamples() throws UnsupportedOperationException {
+            public void clearSamples() {
                 event.response().players().ifPresent(e -> e.profiles().clear());
             }
 
             @Override
-            public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
+            public void addSample(UUID uuid, String name) {
                 event.response().players().ifPresent(e -> e.profiles().add(GameProfile.of(UUID.randomUUID(), name)));
             }
 
@@ -106,12 +107,12 @@ public class PingEvent implements StatusPingListener {
             }
 
             @Override
-            public int getClientProtocol() throws UnsupportedOperationException {
+            public int getClientProtocol() {
                 return event.client().version().dataVersion().orElse(-1);
             }
 
             @Override
-            public Optional<InetSocketAddress> getClientVirtualHost() throws UnsupportedOperationException {
+            public Optional<InetSocketAddress> getClientVirtualHost() {
                 return event.client().virtualHost();
             }
         };

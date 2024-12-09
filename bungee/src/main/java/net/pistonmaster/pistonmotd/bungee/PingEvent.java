@@ -36,7 +36,7 @@ public class PingEvent implements Listener, StatusPingListener {
     private PistonStatusPing wrap(ProxyPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void hidePlayers() throws UnsupportedOperationException {
+            public void hidePlayers() {
                 event.getResponse().setPlayers(null);
             }
 
@@ -91,12 +91,12 @@ public class PingEvent implements Listener, StatusPingListener {
             }
 
             @Override
-            public void clearSamples() throws UnsupportedOperationException {
+            public void clearSamples() {
                 event.getResponse().getPlayers().setSample(new ServerPing.PlayerInfo[0]);
             }
 
             @Override
-            public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
+            public void addSample(UUID uuid, String name) {
                 event.getResponse().getPlayers().setSample(
                         Stream.concat(Arrays.stream(event.getResponse().getPlayers().getSample()),
                                         Stream.of(new ServerPing.PlayerInfo(name, uuid)))
@@ -114,12 +114,12 @@ public class PingEvent implements Listener, StatusPingListener {
             }
 
             @Override
-            public int getClientProtocol() throws UnsupportedOperationException {
+            public int getClientProtocol() {
                 return event.getConnection().getVersion();
             }
 
             @Override
-            public Optional<InetSocketAddress> getClientVirtualHost() throws UnsupportedOperationException {
+            public Optional<InetSocketAddress> getClientVirtualHost() {
                 return Optional.ofNullable(event.getConnection().getVirtualHost());
             }
         };

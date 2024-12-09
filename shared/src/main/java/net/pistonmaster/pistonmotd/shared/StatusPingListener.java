@@ -7,6 +7,7 @@ import net.pistonmaster.pistonmotd.shared.extensions.PremiumVanishExtension;
 import net.pistonmaster.pistonmotd.shared.extensions.SuperVanishExtension;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
+import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
 
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -32,7 +33,7 @@ public interface StatusPingListener {
         if (config.isPlayersHide()) {
             try {
                 ping.hidePlayers();
-            } catch (UnsupportedOperationException e) {
+            } catch (PMUnsupportedConfigException e) {
                 logUnsupportedConfig("players.hide");
             }
         } else {
@@ -43,7 +44,7 @@ public interface StatusPingListener {
             if (config.isPlayersOnlineActivated()) {
                 try {
                     ping.setOnline(config.getPlayersOnlineValue());
-                } catch (UnsupportedOperationException e) {
+                } catch (PMUnsupportedConfigException e) {
                     logUnsupportedConfig("players.online");
                 }
             }
@@ -51,7 +52,7 @@ public interface StatusPingListener {
             if (config.isExtensionVanishHideCount()) {
                 try {
                     ping.setOnline(Math.max(ping.getOnline() - vanished.size(), 0));
-                } catch (UnsupportedOperationException e) {
+                } catch (PMUnsupportedConfigException e) {
                     logUnsupportedConfig("extensions.vanish.hideCount");
                 }
             }
@@ -97,7 +98,7 @@ public interface StatusPingListener {
 
                         ping.addSample(player.getUniqueId(), displayName);
                     }
-                } catch (UnsupportedOperationException e) {
+                } catch (PMUnsupportedConfigException e) {
                     logUnsupportedConfig("players.sample.vanilla");
                 }
             } else if (config.isPlayersSampleActivated()) {
@@ -107,7 +108,7 @@ public interface StatusPingListener {
                     for (String str : config.getPlayersSampleText()) {
                         ping.addSample(UUID.randomUUID(), PlaceholderUtil.parseTextToLegacy(str));
                     }
-                } catch (UnsupportedOperationException e) {
+                } catch (PMUnsupportedConfigException e) {
                     logUnsupportedConfig("players.sample");
                 }
             }
@@ -116,7 +117,7 @@ public interface StatusPingListener {
         if (config.isVersionNameActivated()) {
             try {
                 ping.setVersionName(PlaceholderUtil.parseTextToLegacy(config.getVersionNameText().replace("%aftericon%", PMHelpers.AFTER_ICON)));
-            } catch (UnsupportedOperationException e) {
+            } catch (PMUnsupportedConfigException e) {
                 logUnsupportedConfig("version.name");
             }
         }
@@ -124,7 +125,7 @@ public interface StatusPingListener {
         if (config.isVersionProtocolActivated()) {
             try {
                 ping.setVersionProtocol(config.getVersionProtocolValue());
-            } catch (UnsupportedOperationException e) {
+            } catch (PMUnsupportedConfigException e) {
                 logUnsupportedConfig("version.protocol");
             }
         }
@@ -142,7 +143,7 @@ public interface StatusPingListener {
                         ping.setVersionProtocol(config.getAdvancedSupportedProtocolUnsupportedNumber());
                     }
                 }
-            } catch (UnsupportedOperationException e) {
+            } catch (PMUnsupportedConfigException e) {
                 logUnsupportedConfig("advanced.supportedProtocol");
             }
         }
@@ -204,7 +205,7 @@ public interface StatusPingListener {
                         getPlugin().getPlatform().warn("The 'advanced.perDomainStatus.domains' has invalid structure.", e);
                     }
                 }
-            } catch (UnsupportedOperationException e) {
+            } catch (PMUnsupportedConfigException e) {
                 logUnsupportedConfig("advanced.supportedProtocol");
             }
         }

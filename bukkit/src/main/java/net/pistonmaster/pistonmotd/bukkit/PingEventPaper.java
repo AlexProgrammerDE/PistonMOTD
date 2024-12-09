@@ -10,6 +10,7 @@ import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
+import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,7 +34,7 @@ public class PingEventPaper implements Listener, StatusPingListener {
     private PistonStatusPing wrap(PaperServerListPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void hidePlayers() throws UnsupportedOperationException {
+            public void hidePlayers() {
                 event.setHidePlayers(true);
             }
 
@@ -88,7 +89,7 @@ public class PingEventPaper implements Listener, StatusPingListener {
             }
 
             @Override
-            public void clearSamples() throws UnsupportedOperationException {
+            public void clearSamples() {
                 try {
                     event.getListedPlayers().clear();
                 } catch (Throwable ignored) {
@@ -97,7 +98,7 @@ public class PingEventPaper implements Listener, StatusPingListener {
             }
 
             @Override
-            public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
+            public void addSample(UUID uuid, String name) {
                 try {
                     event.getListedPlayers().add(new PaperServerListPingEvent.ListedPlayerInfo(name, uuid));
                 } catch (Throwable ignored) {
@@ -116,12 +117,12 @@ public class PingEventPaper implements Listener, StatusPingListener {
             }
 
             @Override
-            public int getClientProtocol() throws UnsupportedOperationException {
+            public int getClientProtocol() {
                 return event.getClient().getProtocolVersion();
             }
 
             @Override
-            public Optional<InetSocketAddress> getClientVirtualHost() throws UnsupportedOperationException {
+            public Optional<InetSocketAddress> getClientVirtualHost() {
                 return Optional.ofNullable(event.getClient().getVirtualHost());
             }
         };

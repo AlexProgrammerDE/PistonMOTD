@@ -8,6 +8,7 @@ import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
+import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -31,8 +32,8 @@ public class PingEventSpigot implements Listener, StatusPingListener {
     private PistonStatusPing wrap(ServerListPingEvent event) {
         return new PistonStatusPing() {
             @Override
-            public void hidePlayers() throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public void hidePlayers() throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
@@ -61,38 +62,38 @@ public class PingEventSpigot implements Listener, StatusPingListener {
             }
 
             @Override
-            public void setOnline(int online) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public void setOnline(int online) throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
-            public String getVersionName() throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public String getVersionName() throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
-            public void setVersionName(String name) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public void setVersionName(String name) throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
-            public int getVersionProtocol() throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public int getVersionProtocol() throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
-            public void setVersionProtocol(int protocol) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public void setVersionProtocol(int protocol) throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
-            public void clearSamples() throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public void clearSamples() throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
-            public void addSample(UUID uuid, String name) throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public void addSample(UUID uuid, String name) throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
@@ -106,13 +107,13 @@ public class PingEventSpigot implements Listener, StatusPingListener {
             }
 
             @Override
-            public int getClientProtocol() throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public int getClientProtocol() throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
 
             @Override
-            public Optional<InetSocketAddress> getClientVirtualHost() throws UnsupportedOperationException {
-                throw new UnsupportedOperationException("Spigot does not support this method");
+            public Optional<InetSocketAddress> getClientVirtualHost() throws PMUnsupportedConfigException {
+                throw new PMUnsupportedConfigException("Spigot does not support this method");
             }
         };
     }
