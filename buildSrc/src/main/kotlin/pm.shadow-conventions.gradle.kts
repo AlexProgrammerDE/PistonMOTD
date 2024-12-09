@@ -24,11 +24,13 @@ tasks {
 
 fun ShadowJar.configureRelocations() {
     relocate("io.papermc.lib", "net.pistonmaster.pistonmotd.shadow.paperlib")
-    relocate("org.apache.commons.lang3", "net.pistonmaster.pistonmotd.shadow.commonslang3")
     relocate("org.bstats", "net.pistonmaster.pistonmotd.shadow.bstats")
     relocate("net.pistonmaster.pistonutils", "net.pistonmaster.pistonmotd.shadow.pistonutils")
     relocate("net.skinsrestorer.axiom", "net.pistonmaster.pistonmotd.shadow.axiom")
     relocate("org.yaml.snakeyaml", "net.pistonmaster.pistonmotd.shadow.snakeyaml")
     relocate("org.intellij.lang.annotations", "net.pistonmaster.pistonmotd.shadow.annotations.intellij")
     relocate("org.jetbrains.annotations", "net.pistonmaster.pistonmotd.shadow.annotations.jetbrains")
+    relocate("com.google.gson", "net.pistonmaster.pistonmotd.shadow.gson")
+    relocate("com.google.errorprone", "net.pistonmaster.pistonmotd.shadow.errorprone")
+    relocate("net.lenni0451.mcstructs", "net.pistonmaster.pistonmotd.shadow.mcstructs")
 }
