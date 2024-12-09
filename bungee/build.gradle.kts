@@ -1,4 +1,5 @@
 plugins {
+    id("pm.platform-conventions")
     id("pm.kyori-conventions")
 }
 

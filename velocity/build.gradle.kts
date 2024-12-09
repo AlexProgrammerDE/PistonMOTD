@@ -1,4 +1,5 @@
 plugins {
+    id("pm.platform-conventions")
     id("pm.shadow-conventions")
     id("xyz.jpenilla.run-velocity") version "2.3.1"
 }

@@ -1,4 +1,5 @@
 plugins {
+    id("pm.java-conventions")
     id("pm.shadow-conventions")
 }
 

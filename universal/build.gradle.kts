@@ -1,5 +1,9 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
+plugins {
+    id("pm.java-conventions")
+}
+
 val platforms = setOf(
     rootProject.projects.pistonmotdBukkit,
     rootProject.projects.pistonmotdBungee,

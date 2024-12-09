@@ -2,6 +2,7 @@ import org.spongepowered.gradle.plugin.config.PluginLoaders
 import org.spongepowered.plugin.metadata.model.PluginDependency
 
 plugins {
+    id("pm.platform-conventions")
     id("pm.shadow-conventions")
     id("org.spongepowered.gradle.plugin") version "2.2.0"
 }
