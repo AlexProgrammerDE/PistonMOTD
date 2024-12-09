@@ -15,12 +15,6 @@ dependencies {
     annotationProcessor("com.velocitypowered:velocity-api:3.1.1")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
 tasks {
     runVelocity {
         version("3.1.1")

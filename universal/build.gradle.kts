@@ -1,27 +1,36 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
-    id("pm.java-conventions")
+    java
+    id("xyz.wagyourtail.jvmdowngrader")
 }
 
-val platforms = setOf(
-    rootProject.projects.pistonmotdBukkit,
-    rootProject.projects.pistonmotdBungee,
-    rootProject.projects.pistonmotdSponge,
-    rootProject.projects.pistonmotdVelocity
-).map { it.dependencyProject }
+dependencies {
+    implementation(project(":pistonmotd-bukkit", "downgraded"))
+    implementation(project(":pistonmotd-bungee", "downgraded"))
+    implementation(project(":pistonmotd-sponge", "downgraded"))
+    implementation(project(":pistonmotd-velocity", "downgraded"))
+}
 
 tasks {
     jar {
-        archiveClassifier.set("")
-        archiveFileName.set("PistonMOTD-${rootProject.version}.jar")
-        destinationDirectory.set(rootProject.projectDir.resolve("build/libs"))
+        archiveClassifier = "only-merged"
+
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        platforms.forEach { platform ->
-            val shadowJarTask = platform.tasks.named<ShadowJar>("shadowJar").get()
-            dependsOn(shadowJarTask)
-            dependsOn(platform.tasks.withType<Jar>())
-            from(zipTree(shadowJarTask.archiveFile))
-        }
+        dependsOn(configurations.runtimeClasspath)
+        from({ configurations.runtimeClasspath.get().map { zipTree(it) } })
+    }
+    shadeDowngradedApi {
+        dependsOn(jar)
+
+        inputFile = jar.get().archiveFile
+        downgradeTo = JavaVersion.VERSION_1_8
+
+        archiveBaseName = "PistonMOTD"
+        archiveClassifier = null
+        destinationDirectory = rootProject.projectDir.resolve("build/libs")
+
+        shadePath = { _ -> "net/pistonmaster/pistonmotd/shadow/jvmdowngrader" }
+    }
+    build {
+        dependsOn(shadeDowngradedApi)
     }
 }
