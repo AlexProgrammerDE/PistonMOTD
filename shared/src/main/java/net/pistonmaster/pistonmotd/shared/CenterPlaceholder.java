@@ -78,14 +78,10 @@ public class CenterPlaceholder implements PlaceholderParser {
 
         StringBuilder builder = new StringBuilder();
         builder.append(RESET_SYNTAX);
-        for (int i = 0; i < leftPaddingSpaces[0]; i++) {
-            builder.append(SPACE);
-        }
+        builder.append(SPACE.repeat(Math.max(0, leftPaddingSpaces[0])));
 
         builder.append(BOLD_SYNTAX);
-        for (int i = 0; i < leftPaddingSpaces[1]; i++) {
-            builder.append(SPACE);
-        }
+        builder.append(SPACE.repeat(Math.max(0, leftPaddingSpaces[1])));
         builder.append(RESET_SYNTAX);
         if (colorCode.get() != null) {
             builder.append(AMPERSAND).append(colorCode.get());
