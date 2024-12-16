@@ -100,7 +100,7 @@ public class PistonMOTDPlugin {
     }
 
     public void loadFavicons() {
-        Map<String, StatusFavicon> newFavicons = new HashMap<>(this.favicons.get());
+        Map<String, StatusFavicon> newFavicons = new HashMap<>();
 
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(platform.getFaviconFolder(), new PistonMOTDPlatform.FaviconFilter())) {
             for (Path p : ds) {
