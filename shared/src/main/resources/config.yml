@@ -3,7 +3,7 @@
 # MiniMessage formatting IS supported: https://docs.adventure.kyori.net/minimessage.html#template
 # MiniMessage allows you to make rainbow colors and gradients!
 # HEX/RGB colors ARE supported. (Only the MOTD)
-# Hex format: &#FFFFFF
+# Hex format: &#FFFFFF or <#FFFFFF>
 # Placeholders: <online> (Players online)
 # <max> (Server max slots)
 # <newline> adds a newline to your MOTD.
@@ -13,10 +13,10 @@ description:
   activated: true
   text:
     - "Hello! <newline>World!"
-    - "Use &4color codes!"
-    - "&ka &rFormatting &rworks &rtoo! &ka"
-    - "&1Players: <online>/<max>"
-    - "<rainbow>RAINBOW!</rainbow>"
+    - "Use &c<underlined>color <bold><yellow>codes!"
+    - "&ka &rFormatting &nworks&r too! &ka"
+    - "<#800080>Players: <online>/<max>"
+    - "<rainbow>RAINBOW COLOR SUPPORT! :D</rainbow>"
     - "<center><yellow><bold>Centered text!<bold></yellow><newline>Second line!"
 
 # Not supported on: Spigot (Paper works), Sponge
