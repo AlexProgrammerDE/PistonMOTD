@@ -166,18 +166,28 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
     }
 
     @Override
-    public String getSuperVanishName() {
-        return "SuperVanish";
+    public boolean isSuperVanishBukkitAvailable() {
+        return isPluginEnabled("SuperVanish");
     }
 
     @Override
-    public String getPremiumVanishName() {
-        return "PremiumVanish";
+    public boolean isPremiumVanishBukkitAvailable() {
+        return isPluginEnabled("PremiumVanish");
     }
 
     @Override
-    public String getLuckPermsName() {
-        return "LuckPerms";
+    public boolean isPremiumVanishBungeeAvailable() {
+        return false;
+    }
+
+    @Override
+    public boolean isPremiumVanishVelocityAvailable() {
+        return false;
+    }
+
+    @Override
+    public boolean isLuckPermsAvailable() {
+        return isPluginEnabled("LuckPerms");
     }
 
     @Override

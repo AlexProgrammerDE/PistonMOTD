@@ -47,11 +47,15 @@ public interface PistonMOTDPlatform {
         info(ConsoleColor.CYAN + message + ConsoleColor.RESET);
     }
 
-    String getSuperVanishName();
+    boolean isSuperVanishBukkitAvailable();
 
-    String getPremiumVanishName();
+    boolean isPremiumVanishBukkitAvailable();
 
-    String getLuckPermsName();
+    boolean isPremiumVanishBungeeAvailable();
+
+    boolean isPremiumVanishVelocityAvailable();
+
+    boolean isLuckPermsAvailable();
 
     Class<?> getPlayerClass();
 

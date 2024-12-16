@@ -3,8 +3,7 @@ package net.pistonmaster.pistonmotd.shared;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.Component;
-import net.pistonmaster.pistonmotd.shared.extensions.PremiumVanishExtension;
-import net.pistonmaster.pistonmotd.shared.extensions.SuperVanishExtension;
+import net.pistonmaster.pistonmotd.shared.extensions.VanishAPIExtension;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
@@ -18,12 +17,14 @@ public interface StatusPingListener {
         PistonMOTDServerConfig config = plugin.getPluginConfig();
         Set<UUID> vanished = new HashSet<>();
 
-        if (config.isExtensionVanishSupervanish() && plugin.getSuperVanish().get()) {
-            vanished.addAll(SuperVanishExtension.getVanishedPlayers());
-        }
-
-        if (config.isExtensionVanishPremiumvanish() && plugin.getPremiumVanish().get()) {
-            vanished.addAll(PremiumVanishExtension.getVanishedPlayers());
+        if (config.isExtensionVanishAPI()) {
+            if (plugin.getVanishBukkit().get()) {
+                vanished.addAll(VanishAPIExtension.getVanishedPlayersBukkit());
+            } else if (plugin.getVanishBungee().get()) {
+                vanished.addAll(VanishAPIExtension.getVanishedPlayersBungee());
+            } else if (plugin.getVanishVelocity().get()) {
+                vanished.addAll(VanishAPIExtension.getVanishedPlayersVelocity());
+            }
         }
 
         if (config.isDescriptionActivated()) {

@@ -10,8 +10,7 @@ import java.util.Map;
 
 @Getter
 public class PistonMOTDServerConfig {
-    private boolean extensionVanishSupervanish;
-    private boolean extensionVanishPremiumvanish;
+    private boolean extensionVanishAPI;
     private boolean extensionVanishHideSample;
     private boolean extensionVanishHideCount;
     private boolean extensionPrefixLuckperms;
@@ -40,8 +39,7 @@ public class PistonMOTDServerConfig {
     private String faviconSingle;
 
     protected void load(AxiomConfiguration config) {
-        extensionVanishSupervanish = config.getBoolean("extensions.vanish.supervanish");
-        extensionVanishPremiumvanish = config.getBoolean("extensions.vanish.premiumvanish");
+        extensionVanishAPI = config.getBoolean("extensions.vanish.vanishApi");
         extensionVanishHideSample = config.getBoolean("extensions.vanish.hideSample");
         extensionVanishHideCount = config.getBoolean("extensions.vanish.hideCount");
         extensionPrefixLuckperms = config.getBoolean("extensions.prefix.luckperms");

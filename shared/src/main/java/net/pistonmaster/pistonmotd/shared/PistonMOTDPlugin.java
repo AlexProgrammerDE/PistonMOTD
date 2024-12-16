@@ -29,8 +29,9 @@ public class PistonMOTDPlugin {
     private final PistonMOTDPluginConfig config = new PistonMOTDPluginConfig();
     private final Map<String, StatusFavicon> favicons = new LinkedHashMap<>();
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
-    private final AtomicBoolean premiumVanish = new AtomicBoolean();
-    private final AtomicBoolean superVanish = new AtomicBoolean();
+    private final AtomicBoolean vanishBukkit = new AtomicBoolean();
+    private final AtomicBoolean vanishBungee = new AtomicBoolean();
+    private final AtomicBoolean vanishVelocity = new AtomicBoolean();
     private final AtomicReference<LuckPermsWrapper> luckPerms = new AtomicReference<>();
     private final PistonMOTDPlatform platform;
 
@@ -118,17 +119,22 @@ public class PistonMOTDPlugin {
 
     public void loadHooks() {
         platform.startup("Looking for hooks");
-        if (platform.isPluginEnabled(platform.getSuperVanishName())) {
-            platform.startup("Hooking into SuperVanish");
-            superVanish.set(true);
+        if (platform.isSuperVanishBukkitAvailable() || platform.isPremiumVanishBukkitAvailable()) {
+            platform.startup("Hooking into SuperVanish/PremiumVanish (Bukkit)");
+            vanishBukkit.set(true);
         }
 
-        if (platform.isPluginEnabled(platform.getPremiumVanishName())) {
-            platform.startup("Hooking into PremiumVanish");
-            premiumVanish.set(true);
+        if (platform.isPremiumVanishBungeeAvailable()) {
+            platform.startup("Hooking into PremiumVanish (Bungee)");
+            vanishBungee.set(true);
         }
 
-        if (platform.isPluginEnabled(platform.getLuckPermsName())) {
+        if (platform.isPremiumVanishVelocityAvailable()) {
+            platform.startup("Hooking into PremiumVanish (Velocity)");
+            vanishVelocity.set(true);
+        }
+
+        if (platform.isLuckPermsAvailable()) {
             platform.startup("Hooking into LuckPerms");
             luckPerms.set(new LuckPermsWrapper(this));
         }

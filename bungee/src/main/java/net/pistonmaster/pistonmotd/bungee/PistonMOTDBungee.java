@@ -161,18 +161,28 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
     }
 
     @Override
-    public String getSuperVanishName() {
-        return "SuperVanish";
+    public boolean isSuperVanishBukkitAvailable() {
+        return false;
     }
 
     @Override
-    public String getPremiumVanishName() {
-        return "PremiumVanish";
+    public boolean isPremiumVanishBukkitAvailable() {
+        return false;
     }
 
     @Override
-    public String getLuckPermsName() {
-        return "LuckPerms";
+    public boolean isPremiumVanishBungeeAvailable() {
+        return isPluginEnabled("PremiumVanish");
+    }
+
+    @Override
+    public boolean isPremiumVanishVelocityAvailable() {
+        return false;
+    }
+
+    @Override
+    public boolean isLuckPermsAvailable() {
+        return isPluginEnabled("LuckPerms");
     }
 
     @Override

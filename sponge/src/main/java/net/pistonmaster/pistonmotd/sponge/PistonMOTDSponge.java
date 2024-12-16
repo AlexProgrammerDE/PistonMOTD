@@ -221,18 +221,28 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
     }
 
     @Override
-    public String getSuperVanishName() {
-        return "SuperVanish"; // Does not support Sponge
+    public boolean isSuperVanishBukkitAvailable() {
+        return false;
     }
 
     @Override
-    public String getPremiumVanishName() {
-        return "PremiumVanish"; // Does not support Sponge
+    public boolean isPremiumVanishBukkitAvailable() {
+        return false;
     }
 
     @Override
-    public String getLuckPermsName() {
-        return "luckperms";
+    public boolean isPremiumVanishBungeeAvailable() {
+        return false;
+    }
+
+    @Override
+    public boolean isPremiumVanishVelocityAvailable() {
+        return false;
+    }
+
+    @Override
+    public boolean isLuckPermsAvailable() {
+        return isPluginEnabled("luckperms");
     }
 
     @Override

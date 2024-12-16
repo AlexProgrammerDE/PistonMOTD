@@ -156,18 +156,28 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
     }
 
     @Override
-    public String getSuperVanishName() {
-        return "supervanish"; // Does not support velocity
+    public boolean isSuperVanishBukkitAvailable() {
+        return false;
     }
 
     @Override
-    public String getPremiumVanishName() {
-        return "premiumvanish"; // Does not support velocity
+    public boolean isPremiumVanishBukkitAvailable() {
+        return false;
     }
 
     @Override
-    public String getLuckPermsName() {
-        return "luckperms";
+    public boolean isPremiumVanishBungeeAvailable() {
+        return false;
+    }
+
+    @Override
+    public boolean isPremiumVanishVelocityAvailable() {
+        return isPluginEnabled("premiumvanish");
+    }
+
+    @Override
+    public boolean isLuckPermsAvailable() {
+        return isPluginEnabled("luckperms");
     }
 
     @Override
