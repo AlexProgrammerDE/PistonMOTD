@@ -14,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @SuppressWarnings({"unused"})
 public class PlaceholderUtil {
+    private static final char SPECIAL_KEY = (char) 127;
     private static final List<PlaceholderParser> preParsePlaceholders = new CopyOnWriteArrayList<>();
     private static final List<PlaceholderParser> postParsePlaceholders = new CopyOnWriteArrayList<>();
 
@@ -73,8 +74,22 @@ public class PlaceholderUtil {
     @VisibleForTesting
     @API(status = API.Status.INTERNAL)
     public static String convertMiniMessageString(String str) {
-        return PistonSerializersRelocated.miniMessage.serialize(PistonSerializersRelocated.sectionRGB.deserialize(
+        str = escapeMiniMessageChars(str);
+
+        str = PistonSerializersRelocated.miniMessage.serialize(PistonSerializersRelocated.sectionRGB.deserialize(
             PistonSerializersRelocated.sectionRGB.serialize(PistonSerializersRelocated.ampersandRGB.deserialize(str))));
+
+        str = unescapeMiniMessageChars(str);
+
+        return str;
+    }
+
+    private static String escapeMiniMessageChars(String str) {
+        return str.replace("<", SPECIAL_KEY + "l").replace(">", SPECIAL_KEY + "r");
+    }
+
+    private static String unescapeMiniMessageChars(String str) {
+        return str.replace(SPECIAL_KEY + "l", "<").replace(SPECIAL_KEY + "r", ">");
     }
 
     /**
