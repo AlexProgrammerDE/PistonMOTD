@@ -22,6 +22,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @SuppressWarnings({"deprecation"})
 public class PingEventSpigot implements Listener, StatusPingListener {
+    public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
+        .character('§')
+        .hexCharacter('#')
+        .hexColors()
+        .useUnusualXRepeatedCharacterHexFormat()
+        .build();
     private final PistonMOTDPlugin plugin;
 
     @EventHandler
@@ -38,12 +44,12 @@ public class PingEventSpigot implements Listener, StatusPingListener {
 
             @Override
             public String getDescriptionJson() {
-                return GsonComponentSerializer.gson().serialize(LegacyComponentSerializer.legacySection().deserialize(event.getMotd()));
+                return GsonComponentSerializer.gson().serialize(LEGACY_COMPONENT_SERIALIZER.deserialize(event.getMotd()));
             }
 
             @Override
             public void setDescription(String descriptionJson) {
-                event.setMotd(LegacyComponentSerializer.legacySection().serialize(GsonComponentSerializer.gson().deserialize(descriptionJson)));
+                event.setMotd(LEGACY_COMPONENT_SERIALIZER.serialize(GsonComponentSerializer.gson().deserialize(descriptionJson)));
             }
 
             @Override

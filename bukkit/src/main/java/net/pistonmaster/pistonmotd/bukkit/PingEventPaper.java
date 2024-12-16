@@ -10,7 +10,6 @@ import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
 import net.pistonmaster.pistonmotd.shared.StatusPingListener;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
-import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +23,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @SuppressWarnings({"removal", "deprecation"})
 public class PingEventPaper implements Listener, StatusPingListener {
+    public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
+        .character('§')
+        .hexCharacter('#')
+        .hexColors()
+        .build();
     private final PistonMOTDPlugin plugin;
 
     @EventHandler
@@ -40,12 +44,12 @@ public class PingEventPaper implements Listener, StatusPingListener {
 
             @Override
             public String getDescriptionJson() {
-                return GsonComponentSerializer.gson().serialize(LegacyComponentSerializer.legacySection().deserialize(event.getMotd()));
+                return GsonComponentSerializer.gson().serialize(LEGACY_COMPONENT_SERIALIZER.deserialize(event.getMotd()));
             }
 
             @Override
             public void setDescription(String descriptionJson) {
-                event.setMotd(LegacyComponentSerializer.legacySection().serialize(GsonComponentSerializer.gson().deserialize(descriptionJson)));
+                event.setMotd(LEGACY_COMPONENT_SERIALIZER.serialize(GsonComponentSerializer.gson().deserialize(descriptionJson)));
             }
 
             @Override
