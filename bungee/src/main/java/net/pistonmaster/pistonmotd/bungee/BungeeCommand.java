@@ -8,6 +8,7 @@ import net.md_5.bungee.api.plugin.TabExecutor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class BungeeCommand extends Command implements TabExecutor {
     private final PistonMOTDBungee plugin;
@@ -45,7 +46,7 @@ public class BungeeCommand extends Command implements TabExecutor {
 
         if (!commands.isEmpty() && args.length == 1 && args[0] != null) {
             for (String string : commands) {
-                if (string.toLowerCase().startsWith(args[0].toLowerCase())) {
+                if (string.toLowerCase(Locale.ROOT).startsWith(args[0].toLowerCase(Locale.ROOT))) {
                     completions.add(string);
                 }
             }

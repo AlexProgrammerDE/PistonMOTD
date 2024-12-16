@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 public class VelocityCommand implements SimpleCommand {
@@ -33,7 +34,7 @@ public class VelocityCommand implements SimpleCommand {
 
         if (invocation.arguments().length == 1 && invocation.arguments()[0] != null) {
             for (String string : commands) {
-                if (string.toLowerCase().startsWith(invocation.arguments()[0].toLowerCase())) {
+                if (string.toLowerCase(Locale.ROOT).startsWith(invocation.arguments()[0].toLowerCase(Locale.ROOT))) {
                     completions.add(string);
                 }
             }

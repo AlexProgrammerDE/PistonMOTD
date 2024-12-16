@@ -133,11 +133,8 @@ public interface StatusPingListener {
 
         if (config.isAdvancedSupportedProtocolActivated()) {
             try {
-                List<String> supportedProtocols = config.getAdvancedSupportedProtocolNumbers();
-
-                if (!supportedProtocols.isEmpty()) {
-                    List<Integer> protocols = supportedProtocols.stream().map(Integer::parseInt).toList();
-
+                List<Integer> protocols = config.getAdvancedSupportedProtocolNumbers();
+                if (!protocols.isEmpty()) {
                     if (protocols.contains(ping.getClientProtocol())) {
                         ping.setVersionProtocol(ping.getClientProtocol());
                     } else {
@@ -150,19 +147,18 @@ public interface StatusPingListener {
         }
 
         if (config.isFaviconActivated()) {
-            String modeString = config.getFaviconMode();
-            FaviconMode mode = PMHelpers.getSafeEnum(FaviconMode.class, modeString);
+            FaviconMode mode = config.getFaviconMode();
+            Map<String, StatusFavicon> favicons = plugin.getFavicons().get();
 
             if (mode == FaviconMode.RANDOM) {
-                if (plugin.getFavicons().isEmpty()) {
+                if (favicons.isEmpty()) {
                     plugin.getPlatform().warn("No valid favicons found in your favicons folder, but the favicons setting is enabled...");
                 } else {
-                    ping.setFavicon(new ArrayList<>(plugin.getFavicons().values())
-                            .get(plugin.getRandom().nextInt(0, plugin.getFavicons().size())));
+                    ping.setFavicon(PMHelpers.getRandomEntry(favicons.values()));
                 }
             } else if (mode == FaviconMode.SINGLE) {
                 String faviconName = config.getFaviconSingle();
-                StatusFavicon favicon = plugin.getFavicons().get(faviconName);
+                StatusFavicon favicon = favicons.get(faviconName);
 
                 if (favicon == null) {
                     plugin.getPlatform().warn("The favicon '" + faviconName + "' does not exist.");
@@ -170,7 +166,7 @@ public interface StatusPingListener {
                     ping.setFavicon(favicon);
                 }
             } else {
-                plugin.getPlatform().warn("Invalid favicon mode: " + modeString);
+                plugin.getPlatform().warn("Invalid favicon mode: " + mode);
             }
         }
 
@@ -189,8 +185,9 @@ public interface StatusPingListener {
                                 }
 
                                 if (domainData.isFaviconActivated()) {
+                                    Map<String, StatusFavicon> favicons = plugin.getFavicons().get();
                                     String faviconName = domainData.getFaviconFile();
-                                    StatusFavicon favicon = plugin.getFavicons().get(faviconName);
+                                    StatusFavicon favicon = favicons.get(faviconName);
 
                                     if (favicon == null) {
                                         getPlugin().getPlatform().warn("The favicon '" + faviconName + "' does not exist.");

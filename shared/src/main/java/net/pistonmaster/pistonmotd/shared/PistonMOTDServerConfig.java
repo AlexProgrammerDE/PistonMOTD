@@ -1,12 +1,15 @@
 package net.pistonmaster.pistonmotd.shared;
 
 import lombok.Getter;
+import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 import net.skinsrestorer.axiom.AxiomConfiguration;
 import net.skinsrestorer.axiom.AxiomConfigurationSection;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Getter
 public class PistonMOTDServerConfig {
@@ -30,12 +33,12 @@ public class PistonMOTDServerConfig {
     private boolean versionProtocolActivated;
     private int versionProtocolValue;
     private boolean advancedSupportedProtocolActivated;
-    private List<String> advancedSupportedProtocolNumbers;
+    private List<Integer> advancedSupportedProtocolNumbers;
     private int advancedSupportedProtocolUnsupportedNumber;
     private boolean advancedPerDomainStatusActivated;
     private Map<String, PerDomainStatusDomain> advancedPerDomainStatusDomains;
     private boolean faviconActivated;
-    private String faviconMode;
+    private FaviconMode faviconMode;
     private String faviconSingle;
 
     protected void load(AxiomConfiguration config) {
@@ -59,7 +62,16 @@ public class PistonMOTDServerConfig {
         versionProtocolActivated = config.getBoolean("version.protocol.activated");
         versionProtocolValue = config.getInt("version.protocol.value");
         advancedSupportedProtocolActivated = config.getBoolean("advanced.supportedProtocol.activated");
-        advancedSupportedProtocolNumbers = config.getStringList("advanced.supportedProtocol.numbers");
+        advancedSupportedProtocolNumbers = config.getStringList("advanced.supportedProtocol.numbers")
+            .stream()
+            .flatMap(s -> {
+              try {
+                return Stream.of(Integer.parseInt(s));
+              } catch (NumberFormatException e) {
+                return Stream.of();
+              }
+            })
+            .toList();
         advancedSupportedProtocolUnsupportedNumber = config.getInt("advanced.supportedProtocol.unsupportedNumber");
         advancedPerDomainStatusActivated = config.getBoolean("advanced.perDomainStatus.activated");
 
@@ -77,7 +89,7 @@ public class PistonMOTDServerConfig {
         advancedPerDomainStatusDomains = domainMap;
 
         faviconActivated = config.getBoolean("favicon.activated");
-        faviconMode = config.getString("favicon.mode").toUpperCase();
+        faviconMode = PMHelpers.getSafeEnum(FaviconMode.class, config.getString("favicon.mode").toUpperCase(Locale.ROOT));
         faviconSingle = config.getString("favicon.single");
     }
 

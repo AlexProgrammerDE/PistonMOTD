@@ -16,9 +16,8 @@ import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -27,8 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @SuppressWarnings("WriteOnlyObject") // Lombok's getters are ignored by this check
 public class PistonMOTDPlugin {
     private final PistonMOTDPluginConfig config = new PistonMOTDPluginConfig();
-    private final Map<String, StatusFavicon> favicons = new LinkedHashMap<>();
-    private final ThreadLocalRandom random = ThreadLocalRandom.current();
+    private final AtomicReference<Map<String, StatusFavicon>> favicons = new AtomicReference<>(Map.of());
     private final AtomicBoolean vanishBukkit = new AtomicBoolean();
     private final AtomicBoolean vanishBungee = new AtomicBoolean();
     private final AtomicBoolean vanishVelocity = new AtomicBoolean();
@@ -102,12 +100,12 @@ public class PistonMOTDPlugin {
     }
 
     public void loadFavicons() {
-        favicons.clear();
+        Map<String, StatusFavicon> newFavicons = new HashMap<>(this.favicons.get());
 
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(platform.getFaviconFolder(), new PistonMOTDPlatform.FaviconFilter())) {
             for (Path p : ds) {
                 try {
-                    favicons.put(p.getFileName().toString(), platform.createFavicon(p));
+                    newFavicons.put(p.getFileName().toString(), platform.createFavicon(p));
                 } catch (Exception e) {
                     platform.error("Could not load favicon! (" + p.getFileName() + ")", e);
                 }
@@ -115,6 +113,8 @@ public class PistonMOTDPlugin {
         } catch (IOException e) {
             platform.error("Could not load favicons!", e);
         }
+
+        this.favicons.set(newFavicons);
     }
 
     public void loadHooks() {
