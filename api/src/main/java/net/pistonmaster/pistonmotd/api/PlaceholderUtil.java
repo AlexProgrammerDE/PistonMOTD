@@ -4,23 +4,27 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import org.apiguardian.api.API;
+import org.jetbrains.annotations.VisibleForTesting;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Class for managing parsers and parse text.
  */
 @SuppressWarnings({"unused"})
 public class PlaceholderUtil {
+    private static final Pattern LEGACY_HEX_PATTERN = Pattern.compile("[§&]#(?<hex>[0-9a-fA-F]{6})");
+    private static final Pattern LEGACY_UGLY_HEX_PATTERN = Pattern.compile("([§&])x\\1(?<h1>[0-9a-fA-F])\\1(?<h2>[0-9a-fA-F])\\1(?<h3>[0-9a-fA-F])\\1(?<h4>[0-9a-fA-F])\\1(?<h5>[0-9a-fA-F])\\1(?<h6>[0-9a-fA-F])");
     private static final Map<Character, String> MINIMESSAGE_REPLACEMENTS;
     private static final List<PlaceholderParser> preParsePlaceholders = new CopyOnWriteArrayList<>();
     private static final List<PlaceholderParser> postParsePlaceholders = new CopyOnWriteArrayList<>();
 
     static {
-        MINIMESSAGE_REPLACEMENTS = new LinkedHashMap<>();
+        MINIMESSAGE_REPLACEMENTS = new HashMap<>();
         MINIMESSAGE_REPLACEMENTS.put('0', "black");
         MINIMESSAGE_REPLACEMENTS.put('1', "dark_blue");
         MINIMESSAGE_REPLACEMENTS.put('2', "dark_green");
@@ -79,10 +83,7 @@ public class PlaceholderUtil {
     }
 
     private static Component parseTextToComponent(final String text) {
-        String parsedText = text;
-
-        parsedText = replaceLegacyWithMiniMessage("&", parsedText);
-        parsedText = replaceLegacyWithMiniMessage("§", parsedText);
+        String parsedText = convertMiniMessageString(text);
 
         for (PlaceholderParser parser : preParsePlaceholders) {
             parsedText = parser.parseString(parsedText);
@@ -100,6 +101,18 @@ public class PlaceholderUtil {
 
         // Also parse ampersands that were not parsed by MiniMessage
         return PistonSerializersRelocated.ampersandRGB.deserialize(ampersandRGB);
+    }
+
+    @VisibleForTesting
+    @API(status = API.Status.INTERNAL)
+    public static String convertMiniMessageString(String str) {
+        str = LEGACY_HEX_PATTERN.matcher(str).replaceAll("<#${hex}>");
+        str = LEGACY_UGLY_HEX_PATTERN.matcher(str).replaceAll("<#${h1}${h2}${h3}${h4}${h5}${h6}>");
+
+        str = replaceLegacyWithMiniMessage("&", str);
+        str = replaceLegacyWithMiniMessage("§", str);
+
+        return str;
     }
 
     private static String replaceLegacyWithMiniMessage(String prefix, String str) {

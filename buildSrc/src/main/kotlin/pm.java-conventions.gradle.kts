@@ -11,11 +11,25 @@ dependencies {
 
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")
+    testImplementation("org.mockito:mockito-core:5.14.2")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.14.2")
 }
 
 tasks {
     processResources {
         expand("version" to version, "description" to description, "url" to "https://pistonmaster.net/PistonMOTD")
+    }
+    test {
+        reports.junitXml.required = true
+        reports.html.required = true
+        useJUnitPlatform()
+        maxParallelForks = Runtime.getRuntime().availableProcessors().div(2).coerceAtLeast(1)
+    }
+    jar {
+        from(rootProject.file("LICENSE"))
     }
 }
 
