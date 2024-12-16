@@ -117,7 +117,9 @@ public interface StatusPingListener {
 
         if (config.isVersionNameActivated()) {
             try {
-                ping.setVersionName(PlaceholderUtil.parseTextToLegacy(config.getVersionNameText().replace("%aftericon%", PMHelpers.AFTER_ICON)));
+                ping.setVersionName(PlaceholderUtil.parseTextToLegacy(config.getVersionNameText()
+                    .replace("%aftericon%", PMHelpers.AFTER_ICON)
+                    .replace("<after_icon>", PMHelpers.AFTER_ICON)));
             } catch (PMUnsupportedConfigException e) {
                 logUnsupportedConfig("version.name");
             }

@@ -13,6 +13,7 @@ public class ServerPlaceholder implements PlaceholderParser {
     public String parseString(String text) {
         for (RegisteredServer server : proxyServer.getAllServers()) {
             text = text.replace("%online_" + server.getServerInfo().getName() + "%", String.valueOf(server.getPlayersConnected().size()));
+            text = text.replace("<online_" + server.getServerInfo().getName() + ">", String.valueOf(server.getPlayersConnected().size()));
         }
         return text;
     }

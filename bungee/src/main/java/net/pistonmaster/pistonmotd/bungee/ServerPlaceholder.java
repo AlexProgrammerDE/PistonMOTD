@@ -15,6 +15,7 @@ public class ServerPlaceholder implements PlaceholderParser {
     public String parseString(String text) {
         for (Map.Entry<String, ServerInfo> entry : proxyServer.getServers().entrySet()) {
             text = text.replace("%online_" + entry.getKey() + "%", String.valueOf(entry.getValue().getPlayers().size()));
+            text = text.replace("<online_" + entry.getKey() + ">", String.valueOf(entry.getValue().getPlayers().size()));
         }
         return text;
     }

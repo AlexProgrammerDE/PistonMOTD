@@ -4,23 +4,25 @@
 # MiniMessage allows you to make rainbow colors and gradients!
 # HEX/RGB colors ARE supported. (Only the MOTD)
 # Hex format: &#FFFFFF
-# Placeholders: %online% (Players online)
-# %max% (Server max slots)
-# %newline% adds a newline to your MOTD.
-# %tps% shows the tps (Paper only)
-# %center% centers the text of a line. Needs to be at the exact start of a line.
+# Placeholders: <online> (Players online)
+# <max> (Server max slots)
+# <newline> adds a newline to your MOTD.
+# <tps> shows the tps (Paper only)
+# <center> centers the text of a line. Needs to be at the exact start of a line.
 description:
   activated: true
   text:
-    - "Hello! %newline%World!"
+    - "Hello! <newline>World!"
     - "Use &4color codes!"
     - "&ka &rFormatting &rworks &rtoo! &ka"
-    - "&1Players: %online%/%max%"
+    - "&1Players: <online>/<max>"
+    - "<rainbow>RAINBOW!</rainbow>"
+    - "<center><yellow><bold>Centered text!<bold></yellow><newline>Second line!"
 
 # Not supported on: Spigot (Paper works), Sponge
 version:
   # The version name is shown if the version of the client doesn't match the version of the server.
-  # %aftericon% adds a bunch of spaces so the text is after the icon. (Only for protocol)
+  # <after_icon> adds a bunch of spaces so the text is after the icon. (Only for protocol)
   name:
     activated: true
     text: "&1My custom version name!"
@@ -59,7 +61,7 @@ players:
       - "&eNewline!"
       - "&6    spaces!"
       - "&d&lCombined"
-      - "&1Players: %online%/%max%"
+      - "&1Players: <online>/<max>"
 
 # The image of a server in the server list.
 favicon:

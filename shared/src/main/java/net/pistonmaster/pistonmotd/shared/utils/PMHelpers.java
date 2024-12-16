@@ -12,7 +12,7 @@ public class PMHelpers {
 
     public static String getMOTDJson(List<String> motds, boolean supportsHex) {
         String unparsedMOTD = getRandomEntry(motds);
-        String[] split = unparsedMOTD.split("%nohexmotd%", 2);
+        String[] split = unparsedMOTD.split("(<nohexmotd>)|(%nohexmotd%)", 2);
         return PlaceholderUtil.parseTextToJson(
                 split.length == 2 ? supportsHex ? split[0] : split[1] : split[0],
                 supportsHex);

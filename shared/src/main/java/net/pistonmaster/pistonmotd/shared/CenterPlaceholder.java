@@ -13,7 +13,7 @@ public class CenterPlaceholder implements PlaceholderParser {
     private static final ThreadLocal<boolean[]> CENTERED_LINES = ThreadLocal.withInitial(() -> new boolean[2]);
 
     private static final int LINE_LENGTH = 45;
-    private static final String PLACEHOLDER = "%center%";
+    private static final String PLACEHOLDER = "<center>";
     private static final String SPACE = " ";
     private static final char AMPERSAND = '&';
     private static final char BOLD = 'l';
