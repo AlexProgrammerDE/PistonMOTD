@@ -15,6 +15,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @SuppressWarnings({"unused"})
 public class PlaceholderUtil {
     private static final char SPECIAL_KEY = (char) 127;
+    private static final char TAG_START = '<';
+    private static final char ESCAPE = '\\';
     private static final List<PlaceholderParser> preParsePlaceholders = new CopyOnWriteArrayList<>();
     private static final List<PlaceholderParser> postParsePlaceholders = new CopyOnWriteArrayList<>();
 
@@ -85,11 +87,15 @@ public class PlaceholderUtil {
     }
 
     private static String escapeMiniMessageChars(String str) {
-        return str.replace("<", SPECIAL_KEY + "l").replace(">", SPECIAL_KEY + "r");
+        return str
+            .replace(String.valueOf(TAG_START), SPECIAL_KEY + "s")
+            .replace(String.valueOf(ESCAPE), SPECIAL_KEY + "e");
     }
 
     private static String unescapeMiniMessageChars(String str) {
-        return str.replace(SPECIAL_KEY + "l", "<").replace(SPECIAL_KEY + "r", ">");
+        return str
+            .replace(SPECIAL_KEY + "s", String.valueOf(TAG_START))
+            .replace(SPECIAL_KEY + "e", String.valueOf(ESCAPE));
     }
 
     /**

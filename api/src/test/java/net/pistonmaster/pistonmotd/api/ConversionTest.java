@@ -33,4 +33,14 @@ public class ConversionTest {
   public void testBasicConversionHexAmpersandUgly() {
     Assertions.assertEquals("<#ff0000>Hello World", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World"));
   }
+
+  @Test
+  public void testNotEscapingTag() {
+    Assertions.assertEquals("<#ff0000>Hello World<test>", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World<test>"));
+  }
+
+  @Test
+  public void testNotEscapingEscape() {
+    Assertions.assertEquals("<#ff0000>Hello World\\<test>", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World\\<test>"));
+  }
 }
