@@ -11,7 +11,8 @@ public class CommonPlaceholder implements PlaceholderParser {
     public String parseString(String text) {
         text = text.replace("%online%", String.valueOf(plugin.getPlayerCount()));
         text = text.replace("%max%", String.valueOf(plugin.getMaxPlayers()));
-        text = text.replace("%newline%", "\n");
+        text = text.replace("%newline%", "<newline>");
+        text = text.replace("\n", "<newline>");
         text = text.replace("<online>", String.valueOf(plugin.getPlayerCount()));
         text = text.replace("<max>", String.valueOf(plugin.getMaxPlayers()));
 

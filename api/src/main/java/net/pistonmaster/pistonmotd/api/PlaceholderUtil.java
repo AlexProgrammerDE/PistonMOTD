@@ -54,7 +54,6 @@ public class PlaceholderUtil {
 
     private static Component parseTextToComponent(final String text) {
         String parsedText = convertMiniMessageString(text);
-
         for (PlaceholderParser parser : preParsePlaceholders) {
             parsedText = parser.parseString(parsedText);
         }
@@ -69,7 +68,6 @@ public class PlaceholderUtil {
             ampersandRGB = parser.parseString(ampersandRGB);
         }
 
-        // Also parse ampersands that were not parsed by MiniMessage
         return PistonSerializersRelocated.ampersandRGB.deserialize(ampersandRGB);
     }
 
