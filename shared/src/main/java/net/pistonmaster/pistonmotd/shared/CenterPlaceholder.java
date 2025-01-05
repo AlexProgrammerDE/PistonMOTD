@@ -76,8 +76,10 @@ public class CenterPlaceholder {
                         } else if (next == HEX_CODE) {
                             colorCode.set(text.substring(i + 1, i + 2 + HEX_CODE_LENGTH));
                             i += 6;
+                            formatModifiers.clear();
                         } else if (isValidColorChar(next)) {
                             colorCode.set(String.valueOf(next));
+                            formatModifiers.clear();
                         } else {
                             formatModifiers.add(next);
                         }
