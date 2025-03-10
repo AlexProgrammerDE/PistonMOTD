@@ -8,7 +8,7 @@ allprojects {
     description = "Best MOTD plugin with multi-platform support!"
 }
 
-tasks.create("outputVersion") {
+tasks.register("outputVersion") {
     doLast {
         println(project.version)
     }
