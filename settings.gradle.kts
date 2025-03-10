@@ -25,7 +25,7 @@ dependencyResolutionManagement {
         maven("https://oss.sonatype.org/content/repositories/snapshots") {
             name = "Sonatype"
         }
-        maven("https://papermc.io/repo/repository/maven-public/") {
+        maven("https://repo.papermc.io/repository/maven-public/") {
             name = "PaperMC"
         }
         maven("https://repo.spongepowered.org/maven") {
