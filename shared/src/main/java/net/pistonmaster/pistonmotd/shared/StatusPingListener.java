@@ -2,7 +2,6 @@ package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
-import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.Component;
 import net.pistonmaster.pistonmotd.shared.extensions.VanishAPIExtension;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
@@ -79,23 +78,29 @@ public interface StatusPingListener {
                         if (hideSample && vanished.contains(player.getUniqueId()))
                             continue;
 
-                        Component prefix = Component.empty();
-                        Component suffix = Component.empty();
+                        String prefix = "";
+                        String suffix = "";
                         if (luckperms) {
                             LuckPermsWrapper.LuckPermsMeta meta = luckpermsWrapper.getWrappedMeta(player);
 
                             if (meta.getPrefix() != null)
-                                prefix = PistonSerializersRelocated.ampersandRGB.deserialize(meta.getPrefix());
+                                prefix = meta.getPrefix();
 
                             if (meta.getSuffix() != null)
-                                suffix = PistonSerializersRelocated.ampersandRGB.deserialize(meta.getSuffix());
+                                suffix = meta.getSuffix();
                         }
 
-                        String displayName = PistonSerializersRelocated.section.serialize(prefix
-                                .append(PistonSerializersRelocated.section.deserialize(player.getDisplayName())
-                                        .append(suffix)))
-                                // Reset character to prevent color bleeding
-                                + "§r";
+                        String displayName = PistonSerializersRelocated.section.serialize(
+                            PistonSerializersRelocated.ampersandRGB.deserialize("%s%s%s"
+                                .formatted(
+                                    prefix,
+                                    PistonSerializersRelocated.ampersandRGB.serialize(
+                                        PistonSerializersRelocated.sectionRGB.deserialize(player.getDisplayName())),
+                                    suffix
+                                )
+                            ))
+                            // Reset character to prevent color bleeding
+                            + "§r";
 
                         ping.addSample(player.getUniqueId(), displayName);
                     }
