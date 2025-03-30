@@ -75,7 +75,7 @@ jobs:
       uses: tsickert/discord-webhook@v7.0.0
       with:
         webhook-url: ${{ secrets.WEBHOOK_URL }}
-        content: <@&1201133350916739173> New PistonMOTD version released!
+        content: <@&850705047938793503> New PistonMOTD version released!
         embed-title: PistonMOTD ${{ steps.set-version.outputs.version }}
         embed-description: PistonMOTD ${{ steps.set-version.outputs.version }} has been released! Changelog and download can be found at https://modrinth.com/plugin/pistonmotd/version/${{ steps.set-version.outputs.version }}
         embed-color: 16641028
