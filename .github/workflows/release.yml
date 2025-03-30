@@ -27,6 +27,12 @@ jobs:
         projectVersion=$(grep '^maven_version=' gradle.properties | cut -d'=' -f2)
         echo "version=$projectVersion" >> $GITHUB_OUTPUT
 
+    - name: Build Changelog
+      id: github_release
+      uses: mikepenz/release-changelog-builder-action@v5
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - uses: Kir-Antipov/mc-publish@v3.3
       with:
         modrinth-id: pistonmotd
@@ -47,7 +53,7 @@ jobs:
         name: PistonMOTD ${{ steps.set-version.outputs.version }}
         version: ${{ steps.set-version.outputs.version }}
         version-type: release
-        changelog-file: CHANGELOG.md
+        changelog: ${{ steps.github_release.outputs.changelog }}
 
         loaders: |
           bukkit
