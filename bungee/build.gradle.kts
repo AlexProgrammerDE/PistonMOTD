@@ -11,5 +11,5 @@ dependencies {
     implementation("org.bstats:bstats-bungeecord:3.1.0")
     implementation("net.kyori:adventure-platform-bungeecord:4.3.4")
 
-    compileOnly("net.md-5:bungeecord-api:1.20-R0.2")
+    compileOnly("net.md-5:bungeecord-api:1.21-R0.2")
 }
