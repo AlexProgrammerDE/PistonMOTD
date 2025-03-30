@@ -6,10 +6,8 @@ import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.config.PistonMOTDPluginConfig;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
-import net.pistonmaster.pistonutils.logging.PistonLogger;
-import net.pistonmaster.pistonutils.update.UpdateChecker;
-import net.pistonmaster.pistonutils.update.UpdateParser;
-import net.pistonmaster.pistonutils.update.UpdateType;
+import net.pistonmaster.pistonutils.update.GitHubUpdateChecker;
+import net.pistonmaster.pistonutils.update.SemanticVersion;
 import net.skinsrestorer.axiom.AxiomConfiguration;
 
 import java.io.IOException;
@@ -143,21 +141,20 @@ public class PistonMOTDPlugin {
 
     public void checkUpdate() {
         platform.startup("Checking for a newer version");
-        new UpdateChecker(new PistonLogger(platform::info, platform::warn)).getVersion("https://www.pistonmaster.net/PistonMOTD/VERSION.txt", version -> new UpdateParser(platform.getStrippedVersion(), version).parseUpdate(updateType -> {
-            if (updateType == UpdateType.NONE || updateType == UpdateType.AHEAD) {
+        try {
+            SemanticVersion gitHubVersion = new GitHubUpdateChecker()
+                    .getVersion("https://api.github.com/repos/AlexProgrammerDE/PistonMOTD/releases/latest");
+            SemanticVersion currentVersion = SemanticVersion.fromString(platform.getVersion());
+
+            if (gitHubVersion.isNewerThan(currentVersion)) {
                 platform.startup("You're up to date!");
             } else {
-                if (updateType == UpdateType.MAJOR) {
-                    platform.info(ConsoleColor.RED + "There is a MAJOR update available!" + ConsoleColor.RESET);
-                } else if (updateType == UpdateType.MINOR) {
-                    platform.info(ConsoleColor.RED + "There is a MINOR update available!" + ConsoleColor.RESET);
-                } else if (updateType == UpdateType.PATCH) {
-                    platform.info(ConsoleColor.RED + "There is a PATCH update available!" + ConsoleColor.RESET);
-                }
-
-                platform.info(ConsoleColor.RED + "Current version: " + platform.getVersion() + " New version: " + version + ConsoleColor.RESET);
+                platform.info(ConsoleColor.RED + "There is an update available!" + ConsoleColor.RESET);
+                platform.info(ConsoleColor.RED + "Current version: " + platform.getVersion() + " New version: " + gitHubVersion + ConsoleColor.RESET);
                 platform.info(ConsoleColor.RED + "Download it at: " + platform.getDownloadURL() + ConsoleColor.RESET);
             }
-        }));
+        } catch (IOException e) {
+            platform.error("Could not check for updates!", e);
+        }
     }
 }

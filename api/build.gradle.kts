@@ -5,4 +5,5 @@ plugins {
 
 dependencies {
     implementation(projects.pistonmotdKyori)
+    implementation("org.apiguardian:apiguardian-api:1.1.2")
 }

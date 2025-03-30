@@ -9,4 +9,8 @@ dependencies {
     implementation(project(":pistonmotd-api", "shadow"))
 
     compileOnly("com.github.LeonMangler:PremiumVanishAPI:2.9.18-2")
+
+    implementation("net.pistonmaster:PistonUtils:1.4.0")
+
+    compileOnly("net.luckperms:api:5.4")
 }

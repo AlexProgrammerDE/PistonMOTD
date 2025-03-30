@@ -4,11 +4,6 @@ plugins {
 }
 
 dependencies {
-    compileOnlyApi("org.apiguardian:apiguardian-api:1.1.2")
-    implementation("net.pistonmaster:PistonUtils:1.3.2")
-
-    compileOnly("net.luckperms:api:5.4")
-
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
 
