@@ -3,6 +3,7 @@ package net.pistonmaster.pistonmotd.shared;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
+import net.pistonmaster.pistonmotd.shared.config.PistonMOTDPluginConfig;
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.logging.PistonLogger;

@@ -8,10 +8,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.StatusPingListener;
+import net.pistonmaster.pistonmotd.shared.StatusPingHandler;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 
 import java.net.InetSocketAddress;
@@ -20,13 +19,13 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-public class PingEvent implements StatusPingListener {
-    private final PistonMOTDPlugin plugin;
+public class PingEvent {
+    private final StatusPingHandler handler;
 
     @Subscribe
     public void onPing(ProxyPingEvent event) {
         ServerPing.Builder builder = event.getPing().asBuilder();
-        handle(wrap(event, builder));
+        handler.handle(wrap(event, builder));
         event.setPing(builder.build());
     }
 

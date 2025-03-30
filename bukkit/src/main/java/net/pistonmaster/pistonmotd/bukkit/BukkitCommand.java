@@ -2,6 +2,7 @@ package net.pistonmaster.pistonmotd.bukkit;
 
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SuppressWarnings({"deprecation"})
 public class BukkitCommand implements CommandExecutor, TabExecutor {
-    private final PistonMOTDBukkit plugin;
+    private final PistonMOTDPlugin plugin;
 
     @Override
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String s, String[] args) {
@@ -26,7 +27,7 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
             sender.spigot().sendMessage(new ComponentBuilder("/pistonmotd reload").create());
             return true;
         } else if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("pistonmotd.reload")) {
-            plugin.getPlugin().loadConfig();
+            plugin.loadConfig();
             sender.spigot().sendMessage(new ComponentBuilder("Reloaded the config!").create());
             return true;
         }

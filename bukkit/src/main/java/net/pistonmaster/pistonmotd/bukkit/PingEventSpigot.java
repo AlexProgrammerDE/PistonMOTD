@@ -4,10 +4,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.StatusPingListener;
+import net.pistonmaster.pistonmotd.shared.StatusPingHandler;
 import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,18 +20,18 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 @SuppressWarnings({"deprecation"})
-public class PingEventSpigot implements Listener, StatusPingListener {
+public class PingEventSpigot implements Listener {
     public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
         .character('§')
         .hexCharacter('#')
         .hexColors()
         .useUnusualXRepeatedCharacterHexFormat()
         .build();
-    private final PistonMOTDPlugin plugin;
+    private final StatusPingHandler handler;
 
     @EventHandler
     public void onPing(ServerListPingEvent event) {
-        handle(wrap(event));
+        handler.handle(wrap(event));
     }
 
     private PistonStatusPing wrap(ServerListPingEvent event) {

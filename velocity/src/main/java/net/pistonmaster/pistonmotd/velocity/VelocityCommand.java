@@ -4,6 +4,7 @@ import com.velocitypowered.api.command.SimpleCommand;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
+import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import java.util.Locale;
 
 @RequiredArgsConstructor
 public class VelocityCommand implements SimpleCommand {
-    private final PistonMOTDVelocity plugin;
+    private final PistonMOTDPlugin plugin;
 
     @Override
     public void execute(Invocation invocation) {
@@ -21,7 +22,7 @@ public class VelocityCommand implements SimpleCommand {
             invocation.source().sendMessage(Identity.nil(), Component.text("/pistonmotd help"));
             invocation.source().sendMessage(Identity.nil(), Component.text("/pistonmotd reload"));
         } else if (invocation.arguments().length > 0 && invocation.arguments()[0].equalsIgnoreCase("reload") && invocation.source().hasPermission("pistonmotd.reload")) {
-            plugin.getPlugin().loadConfig();
+            plugin.loadConfig();
             invocation.source().sendMessage(Identity.nil(), Component.text("Reloaded the config!"));
         }
     }

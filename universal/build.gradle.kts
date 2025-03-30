@@ -6,7 +6,6 @@ plugins {
 dependencies {
     implementation(project(":pistonmotd-bukkit", "downgraded"))
     implementation(project(":pistonmotd-bungee", "downgraded"))
-    implementation(project(":pistonmotd-sponge", "downgraded"))
     implementation(project(":pistonmotd-velocity", "downgraded"))
 }
 

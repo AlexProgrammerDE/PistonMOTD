@@ -2,6 +2,9 @@ package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
+import net.pistonmaster.pistonmotd.shared.config.PistonMOTDDomainConfig;
+import net.pistonmaster.pistonmotd.shared.config.PistonMOTDPluginConfig;
+import net.pistonmaster.pistonmotd.shared.config.PistonMOTDServerConfig;
 import net.pistonmaster.pistonmotd.shared.extensions.VanishAPIExtension;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
@@ -10,10 +13,39 @@ import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
 import java.net.InetSocketAddress;
 import java.util.*;
 
-public interface StatusPingListener {
-    default void handle(PistonStatusPing ping) {
-        PistonMOTDPlugin plugin = getPlugin();
-        PistonMOTDServerConfig config = plugin.getPluginConfig();
+public record StatusPingHandler(PistonMOTDPlugin plugin) {
+    public void handle(PistonStatusPing ping) {
+        PistonMOTDPluginConfig config = plugin.getPluginConfig();
+
+        applyServerConfig(ping, config);
+
+        if (config.isAdvancedPerDomainStatusActivated()) {
+            try {
+                Optional<InetSocketAddress> virtualHost = ping.getClientVirtualHost();
+
+                if (virtualHost.isPresent()) {
+                    try {
+                        for (PistonMOTDDomainConfig domainData : config.getAdvancedPerDomainStatusDomains().values()) {
+                            if (virtualHost.get().getHostString().endsWith(domainData.getDomain())) {
+                                applyServerConfig(ping, domainData);
+                                break;
+                            }
+                        }
+                    } catch (ClassCastException | NullPointerException e) {
+                        plugin.getPlatform().warn("The 'advanced.perDomainStatus.domains' has invalid structure.", e);
+                    }
+                }
+            } catch (PMUnsupportedConfigException e) {
+                logUnsupportedConfig("advanced.supportedProtocol");
+            }
+        }
+    }
+
+    private void logUnsupportedConfig(String value) {
+        plugin.getPlatform().warn("\"" + value + "\" was activated in the config, but your platform does not support this feature!");
+    }
+
+    private void applyServerConfig(PistonStatusPing ping, PistonMOTDServerConfig config) {
         Set<UUID> vanished = new HashSet<>();
 
         if (config.isExtensionVanishAPI()) {
@@ -176,49 +208,5 @@ public interface StatusPingListener {
                 plugin.getPlatform().warn("Invalid favicon mode: " + mode);
             }
         }
-
-        if (config.isAdvancedPerDomainStatusActivated()) {
-            try {
-                Optional<InetSocketAddress> virtualHost = ping.getClientVirtualHost();
-
-                if (virtualHost.isPresent()) {
-                    try {
-                        for (PistonMOTDServerConfig.PerDomainStatusDomain domainData : config.getAdvancedPerDomainStatusDomains().values()) {
-                            if (virtualHost.get().getHostString().endsWith(domainData.getDomain())) {
-                                if (domainData.isDescriptionActivated()) {
-                                    ping.setDescription(PMHelpers.getMOTDJson(
-                                            domainData.getDescriptionText(),
-                                            ping.supportsHex()));
-                                }
-
-                                if (domainData.isFaviconActivated()) {
-                                    Map<String, StatusFavicon> favicons = plugin.getFavicons().get();
-                                    String faviconName = domainData.getFaviconFile();
-                                    StatusFavicon favicon = favicons.get(faviconName);
-
-                                    if (favicon == null) {
-                                        getPlugin().getPlatform().warn("The favicon '" + faviconName + "' does not exist.");
-                                    } else {
-                                        ping.setFavicon(favicon);
-                                    }
-                                }
-
-                                break;
-                            }
-                        }
-                    } catch (ClassCastException | NullPointerException e) {
-                        getPlugin().getPlatform().warn("The 'advanced.perDomainStatus.domains' has invalid structure.", e);
-                    }
-                }
-            } catch (PMUnsupportedConfigException e) {
-                logUnsupportedConfig("advanced.supportedProtocol");
-            }
-        }
     }
-
-    default void logUnsupportedConfig(String value) {
-        getPlugin().getPlatform().warn("\"" + value + "\" was activated in the config, but your platform does not support this feature!");
-    }
-
-    PistonMOTDPlugin getPlugin();
 }

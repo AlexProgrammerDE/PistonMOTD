@@ -1,13 +1,9 @@
 package net.pistonmaster.pistonmotd.sponge;
 
 import com.google.inject.Inject;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
-import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
-import net.pistonmaster.pistonmotd.shared.StatusFavicon;
+import net.pistonmaster.pistonmotd.shared.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.bstats.sponge.Metrics;
@@ -36,8 +32,6 @@ import java.util.stream.Collectors;
 @Plugin("pistonmotd")
 public class PistonMOTDSponge implements PistonMOTDPlatform {
     private final Metrics.Factory metricsFactory;
-    @Getter
-    private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
     @Inject
     protected Game game;
     @Inject
@@ -52,6 +46,7 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
     private PluginContainer container;
     @Inject
     private MetricsConfigManager metricsConfigManager;
+    private PistonMOTDPlugin plugin;
 
     @Inject
     public PistonMOTDSponge(Metrics.Factory metricsFactory) {
@@ -60,6 +55,8 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
 
     @Listener
     public void onServerStart(final ConstructPluginEvent event) {
+        plugin = new PistonMOTDPlugin(this);
+
         plugin.logName();
 
         plugin.startupLoadConfig();
@@ -69,7 +66,7 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
         plugin.loadHooks();
 
         startup("Registering listeners");
-        game.eventManager().registerListeners(container, new PingEvent(plugin));
+        game.eventManager().registerListeners(container, new PingEvent(new StatusPingHandler(plugin)));
         game.eventManager().registerListeners(container, new JoinEvent(this));
 
         if (plugin.getPluginConfig().isUpdateChecking()) {
@@ -103,7 +100,7 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
         Command.Parameterized reload = Command.builder()
                 .shortDescription(Component.text("Reload the configuration of PistonMOTD!"))
                 .permission("pistonmotd.reload")
-                .executor(new SpongeReloadCommand(this))
+                .executor(new SpongeReloadCommand(plugin))
                 .build();
 
         event.register(this.container, Command.builder()

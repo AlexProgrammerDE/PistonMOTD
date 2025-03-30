@@ -1,14 +1,11 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
 import io.papermc.lib.PaperLib;
-import lombok.Getter;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
-import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
-import net.pistonmaster.pistonmotd.shared.StatusFavicon;
+import net.pistonmaster.pistonmotd.shared.*;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,13 +19,12 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings({"deprecation"})
 public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
-    @Getter
-    private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
     private BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
         this.adventure = BukkitAudiences.create(this);
+        PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
 
         plugin.logName();
 
@@ -43,16 +39,18 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
 
         startup("Registering listeners");
         if (PaperLib.isPaper()) {
-            getServer().getPluginManager().registerEvents(new PingEventPaper(plugin), this);
+            getServer().getPluginManager().registerEvents(new PingEventPaper(new StatusPingHandler(plugin)), this);
         } else {
             PaperLib.suggestPaper(this);
 
-            getServer().getPluginManager().registerEvents(new PingEventSpigot(plugin), this);
+            getServer().getPluginManager().registerEvents(new PingEventSpigot(new StatusPingHandler(plugin)), this);
         }
 
         startup("Registering command");
-        Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setTabCompleter(new BukkitCommand(this));
-        Objects.requireNonNull(getServer().getPluginCommand("pistonmotd")).setExecutor(new BukkitCommand(this));
+        PluginCommand command = Objects.requireNonNull(getServer().getPluginCommand("pistonmotd"));
+        BukkitCommand bukkitCommand = new BukkitCommand(plugin);
+        command.setTabCompleter(bukkitCommand);
+        command.setExecutor(bukkitCommand);
 
         plugin.checkUpdate();
 

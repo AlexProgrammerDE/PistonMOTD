@@ -3,10 +3,9 @@ package net.pistonmaster.pistonmotd.sponge;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.StatusPingListener;
+import net.pistonmaster.pistonmotd.shared.StatusPingHandler;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 import net.pistonmaster.pistonmotd.shared.utils.PMUnsupportedConfigException;
 import org.spongepowered.api.event.Listener;
@@ -21,12 +20,12 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-public class PingEvent implements StatusPingListener {
-    private final PistonMOTDPlugin plugin;
+public class PingEvent {
+    private final StatusPingHandler handler;
 
     @Listener
     public void onPing(ClientPingServerEvent event) {
-        handle(wrap(event));
+        handler.handle(wrap(event));
     }
 
     public PistonStatusPing wrap(ClientPingServerEvent event) {

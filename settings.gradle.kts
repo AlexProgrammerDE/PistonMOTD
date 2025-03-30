@@ -28,9 +28,6 @@ dependencyResolutionManagement {
         maven("https://repo.papermc.io/repository/maven-public/") {
             name = "PaperMC"
         }
-        maven("https://repo.spongepowered.org/maven") {
-            name = "SpongePowered"
-        }
         maven("https://nexus.velocitypowered.com/repository/maven-public/") {
             name = "VelocityPowered"
         }
@@ -52,7 +49,6 @@ setOf(
     "shared",
     "bukkit",
     "bungee",
-    "sponge",
     "velocity",
     "universal"
 ).forEach { setupPMSubproject(it) }

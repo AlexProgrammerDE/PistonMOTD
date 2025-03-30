@@ -9,13 +9,9 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.util.Favicon;
-import lombok.Getter;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.data.PluginData;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlatform;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
-import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
-import net.pistonmaster.pistonmotd.shared.StatusFavicon;
+import net.pistonmaster.pistonmotd.shared.*;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
@@ -32,8 +28,6 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
     private final Path pluginDir;
     private final PluginContainer container;
     private final Metrics.Factory metricsFactory;
-    @Getter
-    private final PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
 
     @Inject
     public PistonMOTDVelocity(ProxyServer proxyServer, Logger log, @DataDirectory Path pluginDir, PluginContainer container, Metrics.Factory metricsFactory) {
@@ -46,6 +40,7 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
+        PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
         plugin.logName();
 
         plugin.startupLoadConfig();
@@ -56,10 +51,10 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
         plugin.loadHooks();
 
         startup("Registering listeners");
-        proxyServer.getEventManager().register(this, new PingEvent(plugin));
+        proxyServer.getEventManager().register(this, new PingEvent(new StatusPingHandler(plugin)));
 
         startup("Registering command");
-        proxyServer.getCommandManager().register("pistonmotd", new VelocityCommand(this), "pistonmotdv", "pistonmotdvelocity");
+        proxyServer.getCommandManager().register("pistonmotd", new VelocityCommand(plugin), "pistonmotdv", "pistonmotdvelocity");
 
         if (container.getDescription().getVersion().isPresent()) {
             plugin.checkUpdate();

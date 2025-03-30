@@ -11,10 +11,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 import net.pistonmaster.pistonmotd.shared.PistonStatusPing;
 import net.pistonmaster.pistonmotd.shared.StatusFavicon;
-import net.pistonmaster.pistonmotd.shared.StatusPingListener;
+import net.pistonmaster.pistonmotd.shared.StatusPingHandler;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 
 import java.net.InetSocketAddress;
@@ -25,12 +24,12 @@ import java.util.stream.Stream;
 
 @Getter
 @RequiredArgsConstructor
-public class PingEvent implements Listener, StatusPingListener {
-    private final PistonMOTDPlugin plugin;
+public class PingEvent implements Listener {
+    private final StatusPingHandler handler;
 
     @EventHandler
     public void onPing(ProxyPingEvent event) {
-        handle(wrap(event));
+        handler.handle(wrap(event));
     }
 
     private PistonStatusPing wrap(ProxyPingEvent event) {
