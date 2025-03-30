@@ -4,7 +4,7 @@ plugins {
 
 allprojects {
     group = "net.pistonmaster"
-    version = "5.2.0"
+    version = property("maven_version")!!
     description = "Best MOTD plugin with multi-platform support!"
 }
 
