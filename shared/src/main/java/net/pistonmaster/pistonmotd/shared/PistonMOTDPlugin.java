@@ -148,11 +148,11 @@ public class PistonMOTDPlugin {
             SemanticVersion currentVersion = SemanticVersion.fromString(currentVersionString);
 
             if (gitHubVersion.isNewerThan(currentVersion)) {
-                platform.startup("You're up to date!");
-            } else {
                 platform.info(ConsoleColor.RED + "There is an update available!" + ConsoleColor.RESET);
                 platform.info(ConsoleColor.RED + "Current version: " + currentVersionString + " New version: " + gitHubVersion + ConsoleColor.RESET);
                 platform.info(ConsoleColor.RED + "Download it at: https://github.com/AlexProgrammerDE/PistonMOTD/releases" + ConsoleColor.RESET);
+            } else {
+                platform.startup("You're up to date!");
             }
         } catch (IOException e) {
             platform.error("Could not check for updates!", e);
