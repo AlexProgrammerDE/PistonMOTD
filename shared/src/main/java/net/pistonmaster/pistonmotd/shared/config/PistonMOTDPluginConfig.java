@@ -13,6 +13,7 @@ public class PistonMOTDPluginConfig extends PistonMOTDServerConfig {
     private boolean advancedPerDomainStatusActivated;
     private Map<String, PistonMOTDDomainConfig> advancedPerDomainStatusDomains;
 
+    @Override
     public void load(AxiomConfigurationSection config) {
         super.load(config);
         updateChecking = config.getBoolean("updateChecking");

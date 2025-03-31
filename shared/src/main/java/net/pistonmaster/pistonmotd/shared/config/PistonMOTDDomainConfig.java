@@ -1,13 +1,14 @@
 package net.pistonmaster.pistonmotd.shared.config;
 
 import lombok.Getter;
-import net.skinsrestorer.axiom.AxiomConfiguration;
+import net.skinsrestorer.axiom.AxiomConfigurationSection;
 
 @Getter
 public class PistonMOTDDomainConfig extends PistonMOTDServerConfig {
     private String domain;
 
-    protected void load(AxiomConfiguration config) {
+    @Override
+    protected void load(AxiomConfigurationSection config) {
         super.load(config);
         domain = config.getString("domain");
     }
