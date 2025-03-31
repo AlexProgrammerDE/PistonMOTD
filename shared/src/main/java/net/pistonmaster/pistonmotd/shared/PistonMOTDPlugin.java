@@ -142,16 +142,17 @@ public class PistonMOTDPlugin {
     public void checkUpdate() {
         platform.startup("Checking for a newer version");
         try {
+            String currentVersionString = platform.getVersion();
             SemanticVersion gitHubVersion = new GitHubUpdateChecker()
                     .getVersion("https://api.github.com/repos/AlexProgrammerDE/PistonMOTD/releases/latest");
-            SemanticVersion currentVersion = SemanticVersion.fromString(platform.getVersion());
+            SemanticVersion currentVersion = SemanticVersion.fromString(currentVersionString);
 
             if (gitHubVersion.isNewerThan(currentVersion)) {
                 platform.startup("You're up to date!");
             } else {
                 platform.info(ConsoleColor.RED + "There is an update available!" + ConsoleColor.RESET);
-                platform.info(ConsoleColor.RED + "Current version: " + platform.getVersion() + " New version: " + gitHubVersion + ConsoleColor.RESET);
-                platform.info(ConsoleColor.RED + "Download it at: " + platform.getDownloadURL() + ConsoleColor.RESET);
+                platform.info(ConsoleColor.RED + "Current version: " + currentVersionString + " New version: " + gitHubVersion + ConsoleColor.RESET);
+                platform.info(ConsoleColor.RED + "Download it at: https://github.com/AlexProgrammerDE/PistonMOTD/releases" + ConsoleColor.RESET);
             }
         } catch (IOException e) {
             platform.error("Could not check for updates!", e);

@@ -23,14 +23,6 @@ public interface PistonMOTDPlatform {
 
     int getPlayerCount();
 
-    default String getDownloadURL() {
-        return "https://github.com/AlexProgrammerDE/PistonMOTD/releases";
-    }
-
-    default String getStrippedVersion() {
-        return getVersion().replace("-SNAPSHOT", "");
-    }
-
     String getVersion();
 
     void info(String message);
