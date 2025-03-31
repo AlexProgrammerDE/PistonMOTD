@@ -58,10 +58,7 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
             }
         }
 
-        if (config.isDescriptionActivated()) {
-            ping.setDescription(PMHelpers.getMOTDJson(config.getDescriptionText(), ping.supportsHex()));
-        }
-
+        // Any player count modifications first
         if (config.isPlayersHide()) {
             try {
                 ping.hidePlayers();
@@ -144,7 +141,10 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
                     ping.clearSamples();
 
                     for (String str : config.getPlayersSampleText()) {
-                        ping.addSample(UUID.randomUUID(), PlaceholderUtil.parseTextToLegacy(str));
+                        ping.addSample(
+                            UUID.randomUUID(),
+                            parseWithPing(ping, PlaceholderUtil.parseTextToLegacy(str))
+                        );
                     }
                 } catch (PMUnsupportedConfigException e) {
                     logUnsupportedConfig("players.sample");
@@ -152,11 +152,21 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
             }
         }
 
+        if (config.isDescriptionActivated()) {
+            ping.setDescription(PMHelpers.getMOTDJson(config.getDescriptionText()
+                .stream()
+                .map(str -> parseWithPing(ping, str))
+                .toList(),
+                ping.supportsHex()
+            ));
+        }
+
         if (config.isVersionNameActivated()) {
             try {
-                ping.setVersionName(PlaceholderUtil.parseTextToLegacy(config.getVersionNameText()
+                ping.setVersionName(PlaceholderUtil.parseTextToLegacy(parseWithPing(ping, config.getVersionNameText()
                     .replace("%aftericon%", PMHelpers.AFTER_ICON)
-                    .replace("<after_icon>", PMHelpers.AFTER_ICON)));
+                    .replace("<after_icon>", PMHelpers.AFTER_ICON)
+                )));
             } catch (PMUnsupportedConfigException e) {
                 logUnsupportedConfig("version.name");
             }
@@ -207,6 +217,20 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
             } else {
                 plugin.getPlatform().warn("Invalid favicon mode: " + mode);
             }
+        }
+    }
+
+    private static String parseWithPing(PistonStatusPing ping, String str) {
+        return str
+            .replace("<passthrough_online>", String.valueOf(getPingOnline(ping)))
+            .replace("<passthrough_max>", String.valueOf(ping.getMax()));
+    }
+
+    private static int getPingOnline(PistonStatusPing ping) {
+        try {
+            return ping.getOnline();
+        } catch (PMUnsupportedConfigException e) {
+            return 0;
         }
     }
 }
