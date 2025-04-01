@@ -1,7 +1,10 @@
+import io.papermc.hangarpublishplugin.model.Platforms
+
 plugins {
     java
     id("xyz.wagyourtail.jvmdowngrader")
     id("org.spongepowered.gradle.ore") version "2.3.0"
+    id("io.papermc.hangar-publish-plugin") version "0.1.3"
 }
 
 dependencies {
@@ -46,5 +49,38 @@ oreDeployment {
         versionBody.set(providers.environmentVariable("ORE_CHANGELOG"))
         channel.set("Release")
         publishArtifacts.from(tasks.shadeDowngradedApi.map { it.outputs })
+    }
+}
+
+hangarPublish {
+    publications.register("plugin") {
+        version.set(project.version.toString())
+        channel.set("Release")
+        id.set("PistonMOTD")
+        apiKey.set(providers.environmentVariable("HANGAR_TOKEN"))
+        changelog.set(providers.environmentVariable("HANGAR_CHANGELOG"))
+        platforms {
+            register(Platforms.PAPER) {
+                jar.set(tasks.shadeDowngradedApi.flatMap { it.archiveFile })
+                val versions: List<String> = providers.gradleProperty("paperVersion").get()
+                    .split(",")
+                    .map { it.trim() }
+                platformVersions.set(versions)
+            }
+            register(Platforms.VELOCITY) {
+                jar.set(tasks.shadeDowngradedApi.flatMap { it.archiveFile })
+                val versions: List<String> = providers.gradleProperty("velocityVersion").get()
+                    .split(",")
+                    .map { it.trim() }
+                platformVersions.set(versions)
+            }
+            register(Platforms.WATERFALL) {
+                jar.set(tasks.shadeDowngradedApi.flatMap { it.archiveFile })
+                val versions: List<String> = providers.gradleProperty("waterfallVersion").get()
+                    .split(",")
+                    .map { it.trim() }
+                platformVersions.set(versions)
+            }
+        }
     }
 }

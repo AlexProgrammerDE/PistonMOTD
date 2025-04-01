@@ -131,10 +131,16 @@ jobs:
         fail-mode: fail
 
     - name: Publish to Ore
-      run: ./gradlew publishToOre
+      run: ./gradlew publishToOre --stacktrace
       env:
         ORE_TOKEN: ${{ secrets.ORE_TOKEN }}
         ORE_CHANGELOG: ${{ steps.github_release.outputs.changelog }}
+
+    - name: Publish to Hangar
+      run: ./gradlew publishPluginPublicationToHangar --stacktrace
+      env:
+        HANGAR_TOKEN: ${{ secrets.HANGAR_TOKEN }}
+        HANGAR_CHANGELOG: ${{ steps.github_release.outputs.changelog }}
 
     - name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0
