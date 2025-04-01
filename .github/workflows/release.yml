@@ -28,13 +28,6 @@ jobs:
         projectVersion=$(grep '^maven_version=' gradle.properties | cut -d'=' -f2)
         echo "version=$projectVersion" >> $GITHUB_OUTPUT
 
-    - name: Upload a jar Artifact
-      uses: actions/upload-artifact@v4.6.2
-      with:
-        name: PistonMOTD
-        path: build/libs/PistonMOTD-${{ steps.set-version.outputs.version }}.jar
-        if-no-files-found: error
-
     - name: Build Changelog
       id: github_release
       uses: mikepenz/release-changelog-builder-action@v5
@@ -137,15 +130,11 @@ jobs:
         retry-delay: 10000
         fail-mode: fail
 
-    - name: Upload to Ore
-      uses: dualspiral/ore-upload-action@v1
-      with:
-        plugin: PistonMOTD
-        apiKey: ${{ secrets.ORE_TOKEN }}
-        channel: Release
-        pluginId: pistonmotd
-        createForumPost: true
-        description: ''
+    - name: Publish to Ore
+      run: ./gradlew publishToOre
+      env:
+        ORE_TOKEN: ${{ secrets.ORE_TOKEN }}
+        ORE_CHANGELOG: ${{ steps.github_release.outputs.changelog }}
 
     - name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0

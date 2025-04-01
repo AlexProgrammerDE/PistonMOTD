@@ -1,6 +1,7 @@
 plugins {
     java
     id("xyz.wagyourtail.jvmdowngrader")
+    id("org.spongepowered.gradle.ore") version "2.3.0"
 }
 
 dependencies {
@@ -32,5 +33,18 @@ tasks {
     }
     build {
         dependsOn(shadeDowngradedApi)
+    }
+}
+
+oreDeployment {
+    oreEndpoint("https://ore.spongepowered.org/")
+    apiKey().set(providers.environmentVariable("ORE_TOKEN"))
+
+    defaultPublication {
+        projectId.set("PistonMOTD")
+        createForumPost.set(true)
+        versionBody.set(providers.environmentVariable("ORE_CHANGELOG"))
+        channel.set("Release")
+        publishArtifacts.from(tasks.shadeDowngradedApi.map { it.outputs })
     }
 }
