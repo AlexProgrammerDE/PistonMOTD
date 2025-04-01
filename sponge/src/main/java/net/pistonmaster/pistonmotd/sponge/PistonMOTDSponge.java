@@ -22,7 +22,7 @@ import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.io.InputStream;
-import java.net.URI;
+import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
@@ -66,8 +66,8 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
         plugin.loadHooks();
 
         startup("Registering listeners");
-        game.eventManager().registerListeners(container, new PingEvent(new StatusPingHandler(plugin)));
-        game.eventManager().registerListeners(container, new JoinEvent(this));
+        game.eventManager().registerListeners(container, new PingEvent(new StatusPingHandler(plugin)), MethodHandles.publicLookup());
+        game.eventManager().registerListeners(container, new JoinEvent(this), MethodHandles.publicLookup());
 
         if (plugin.getPluginConfig().isUpdateChecking()) {
             plugin.checkUpdate();
@@ -132,7 +132,7 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
 
     @Override
     public InputStream getBundledResource(String name) {
-        return container.openResource(URI.create(name)).orElse(null);
+        return container.openResource(name).orElse(null);
     }
 
     @Override
