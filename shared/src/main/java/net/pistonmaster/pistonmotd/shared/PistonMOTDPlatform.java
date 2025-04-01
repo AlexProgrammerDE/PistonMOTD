@@ -23,6 +23,10 @@ public interface PistonMOTDPlatform {
 
     int getPlayerCount();
 
+    default String getDownloadURL() {
+        return "https://modrinth.com/plugin/pistonmotd";
+    }
+
     String getVersion();
 
     void info(String message);

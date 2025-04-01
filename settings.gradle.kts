@@ -49,6 +49,7 @@ setOf(
     "shared",
     "bukkit",
     "bungee",
+    "sponge",
     "velocity",
     "universal"
 ).forEach { setupPMSubproject(it) }

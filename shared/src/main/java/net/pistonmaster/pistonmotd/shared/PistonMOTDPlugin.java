@@ -150,7 +150,7 @@ public class PistonMOTDPlugin {
             if (gitHubVersion.isNewerThan(currentVersion)) {
                 platform.info(ConsoleColor.RED + "There is an update available!" + ConsoleColor.RESET);
                 platform.info(ConsoleColor.RED + "Current version: " + currentVersionString + " New version: " + gitHubVersion + ConsoleColor.RESET);
-                platform.info(ConsoleColor.RED + "Download it at: https://modrinth.com/plugin/pistonmotd" + ConsoleColor.RESET);
+                platform.info(ConsoleColor.RED + "Download it at: " + platform.getDownloadURL() + ConsoleColor.RESET);
             } else {
                 platform.startup("You're up to date!");
             }
