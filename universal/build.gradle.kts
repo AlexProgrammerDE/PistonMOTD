@@ -41,7 +41,7 @@ oreDeployment {
     apiKey().set(providers.environmentVariable("ORE_TOKEN"))
 
     defaultPublication {
-        projectId.set("PistonMOTD")
+        projectId.set("pistonmotd")
         createForumPost.set(true)
         versionBody.set(providers.environmentVariable("ORE_CHANGELOG"))
         channel.set("Release")
