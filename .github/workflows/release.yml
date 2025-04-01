@@ -22,17 +22,17 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build test --stacktrace --scan
 
-    - name: Upload a jar Artifact
-      uses: actions/upload-artifact@v4.6.2
-      with:
-        name: PistonMOTD
-        path: build/libs/PistonMOTD-${{ steps.set-version.outputs.version }}.jar
-
     - name: Set version
       id: set-version
       run: |
         projectVersion=$(grep '^maven_version=' gradle.properties | cut -d'=' -f2)
         echo "version=$projectVersion" >> $GITHUB_OUTPUT
+
+    - name: Upload a jar Artifact
+      uses: actions/upload-artifact@v4.6.2
+      with:
+        name: PistonMOTD
+        path: build/libs/PistonMOTD-${{ steps.set-version.outputs.version }}.jar
 
     - name: Build Changelog
       id: github_release
