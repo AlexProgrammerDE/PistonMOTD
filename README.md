@@ -62,3 +62,4 @@ Latest Version (Without the v):
 
 * Modrinth: https://modrinth.com/plugin/pistonmotd
 * SpigotMC: https://www.spigotmc.org/resources/80567/
+* Ore: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/
