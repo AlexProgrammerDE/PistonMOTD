@@ -21,6 +21,13 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
     - name: Build with Gradle
       run: ./gradlew build test --stacktrace --scan
+
+    - name: Upload a jar Artifact
+      uses: actions/upload-artifact@v4.6.2
+      with:
+        name: PistonMOTD
+        path: build/libs/PistonMOTD-${{ steps.set-version.outputs.version }}.jar
+
     - name: Set version
       id: set-version
       run: |
@@ -77,6 +84,16 @@ jobs:
         retry-attempts: 2
         retry-delay: 10000
         fail-mode: fail
+
+    - name: Upload to Ore
+      uses: dualspiral/ore-upload-action@v1
+      with:
+        plugin: PistonMOTD
+        description: ${{ steps.github_release.outputs.changelog }}
+        apiKey: ${{ secrets.ORE_TOKEN }}
+        channel: Release
+        pluginId: pistonmotd
+        createForumPost: true
 
     - name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0
