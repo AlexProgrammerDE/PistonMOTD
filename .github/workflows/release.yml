@@ -41,7 +41,7 @@ jobs:
         modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
         github-tag: ${{ steps.set-version.outputs.version }}
-        github-generate-changelog: true
+        github-generate-changelog: false
         github-draft: false
         github-prerelease: false
         github-commitish: main
