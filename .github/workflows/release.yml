@@ -44,11 +44,11 @@ jobs:
         github-generate-changelog: true
         github-draft: false
         github-prerelease: false
-        github-commitish: dev
+        github-commitish: main
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
         files: |
-          build/libs/PistonMOTD-*.jar
+          build/libs/PistonMOTD-${{ steps.set-version.outputs.version }}.jar
 
         name: PistonMOTD ${{ steps.set-version.outputs.version }}
         version: ${{ steps.set-version.outputs.version }}
