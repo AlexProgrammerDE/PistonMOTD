@@ -145,6 +145,7 @@ jobs:
         channel: Release
         pluginId: pistonmotd
         createForumPost: true
+        description: ''
 
     - name: Discord Webhook Action
       uses: tsickert/discord-webhook@v7.0.0
