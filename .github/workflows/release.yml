@@ -18,6 +18,7 @@ jobs:
     secrets: inherit
 
   build:
+    needs: set-release-version
     runs-on: ubuntu-latest
     permissions:
       contents: write
