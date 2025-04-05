@@ -1,8 +1,22 @@
 name: Publish Release
 
-on: [ workflow_dispatch ]
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: true
+      after-version:
+        description: 'Snapshot version after release'
+        required: true
 
 jobs:
+  set-release-version:
+    uses: AlexProgrammerDE/PistonMOTD/.github/workflows/set-version.yml@main
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit
+
   build:
     runs-on: ubuntu-latest
     permissions:
@@ -23,12 +37,6 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
     - name: Build with Gradle
       run: ./gradlew build test --stacktrace --scan
-
-    - name: Set version
-      id: set-version
-      run: |
-        projectVersion=$(grep '^maven_version=' gradle.properties | cut -d'=' -f2)
-        echo "version=$projectVersion" >> $GITHUB_OUTPUT
 
     - name: Build Changelog
       id: github_release
@@ -94,7 +102,7 @@ jobs:
         modrinth-unfeature-mode: subset
         modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
-        github-tag: ${{ steps.set-version.outputs.version }}
+        github-tag: ${{ inputs.version }}
         github-generate-changelog: false
         github-draft: false
         github-prerelease: false
@@ -102,10 +110,10 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
         files: |
-          build/libs/PistonMOTD-${{ steps.set-version.outputs.version }}.jar
+          build/libs/PistonMOTD-${{ inputs.version }}.jar
 
-        name: PistonMOTD ${{ steps.set-version.outputs.version }}
-        version: ${{ steps.set-version.outputs.version }}
+        name: PistonMOTD ${{ inputs.version }}
+        version: ${{ inputs.version }}
         version-type: release
         changelog: ${{ steps.github_release.outputs.changelog }}
 
@@ -149,7 +157,14 @@ jobs:
       with:
         webhook-url: ${{ secrets.WEBHOOK_URL }}
         content: <@&850705047938793503> New PistonMOTD version released!
-        embed-title: PistonMOTD ${{ steps.set-version.outputs.version }}
-        embed-description: PistonMOTD ${{ steps.set-version.outputs.version }} has been released! Changelog and download can be found at https://modrinth.com/plugin/pistonmotd/version/${{ steps.set-version.outputs.version }}
+        embed-title: PistonMOTD ${{ inputs.version }}
+        embed-description: PistonMOTD ${{ inputs.version }} has been released! Changelog and download can be found at https://modrinth.com/plugin/pistonmotd/version/${{ inputs.version }}
         embed-color: 16641028
         embed-thumbnail-url: https://raw.githubusercontent.com/AlexProgrammerDE/PistonMOTD/refs/heads/main/images/logo.png
+
+  set-after-version:
+    needs: build
+    uses: AlexProgrammerDE/PistonMOTD/.github/workflows/set-version.yml@main
+    with:
+      version: ${{ inputs.after-version }}
+    secrets: inherit
