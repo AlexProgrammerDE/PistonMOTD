@@ -102,6 +102,8 @@ advanced:
   # If activated the server will display a status per server address the request comes from.
   # This is useful for servers that have multiple addresses and want to route traffic to another server.
   # The default status is shown when the request doesn't come from the below addresses.
+  # All config options are available for the per domain status, but you have to add them below yourself.
+  # This is because this config would be too big if I added all available options for every example domain.
   perDomainStatus:
     activated: false
     domains:
@@ -113,7 +115,12 @@ advanced:
             - "&3Hello domain 1!"
         favicon:
           activated: false
-          file: example.png
+          mode: SINGLE
+          single: example.png
+        players:
+          max:
+            activated: false
+            value: 20
       example2:
         domain: example2.com
         description:
@@ -122,7 +129,12 @@ advanced:
             - "&3Hello domain 2!"
         favicon:
           activated: false
-          file: example2.png
+          mode: SINGLE
+          single: example.png
+        version:
+          name:
+            activated: false
+            text: "&1My cool domain version!"
 
 # Check for updates on startup. (Only works on Sponge)
 updateChecking: true

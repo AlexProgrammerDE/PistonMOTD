@@ -4,6 +4,7 @@ import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PMHelpers {
@@ -20,7 +21,7 @@ public class PMHelpers {
 
     public static <T extends Enum<T>> T getSafeEnum(Class<T> enumClass, String name) {
         try {
-            return Enum.valueOf(enumClass, name);
+            return Enum.valueOf(enumClass, name.toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException e) {
             return null;
         }

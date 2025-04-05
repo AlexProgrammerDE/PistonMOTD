@@ -6,7 +6,6 @@ import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
 import net.skinsrestorer.axiom.AxiomConfigurationSection;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -80,7 +79,14 @@ public class PistonMOTDServerConfig {
     extensionPrefixLuckperms = Objects.requireNonNullElse(config.getBoolean("extensions.prefix.luckperms"), false);
 
     faviconActivated = Objects.requireNonNullElse(config.getBoolean("favicon.activated"), false);
-    faviconMode = PMHelpers.getSafeEnum(FaviconMode.class, Objects.requireNonNullElse(config.getString("favicon.mode"), FaviconMode.SINGLE.name()).toUpperCase(Locale.ROOT));
-    faviconSingle = Objects.requireNonNullElse(config.getString("favicon.single"), "");
+    faviconMode = PMHelpers.getSafeEnum(FaviconMode.class, Objects.requireNonNullElse(config.getString("favicon.mode"), FaviconMode.SINGLE.name()));
+    faviconSingle = Objects.requireNonNullElse(
+        Objects.requireNonNullElse(
+            config.getString("favicon.single"),
+            // To support old per domain configs
+            config.getString("favicon.file")
+        ),
+        ""
+    );
   }
 }
