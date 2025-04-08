@@ -42,7 +42,7 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
     }
 
     private void logUnsupportedConfig(String value) {
-        plugin.getPlatform().warn("\"" + value + "\" was activated in the config, but your platform does not support this feature!");
+        plugin.getPlatform().warn("\"%s\" was activated in the config, but your platform does not support this feature!".formatted(value));
     }
 
     private void applyServerConfig(PistonStatusPing ping, PistonMOTDServerConfig config) {
@@ -210,12 +210,12 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
                 StatusFavicon favicon = favicons.get(faviconName);
 
                 if (favicon == null) {
-                    plugin.getPlatform().warn("The favicon '" + faviconName + "' does not exist.");
+                    plugin.getPlatform().warn("The favicon '%s' does not exist.".formatted(faviconName));
                 } else {
                     ping.setFavicon(favicon);
                 }
             } else {
-                plugin.getPlatform().warn("Invalid favicon mode: " + mode);
+                plugin.getPlatform().warn("Invalid favicon mode: %s".formatted(mode));
             }
         }
     }
