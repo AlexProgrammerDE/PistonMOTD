@@ -1,12 +1,23 @@
 {
-  "extends": ["config:base", "group:allNonMajor", ":semanticCommits"],
+  "extends": [
+    "config:recommended",
+    "group:allNonMajor",
+    ":semanticCommits"
+  ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "automerge": true
     },
     {
-      "matchPackageNames": ["**"],
+      "matchPackageNames": [
+        "**"
+      ],
       "allowedVersions": "!/\\-SNAPSHOT$/"
     }
   ]
