@@ -5,10 +5,10 @@ plugins {
 }
 
 dependencies {
-    implementation("net.kyori:adventure-api:4.20.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.20.0")
-    implementation("net.kyori:adventure-text-serializer-gson:4.20.0")
-    implementation("net.kyori:adventure-text-minimessage:4.20.0")
+    implementation("net.kyori:adventure-api:4.21.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.21.0")
+    implementation("net.kyori:adventure-text-serializer-gson:4.21.0")
+    implementation("net.kyori:adventure-text-minimessage:4.21.0")
 }
 
 tasks.named<ShadowJar>("shadowJar").get().apply {
