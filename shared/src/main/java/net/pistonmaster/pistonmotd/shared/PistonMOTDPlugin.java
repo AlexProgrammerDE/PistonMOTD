@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -49,6 +50,11 @@ public class PistonMOTDPlugin {
     public void startupLoadConfig() {
         platform.startup("Loading config");
         loadConfig();
+    }
+
+    public void startupRegisterTasks() {
+        platform.startup("Registering tasks");
+        platform.runAsync(this::loadFavicons, 5, 5, TimeUnit.SECONDS);
     }
 
     public void loadConfig() {
@@ -106,7 +112,7 @@ public class PistonMOTDPlugin {
                 try {
                     newFavicons.put(p.getFileName().toString(), platform.createFavicon(p));
                 } catch (Exception e) {
-                    platform.error("Could not load favicon! (" + p.getFileName() + ")", e);
+                    platform.error("Could not load favicon! (%s)".formatted(p.getFileName()), e);
                 }
             }
         } catch (IOException e) {

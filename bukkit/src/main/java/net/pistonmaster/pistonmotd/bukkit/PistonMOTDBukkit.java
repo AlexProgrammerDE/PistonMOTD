@@ -1,5 +1,6 @@
 package net.pistonmaster.pistonmotd.bukkit;
 
+import com.tcoded.folialib.FoliaLib;
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
@@ -15,20 +16,25 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"deprecation"})
 public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
+    private FoliaLib foliaLib;
     private BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
+        this.foliaLib =  new FoliaLib(this);
         this.adventure = BukkitAudiences.create(this);
         PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
 
         plugin.logName();
 
         plugin.startupLoadConfig();
+
+        plugin.startupRegisterTasks();
 
         plugin.registerCommonPlaceholder();
         if (PaperLib.isPaper()) {
@@ -191,5 +197,10 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
     @Override
     public Class<?> getPlayerClass() {
         return Player.class;
+    }
+
+    @Override
+    public void runAsync(Runnable runnable, long delay, long period, TimeUnit unit) {
+        foliaLib.getScheduler().runTimerAsync(runnable, delay, period, unit);
     }
 }

@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
@@ -27,6 +28,8 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
         plugin.logName();
 
         plugin.startupLoadConfig();
+
+        plugin.startupRegisterTasks();
 
         plugin.registerCommonPlaceholder();
         PlaceholderUtil.registerParser(new ServerPlaceholder(getProxy()));
@@ -183,5 +186,10 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
     @Override
     public Class<?> getPlayerClass() {
         return ProxiedPlayer.class;
+    }
+
+    @Override
+    public void runAsync(Runnable runnable, long delay, long period, TimeUnit unit) {
+        getProxy().getScheduler().schedule(this, runnable, delay, period, unit);
     }
 }

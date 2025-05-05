@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
@@ -44,6 +45,8 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
         plugin.logName();
 
         plugin.startupLoadConfig();
+
+        plugin.startupRegisterTasks();
 
         plugin.registerCommonPlaceholder();
         PlaceholderUtil.registerParser(new ServerPlaceholder(proxyServer));
@@ -178,5 +181,13 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
     @Override
     public Class<?> getPlayerClass() {
         return Player.class;
+    }
+
+    @Override
+    public void runAsync(Runnable runnable, long delay, long period, TimeUnit unit) {
+        proxyServer.getScheduler().buildTask(this, runnable)
+                .delay(delay, unit)
+                .repeat(period, unit)
+                .schedule();
     }
 }

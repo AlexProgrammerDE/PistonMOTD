@@ -16,6 +16,7 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
 import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.network.status.Favicon;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.util.Tristate;
 import org.spongepowered.api.util.metric.MetricsConfigManager;
 import org.spongepowered.plugin.PluginContainer;
@@ -26,6 +27,7 @@ import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("SpongeInjection")
@@ -60,6 +62,8 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
         plugin.logName();
 
         plugin.startupLoadConfig();
+
+        plugin.startupRegisterTasks();
 
         plugin.registerCommonPlaceholder();
 
@@ -245,5 +249,15 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
     @Override
     public Class<?> getPlayerClass() {
         return Player.class;
+    }
+
+    @Override
+    public void runAsync(Runnable runnable, long delay, long period, TimeUnit unit) {
+        game.asyncScheduler().submit(Task.builder()
+            .plugin(container)
+            .delay(delay, unit)
+            .interval(period, unit)
+            .execute(runnable)
+            .build());
     }
 }

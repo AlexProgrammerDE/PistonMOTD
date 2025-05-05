@@ -5,6 +5,7 @@ import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public interface PistonMOTDPlatform {
     boolean isPluginEnabled(String pluginName);
@@ -54,6 +55,8 @@ public interface PistonMOTDPlatform {
     boolean isLuckPermsAvailable();
 
     Class<?> getPlayerClass();
+
+    void runAsync(Runnable runnable, long delay, long period, TimeUnit unit);
 
     class FaviconFilter implements DirectoryStream.Filter<Path> {
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:**.png");

@@ -33,4 +33,5 @@ fun ShadowJar.configureRelocations() {
     relocate("com.google.gson", "net.pistonmaster.pistonmotd.shadow.gson")
     relocate("com.google.errorprone", "net.pistonmaster.pistonmotd.shadow.errorprone")
     relocate("net.lenni0451.mcstructs", "net.pistonmaster.pistonmotd.shadow.mcstructs")
+    relocate("com.tcoded.folialib", "net.pistonmaster.pistonmotd.shadow.folialib")
 }
