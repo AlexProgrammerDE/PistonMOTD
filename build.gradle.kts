@@ -5,7 +5,7 @@ plugins {
 allprojects {
     group = "net.pistonmaster"
     version = property("maven_version")!!
-    description = "Best MOTD plugin with multi-platform support!"
+    description = "Control your Minecraft server's MOTD. Supports RGB colors and multiple platforms."
 
     repositories {
         mavenCentral()
