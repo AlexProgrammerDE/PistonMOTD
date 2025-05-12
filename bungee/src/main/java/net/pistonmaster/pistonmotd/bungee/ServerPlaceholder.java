@@ -9,14 +9,14 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class ServerPlaceholder implements PlaceholderParser {
-    private final ProxyServer proxyServer;
+  private final ProxyServer proxyServer;
 
-    @Override
-    public String parseString(String text) {
-        for (Map.Entry<String, ServerInfo> entry : proxyServer.getServers().entrySet()) {
-            text = text.replace("%online_" + entry.getKey() + "%", String.valueOf(entry.getValue().getPlayers().size()));
-            text = text.replace("<online_" + entry.getKey() + ">", String.valueOf(entry.getValue().getPlayers().size()));
-        }
-        return text;
+  @Override
+  public String parseString(String text) {
+    for (Map.Entry<String, ServerInfo> entry : proxyServer.getServers().entrySet()) {
+      text = text.replace("%online_" + entry.getKey() + "%", String.valueOf(entry.getValue().getPlayers().size()));
+      text = text.replace("<online_" + entry.getKey() + ">", String.valueOf(entry.getValue().getPlayers().size()));
     }
+    return text;
+  }
 }

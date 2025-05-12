@@ -17,44 +17,44 @@ import java.util.List;
 @RequiredArgsConstructor
 @SuppressWarnings({"deprecation"})
 public class BukkitCommand implements CommandExecutor, TabExecutor {
-    private final PistonMOTDPlugin plugin;
+  private final PistonMOTDPlugin plugin;
 
-    @Override
-    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String s, String[] args) {
-        if (((args.length > 0 && args[0].equalsIgnoreCase("help")) || args.length == 0) && sender.hasPermission("pistonmotd.help")) {
-            sender.spigot().sendMessage(new ComponentBuilder("Commands:").create());
-            sender.spigot().sendMessage(new ComponentBuilder("/pistonmotd help").create());
-            sender.spigot().sendMessage(new ComponentBuilder("/pistonmotd reload").create());
-            return true;
-        } else if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("pistonmotd.reload")) {
-            plugin.loadConfig();
-            sender.spigot().sendMessage(new ComponentBuilder("Reloaded the config!").create());
-            return true;
-        }
-
-        return false;
+  @Override
+  public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String s, String[] args) {
+    if (((args.length > 0 && args[0].equalsIgnoreCase("help")) || args.length == 0) && sender.hasPermission("pistonmotd.help")) {
+      sender.spigot().sendMessage(new ComponentBuilder("Commands:").create());
+      sender.spigot().sendMessage(new ComponentBuilder("/pistonmotd help").create());
+      sender.spigot().sendMessage(new ComponentBuilder("/pistonmotd reload").create());
+      return true;
+    } else if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("pistonmotd.reload")) {
+      plugin.loadConfig();
+      sender.spigot().sendMessage(new ComponentBuilder("Reloaded the config!").create());
+      return true;
     }
 
-    @Override
-    public List<String> onTabComplete(CommandSender sender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
-        List<String> commands = new ArrayList<>();
+    return false;
+  }
 
-        if (sender.hasPermission("pistonmotd.help")) {
-            commands.add("help");
-        }
+  @Override
+  public List<String> onTabComplete(CommandSender sender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
+    List<String> commands = new ArrayList<>();
 
-        if (sender.hasPermission("pistonmotd.reload")) {
-            commands.add("reload");
-        }
-
-        List<String> completions = new ArrayList<>();
-
-        if (!commands.isEmpty() && args.length == 1 && args[0] != null) {
-            StringUtil.copyPartialMatches(args[0], commands, completions);
-        }
-
-        Collections.sort(completions);
-
-        return completions;
+    if (sender.hasPermission("pistonmotd.help")) {
+      commands.add("help");
     }
+
+    if (sender.hasPermission("pistonmotd.reload")) {
+      commands.add("reload");
+    }
+
+    List<String> completions = new ArrayList<>();
+
+    if (!commands.isEmpty() && args.length == 1 && args[0] != null) {
+      StringUtil.copyPartialMatches(args[0], commands, completions);
+    }
+
+    Collections.sort(completions);
+
+    return completions;
+  }
 }

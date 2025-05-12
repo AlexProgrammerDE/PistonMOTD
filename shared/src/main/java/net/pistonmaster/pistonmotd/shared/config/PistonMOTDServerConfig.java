@@ -62,15 +62,15 @@ public class PistonMOTDServerConfig {
 
     advancedSupportedProtocolActivated = Objects.requireNonNullElse(config.getBoolean("advanced.supportedProtocol.activated"), false);
     advancedSupportedProtocolNumbers = Objects.requireNonNullElse(config.getStringList("advanced.supportedProtocol.numbers"), List.<String>of())
-        .stream()
-        .flatMap(s -> {
-          try {
-            return Stream.of(Integer.parseInt(s));
-          } catch (NumberFormatException e) {
-            return Stream.of();
-          }
-        })
-        .toList();
+      .stream()
+      .flatMap(s -> {
+        try {
+          return Stream.of(Integer.parseInt(s));
+        } catch (NumberFormatException e) {
+          return Stream.of();
+        }
+      })
+      .toList();
     advancedSupportedProtocolUnsupportedNumber = Objects.requireNonNullElse(config.getInt("advanced.supportedProtocol.unsupportedNumber"), -1);
 
     extensionVanishAPI = Objects.requireNonNullElse(config.getBoolean("extensions.vanish.vanishApi"), false);
@@ -81,12 +81,12 @@ public class PistonMOTDServerConfig {
     faviconActivated = Objects.requireNonNullElse(config.getBoolean("favicon.activated"), false);
     faviconMode = PMHelpers.getSafeEnum(FaviconMode.class, Objects.requireNonNullElse(config.getString("favicon.mode"), FaviconMode.SINGLE.name()));
     faviconSingle = Objects.requireNonNullElse(
-        Objects.requireNonNullElse(
-            config.getString("favicon.single"),
-            // To support old per domain configs
-            config.getString("favicon.file")
-        ),
-        ""
+      Objects.requireNonNullElse(
+        config.getString("favicon.single"),
+        // To support old per domain configs
+        config.getString("favicon.file")
+      ),
+      ""
     );
   }
 }

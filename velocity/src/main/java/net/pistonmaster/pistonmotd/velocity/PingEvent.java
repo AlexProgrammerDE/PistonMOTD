@@ -20,101 +20,101 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 public class PingEvent {
-    private final StatusPingHandler handler;
+  private final StatusPingHandler handler;
 
-    @Subscribe
-    public void onPing(ProxyPingEvent event) {
-        ServerPing.Builder builder = event.getPing().asBuilder();
-        handler.handle(wrap(event, builder));
-        event.setPing(builder.build());
-    }
+  @Subscribe
+  public void onPing(ProxyPingEvent event) {
+    ServerPing.Builder builder = event.getPing().asBuilder();
+    handler.handle(wrap(event, builder));
+    event.setPing(builder.build());
+  }
 
-    private PistonStatusPing wrap(ProxyPingEvent event, ServerPing.Builder builder) {
-        return new PistonStatusPing() {
-            @Override
-            public void hidePlayers() {
-                builder.nullPlayers();
-            }
+  private PistonStatusPing wrap(ProxyPingEvent event, ServerPing.Builder builder) {
+    return new PistonStatusPing() {
+      @Override
+      public void hidePlayers() {
+        builder.nullPlayers();
+      }
 
-            @Override
-            public String getDescriptionJson() {
-                return GsonComponentSerializer.gson().serialize(builder.getDescriptionComponent().orElse(Component.empty()));
-            }
+      @Override
+      public String getDescriptionJson() {
+        return GsonComponentSerializer.gson().serialize(builder.getDescriptionComponent().orElse(Component.empty()));
+      }
 
-            @Override
-            public void setDescription(String descriptionJson) {
-                builder.description(GsonComponentSerializer.gson().deserialize(descriptionJson));
-            }
+      @Override
+      public void setDescription(String descriptionJson) {
+        builder.description(GsonComponentSerializer.gson().deserialize(descriptionJson));
+      }
 
-            @Override
-            public int getMax() {
-                return builder.getMaximumPlayers();
-            }
+      @Override
+      public int getMax() {
+        return builder.getMaximumPlayers();
+      }
 
-            @Override
-            public void setMax(int max) {
-                builder.maximumPlayers(max);
-            }
+      @Override
+      public void setMax(int max) {
+        builder.maximumPlayers(max);
+      }
 
-            @Override
-            public int getOnline() {
-                return builder.getOnlinePlayers();
-            }
+      @Override
+      public int getOnline() {
+        return builder.getOnlinePlayers();
+      }
 
-            @Override
-            public void setOnline(int online) {
-                builder.onlinePlayers(online);
-            }
+      @Override
+      public void setOnline(int online) {
+        builder.onlinePlayers(online);
+      }
 
-            @Override
-            public String getVersionName() {
-                return builder.getVersion().getName();
-            }
+      @Override
+      public String getVersionName() {
+        return builder.getVersion().getName();
+      }
 
-            @Override
-            public void setVersionName(String name) {
-                builder.version(new ServerPing.Version(builder.getVersion().getProtocol(), name));
-            }
+      @Override
+      public void setVersionName(String name) {
+        builder.version(new ServerPing.Version(builder.getVersion().getProtocol(), name));
+      }
 
-            @Override
-            public int getVersionProtocol() {
-                return builder.getVersion().getProtocol();
-            }
+      @Override
+      public int getVersionProtocol() {
+        return builder.getVersion().getProtocol();
+      }
 
-            @Override
-            public void setVersionProtocol(int protocol) {
-                builder.version(new ServerPing.Version(protocol, builder.getVersion().getName()));
-            }
+      @Override
+      public void setVersionProtocol(int protocol) {
+        builder.version(new ServerPing.Version(protocol, builder.getVersion().getName()));
+      }
 
-            @Override
-            public void clearSamples() {
-                builder.clearSamplePlayers();
-            }
+      @Override
+      public void clearSamples() {
+        builder.clearSamplePlayers();
+      }
 
-            @Override
-            public void addSample(UUID uuid, String name) {
-                builder.samplePlayers(new ServerPing.SamplePlayer(name, uuid));
-            }
+      @Override
+      public void addSample(UUID uuid, String name) {
+        builder.samplePlayers(new ServerPing.SamplePlayer(name, uuid));
+      }
 
-            @Override
-            public boolean supportsHex() {
-                return getClientProtocol() == -1 || getClientProtocol() >= PMHelpers.MINECRAFT_1_16;
-            }
+      @Override
+      public boolean supportsHex() {
+        return getClientProtocol() == -1 || getClientProtocol() >= PMHelpers.MINECRAFT_1_16;
+      }
 
-            @Override
-            public void setFavicon(StatusFavicon favicon) {
-                builder.favicon((Favicon) favicon.getValue());
-            }
+      @Override
+      public void setFavicon(StatusFavicon favicon) {
+        builder.favicon((Favicon) favicon.getValue());
+      }
 
-            @Override
-            public int getClientProtocol() {
-                return event.getConnection().getProtocolVersion().getProtocol();
-            }
+      @Override
+      public int getClientProtocol() {
+        return event.getConnection().getProtocolVersion().getProtocol();
+      }
 
-            @Override
-            public Optional<InetSocketAddress> getClientVirtualHost() {
-                return event.getConnection().getVirtualHost();
-            }
-        };
-    }
+      @Override
+      public Optional<InetSocketAddress> getClientVirtualHost() {
+        return event.getConnection().getVirtualHost();
+      }
+    };
+  }
 }

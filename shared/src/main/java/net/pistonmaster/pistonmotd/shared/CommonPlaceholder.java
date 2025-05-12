@@ -5,17 +5,17 @@ import net.pistonmaster.pistonmotd.api.PlaceholderParser;
 
 @RequiredArgsConstructor
 public class CommonPlaceholder implements PlaceholderParser {
-    private final PistonMOTDPlatform plugin;
+  private final PistonMOTDPlatform plugin;
 
-    @Override
-    public String parseString(String text) {
-        text = text.replace("%online%", String.valueOf(plugin.getPlayerCount()));
-        text = text.replace("%max%", String.valueOf(plugin.getMaxPlayers()));
-        text = text.replace("%newline%", "<newline>");
-        text = text.replace("\n", "<newline>");
-        text = text.replace("<online>", String.valueOf(plugin.getPlayerCount()));
-        text = text.replace("<max>", String.valueOf(plugin.getMaxPlayers()));
+  @Override
+  public String parseString(String text) {
+    text = text.replace("%online%", String.valueOf(plugin.getPlayerCount()));
+    text = text.replace("%max%", String.valueOf(plugin.getMaxPlayers()));
+    text = text.replace("%newline%", "<newline>");
+    text = text.replace("\n", "<newline>");
+    text = text.replace("<online>", String.valueOf(plugin.getPlayerCount()));
+    text = text.replace("<max>", String.valueOf(plugin.getMaxPlayers()));
 
-        return text;
-    }
+    return text;
+  }
 }

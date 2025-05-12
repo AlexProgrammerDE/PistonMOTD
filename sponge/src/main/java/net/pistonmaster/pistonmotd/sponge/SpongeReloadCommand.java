@@ -10,18 +10,18 @@ import org.spongepowered.api.command.parameter.CommandContext;
 
 @RequiredArgsConstructor
 public class SpongeReloadCommand implements CommandExecutor {
-    private final PistonMOTDPlugin plugin;
+  private final PistonMOTDPlugin plugin;
 
-    @Override
-    public CommandResult execute(CommandContext context) {
-        if (context.subject().hasPermission("pistonmotd.reload")) {
-            plugin.loadConfig();
+  @Override
+  public CommandResult execute(CommandContext context) {
+    if (context.subject().hasPermission("pistonmotd.reload")) {
+      plugin.loadConfig();
 
-            context.sendMessage(Identity.nil(), Component.text("Reloaded the config!"));
+      context.sendMessage(Identity.nil(), Component.text("Reloaded the config!"));
 
-            return CommandResult.success();
-        } else {
-            return CommandResult.error(Component.text("You don't have permission to do that!"));
-        }
+      return CommandResult.success();
+    } else {
+      return CommandResult.error(Component.text("You don't have permission to do that!"));
     }
+  }
 }

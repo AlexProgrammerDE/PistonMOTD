@@ -23,10 +23,10 @@ import java.util.UUID;
 @SuppressWarnings({"removal", "deprecation"})
 public class PingEventPaper implements Listener {
   public static final LegacyComponentSerializer LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
-      .character('§')
-      .hexCharacter('#')
-      .hexColors()
-      .build();
+    .character('§')
+    .hexCharacter('#')
+    .hexColors()
+    .build();
   private final StatusPingHandler handler;
 
   @EventHandler

@@ -9,34 +9,34 @@ import net.pistonmaster.pistonmotd.shared.PlayerWrapper;
 
 @RequiredArgsConstructor
 public class LuckPermsWrapper {
-    private final PistonMOTDPlugin plugin;
-    private final LuckPerms luckperms = LuckPermsProvider.get();
+  private final PistonMOTDPlugin plugin;
+  private final LuckPerms luckperms = LuckPermsProvider.get();
 
-    public LuckPermsMeta getWrappedMeta(PlayerWrapper player) {
-        Class<?> playerClass = plugin.getPlatform().getPlayerClass();
-        CachedMetaData meta = getMeta(player, playerClass);
+  public LuckPermsMeta getWrappedMeta(PlayerWrapper player) {
+    Class<?> playerClass = plugin.getPlatform().getPlayerClass();
+    CachedMetaData meta = getMeta(player, playerClass);
 
-        return new LuckPermsMeta() {
-            @Override
-            public String getPrefix() {
-                return meta.getPrefix();
-            }
+    return new LuckPermsMeta() {
+      @Override
+      public String getPrefix() {
+        return meta.getPrefix();
+      }
 
-            @Override
-            public String getSuffix() {
-                return meta.getSuffix();
-            }
-        };
-    }
+      @Override
+      public String getSuffix() {
+        return meta.getSuffix();
+      }
+    };
+  }
 
-    @SuppressWarnings("unchecked")
-    private <C> CachedMetaData getMeta(PlayerWrapper player, Class<C> playerClass) {
-        return luckperms.getPlayerAdapter(playerClass).getMetaData((C) player.getHandle());
-    }
+  @SuppressWarnings("unchecked")
+  private <C> CachedMetaData getMeta(PlayerWrapper player, Class<C> playerClass) {
+    return luckperms.getPlayerAdapter(playerClass).getMetaData((C) player.getHandle());
+  }
 
-    public interface LuckPermsMeta {
-        String getPrefix();
+  public interface LuckPermsMeta {
+    String getPrefix();
 
-        String getSuffix();
-    }
+    String getSuffix();
+  }
 }

@@ -24,170 +24,170 @@ import java.util.stream.Collectors;
 
 @Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDVelocity implements PistonMOTDPlatform {
-    private final ProxyServer proxyServer;
-    private final Logger log;
-    private final Path pluginDir;
-    private final PluginContainer container;
-    private final Metrics.Factory metricsFactory;
+  private final ProxyServer proxyServer;
+  private final Logger log;
+  private final Path pluginDir;
+  private final PluginContainer container;
+  private final Metrics.Factory metricsFactory;
 
-    @Inject
-    public PistonMOTDVelocity(ProxyServer proxyServer, Logger log, @DataDirectory Path pluginDir, PluginContainer container, Metrics.Factory metricsFactory) {
-        this.proxyServer = proxyServer;
-        this.log = log;
-        this.pluginDir = pluginDir;
-        this.container = container;
-        this.metricsFactory = metricsFactory;
+  @Inject
+  public PistonMOTDVelocity(ProxyServer proxyServer, Logger log, @DataDirectory Path pluginDir, PluginContainer container, Metrics.Factory metricsFactory) {
+    this.proxyServer = proxyServer;
+    this.log = log;
+    this.pluginDir = pluginDir;
+    this.container = container;
+    this.metricsFactory = metricsFactory;
+  }
+
+  @Subscribe
+  public void onProxyInitialization(ProxyInitializeEvent event) {
+    PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
+    plugin.logName();
+
+    plugin.startupLoadConfig();
+
+    plugin.startupRegisterTasks();
+
+    plugin.registerCommonPlaceholder();
+    PlaceholderUtil.registerParser(new ServerPlaceholder(proxyServer));
+
+    plugin.loadHooks();
+
+    startup("Registering listeners");
+    proxyServer.getEventManager().register(this, new PingEvent(new StatusPingHandler(plugin)));
+
+    startup("Registering command");
+    proxyServer.getCommandManager().register("pistonmotd", new VelocityCommand(plugin), "pistonmotdv", "pistonmotdvelocity");
+
+    if (container.getDescription().getVersion().isPresent()) {
+      plugin.checkUpdate();
     }
 
-    @Subscribe
-    public void onProxyInitialization(ProxyInitializeEvent event) {
-        PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
-        plugin.logName();
+    startup("Loading metrics");
+    metricsFactory.make(this, 14316);
 
-        plugin.startupLoadConfig();
+    startup("Done! :D");
+  }
 
-        plugin.startupRegisterTasks();
+  @Override
+  public boolean isPluginEnabled(String pluginName) {
+    return proxyServer.getPluginManager().getPlugin(pluginName).isPresent();
+  }
 
-        plugin.registerCommonPlaceholder();
-        PlaceholderUtil.registerParser(new ServerPlaceholder(proxyServer));
+  @Override
+  public StatusFavicon createFavicon(Path path) throws Exception {
+    return new StatusFavicon(Favicon.create(path));
+  }
 
-        plugin.loadHooks();
+  @Override
+  public Path getPluginConfigFile() {
+    return pluginDir.resolve("config.yml");
+  }
 
-        startup("Registering listeners");
-        proxyServer.getEventManager().register(this, new PingEvent(new StatusPingHandler(plugin)));
+  @Override
+  public Path getFaviconFolder() {
+    return pluginDir.resolve("favicons");
+  }
 
-        startup("Registering command");
-        proxyServer.getCommandManager().register("pistonmotd", new VelocityCommand(plugin), "pistonmotdv", "pistonmotdvelocity");
+  @Override
+  public InputStream getBundledResource(String name) {
+    return getClass().getClassLoader().getResourceAsStream(name);
+  }
 
-        if (container.getDescription().getVersion().isPresent()) {
-            plugin.checkUpdate();
-        }
+  @Override
+  public List<PlayerWrapper> getPlayers() {
+    return proxyServer.getAllPlayers().stream().map(this::wrap).collect(Collectors.toList());
+  }
 
-        startup("Loading metrics");
-        metricsFactory.make(this, 14316);
+  @Override
+  public int getMaxPlayers() {
+    return proxyServer.getConfiguration().getShowMaxPlayers();
+  }
 
-        startup("Done! :D");
-    }
+  @Override
+  public int getPlayerCount() {
+    return proxyServer.getPlayerCount();
+  }
 
-    @Override
-    public boolean isPluginEnabled(String pluginName) {
-        return proxyServer.getPluginManager().getPlugin(pluginName).isPresent();
-    }
+  private PlayerWrapper wrap(Player player) {
+    return new PlayerWrapper() {
+      @Override
+      public String getDisplayName() {
+        return player.getUsername();
+      }
 
-    @Override
-    public StatusFavicon createFavicon(Path path) throws Exception {
-        return new StatusFavicon(Favicon.create(path));
-    }
+      @Override
+      public String getName() {
+        return player.getUsername();
+      }
 
-    @Override
-    public Path getPluginConfigFile() {
-        return pluginDir.resolve("config.yml");
-    }
+      @Override
+      public UUID getUniqueId() {
+        return player.getUniqueId();
+      }
 
-    @Override
-    public Path getFaviconFolder() {
-        return pluginDir.resolve("favicons");
-    }
+      @Override
+      public Object getHandle() {
+        return player;
+      }
+    };
+  }
 
-    @Override
-    public InputStream getBundledResource(String name) {
-        return getClass().getClassLoader().getResourceAsStream(name);
-    }
+  @Override
+  public String getVersion() {
+    return container.getDescription().getVersion().orElse("Unknown");
+  }
 
-    @Override
-    public List<PlayerWrapper> getPlayers() {
-        return proxyServer.getAllPlayers().stream().map(this::wrap).collect(Collectors.toList());
-    }
+  @Override
+  public void info(String message) {
+    log.info(message);
+  }
 
-    @Override
-    public int getMaxPlayers() {
-        return proxyServer.getConfiguration().getShowMaxPlayers();
-    }
+  @Override
+  public void warn(String message, Throwable t) {
+    log.warn(message, t);
+  }
 
-    @Override
-    public int getPlayerCount() {
-        return proxyServer.getPlayerCount();
-    }
+  @Override
+  public void error(String message, Throwable t) {
+    log.error(message, t);
+  }
 
-    private PlayerWrapper wrap(Player player) {
-        return new PlayerWrapper() {
-            @Override
-            public String getDisplayName() {
-                return player.getUsername();
-            }
+  @Override
+  public boolean isSuperVanishBukkitAvailable() {
+    return false;
+  }
 
-            @Override
-            public String getName() {
-                return player.getUsername();
-            }
+  @Override
+  public boolean isPremiumVanishBukkitAvailable() {
+    return false;
+  }
 
-            @Override
-            public UUID getUniqueId() {
-                return player.getUniqueId();
-            }
+  @Override
+  public boolean isPremiumVanishBungeeAvailable() {
+    return false;
+  }
 
-            @Override
-            public Object getHandle() {
-                return player;
-            }
-        };
-    }
+  @Override
+  public boolean isPremiumVanishVelocityAvailable() {
+    return isPluginEnabled("premiumvanish");
+  }
 
-    @Override
-    public String getVersion() {
-        return container.getDescription().getVersion().orElse("Unknown");
-    }
+  @Override
+  public boolean isLuckPermsAvailable() {
+    return isPluginEnabled("luckperms");
+  }
 
-    @Override
-    public void info(String message) {
-        log.info(message);
-    }
+  @Override
+  public Class<?> getPlayerClass() {
+    return Player.class;
+  }
 
-    @Override
-    public void warn(String message, Throwable t) {
-        log.warn(message, t);
-    }
-
-    @Override
-    public void error(String message, Throwable t) {
-        log.error(message, t);
-    }
-
-    @Override
-    public boolean isSuperVanishBukkitAvailable() {
-        return false;
-    }
-
-    @Override
-    public boolean isPremiumVanishBukkitAvailable() {
-        return false;
-    }
-
-    @Override
-    public boolean isPremiumVanishBungeeAvailable() {
-        return false;
-    }
-
-    @Override
-    public boolean isPremiumVanishVelocityAvailable() {
-        return isPluginEnabled("premiumvanish");
-    }
-
-    @Override
-    public boolean isLuckPermsAvailable() {
-        return isPluginEnabled("luckperms");
-    }
-
-    @Override
-    public Class<?> getPlayerClass() {
-        return Player.class;
-    }
-
-    @Override
-    public void runAsync(Runnable runnable, long delay, long period, TimeUnit unit) {
-        proxyServer.getScheduler().buildTask(this, runnable)
-                .delay(delay, unit)
-                .repeat(period, unit)
-                .schedule();
-    }
+  @Override
+  public void runAsync(Runnable runnable, long delay, long period, TimeUnit unit) {
+    proxyServer.getScheduler().buildTask(this, runnable)
+      .delay(delay, unit)
+      .repeat(period, unit)
+      .schedule();
+  }
 }

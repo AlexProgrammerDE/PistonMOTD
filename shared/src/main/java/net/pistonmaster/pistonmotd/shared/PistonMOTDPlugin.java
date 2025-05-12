@@ -25,143 +25,143 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 @SuppressWarnings("WriteOnlyObject") // Lombok's getters are ignored by this check
 public class PistonMOTDPlugin {
-    private final PistonMOTDPluginConfig config = new PistonMOTDPluginConfig();
-    private final AtomicReference<Map<String, StatusFavicon>> favicons = new AtomicReference<>(Map.of());
-    private final AtomicBoolean vanishBukkit = new AtomicBoolean();
-    private final AtomicBoolean vanishBungee = new AtomicBoolean();
-    private final AtomicBoolean vanishVelocity = new AtomicBoolean();
-    private final AtomicReference<LuckPermsWrapper> luckPerms = new AtomicReference<>();
-    private final PistonMOTDPlatform platform;
+  private final PistonMOTDPluginConfig config = new PistonMOTDPluginConfig();
+  private final AtomicReference<Map<String, StatusFavicon>> favicons = new AtomicReference<>(Map.of());
+  private final AtomicBoolean vanishBukkit = new AtomicBoolean();
+  private final AtomicBoolean vanishBungee = new AtomicBoolean();
+  private final AtomicBoolean vanishVelocity = new AtomicBoolean();
+  private final AtomicReference<LuckPermsWrapper> luckPerms = new AtomicReference<>();
+  private final PistonMOTDPlatform platform;
 
-    public PistonMOTDPluginConfig getPluginConfig() {
-        return config;
+  public PistonMOTDPluginConfig getPluginConfig() {
+    return config;
+  }
+
+  public void logName() {
+    platform.info("  _____  _       _                 __  __   ____  _______  _____  ");
+    platform.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
+    platform.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
+    platform.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
+    platform.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
+    platform.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
+    platform.info("");
+  }
+
+  public void startupLoadConfig() {
+    platform.startup("Loading config");
+    loadConfig();
+  }
+
+  public void startupRegisterTasks() {
+    platform.startup("Registering tasks");
+    platform.runAsync(this::loadFavicons, 5, 5, TimeUnit.SECONDS);
+  }
+
+  public void loadConfig() {
+    Path pluginConfigFile = platform.getPluginConfigFile();
+    AxiomConfiguration defaultConfig = new AxiomConfiguration();
+
+    try {
+      Files.createDirectories(pluginConfigFile.getParent());
+
+      try (InputStream is = platform.getBundledResource("config.yml")) {
+        defaultConfig.load(is);
+      }
+
+      if (!Files.exists(pluginConfigFile)) {
+        defaultConfig.save(pluginConfigFile);
+      }
+
+      AxiomConfiguration axiomConfiguration = new AxiomConfiguration();
+
+      axiomConfiguration.load(pluginConfigFile);
+
+      axiomConfiguration.merge(defaultConfig);
+
+      axiomConfiguration.save(pluginConfigFile);
+
+      config.load(axiomConfiguration);
+    } catch (IOException e) {
+      platform.error("Could not load config", e);
     }
 
-    public void logName() {
-        platform.info("  _____  _       _                 __  __   ____  _______  _____  ");
-        platform.info(" |  __ \\(_)     | |               |  \\/  | / __ \\|__   __||  __ \\ ");
-        platform.info(" | |__) |_  ___ | |_  ___   _ __  | \\  / || |  | |  | |   | |  | |");
-        platform.info(" |  ___/| |/ __|| __|/ _ \\ | '_ \\ | |\\/| || |  | |  | |   | |  | |");
-        platform.info(" | |    | |\\__ \\| |_| (_) || | | || |  | || |__| |  | |   | |__| |");
-        platform.info(" |_|    |_||___/ \\__|\\___/ |_| |_||_|  |_| \\____/   |_|   |_____/ ");
-        platform.info("");
+    try {
+      Path iconFolder = platform.getFaviconFolder();
+      if (!Files.exists(iconFolder)) {
+        Files.createDirectories(iconFolder);
+      }
+    } catch (IOException e) {
+      platform.error("Could not create the icon directory!", e);
     }
 
-    public void startupLoadConfig() {
-        platform.startup("Loading config");
-        loadConfig();
-    }
+    loadFavicons();
+  }
 
-    public void startupRegisterTasks() {
-        platform.startup("Registering tasks");
-        platform.runAsync(this::loadFavicons, 5, 5, TimeUnit.SECONDS);
-    }
+  public void registerCommonPlaceholder() {
+    platform.startup("Registering placeholders");
+    PlaceholderUtil.registerParser(new CommonPlaceholder(platform));
+    PlaceholderUtil.registerParser(new CenterPlaceholder.PreProcessor());
+    PlaceholderUtil.registerPostParser(new CenterPlaceholder.PostProcessor());
+  }
 
-    public void loadConfig() {
-        Path pluginConfigFile = platform.getPluginConfigFile();
-        AxiomConfiguration defaultConfig = new AxiomConfiguration();
+  public void loadFavicons() {
+    Map<String, StatusFavicon> newFavicons = new HashMap<>();
 
+    try (DirectoryStream<Path> ds = Files.newDirectoryStream(platform.getFaviconFolder(), new PistonMOTDPlatform.FaviconFilter())) {
+      for (Path p : ds) {
         try {
-            Files.createDirectories(pluginConfigFile.getParent());
-
-            try (InputStream is = platform.getBundledResource("config.yml")) {
-                defaultConfig.load(is);
-            }
-
-            if (!Files.exists(pluginConfigFile)) {
-                defaultConfig.save(pluginConfigFile);
-            }
-
-            AxiomConfiguration axiomConfiguration = new AxiomConfiguration();
-
-            axiomConfiguration.load(pluginConfigFile);
-
-            axiomConfiguration.merge(defaultConfig);
-
-            axiomConfiguration.save(pluginConfigFile);
-
-            config.load(axiomConfiguration);
-        } catch (IOException e) {
-            platform.error("Could not load config", e);
+          newFavicons.put(p.getFileName().toString(), platform.createFavicon(p));
+        } catch (Exception e) {
+          platform.error("Could not load favicon! (%s)".formatted(p.getFileName()), e);
         }
-
-        try {
-            Path iconFolder = platform.getFaviconFolder();
-            if (!Files.exists(iconFolder)) {
-                Files.createDirectories(iconFolder);
-            }
-        } catch (IOException e) {
-            platform.error("Could not create the icon directory!", e);
-        }
-
-        loadFavicons();
+      }
+    } catch (IOException e) {
+      platform.error("Could not load favicons!", e);
     }
 
-    public void registerCommonPlaceholder() {
-        platform.startup("Registering placeholders");
-        PlaceholderUtil.registerParser(new CommonPlaceholder(platform));
-        PlaceholderUtil.registerParser(new CenterPlaceholder.PreProcessor());
-        PlaceholderUtil.registerPostParser(new CenterPlaceholder.PostProcessor());
+    this.favicons.set(newFavicons);
+  }
+
+  public void loadHooks() {
+    platform.startup("Looking for hooks");
+    if (platform.isSuperVanishBukkitAvailable() || platform.isPremiumVanishBukkitAvailable()) {
+      platform.startup("Hooking into SuperVanish/PremiumVanish (Bukkit)");
+      vanishBukkit.set(true);
     }
 
-    public void loadFavicons() {
-        Map<String, StatusFavicon> newFavicons = new HashMap<>();
-
-        try (DirectoryStream<Path> ds = Files.newDirectoryStream(platform.getFaviconFolder(), new PistonMOTDPlatform.FaviconFilter())) {
-            for (Path p : ds) {
-                try {
-                    newFavicons.put(p.getFileName().toString(), platform.createFavicon(p));
-                } catch (Exception e) {
-                    platform.error("Could not load favicon! (%s)".formatted(p.getFileName()), e);
-                }
-            }
-        } catch (IOException e) {
-            platform.error("Could not load favicons!", e);
-        }
-
-        this.favicons.set(newFavicons);
+    if (platform.isPremiumVanishBungeeAvailable()) {
+      platform.startup("Hooking into PremiumVanish (Bungee)");
+      vanishBungee.set(true);
     }
 
-    public void loadHooks() {
-        platform.startup("Looking for hooks");
-        if (platform.isSuperVanishBukkitAvailable() || platform.isPremiumVanishBukkitAvailable()) {
-            platform.startup("Hooking into SuperVanish/PremiumVanish (Bukkit)");
-            vanishBukkit.set(true);
-        }
-
-        if (platform.isPremiumVanishBungeeAvailable()) {
-            platform.startup("Hooking into PremiumVanish (Bungee)");
-            vanishBungee.set(true);
-        }
-
-        if (platform.isPremiumVanishVelocityAvailable()) {
-            platform.startup("Hooking into PremiumVanish (Velocity)");
-            vanishVelocity.set(true);
-        }
-
-        if (platform.isLuckPermsAvailable()) {
-            platform.startup("Hooking into LuckPerms");
-            luckPerms.set(new LuckPermsWrapper(this));
-        }
+    if (platform.isPremiumVanishVelocityAvailable()) {
+      platform.startup("Hooking into PremiumVanish (Velocity)");
+      vanishVelocity.set(true);
     }
 
-    public void checkUpdate() {
-        platform.startup("Checking for a newer version");
-        try {
-            String currentVersionString = platform.getVersion();
-            SemanticVersion gitHubVersion = new GitHubUpdateChecker()
-                    .getVersion("https://api.github.com/repos/AlexProgrammerDE/PistonMOTD/releases/latest");
-            SemanticVersion currentVersion = SemanticVersion.fromString(currentVersionString);
-
-            if (gitHubVersion.isNewerThan(currentVersion)) {
-                platform.info(ConsoleColor.RED + "There is an update available!" + ConsoleColor.RESET);
-                platform.info(ConsoleColor.RED + "Current version: " + currentVersionString + " New version: " + gitHubVersion + ConsoleColor.RESET);
-                platform.info(ConsoleColor.RED + "Download it at: " + platform.getDownloadURL() + ConsoleColor.RESET);
-            } else {
-                platform.startup("You're up to date!");
-            }
-        } catch (IOException e) {
-            platform.error("Could not check for updates!", e);
-        }
+    if (platform.isLuckPermsAvailable()) {
+      platform.startup("Hooking into LuckPerms");
+      luckPerms.set(new LuckPermsWrapper(this));
     }
+  }
+
+  public void checkUpdate() {
+    platform.startup("Checking for a newer version");
+    try {
+      String currentVersionString = platform.getVersion();
+      SemanticVersion gitHubVersion = new GitHubUpdateChecker()
+        .getVersion("https://api.github.com/repos/AlexProgrammerDE/PistonMOTD/releases/latest");
+      SemanticVersion currentVersion = SemanticVersion.fromString(currentVersionString);
+
+      if (gitHubVersion.isNewerThan(currentVersion)) {
+        platform.info(ConsoleColor.RED + "There is an update available!" + ConsoleColor.RESET);
+        platform.info(ConsoleColor.RED + "Current version: " + currentVersionString + " New version: " + gitHubVersion + ConsoleColor.RESET);
+        platform.info(ConsoleColor.RED + "Download it at: " + platform.getDownloadURL() + ConsoleColor.RESET);
+      } else {
+        platform.startup("You're up to date!");
+      }
+    } catch (IOException e) {
+      platform.error("Could not check for updates!", e);
+    }
+  }
 }

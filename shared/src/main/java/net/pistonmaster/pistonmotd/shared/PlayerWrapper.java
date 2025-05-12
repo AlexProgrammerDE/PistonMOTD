@@ -3,11 +3,11 @@ package net.pistonmaster.pistonmotd.shared;
 import java.util.UUID;
 
 public interface PlayerWrapper {
-    String getDisplayName();
+  String getDisplayName();
 
-    String getName();
+  String getName();
 
-    UUID getUniqueId();
+  UUID getUniqueId();
 
-    Object getHandle();
+  Object getHandle();
 }

@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class StatusFavicon {
-    private final Object value;
+  private final Object value;
 }
