@@ -9,7 +9,7 @@ dependencies {
     implementation(projects.pistonmotdKyori)
 
     implementation("org.bstats:bstats-bungeecord:3.1.0")
-    implementation("net.kyori:adventure-platform-bungeecord:4.3.4")
+    implementation("net.kyori:adventure-platform-bungeecord:4.4.0")
 
     compileOnly("net.md-5:bungeecord-api:1.21-R0.2")
 }
