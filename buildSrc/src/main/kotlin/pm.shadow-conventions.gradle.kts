@@ -13,7 +13,9 @@ tasks {
 
     shadowJar {
         exclude("META-INF/SPONGEPO.SF", "META-INF/SPONGEPO.DSA", "META-INF/SPONGEPO.RSA")
-        minimize()
+        minimize() {
+            exclude(dependency("com.github.technicallycoded:FoliaLib:.*"))
+        }
         configureRelocations()
     }
 
