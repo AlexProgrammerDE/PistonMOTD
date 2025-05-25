@@ -59,10 +59,3 @@ Latest Version (Without the v):
     </dependency>
   </dependencies>
 ```
-
-## Links
-
-* Modrinth: https://modrinth.com/plugin/pistonmotd
-* Hangar: https://hangar.papermc.io/Pistonmaster/PistonMOTD
-* SpigotMC: https://www.spigotmc.org/resources/80567/
-* Ore: https://ore.spongepowered.org/AlexProgrammerDE/PistonMOTD/
