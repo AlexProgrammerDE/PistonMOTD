@@ -1,8 +1,10 @@
-# PistonMOTD
+<img align="right" src="https://github.com/AlexProgrammerDE/PistonMOTD/blob/main/images/logo.png?raw=true" height="150" width="150">
 
-[![Discord embed](https://discordapp.com/api/guilds/739784741124833301/embed.png)](https://discord.gg/FZtaMpuvj8)
-[![Build Status](https://ci.codemc.io/buildStatus/icon?job=AlexProgrammerDE%2FPistonMOTD)](https://ci.codemc.io/job/AlexProgrammerDE/job/PistonMOTD/)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/AlexProgrammerDE/PistonMOTD)](https://github.com/AlexProgrammerDE/PistonBot/releases)
+[![modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/plugin/pistonmotd) [![hangar](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/hangar_vector.svg)](https://hangar.papermc.io/Pistonmaster/PistonMOTD)
+
+[![discord](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-singular_vector.svg)](https://discord.gg/8Qk2mtUDFf) [![kofi](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular_vector.svg)](https://ko-fi.com/alexprogrammerde)
+
+# PistonMOTD
 
 **✨ Control your Minecraft server's MOTD. Supports RGB colors and multiple platforms.**
 
