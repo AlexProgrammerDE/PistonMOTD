@@ -12,5 +12,5 @@ dependencies {
 
     implementation("net.pistonmaster:PistonUtils:1.4.0")
 
-    compileOnly("net.luckperms:api:5.4")
+    compileOnly("net.luckperms:api:5.5")
 }
