@@ -8,7 +8,6 @@ plugins {
 }
 
 val downgradePlatformBase = tasks.register<DowngradeJar>("downgradePlatformBase") {
-    convention(jvmdg)
     dependsOn(tasks.shadowJar)
 
     inputFile = tasks.shadowJar.get().archiveFile
@@ -17,7 +16,6 @@ val downgradePlatformBase = tasks.register<DowngradeJar>("downgradePlatformBase"
 }
 
 val downgradePlatformShadow = tasks.register<ShadeJar>("downgradePlatformShadow") {
-    convention(jvmdg)
     dependsOn(downgradePlatformBase)
 
     inputFile = downgradePlatformBase.get().archiveFile
