@@ -3,14 +3,12 @@ package net.pistonmaster.pistonmotd.velocity;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
-import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.util.Favicon;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
-import net.pistonmaster.pistonmotd.data.PluginData;
 import net.pistonmaster.pistonmotd.shared.*;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
@@ -22,7 +20,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@Plugin(id = "pistonmotd", name = PluginData.NAME, version = PluginData.VERSION, description = PluginData.DESCRIPTION, url = PluginData.URL, authors = {"AlexProgrammerDE"})
 public class PistonMOTDVelocity implements PistonMOTDPlatform {
   private final ProxyServer proxyServer;
   private final Logger log;

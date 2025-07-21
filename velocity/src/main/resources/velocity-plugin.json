@@ -1,0 +1,12 @@
+{
+  "id": "pistonmotd",
+  "name": "PistonMOTD",
+  "version": "${version}",
+  "description": "${description}",
+  "url": "${url}",
+  "authors": [
+    "AlexProgrammerDE"
+  ],
+  "dependencies": [],
+  "main": "net.pistonmaster.pistonmotd.velocity.PistonMOTDVelocity"
+}
