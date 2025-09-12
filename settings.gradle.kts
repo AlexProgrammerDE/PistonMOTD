@@ -6,7 +6,6 @@ pluginManagement {
     }
     plugins {
         id("com.gradleup.shadow") version "9.0.0-rc2"
-        id("org.cadixdev.licenser") version "0.6.1"
         id("net.kyori.indra") version "3.2.0"
         id("net.kyori.indra.git") version "3.2.0"
         id("net.kyori.indra.publishing") version "3.2.0"
