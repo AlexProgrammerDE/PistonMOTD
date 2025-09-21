@@ -16,31 +16,31 @@ public class ConversionTest {
 
   @Test
   public void testBasicConversionHexSection() {
-    Assertions.assertEquals("<#ff0000>Hello World", PlaceholderUtil.convertMiniMessageString("§#ff0000Hello World"));
+    Assertions.assertEquals("<#FF0000>Hello World", PlaceholderUtil.convertMiniMessageString("§#ff0000Hello World"));
   }
 
   @Test
   public void testBasicConversionHexAmpersand() {
-    Assertions.assertEquals("<#ff0000>Hello World", PlaceholderUtil.convertMiniMessageString("&#ff0000Hello World"));
+    Assertions.assertEquals("<#FF0000>Hello World", PlaceholderUtil.convertMiniMessageString("&#ff0000Hello World"));
   }
 
   @Test
   public void testBasicConversionHexSectionUgly() {
-    Assertions.assertEquals("<#ff0000>Hello World", PlaceholderUtil.convertMiniMessageString("§x§f§f§0§0§0§0Hello World"));
+    Assertions.assertEquals("<#FF0000>Hello World", PlaceholderUtil.convertMiniMessageString("§x§f§f§0§0§0§0Hello World"));
   }
 
   @Test
   public void testBasicConversionHexAmpersandUgly() {
-    Assertions.assertEquals("<#ff0000>Hello World", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World"));
+    Assertions.assertEquals("<#FF0000>Hello World", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World"));
   }
 
   @Test
   public void testNotEscapingTag() {
-    Assertions.assertEquals("<#ff0000>Hello World<test>", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World<test>"));
+    Assertions.assertEquals("<#FF0000>Hello World<test>", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World<test>"));
   }
 
   @Test
   public void testNotEscapingEscape() {
-    Assertions.assertEquals("<#ff0000>Hello World\\<test>", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World\\<test>"));
+    Assertions.assertEquals("<#FF0000>Hello World\\<test>", PlaceholderUtil.convertMiniMessageString("&x&f&f&0&0&0&0Hello World\\<test>"));
   }
 }
