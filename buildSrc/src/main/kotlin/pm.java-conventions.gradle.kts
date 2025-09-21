@@ -4,13 +4,13 @@ plugins {
 }
 
 dependencies {
-  compileOnly("org.projectlombok:lombok:1.18.38")
-  annotationProcessor("org.projectlombok:lombok:1.18.38")
+  compileOnly("org.projectlombok:lombok:1.18.42")
+  annotationProcessor("org.projectlombok:lombok:1.18.42")
 
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
-  testImplementation("org.mockito:mockito-core:5.18.0")
-  testImplementation("org.mockito:mockito-junit-jupiter:5.18.0")
+  testImplementation("org.mockito:mockito-core:5.20.0")
+  testImplementation("org.mockito:mockito-junit-jupiter:5.20.0")
 }
 
 tasks {
