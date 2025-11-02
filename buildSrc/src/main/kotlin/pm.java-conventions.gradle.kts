@@ -2,6 +2,11 @@ plugins {
   `java-library`
   `maven-publish`
   id("net.ltgt.errorprone")
+  id("com.github.spotbugs")
+}
+
+spotbugs {
+  ignoreFailures = true
 }
 
 dependencies {
@@ -9,6 +14,7 @@ dependencies {
   annotationProcessor("org.projectlombok:lombok:1.18.42")
 
   errorprone("com.google.errorprone:error_prone_core:2.43.0")
+  spotbugs("com.github.spotbugs:spotbugs:4.9.8")
 
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   testImplementation("org.junit.jupiter:junit-jupiter:6.0.1")
