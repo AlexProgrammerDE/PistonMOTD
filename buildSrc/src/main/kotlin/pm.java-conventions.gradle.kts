@@ -3,6 +3,14 @@ plugins {
   `maven-publish`
   id("net.ltgt.errorprone")
   id("com.github.spotbugs")
+  id("org.openrewrite.rewrite")
+}
+
+rewrite {
+  activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
+  activeRecipe("org.openrewrite.java.migrate.UpgradeToJava25")
+  activeRecipe("org.openrewrite.java.recipes.RecipeTestingBestPractices")
+  isExportDatatables = true
 }
 
 dependencies {
@@ -11,6 +19,9 @@ dependencies {
 
   errorprone("com.google.errorprone:error_prone_core:2.44.0")
   spotbugs("com.github.spotbugs:spotbugs:4.9.8")
+  rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.20.0")
+  rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.20.0")
+  rewrite("org.openrewrite.recipe:rewrite-rewrite:0.14.1")
 
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   testImplementation("org.junit.jupiter:junit-jupiter:6.0.1")
@@ -52,7 +63,7 @@ tasks {
 
 java {
   toolchain {
-    languageVersion.set(JavaLanguageVersion.of(21))
+    languageVersion.set(JavaLanguageVersion.of(25))
   }
 }
 
