@@ -1,5 +1,6 @@
 plugins {
   base
+  id("org.openrewrite.rewrite") version "latest.release"
 }
 
 allprojects {
@@ -34,4 +35,13 @@ tasks.register("outputVersion") {
   doLast {
     println(project.version)
   }
+}
+
+dependencies {
+  rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:latest.release"))
+  rewrite("org.openrewrite.recipe:rewrite-java")
+}
+
+rewrite {
+  activeRecipe("org.openrewrite.java.ShortenFullyQualifiedTypeReferences")
 }
