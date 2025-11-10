@@ -8,7 +8,7 @@ plugins {
 
 rewrite {
   activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
-  activeRecipe("org.openrewrite.java.migrate.UpgradeToJava25")
+  activeRecipe("org.openrewrite.java.migrate.UpgradeToJava21")
   activeRecipe("org.openrewrite.java.recipes.RecipeTestingBestPractices")
   isExportDatatables = true
 }
@@ -63,7 +63,7 @@ tasks {
 
 java {
   toolchain {
-    languageVersion.set(JavaLanguageVersion.of(25))
+    languageVersion.set(JavaLanguageVersion.of(21))
   }
 }
 

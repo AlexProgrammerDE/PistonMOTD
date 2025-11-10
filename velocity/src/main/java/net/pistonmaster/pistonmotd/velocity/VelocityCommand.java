@@ -17,11 +17,11 @@ public class VelocityCommand implements SimpleCommand {
 
   @Override
   public void execute(Invocation invocation) {
-    if (((invocation.arguments().length > 0 && invocation.arguments()[0].equalsIgnoreCase("help")) || invocation.arguments().length == 0) && invocation.source().hasPermission("pistonmotd.help")) {
+    if (((invocation.arguments().length > 0 && "help".equalsIgnoreCase(invocation.arguments()[0])) || invocation.arguments().length == 0) && invocation.source().hasPermission("pistonmotd.help")) {
       invocation.source().sendMessage(Identity.nil(), Component.text("Commands:"));
       invocation.source().sendMessage(Identity.nil(), Component.text("/pistonmotd help"));
       invocation.source().sendMessage(Identity.nil(), Component.text("/pistonmotd reload"));
-    } else if (invocation.arguments().length > 0 && invocation.arguments()[0].equalsIgnoreCase("reload") && invocation.source().hasPermission("pistonmotd.reload")) {
+    } else if (invocation.arguments().length > 0 && "reload".equalsIgnoreCase(invocation.arguments()[0]) && invocation.source().hasPermission("pistonmotd.reload")) {
       plugin.loadConfig();
       invocation.source().sendMessage(Identity.nil(), Component.text("Reloaded the config!"));
     }

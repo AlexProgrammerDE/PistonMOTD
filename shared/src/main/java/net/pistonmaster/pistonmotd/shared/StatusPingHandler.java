@@ -115,22 +115,26 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
           boolean hideSample = config.isExtensionVanishHideSample();
 
           for (PlayerWrapper player : plugin.getPlatform().getPlayers()) {
-            if (hiddenNames.contains(player.getName()))
+            if (hiddenNames.contains(player.getName())) {
               continue;
+            }
 
-            if (hideSample && vanished.contains(player.getUniqueId()))
+            if (hideSample && vanished.contains(player.getUniqueId())) {
               continue;
+            }
 
             String prefix = "";
             String suffix = "";
             if (luckperms) {
               LuckPermsWrapper.LuckPermsMeta meta = luckpermsWrapper.getWrappedMeta(player);
 
-              if (meta.getPrefix() != null)
+              if (meta.getPrefix() != null) {
                 prefix = meta.getPrefix();
+              }
 
-              if (meta.getSuffix() != null)
+              if (meta.getSuffix() != null) {
                 suffix = meta.getSuffix();
+              }
             }
 
             String displayName = PistonSerializersRelocated.section.serialize(

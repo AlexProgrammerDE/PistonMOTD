@@ -1,5 +1,5 @@
 import org.spongepowered.gradle.plugin.config.PluginLoaders
-import org.spongepowered.plugin.metadata.model.PluginDependency
+import org.spongepowered.plugin.metadata.model.PluginDependency.LoadOrder
 
 plugins {
     id("pm.platform-conventions")
@@ -35,7 +35,7 @@ sponge {
             description("Lead Developer")
         }
         dependency("spongeapi") {
-            loadOrder.set(PluginDependency.LoadOrder.AFTER)
+            loadOrder.set(LoadOrder.AFTER)
             optional(false)
         }
     }

@@ -43,4 +43,7 @@ public class PMHelpers {
 
     throw new IllegalStateException("Failed to get random entry");
   }
+
+  private PMHelpers() {
+  }
 }

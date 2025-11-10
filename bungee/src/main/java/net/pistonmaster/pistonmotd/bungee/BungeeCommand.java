@@ -21,11 +21,11 @@ public class BungeeCommand extends Command implements TabExecutor {
 
   @Override
   public void execute(CommandSender sender, String[] args) {
-    if (((args.length > 0 && args[0].equalsIgnoreCase("help")) || args.length == 0) && sender.hasPermission("pistonmotd.help")) {
+    if (((args.length > 0 && "help".equalsIgnoreCase(args[0])) || args.length == 0) && sender.hasPermission("pistonmotd.help")) {
       sender.sendMessage(new ComponentBuilder("Commands:").create());
       sender.sendMessage(new ComponentBuilder("/pistonmotd help").create());
       sender.sendMessage(new ComponentBuilder("/pistonmotd reload").create());
-    } else if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("pistonmotd.reload")) {
+    } else if (args.length > 0 && "reload".equalsIgnoreCase(args[0]) && sender.hasPermission("pistonmotd.reload")) {
       plugin.loadConfig();
       sender.sendMessage(new ComponentBuilder("Reloaded the config!").create());
     }

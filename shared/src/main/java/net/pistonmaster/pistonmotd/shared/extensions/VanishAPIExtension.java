@@ -19,4 +19,7 @@ public class VanishAPIExtension {
   public static List<UUID> getVanishedPlayersVelocity() {
     return VelocityVanishAPI.getInvisiblePlayers();
   }
+
+  private VanishAPIExtension() {
+  }
 }
