@@ -45,7 +45,7 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
                 break;
               }
             }
-          } catch (ClassCastException | NullPointerException e) {
+          } catch (ClassCastException e) {
             plugin.getPlatform().warn("The 'advanced.perDomainStatus.domains' has invalid structure.", e);
           }
         }

@@ -62,7 +62,10 @@ public class PistonMOTDPlugin {
     AxiomConfiguration defaultConfig = new AxiomConfiguration();
 
     try {
-      Files.createDirectories(pluginConfigFile.getParent());
+      Path parent = pluginConfigFile.getParent();
+      if (parent != null) {
+        Files.createDirectories(parent);
+      }
 
       try (InputStream is = platform.getBundledResource("config.yml")) {
         defaultConfig.load(is);
@@ -110,9 +113,13 @@ public class PistonMOTDPlugin {
     try (DirectoryStream<Path> ds = Files.newDirectoryStream(platform.getFaviconFolder(), new PistonMOTDPlatform.FaviconFilter())) {
       for (Path p : ds) {
         try {
-          newFavicons.put(p.getFileName().toString(), platform.createFavicon(p));
+          Path fileName = p.getFileName();
+          if (fileName != null) {
+            newFavicons.put(fileName.toString(), platform.createFavicon(p));
+          }
         } catch (Exception e) {
-          platform.error("Could not load favicon! (%s)".formatted(p.getFileName()), e);
+          Path fileName = p.getFileName();
+          platform.error("Could not load favicon! (%s)".formatted(fileName != null ? fileName : p), e);
         }
       }
     } catch (IOException e) {
