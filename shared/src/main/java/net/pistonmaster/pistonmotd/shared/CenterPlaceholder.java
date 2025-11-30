@@ -9,7 +9,6 @@ import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.Component;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 public class CenterPlaceholder {
@@ -100,7 +99,7 @@ public class CenterPlaceholder {
       }
 
       Component component = PistonSerializersRelocated.gsonSerializer.deserialize(json);
-      String textLegacy = PistonSerializersRelocated.section.serialize(component);
+      String textLegacy = PistonSerializersRelocated.ampersandRGB.serialize(component);
       AtomicReference<String> colorCode = new AtomicReference<>();
       Set<Character> formatModifiers = new HashSet<>();
       String[] lines = textLegacy.split("\n", 2);
@@ -115,7 +114,7 @@ public class CenterPlaceholder {
       }
 
       CENTERED_LINES.remove();
-      return String.join("\n", lines);
+      return PistonSerializersRelocated.gsonSerializer.serialize(PistonSerializersRelocated.ampersandRGB.deserialize(String.join("\n", lines)));
     }
 
     private String centerText(String text, AtomicReference<String> colorCode, Set<Character> formatModifiers) {
