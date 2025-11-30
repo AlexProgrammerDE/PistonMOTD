@@ -3,10 +3,13 @@ package net.pistonmaster.pistonmotd.shared;
 import lombok.RequiredArgsConstructor;
 import net.lenni0451.mcstructs.text.utils.TextWidthUtils;
 import net.pistonmaster.pistonmotd.api.PlaceholderParser;
+import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
+import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 public class CenterPlaceholder {
@@ -88,12 +91,22 @@ public class CenterPlaceholder {
     }
 
     @Override
-    public String parseString(String text) {
+    public String parseString(String json) {
       boolean[] centeredLines = CENTERED_LINES.get();
+      // Avoid breaking styling and wasting computation if no lines are centered
+      if (!centeredLines[0] && !centeredLines[1]) {
+        CENTERED_LINES.remove();
+        return json;
+      }
+
+      Component component = PistonSerializersRelocated.gsonSerializer.deserialize(json);
+      String textLegacy = PistonSerializersRelocated.section.serialize(component);
       AtomicReference<String> colorCode = new AtomicReference<>();
       Set<Character> formatModifiers = new HashSet<>();
-      String[] lines = text.split("\n", 2);
-      for (int i = 0; i < lines.length; i++) {
+      String[] lines = textLegacy.split("\n", 2);
+
+      // Need less passes if only the first line is centered
+      for (int i = 0; i < (centeredLines[1] ? 2 : 1); i++) {
         // We need to keep track of colors even if the line is not centered
         String parsed = centerText(lines[i], colorCode, formatModifiers);
         if (centeredLines[i]) {

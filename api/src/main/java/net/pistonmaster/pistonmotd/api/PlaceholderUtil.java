@@ -61,14 +61,14 @@ public class PlaceholderUtil {
     // Initially parse the text via MiniMessage
     Component component = PistonSerializersRelocated.miniMessage.deserialize(parsedText);
 
-    // Parse it to an ampersand RGB string
-    String ampersandRGB = PistonSerializersRelocated.ampersandRGB.serialize(component);
+    // Parse it to a json string
+    String json = PistonSerializersRelocated.gsonSerializer.serialize(component);
 
     for (PlaceholderParser parser : postParsePlaceholders) {
-      ampersandRGB = parser.parseString(ampersandRGB);
+      json = parser.parseString(json);
     }
 
-    return PistonSerializersRelocated.ampersandRGB.deserialize(ampersandRGB);
+    return PistonSerializersRelocated.gsonSerializer.deserialize(json);
   }
 
   /**
