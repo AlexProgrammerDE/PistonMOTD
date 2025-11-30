@@ -53,7 +53,7 @@ public class PlaceholderUtil {
   }
 
   private static Component parseTextToComponent(final String text) {
-    String parsedText = convertMiniMessageString(text);
+    String parsedText = MiniMessageConverter.convertMiniMessageString(text);
     for (PlaceholderParser parser : preParsePlaceholders) {
       parsedText = parser.parseString(parsedText);
     }
@@ -69,31 +69,6 @@ public class PlaceholderUtil {
     }
 
     return PistonSerializersRelocated.ampersandRGB.deserialize(ampersandRGB);
-  }
-
-  @VisibleForTesting
-  @API(status = API.Status.INTERNAL)
-  public static String convertMiniMessageString(String str) {
-    str = escapeMiniMessageChars(str);
-
-    str = PistonSerializersRelocated.miniMessage.serialize(PistonSerializersRelocated.sectionRGB.deserialize(
-      PistonSerializersRelocated.sectionRGB.serialize(PistonSerializersRelocated.ampersandRGB.deserialize(str))));
-
-    str = unescapeMiniMessageChars(str);
-
-    return str;
-  }
-
-  private static String escapeMiniMessageChars(String str) {
-    return str
-      .replace(String.valueOf(TAG_START), SPECIAL_KEY + "s")
-      .replace(String.valueOf(ESCAPE), SPECIAL_KEY + "e");
-  }
-
-  private static String unescapeMiniMessageChars(String str) {
-    return str
-      .replace(SPECIAL_KEY + "s", String.valueOf(TAG_START))
-      .replace(SPECIAL_KEY + "e", String.valueOf(ESCAPE));
   }
 
   /**
