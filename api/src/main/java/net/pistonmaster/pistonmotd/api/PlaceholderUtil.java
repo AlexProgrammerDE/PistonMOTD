@@ -14,9 +14,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @SuppressWarnings({"unused"})
 public class PlaceholderUtil {
-  private static final char SPECIAL_KEY = (char) 127;
-  private static final char TAG_START = '<';
-  private static final char ESCAPE = '\\';
   private static final List<PlaceholderParser> preParsePlaceholders = new CopyOnWriteArrayList<>();
   private static final List<PlaceholderParser> postParsePlaceholders = new CopyOnWriteArrayList<>();
 

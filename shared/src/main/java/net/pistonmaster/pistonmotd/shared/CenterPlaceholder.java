@@ -5,10 +5,15 @@ import net.lenni0451.mcstructs.text.utils.TextWidthUtils;
 import net.pistonmaster.pistonmotd.api.PlaceholderParser;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
 import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.Component;
+import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.TextComponent;
+import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.format.ShadowColor;
+import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.format.Style;
+import net.pistonmaster.pistonmotd.shadow.kyori.adventure.text.format.TextDecoration;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CenterPlaceholder {
@@ -35,15 +40,22 @@ public class CenterPlaceholder {
   public static class PostProcessor implements PlaceholderParser {
     private static final int LINE_LENGTH = 45;
     private static final String SPACE = " ";
-    private static final char AMPERSAND = '&';
-    private static final char BOLD = 'l';
-    private static final char RESET = 'r';
-    private static final char HEX_CODE = '#';
-    private static final String BOLD_SYNTAX = AMPERSAND + String.valueOf(BOLD);
-    private static final String RESET_SYNTAX = AMPERSAND + String.valueOf(RESET);
-    private static final char[] LEGACY_CODES = {HEX_CODE, '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'k', BOLD, 'm', 'n', 'o', RESET};
-    private static final char[] COLOR_CODES = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-    private static final int HEX_CODE_LENGTH = 6;
+    private static final float spaceWidth = TextWidthUtils.getCharWidth(' ', 1, false);
+    private static final float spaceBoldWidth = TextWidthUtils.getCharWidth(' ', 1, true);
+    private static final float bigAWidth = TextWidthUtils.getCharWidth('A', 1, false);
+    private static final Style INVISIBLE_STYLE = Style.style()
+      .decorations(Arrays.stream(TextDecoration.values())
+        .collect(Collectors.toMap(Function.identity(), ignored -> TextDecoration.State.FALSE)))
+      .shadowColor(ShadowColor.none())
+      .build();
+    private static final Style SPACE_NON_BOLD_STYLE = Style.style()
+      .merge(INVISIBLE_STYLE)
+      .decoration(TextDecoration.BOLD, TextDecoration.State.FALSE)
+      .build();
+    private static final Style SPACE_BOLD_STYLE = Style.style()
+      .merge(INVISIBLE_STYLE)
+      .decoration(TextDecoration.BOLD, TextDecoration.State.TRUE)
+      .build();
 
     @SuppressWarnings("SuspiciousNameCombination")
     public static int[] getLeftPadding(float textWidth, float spaceWidth, float spaceBoldWidth, float lineLength) {
@@ -98,97 +110,57 @@ public class CenterPlaceholder {
         return json;
       }
 
-      Component component = PistonSerializersRelocated.gsonSerializer.deserialize(json);
-      String textLegacy = PistonSerializersRelocated.ampersandRGB.serialize(component);
-      AtomicReference<String> colorCode = new AtomicReference<>();
-      Set<Character> formatModifiers = new HashSet<>();
-      String[] lines = textLegacy.split("\n", 2);
-
-      // Need less passes if only the first line is centered
-      for (int i = 0; i < (centeredLines[1] ? 2 : 1); i++) {
-        // We need to keep track of colors even if the line is not centered
-        String parsed = centerText(lines[i], colorCode, formatModifiers);
-        if (centeredLines[i]) {
-          lines[i] = parsed;
-        }
-      }
-
+      Component component = centerText(PistonSerializersRelocated.gsonSerializer.deserialize(json));
       CENTERED_LINES.remove();
-      return PistonSerializersRelocated.gsonSerializer.serialize(PistonSerializersRelocated.ampersandRGB.deserialize(String.join("\n", lines)));
+      return PistonSerializersRelocated.gsonSerializer.serialize(component);
     }
 
-    private String centerText(String text, AtomicReference<String> colorCode, Set<Character> formatModifiers) {
-      float textWidthCounter = 0;
-      int textChars = text.length();
+    private void propagateWidths(Component component, boolean isParentBold, AtomicBoolean isFirstLine, float[] widths) {
+      TextDecoration.State boldState = component.style().decoration(TextDecoration.BOLD);
+      boolean isCurrentBold = boldState == TextDecoration.State.NOT_SET ? isParentBold : boldState == TextDecoration.State.TRUE;
 
-      for (int i = 0; i < textChars; i++) {
-        char c = text.charAt(i);
-        if (c == AMPERSAND && i + 1 < textChars) {
-          char next = text.charAt(i + 1);
-          if (isValidLegacyChar(next)) {
-            if (next == RESET) {
-              colorCode.set(null);
-              formatModifiers.clear();
-            } else if (next == HEX_CODE) {
-              colorCode.set(text.substring(i + 1, i + 2 + HEX_CODE_LENGTH));
-              i += 6;
-              formatModifiers.clear();
-            } else if (isValidColorChar(next)) {
-              colorCode.set(String.valueOf(next));
-              formatModifiers.clear();
-            } else {
-              formatModifiers.add(next);
-            }
-
-            i++;
-            continue;
-          }
+      String stringContent = component instanceof TextComponent textComponent ? textComponent.content() : "A";
+      for (char c : stringContent.toCharArray()) {
+        if (c == '\n' && isFirstLine.get()) {
+          isFirstLine.set(false);
+          continue;
         }
 
-        textWidthCounter += TextWidthUtils.getCharWidth(c, 1, formatModifiers.contains(BOLD));
+        widths[isFirstLine.get() ? 0 : 1] += TextWidthUtils.getCharWidth(c, 1, isCurrentBold);
       }
 
-      float spaceWidth = TextWidthUtils.getCharWidth(' ', 1, false);
-      float spaceBoldWidth = TextWidthUtils.getCharWidth(' ', 1, true);
-      float bigAWidth = TextWidthUtils.getCharWidth('A', 1, false);
-      int[] leftPaddingSpaces = getLeftPadding(textWidthCounter, spaceWidth, spaceBoldWidth, LINE_LENGTH * bigAWidth);
-
-      StringBuilder builder = new StringBuilder();
-      builder.append(RESET_SYNTAX);
-      builder.append(SPACE.repeat(Math.max(0, leftPaddingSpaces[0])));
-
-      builder.append(BOLD_SYNTAX);
-      builder.append(SPACE.repeat(Math.max(0, leftPaddingSpaces[1])));
-      builder.append(RESET_SYNTAX);
-      if (colorCode.get() != null) {
-        builder.append(AMPERSAND).append(colorCode.get());
+      for (Component child : component.children()) {
+        propagateWidths(child, isCurrentBold, isFirstLine, widths);
       }
-
-      for (char formatModifier : formatModifiers) {
-        builder.append(AMPERSAND).append(formatModifier);
-      }
-
-      return builder.append(text).toString();
     }
 
-    private boolean isValidLegacyChar(char c) {
-      for (char colorCode : LEGACY_CODES) {
-        if (c == colorCode) {
-          return true;
+    private Component centerText(Component component) {
+      float[] widths = new float[2];
+      propagateWidths(component, false, new AtomicBoolean(true), widths);
+
+      for (int i = 0; i < widths.length; i++) {
+        int[] leftPaddingSpaces = getLeftPadding(widths[i], spaceWidth, spaceBoldWidth, LINE_LENGTH * bigAWidth);
+        Component normalPadding = Component.text(SPACE.repeat(leftPaddingSpaces[0]))
+          .style(SPACE_NON_BOLD_STYLE);
+        Component boldPadding = Component.text(SPACE.repeat(leftPaddingSpaces[1]))
+          .style(SPACE_BOLD_STYLE);
+        if (i == 0) {
+          component = normalPadding
+            .append(boldPadding)
+            .append(component);
+        } else {
+          component = component.replaceText(builder ->
+            builder
+              .matchLiteral("\n")
+              .replacement(Component.newline()
+                .append(normalPadding)
+                .append(boldPadding)
+              )
+          );
         }
       }
 
-      return false;
-    }
-
-    private boolean isValidColorChar(char c) {
-      for (char colorCode : COLOR_CODES) {
-        if (c == colorCode) {
-          return true;
-        }
-      }
-
-      return false;
+      return component;
     }
   }
 }
