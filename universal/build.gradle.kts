@@ -4,7 +4,7 @@ plugins {
     java
     id("xyz.wagyourtail.jvmdowngrader")
     id("org.spongepowered.gradle.ore") version "2.3.0"
-    id("io.papermc.hangar-publish-plugin") version "0.1.3"
+    id("io.papermc.hangar-publish-plugin") version "0.1.4"
 }
 
 dependencies {
