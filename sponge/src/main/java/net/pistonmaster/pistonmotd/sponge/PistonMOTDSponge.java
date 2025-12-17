@@ -22,7 +22,6 @@ import org.spongepowered.api.util.metric.MetricsConfigManager;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
-import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.List;
@@ -132,11 +131,6 @@ public class PistonMOTDSponge implements PistonMOTDPlatform {
   @Override
   public Path getFaviconFolder() {
     return privateConfigDir.resolve("favicons");
-  }
-
-  @Override
-  public InputStream getBundledResource(String name) {
-    return container.openResource(name).orElse(null);
   }
 
   @Override

@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
@@ -95,11 +94,6 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
   @Override
   public Path getFaviconFolder() {
     return getDataFolder().toPath().resolve("favicons");
-  }
-
-  @Override
-  public InputStream getBundledResource(String name) {
-    return getResource(name);
   }
 
   @Override

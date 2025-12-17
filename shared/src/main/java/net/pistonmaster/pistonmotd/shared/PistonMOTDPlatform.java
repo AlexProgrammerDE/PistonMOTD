@@ -2,7 +2,6 @@ package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 
-import java.io.InputStream;
 import java.nio.file.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -15,8 +14,6 @@ public interface PistonMOTDPlatform {
   Path getPluginConfigFile();
 
   Path getFaviconFolder();
-
-  InputStream getBundledResource(String name);
 
   List<PlayerWrapper> getPlayers();
 

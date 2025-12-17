@@ -9,7 +9,6 @@ import net.pistonmaster.pistonmotd.shared.*;
 import org.bstats.bungeecord.Metrics;
 
 import javax.imageio.ImageIO;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -84,11 +83,6 @@ public class PistonMOTDBungee extends Plugin implements PistonMOTDPlatform {
   @Override
   public Path getFaviconFolder() {
     return getDataFolder().toPath().resolve("favicons");
-  }
-
-  @Override
-  public InputStream getBundledResource(String name) {
-    return getResourceAsStream(name);
   }
 
   @Override

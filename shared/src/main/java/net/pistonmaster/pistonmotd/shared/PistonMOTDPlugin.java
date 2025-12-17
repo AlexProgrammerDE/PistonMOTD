@@ -1,5 +1,6 @@
 package net.pistonmaster.pistonmotd.shared;
 
+import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
@@ -8,10 +9,8 @@ import net.pistonmaster.pistonmotd.shared.utils.ConsoleColor;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonutils.update.GitHubUpdateChecker;
 import net.pistonmaster.pistonutils.update.SemanticVersion;
-import net.skinsrestorer.axiom.AxiomConfiguration;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 @SuppressWarnings("WriteOnlyObject") // Lombok's getters are ignored by this check
 public class PistonMOTDPlugin {
-  private final PistonMOTDPluginConfig config = new PistonMOTDPluginConfig();
+  private final AtomicReference<PistonMOTDPluginConfig> config = new AtomicReference<>(new PistonMOTDPluginConfig());
   private final AtomicReference<Map<String, StatusFavicon>> favicons = new AtomicReference<>(Map.of());
   private final AtomicBoolean vanishBukkit = new AtomicBoolean();
   private final AtomicBoolean vanishBungee = new AtomicBoolean();
@@ -34,7 +33,7 @@ public class PistonMOTDPlugin {
   private final PistonMOTDPlatform platform;
 
   public PistonMOTDPluginConfig getPluginConfig() {
-    return config;
+    return config.get();
   }
 
   public void logName() {
@@ -59,7 +58,6 @@ public class PistonMOTDPlugin {
 
   public void loadConfig() {
     Path pluginConfigFile = platform.getPluginConfigFile();
-    AxiomConfiguration defaultConfig = new AxiomConfiguration();
 
     try {
       Path parent = pluginConfigFile.getParent();
@@ -67,24 +65,18 @@ public class PistonMOTDPlugin {
         Files.createDirectories(parent);
       }
 
-      try (InputStream is = platform.getBundledResource("config.yml")) {
-        defaultConfig.load(is);
-      }
+      // Use ConfigLib's update method which handles:
+      // - Creating the file if it doesn't exist (with default values)
+      // - Loading existing values from the file
+      // - Adding new fields that were added to the config class
+      // - Preserving user-modified values
+      PistonMOTDPluginConfig loadedConfig = YamlConfigurations.update(
+        pluginConfigFile,
+        PistonMOTDPluginConfig.class
+      );
 
-      if (!Files.exists(pluginConfigFile)) {
-        defaultConfig.save(pluginConfigFile);
-      }
-
-      AxiomConfiguration axiomConfiguration = new AxiomConfiguration();
-
-      axiomConfiguration.load(pluginConfigFile);
-
-      axiomConfiguration.merge(defaultConfig);
-
-      axiomConfiguration.save(pluginConfigFile);
-
-      config.load(axiomConfiguration);
-    } catch (IOException e) {
+      config.set(loadedConfig);
+    } catch (Exception e) {
       platform.error("Could not load config", e);
     }
 

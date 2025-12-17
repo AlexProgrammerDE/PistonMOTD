@@ -13,7 +13,6 @@ import net.pistonmaster.pistonmotd.shared.*;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
@@ -84,11 +83,6 @@ public class PistonMOTDVelocity implements PistonMOTDPlatform {
   @Override
   public Path getFaviconFolder() {
     return pluginDir.resolve("favicons");
-  }
-
-  @Override
-  public InputStream getBundledResource(String name) {
-    return getClass().getClassLoader().getResourceAsStream(name);
   }
 
   @Override
