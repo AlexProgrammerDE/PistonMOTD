@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api("de.exlll:configlib-yaml:4.7.0")
+    api("de.exlll:configlib-yaml:4.8.0")
     api("net.lenni0451.mcstructs:text:3.2.1")
     implementation(project(":pistonmotd-api", "shadow"))
 
