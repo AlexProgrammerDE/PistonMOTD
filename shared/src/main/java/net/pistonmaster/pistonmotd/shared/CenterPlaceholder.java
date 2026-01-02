@@ -104,15 +104,21 @@ public class CenterPlaceholder {
     @Override
     public String parseString(String json) {
       boolean[] centeredLines = CENTERED_LINES.get();
+      CENTERED_LINES.remove();
+
       // Avoid breaking styling and wasting computation if no lines are centered
       if (!centeredLines[0] && !centeredLines[1]) {
-        CENTERED_LINES.remove();
         return json;
       }
 
-      Component component = centerText(PistonSerializersRelocated.gsonSerializer.deserialize(json));
-      CENTERED_LINES.remove();
-      return PistonSerializersRelocated.gsonSerializer.serialize(component);
+      return PistonSerializersRelocated.gsonSerializer.serialize(
+        centerText(
+          PistonSerializersRelocated.gsonSerializer.deserialize(
+            json
+          ),
+          centeredLines
+        )
+      );
     }
 
     private void propagateWidths(Component component, boolean isParentBold, AtomicBoolean isFirstLine, float[] widths) {
@@ -134,11 +140,15 @@ public class CenterPlaceholder {
       }
     }
 
-    private Component centerText(Component component) {
+    private Component centerText(Component component, boolean[] centeredLines) {
       float[] widths = new float[2];
       propagateWidths(component, false, new AtomicBoolean(true), widths);
 
       for (int i = 0; i < widths.length; i++) {
+        if (!centeredLines[i]) {
+          continue;
+        }
+
         int[] leftPaddingSpaces = getLeftPadding(widths[i], spaceWidth, spaceBoldWidth, LINE_LENGTH * bigAWidth);
         Component normalPadding = Component.text(SPACE.repeat(leftPaddingSpaces[0]))
           .style(SPACE_NON_BOLD_STYLE);
