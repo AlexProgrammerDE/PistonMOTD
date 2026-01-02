@@ -16,32 +16,32 @@ public class ConversionTest {
 
   @Test
   public void testBasicConversionHexSection() {
-    Assertions.assertEquals("<#FF0000>Hello World", MiniMessageConverter.convertMiniMessageString("§#ff0000Hello World"));
+    Assertions.assertEquals("<reset><#FF0000>Hello World", MiniMessageConverter.convertMiniMessageString("§#ff0000Hello World"));
   }
 
   @Test
   public void testBasicConversionHexAmpersand() {
-    Assertions.assertEquals("<#FF0000>Hello World", MiniMessageConverter.convertMiniMessageString("&#ff0000Hello World"));
+    Assertions.assertEquals("<reset><#FF0000>Hello World", MiniMessageConverter.convertMiniMessageString("&#ff0000Hello World"));
   }
 
   @Test
   public void testBasicConversionHexSectionUgly() {
-    Assertions.assertEquals("<#FF0000>Hello World", MiniMessageConverter.convertMiniMessageString("§x§f§f§0§0§0§0Hello World"));
+    Assertions.assertEquals("<reset><#FF0000>Hello World", MiniMessageConverter.convertMiniMessageString("§x§f§f§0§0§0§0Hello World"));
   }
 
   @Test
   public void testBasicConversionHexAmpersandUgly() {
-    Assertions.assertEquals("<#FF0000>Hello World", MiniMessageConverter.convertMiniMessageString("&x&f&f&0&0&0&0Hello World"));
+    Assertions.assertEquals("<reset><#FF0000>Hello World", MiniMessageConverter.convertMiniMessageString("&x&f&f&0&0&0&0Hello World"));
   }
 
   @Test
   public void testNotEscapingTag() {
-    Assertions.assertEquals("<#FF0000>Hello World<test>", MiniMessageConverter.convertMiniMessageString("&x&f&f&0&0&0&0Hello World<test>"));
+    Assertions.assertEquals("<reset><#FF0000>Hello World<test>", MiniMessageConverter.convertMiniMessageString("&x&f&f&0&0&0&0Hello World<test>"));
   }
 
   @Test
   public void testNotEscapingEscape() {
-    Assertions.assertEquals("<#FF0000>Hello World\\<test>", MiniMessageConverter.convertMiniMessageString("&x&f&f&0&0&0&0Hello World\\<test>"));
+    Assertions.assertEquals("<reset><#FF0000>Hello World\\<test>", MiniMessageConverter.convertMiniMessageString("&x&f&f&0&0&0&0Hello World\\<test>"));
   }
 
   @Test
@@ -61,6 +61,6 @@ public class ConversionTest {
 
   @Test
   public void testAnvilHexNonItalicExample() {
-    Assertions.assertEquals("<#04280D> NVBIS", MiniMessageConverter.convertMiniMessageString("§#04280D NVBIS"));
+    Assertions.assertEquals("<reset><#04280D> NVBIS", MiniMessageConverter.convertMiniMessageString("§#04280D NVBIS"));
   }
 }

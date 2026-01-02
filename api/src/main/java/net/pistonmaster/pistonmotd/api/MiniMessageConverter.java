@@ -47,33 +47,37 @@ public class MiniMessageConverter {
   }
 
   private static String convertMiniMessageString(String str, char legacyChar, Pattern hexPattern, Pattern hexUglyPattern) {
-    // Convert hex colors
-    var hexMatcher = hexPattern.matcher(str);
-    StringBuilder sb = new StringBuilder();
-    while (hexMatcher.find()) {
-      String hex = hexMatcher.group(1).toUpperCase(Locale.ROOT);
-      hexMatcher.appendReplacement(sb, "<#" + hex + ">");
-    }
-    hexMatcher.appendTail(sb);
-    str = sb.toString();
-
-    // Convert ugly hex colors (handles patterns like &x&F&F&0&0&0&0 or §x§F§F§0§0§0§0)
-    var uglyHexMatcher = hexUglyPattern.matcher(str);
-    sb = new StringBuilder();
-    while (uglyHexMatcher.find()) {
-      StringBuilder hex = new StringBuilder();
-      String match = uglyHexMatcher.group();
-      // Collect only hexadecimal characters from the match (0-9, a-f, A-F)
-      for (int i = 0; i < match.length(); i++) {
-        char c = match.charAt(i);
-        if (Character.digit(c, 16) != -1) {
-          hex.append(c);
-        }
+    {
+      // Convert hex colors
+      var hexMatcher = hexPattern.matcher(str);
+      StringBuilder sb = new StringBuilder();
+      while (hexMatcher.find()) {
+        String hex = hexMatcher.group(1).toUpperCase(Locale.ROOT);
+        hexMatcher.appendReplacement(sb, "<reset><#" + hex + ">");
       }
-      uglyHexMatcher.appendReplacement(sb, "<#" + hex.toString().toUpperCase(Locale.ROOT) + ">");
+      hexMatcher.appendTail(sb);
+      str = sb.toString();
     }
-    uglyHexMatcher.appendTail(sb);
-    str = sb.toString();
+
+    {
+      // Convert ugly hex colors (handles patterns like &x&F&F&0&0&0&0 or §x§F§F§0§0§0§0)
+      var uglyHexMatcher = hexUglyPattern.matcher(str);
+      StringBuilder sb = new StringBuilder();
+      while (uglyHexMatcher.find()) {
+        StringBuilder hex = new StringBuilder();
+        String match = uglyHexMatcher.group();
+        // Collect only hexadecimal characters from the match (0-9, a-f, A-F)
+        for (int i = 0; i < match.length(); i++) {
+          char c = match.charAt(i);
+          if (Character.digit(c, 16) != -1) {
+            hex.append(c);
+          }
+        }
+        uglyHexMatcher.appendReplacement(sb, "<reset><#" + hex.toString().toUpperCase(Locale.ROOT) + ">");
+      }
+      uglyHexMatcher.appendTail(sb);
+      str = sb.toString();
+    }
 
     // Convert standard colors
     StringBuilder result = new StringBuilder();
