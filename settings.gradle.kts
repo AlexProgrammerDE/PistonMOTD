@@ -5,7 +5,7 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        id("com.gradleup.shadow") version "9.3.0"
+        id("com.gradleup.shadow") version "9.3.1"
         id("net.kyori.indra") version "4.0.0"
         id("net.kyori.indra.git") version "4.0.0"
         id("net.kyori.indra.publishing") version "4.0.0"
