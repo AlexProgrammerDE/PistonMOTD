@@ -1,5 +1,9 @@
 plugins {
-  base
+    base
+}
+
+tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
+    languageVersion = JavaLanguageVersion.of(25)
 }
 
 allprojects {
@@ -27,11 +31,5 @@ allprojects {
     maven("https://repo.tcoded.com/releases") {
       name = "tcoded-releases"
     }
-  }
-}
-
-tasks.register("outputVersion") {
-  doLast {
-    println(project.version)
   }
 }
