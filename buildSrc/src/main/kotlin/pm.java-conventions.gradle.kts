@@ -1,4 +1,5 @@
 plugins {
+    id("pm.formatting-conventions")
   `java-library`
   `maven-publish`
   id("net.ltgt.errorprone")
