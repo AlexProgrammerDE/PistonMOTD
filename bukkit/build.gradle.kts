@@ -10,7 +10,7 @@ dependencies {
     implementation(projects.pistonmotdKyori)
 
     implementation("io.papermc:paperlib:1.0.8")
-    implementation("org.bstats:bstats-bukkit:3.2.0")
+    implementation("org.bstats:bstats-bukkit:3.2.1")
     implementation("net.kyori:adventure-platform-bukkit:4.4.1")
     implementation("com.tcoded:FoliaLib:0.5.1")
 

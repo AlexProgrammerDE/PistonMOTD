@@ -9,7 +9,7 @@ dependencies {
     implementation(projects.pistonmotdShared)
     compileOnly(projects.pistonmotdBuildData)
 
-    implementation("org.bstats:bstats-velocity:3.2.0")
+    implementation("org.bstats:bstats-velocity:3.2.1")
 
     compileOnly("com.velocitypowered:velocity-api:3.4.0")
 }
