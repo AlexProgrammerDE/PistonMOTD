@@ -13,7 +13,7 @@ dependencies {
     implementation("xyz.wagyourtail.jvmdowngrader:xyz.wagyourtail.jvmdowngrader.gradle.plugin:1.3.6")
     implementation("com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8")
     implementation("net.ltgt.errorprone:net.ltgt.errorprone.gradle.plugin:5.0.0")
-    implementation("org.openrewrite:plugin:7.26.0")
+    implementation("org.openrewrite:plugin:7.27.0")
 }
 
 java {
