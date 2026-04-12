@@ -28,6 +28,7 @@ public abstract class PistonMOTDBaseServerConfig {
   @Comment({"", "Not supported on: Spigot (Paper works), Sponge"})
   private Version version = new Version();
 
+  @Comment({"", "Player count and hover sample settings."})
   private Players players = new Players();
 
   @Comment({"", "The image of a server in the server list."})
@@ -39,7 +40,10 @@ public abstract class PistonMOTDBaseServerConfig {
   @Getter
   @Configuration
   public static class Description {
+    @Comment("Enables the custom MOTD.")
     private boolean activated = true;
+
+    @Comment("The MOTD lines shown in the server list.")
     private List<String> text = List.of(
       "Hello! <newline>World!",
       "Use &c<underlined>color <bold><yellow>codes!",
@@ -68,14 +72,20 @@ public abstract class PistonMOTDBaseServerConfig {
     @Getter
     @Configuration
     public static class Name {
+      @Comment("Enables the custom version name.")
       private boolean activated = true;
+
+      @Comment("The version name shown to incompatible clients.")
       private String text = "&1My custom version name!";
     }
 
     @Getter
     @Configuration
     public static class Protocol {
+      @Comment("Enables the custom protocol number.")
       private boolean activated = false;
+
+      @Comment("The protocol number sent to the client.")
       private int value = 1;
     }
   }
@@ -98,14 +108,20 @@ public abstract class PistonMOTDBaseServerConfig {
     @Getter
     @Configuration
     public static class Online {
+      @Comment("Enables the custom online player count.")
       private boolean activated = false;
+
+      @Comment("The online player count shown in the server list.")
       private int value = 0;
     }
 
     @Getter
     @Configuration
     public static class Max {
+      @Comment("Enables the custom max player count.")
       private boolean activated = false;
+
+      @Comment("The max player count shown in the server list.")
       private int value = 10;
     }
 
@@ -119,7 +135,10 @@ public abstract class PistonMOTDBaseServerConfig {
       })
       private Vanilla vanilla = new Vanilla();
 
+      @Comment("Enables the custom hover sample below.")
       private boolean activated = true;
+
+      @Comment("The lines shown in the hover sample when vanilla mode is disabled.")
       private List<String> text = List.of(
         "&3Hello world!",
         "&eNewline!",
@@ -131,7 +150,10 @@ public abstract class PistonMOTDBaseServerConfig {
       @Getter
       @Configuration
       public static class Vanilla {
+        @Comment("Uses the real player list instead of the custom hover sample.")
         private boolean activated = false;
+
+        @Comment("Players hidden from the vanilla player sample.")
         private List<String> hidden = List.of("Notch");
       }
     }
@@ -140,6 +162,7 @@ public abstract class PistonMOTDBaseServerConfig {
   @Getter
   @Configuration
   public static class Favicon {
+    @Comment("Enables the custom server favicon.")
     private boolean activated = false;
 
     @Comment({
@@ -192,6 +215,7 @@ public abstract class PistonMOTDBaseServerConfig {
     @Getter
     @Configuration
     public static class SupportedProtocol {
+      @Comment("Enables protocol-based version filtering.")
       private boolean activated = false;
 
       @Comment("Shown when the protocol is not supported.")

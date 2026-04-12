@@ -12,6 +12,7 @@ public class PistonMOTDPluginConfig extends PistonMOTDBaseServerConfig {
   @Comment({"", "Check for updates on startup. (Only works on Sponge)"})
   private boolean updateChecking = true;
 
+  @Comment({"", "Advanced features and protocol-specific behavior."})
   private PluginAdvanced advanced = new PluginAdvanced();
 
   @Getter
@@ -29,7 +30,10 @@ public class PistonMOTDPluginConfig extends PistonMOTDBaseServerConfig {
     @Getter
     @Configuration
     public static class PerDomainStatus {
+      @Comment("Enables per-domain status overrides.")
       private boolean activated = false;
+
+      @Comment("The per-domain overrides keyed by an arbitrary entry name.")
       private Map<String, PistonMOTDDomainConfig> domains = Map.of(
         "example", createExampleDomain1(),
         "example2", createExampleDomain2()
