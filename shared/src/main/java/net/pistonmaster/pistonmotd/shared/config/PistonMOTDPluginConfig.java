@@ -9,11 +9,11 @@ import java.util.Map;
 @Getter
 @Configuration
 public class PistonMOTDPluginConfig extends PistonMOTDBaseServerConfig {
-  @Comment({"", "Check for updates on startup. (Only works on Sponge)"})
-  private boolean updateChecking = true;
-
   @Comment({"", "Advanced features and protocol-specific behavior."})
   private PluginAdvanced advanced = new PluginAdvanced();
+
+  @Comment({"", "Check for updates on startup. (Only works on Sponge)"})
+  private boolean updateChecking = true;
 
   @Getter
   @Configuration
