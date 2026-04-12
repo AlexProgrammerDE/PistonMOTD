@@ -5,6 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Configuration
-public class PistonMOTDDomainConfig extends PistonMOTDServerConfig {
+public class PistonMOTDDomainConfig extends PistonMOTDBaseServerConfig {
   private String domain = "";
+
+  private Advanced advanced = new Advanced();
 }

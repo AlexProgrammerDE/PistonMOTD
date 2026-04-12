@@ -2,9 +2,9 @@ package net.pistonmaster.pistonmotd.shared;
 
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.kyori.PistonSerializersRelocated;
+import net.pistonmaster.pistonmotd.shared.config.PistonMOTDBaseServerConfig;
 import net.pistonmaster.pistonmotd.shared.config.PistonMOTDDomainConfig;
 import net.pistonmaster.pistonmotd.shared.config.PistonMOTDPluginConfig;
-import net.pistonmaster.pistonmotd.shared.config.PistonMOTDServerConfig;
 import net.pistonmaster.pistonmotd.shared.extensions.VanishAPIExtension;
 import net.pistonmaster.pistonmotd.shared.utils.LuckPermsWrapper;
 import net.pistonmaster.pistonmotd.shared.utils.PMHelpers;
@@ -59,7 +59,7 @@ public record StatusPingHandler(PistonMOTDPlugin plugin) {
     plugin.getPlatform().warn("\"%s\" was activated in the config, but your platform does not support this feature!".formatted(value));
   }
 
-  private void applyServerConfig(PistonStatusPing ping, PistonMOTDServerConfig config) {
+  private void applyServerConfig(PistonStatusPing ping, PistonMOTDBaseServerConfig config) {
     Set<UUID> vanished = new HashSet<>();
 
     if (config.isExtensionVanishAPI()) {

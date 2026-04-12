@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Configuration
-public class PistonMOTDServerConfig {
+public abstract class PistonMOTDBaseServerConfig {
   @Comment({
     "You can find color codes here: https://minecraft.tools/en/color-code.php",
     "Formatting comes after the color! &d&l will work, but not &l&d.",
@@ -35,9 +35,6 @@ public class PistonMOTDServerConfig {
 
   @Comment({"", "Extensions to the functionality of PistonMOTD"})
   private Extensions extensions = new Extensions();
-
-  @Comment({"", "Advanced features that should not be messed with unless you know what you're doing."})
-  protected Advanced advanced = new Advanced();
 
   @Getter
   @Configuration
@@ -269,16 +266,18 @@ public class PistonMOTDServerConfig {
     return version.getProtocol().getValue();
   }
 
+  public abstract Advanced getAdvanced();
+
   public boolean isAdvancedSupportedProtocolActivated() {
-    return advanced.getSupportedProtocol().isActivated();
+    return getAdvanced().getSupportedProtocol().isActivated();
   }
 
   public List<Integer> getAdvancedSupportedProtocolNumbers() {
-    return advanced.getSupportedProtocol().getNumbers();
+    return getAdvanced().getSupportedProtocol().getNumbers();
   }
 
   public int getAdvancedSupportedProtocolUnsupportedNumber() {
-    return advanced.getSupportedProtocol().getUnsupportedNumber();
+    return getAdvanced().getSupportedProtocol().getUnsupportedNumber();
   }
 
   public boolean isExtensionVanishAPI() {
