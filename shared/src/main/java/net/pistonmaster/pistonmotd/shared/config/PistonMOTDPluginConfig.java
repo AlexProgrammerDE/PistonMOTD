@@ -13,7 +13,7 @@ public class PistonMOTDPluginConfig extends PistonMOTDServerConfig {
     advanced = new PluginAdvanced();
   }
 
-  @Comment({"", "Check for updates on startup. (Only works on Sponge)"})
+  @Comment("Check for updates on startup. (Only works on Sponge)")
   private boolean updateChecking = true;
 
   @Override

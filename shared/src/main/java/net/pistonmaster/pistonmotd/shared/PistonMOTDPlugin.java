@@ -1,5 +1,8 @@
 package net.pistonmaster.pistonmotd.shared;
 
+import de.exlll.configlib.ConfigurationProperties;
+import de.exlll.configlib.DeserializationCoercionType;
+import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,10 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 @SuppressWarnings("WriteOnlyObject") // Lombok's getters are ignored by this check
 public class PistonMOTDPlugin {
+  private static final YamlConfigurationProperties YAML_CONFIG_PROPERTIES = YamlConfigurationProperties.newBuilder()
+    .setEnvVarResolutionConfiguration(ConfigurationProperties.EnvVarResolutionConfiguration.resolveEnvVarsWithPrefix("PISTONMOTD_CONFIG_", false))
+    .setDeserializationCoercionTypes(DeserializationCoercionType.values())
+    .build();
   private final AtomicReference<PistonMOTDPluginConfig> config = new AtomicReference<>(new PistonMOTDPluginConfig());
   private final AtomicReference<Map<String, StatusFavicon>> favicons = new AtomicReference<>(Map.of());
   private final AtomicBoolean vanishBukkit = new AtomicBoolean();
@@ -72,7 +79,8 @@ public class PistonMOTDPlugin {
       // - Preserving user-modified values
       PistonMOTDPluginConfig loadedConfig = YamlConfigurations.update(
         pluginConfigFile,
-        PistonMOTDPluginConfig.class
+        PistonMOTDPluginConfig.class,
+        YAML_CONFIG_PROPERTIES
       );
 
       config.set(loadedConfig);
