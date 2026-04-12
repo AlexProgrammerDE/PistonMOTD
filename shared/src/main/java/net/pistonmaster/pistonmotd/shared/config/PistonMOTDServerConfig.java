@@ -37,7 +37,7 @@ public class PistonMOTDServerConfig {
   private Extensions extensions = new Extensions();
 
   @Comment({"", "Advanced features that should not be messed with unless you know what you're doing."})
-  private Advanced advanced = new Advanced();
+  protected Advanced advanced = new Advanced();
 
   @Getter
   @Configuration

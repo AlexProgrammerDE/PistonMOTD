@@ -9,15 +9,17 @@ import java.util.Map;
 @Getter
 @Configuration
 public class PistonMOTDPluginConfig extends PistonMOTDServerConfig {
+  public PistonMOTDPluginConfig() {
+    advanced = new PluginAdvanced();
+  }
+
   @Comment({"", "Check for updates on startup. (Only works on Sponge)"})
   private boolean updateChecking = true;
 
   @Override
-  public Advanced getAdvanced() {
-    return advanced;
+  public PluginAdvanced getAdvanced() {
+    return (PluginAdvanced) advanced;
   }
-
-  private PluginAdvanced advanced = new PluginAdvanced();
 
   @Getter
   @Configuration
@@ -52,10 +54,10 @@ public class PistonMOTDPluginConfig extends PistonMOTDServerConfig {
 
   // Convenience accessor methods for plugin-specific settings
   public boolean isAdvancedPerDomainStatusActivated() {
-    return advanced.getPerDomainStatus().isActivated();
+    return getAdvanced().getPerDomainStatus().isActivated();
   }
 
   public Map<String, PistonMOTDDomainConfig> getAdvancedPerDomainStatusDomains() {
-    return advanced.getPerDomainStatus().getDomains();
+    return getAdvanced().getPerDomainStatus().getDomains();
   }
 }

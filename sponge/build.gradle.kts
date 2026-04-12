@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":pistonmotd-api", "shadow"))
+    implementation(project(path = ":pistonmotd-api", configuration = "shadowRuntimeElements"))
     implementation(projects.pistonmotdShared)
     compileOnly(projects.pistonmotdBuildData)
 
