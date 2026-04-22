@@ -15,8 +15,8 @@ rewrite {
 }
 
 dependencies {
-  compileOnly("org.projectlombok:lombok:1.18.44")
-  annotationProcessor("org.projectlombok:lombok:1.18.44")
+  compileOnly("org.projectlombok:lombok:1.18.46")
+  annotationProcessor("org.projectlombok:lombok:1.18.46")
 
   errorprone("com.google.errorprone:error_prone_core:2.49.0")
   spotbugs("com.github.spotbugs:spotbugs:4.9.8")
