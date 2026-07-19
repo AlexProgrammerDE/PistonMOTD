@@ -11,7 +11,7 @@ dependencies {
 
     implementation("org.bstats:bstats-velocity:3.2.1")
 
-    compileOnly("com.velocitypowered:velocity-api:3.4.0")
+    compileOnly("com.velocitypowered:velocity-api:4.0.0")
 }
 
 tasks {
