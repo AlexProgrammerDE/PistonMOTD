@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     api("de.exlll:configlib-yaml:4.8.1")
-    api("net.lenni0451.mcstructs:text:3.3.0")
+    api("net.lenni0451.mcstructs:text:3.3.1")
     implementation(project(path = ":pistonmotd-api", configuration = "shadowRuntimeElements"))
 
     compileOnly("com.github.LeonMangler:PremiumVanishAPI:2.9.18-2")
