@@ -15,17 +15,17 @@ rewrite {
 }
 
 dependencies {
-  compileOnly("org.projectlombok:lombok:1.18.46")
-  annotationProcessor("org.projectlombok:lombok:1.18.46")
+  compileOnly("org.projectlombok:lombok:1.18.48")
+  annotationProcessor("org.projectlombok:lombok:1.18.48")
 
-  errorprone("com.google.errorprone:error_prone_core:2.49.0")
-  spotbugs("com.github.spotbugs:spotbugs:4.9.8")
-  rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.34.0")
-  rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.34.0")
-  rewrite("org.openrewrite.recipe:rewrite-rewrite:0.24.2")
+  errorprone("com.google.errorprone:error_prone_core:2.50.0")
+  spotbugs("com.github.spotbugs:spotbugs:4.10.4")
+  rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.41.1")
+  rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.42.1")
+  rewrite("org.openrewrite.recipe:rewrite-rewrite:0.30.0")
 
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-  testImplementation("org.junit.jupiter:junit-jupiter:6.0.3")
+  testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")
   testImplementation("org.mockito:mockito-core:5.23.0")
   testImplementation("org.mockito:mockito-junit-jupiter:5.23.0")
 }
