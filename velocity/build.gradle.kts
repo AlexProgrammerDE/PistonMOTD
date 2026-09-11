@@ -1,7 +1,7 @@
 plugins {
     id("pm.platform-conventions")
     id("pm.shadow-conventions")
-    id("xyz.jpenilla.run-velocity") version "3.0.2"
+    id("xyz.jpenilla.run-velocity") version "3.1.0"
 }
 
 dependencies {
@@ -11,7 +11,7 @@ dependencies {
 
     implementation("org.bstats:bstats-velocity:3.2.1")
 
-    compileOnly("com.velocitypowered:velocity-api:4.0.0")
+    compileOnly("com.velocitypowered:velocity-api:4.1.1")
 }
 
 tasks {
