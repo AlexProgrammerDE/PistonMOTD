@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- LuckPerms requires the original platform player identity, not a defensive copy. -->
+    <Match>
+        <Class name="~net\.pistonmaster\.pistonmotd\.(bukkit\.PistonMOTDBukkit|bungee\.PistonMOTDBungee|velocity\.PistonMOTDVelocity)\$1"/>
+        <Method name="getHandle" params="" returns="java.lang.Object"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+</FindBugsFilter>

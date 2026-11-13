@@ -19,9 +19,6 @@ allprojects {
     maven("https://repo.papermc.io/repository/maven-public/") {
       name = "PaperMC"
     }
-    maven("https://nexus.velocitypowered.com/repository/maven-public/") {
-      name = "VelocityPowered"
-    }
     maven("https://repo.codemc.org/repository/maven-public") {
       name = "CodeMC"
     }
