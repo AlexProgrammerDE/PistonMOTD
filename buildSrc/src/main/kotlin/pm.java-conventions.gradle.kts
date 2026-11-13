@@ -7,6 +7,10 @@ plugins {
   id("org.openrewrite.rewrite")
 }
 
+spotbugs {
+  excludeFilter.set(rootProject.file("config/spotbugs/exclude.xml"))
+}
+
 rewrite {
   activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
   activeRecipe("org.openrewrite.java.migrate.UpgradeToJava21")
