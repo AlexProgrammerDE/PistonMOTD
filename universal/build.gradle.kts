@@ -32,7 +32,7 @@ tasks {
         archiveClassifier = null
         destinationDirectory = rootProject.projectDir.resolve("build/libs")
 
-        shadePath = { _ -> "net/pistonmaster/pistonmotd/shadow/jvmdowngrader" }
+        shadePath.set("net/pistonmaster/pistonmotd/shadow/jvmdowngrader")
     }
     build {
         dependsOn(shadeDowngradedApi)
