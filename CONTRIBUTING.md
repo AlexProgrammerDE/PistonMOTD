@@ -12,7 +12,7 @@ Keep each change focused. Avoid unrelated formatting and dependency updates.
 
 ## Prepare a checkout
 
-Use JDK 25 for the Gradle daemon. Platform modules select their Java toolchains through the build conventions.
+Use the latest Java LTS release (currently 25) for the Gradle daemon. Platform modules select their Java toolchains through the build conventions.
 
 Run the commands below from the repository root unless a command names another directory.
 On Windows, use `gradlew.bat` in place of `./gradlew` for Gradle commands.
@@ -56,3 +56,8 @@ Add a body when the reason or compatibility impact is not obvious.
 
 For vulnerabilities, follow [the security reporting instructions](SECURITY.md).
 Remove credentials and private data from examples, logs, and screenshots.
+
+## Java LTS updates
+
+Renovate groups Java workflow, daemon, and compiler updates and limits them to LTS releases.
+When updating the daemon version, run `./gradlew updateDaemonJvm` to refresh its download URLs.

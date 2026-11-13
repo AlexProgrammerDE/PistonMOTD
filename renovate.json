@@ -2,7 +2,8 @@
   "extends": [
     "config:recommended",
     "group:allNonMajor",
-    ":semanticCommits"
+    ":semanticCommits",
+    "workarounds:javaLTSVersions"
   ],
   "packageRules": [
     {
@@ -19,7 +20,38 @@
       "matchPackageNames": [
         "**"
       ],
-      "allowedVersions": "!/\\-SNAPSHOT$/"
+      "allowedVersions": "!/\\-SNAPSHOT$/",
+      "matchDatasources": [
+        "maven"
+      ]
+    },
+    {
+      "matchDatasources": [
+        "java-version"
+      ],
+      "matchPackageNames": [
+        "java-jdk"
+      ],
+      "groupName": "Java LTS",
+      "groupSlug": "java-lts",
+      "automerge": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/\\.gradle\\.kts$/",
+        "/(^|/)gradle-daemon-jvm\\.properties$/"
+      ],
+      "matchStrings": [
+        "JavaLanguageVersion\\.of\\((?<currentValue>\\d+)\\)",
+        "UpgradeToJava(?<currentValue>\\d+)",
+        "toolchainVersion=(?<currentValue>\\d+)"
+      ],
+      "depNameTemplate": "java-jdk",
+      "datasourceTemplate": "java-version",
+      "versioningTemplate": "java"
     }
   ]
 }
