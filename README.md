@@ -59,3 +59,8 @@ Latest Version (Without the v):
     </dependency>
   </dependencies>
 ```
+
+## Contributing and support
+
+Read [the contribution guide](CONTRIBUTING.md) for development and review.
+Use [the support guide](SUPPORT.md) for questions and issue routing.
