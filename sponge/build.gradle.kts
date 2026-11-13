@@ -4,7 +4,7 @@ import org.spongepowered.plugin.metadata.model.PluginDependency.LoadOrder
 plugins {
     id("pm.platform-conventions")
     id("pm.shadow-conventions")
-    id("org.spongepowered.gradle.plugin") version "2.3.0"
+    id("org.spongepowered.gradle.plugin") version "2.5.1"
 }
 
 dependencies {
