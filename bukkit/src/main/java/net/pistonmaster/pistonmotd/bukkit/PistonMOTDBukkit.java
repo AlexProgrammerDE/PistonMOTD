@@ -2,7 +2,6 @@ package net.pistonmaster.pistonmotd.bukkit;
 
 import com.tcoded.folialib.FoliaLib;
 import io.papermc.lib.PaperLib;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.pistonmaster.pistonmotd.api.PlaceholderUtil;
 import net.pistonmaster.pistonmotd.shared.*;
 import org.bstats.bukkit.Metrics;
@@ -21,12 +20,10 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"deprecation"})
 public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
   private FoliaLib foliaLib;
-  private BukkitAudiences adventure;
 
   @Override
   public void onEnable() {
     this.foliaLib = new FoliaLib(this);
-    this.adventure = BukkitAudiences.create(this);
     PistonMOTDPlugin plugin = new PistonMOTDPlugin(this);
 
     plugin.logName();
@@ -67,10 +64,6 @@ public class PistonMOTDBukkit extends JavaPlugin implements PistonMOTDPlatform {
 
   @Override
   public void onDisable() {
-    if (this.adventure != null) {
-      this.adventure.close();
-      this.adventure = null;
-    }
 
     startup("Unregistering listeners");
     HandlerList.unregisterAll(this);
