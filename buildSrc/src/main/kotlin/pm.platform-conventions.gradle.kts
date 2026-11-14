@@ -27,7 +27,7 @@ val downgradePlatformShadow = tasks.register<ShadeJar>("downgradePlatformShadow"
     )
 
     destinationDirectory.set(project.layout.buildDirectory.dir("libs"))
-    shadePath = { _ -> "net/pistonmaster/pistonmotd/shadow/jvmdowngrader" }
+    shadePath.set("net/pistonmaster/pistonmotd/shadow/jvmdowngrader")
 }
 
 tasks {

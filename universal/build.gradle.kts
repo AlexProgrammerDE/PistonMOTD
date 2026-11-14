@@ -3,7 +3,7 @@ import io.papermc.hangarpublishplugin.model.Platforms
 plugins {
     java
     id("xyz.wagyourtail.jvmdowngrader")
-    id("org.spongepowered.gradle.ore") version "2.3.0"
+    id("org.spongepowered.gradle.ore") version "2.5.1"
     id("io.papermc.hangar-publish-plugin") version "0.1.4"
 }
 
@@ -32,7 +32,7 @@ tasks {
         archiveClassifier = null
         destinationDirectory = rootProject.projectDir.resolve("build/libs")
 
-        shadePath = { _ -> "net/pistonmaster/pistonmotd/shadow/jvmdowngrader" }
+        shadePath.set("net/pistonmaster/pistonmotd/shadow/jvmdowngrader")
     }
     build {
         dependsOn(shadeDowngradedApi)

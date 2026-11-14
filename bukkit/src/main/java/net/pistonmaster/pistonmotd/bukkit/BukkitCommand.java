@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.util.StringUtil;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +20,7 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
   private final PistonMOTDPlugin plugin;
 
   @Override
-  public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String s, String[] args) {
+  public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
     if (((args.length > 0 && "help".equalsIgnoreCase(args[0])) || args.length == 0) && sender.hasPermission("pistonmotd.help")) {
       sender.spigot().sendMessage(new ComponentBuilder("Commands:").create());
       sender.spigot().sendMessage(new ComponentBuilder("/pistonmotd help").create());
@@ -36,7 +36,7 @@ public class BukkitCommand implements CommandExecutor, TabExecutor {
   }
 
   @Override
-  public List<String> onTabComplete(CommandSender sender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
+  public List<String> onTabComplete(CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
     List<String> commands = new ArrayList<>();
 
     if (sender.hasPermission("pistonmotd.help")) {
