@@ -2,7 +2,6 @@ package net.pistonmaster.pistonmotd.velocity;
 
 import com.velocitypowered.api.command.SimpleCommand;
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.pistonmaster.pistonmotd.shared.PistonMOTDPlugin;
 
@@ -18,12 +17,12 @@ public class VelocityCommand implements SimpleCommand {
   @Override
   public void execute(Invocation invocation) {
     if (((invocation.arguments().length > 0 && "help".equalsIgnoreCase(invocation.arguments()[0])) || invocation.arguments().length == 0) && invocation.source().hasPermission("pistonmotd.help")) {
-      invocation.source().sendMessage(Identity.nil(), Component.text("Commands:"));
-      invocation.source().sendMessage(Identity.nil(), Component.text("/pistonmotd help"));
-      invocation.source().sendMessage(Identity.nil(), Component.text("/pistonmotd reload"));
+      invocation.source().sendMessage(Component.text("Commands:"));
+      invocation.source().sendMessage(Component.text("/pistonmotd help"));
+      invocation.source().sendMessage(Component.text("/pistonmotd reload"));
     } else if (invocation.arguments().length > 0 && "reload".equalsIgnoreCase(invocation.arguments()[0]) && invocation.source().hasPermission("pistonmotd.reload")) {
       plugin.loadConfig();
-      invocation.source().sendMessage(Identity.nil(), Component.text("Reloaded the config!"));
+      invocation.source().sendMessage(Component.text("Reloaded the config!"));
     }
   }
 

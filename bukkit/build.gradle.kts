@@ -14,7 +14,7 @@ dependencies {
     implementation("net.kyori:adventure-platform-bukkit:4.4.1")
     implementation("com.tcoded:FoliaLib:0.5.2")
 
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.3.build.249-stable")
     compileOnly("jakarta.annotation:jakarta.annotation-api:3.0.0")
 }
 
