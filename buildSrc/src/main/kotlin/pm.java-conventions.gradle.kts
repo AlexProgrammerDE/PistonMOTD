@@ -22,7 +22,7 @@ dependencies {
   compileOnly("org.projectlombok:lombok:1.18.48")
   annotationProcessor("org.projectlombok:lombok:1.18.48")
 
-  errorprone("com.google.errorprone:error_prone_core:2.52.0")
+  errorprone("com.google.errorprone:error_prone_core:2.53.0")
   spotbugs("com.github.spotbugs:spotbugs:4.10.5")
   rewrite("org.openrewrite.recipe:rewrite-static-analysis:2.41.1")
   rewrite("org.openrewrite.recipe:rewrite-migrate-java:3.42.1")
