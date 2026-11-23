@@ -13,7 +13,7 @@ dependencies {
     implementation("org.bstats:bstats-bukkit:3.2.1")
     implementation("com.tcoded:FoliaLib:0.5.2")
 
-    compileOnly("io.papermc.paper:paper-api:26.3.build.258-stable")
+    compileOnly("io.papermc.paper:paper-api:26.3.build.259-stable")
     compileOnly("jakarta.annotation:jakarta.annotation-api:3.0.0")
 }
 
